@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "ToroUtilities",
+	"Description": "A collection of general classes and utilities.",
+	"Category": "Framework",
+	"CreatedBy": "RedCraft86",
+	"CreatedByURL": "https://github.com/RedCraft86",
+	"DocsURL": "",
+	"MarketplaceURL": "https://github.com/RedCraft86/ToroUtilities",
+	"SupportURL": "",
+	"IsBetaVersion": true,
+	"CanContainContent": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "ToroCore",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
