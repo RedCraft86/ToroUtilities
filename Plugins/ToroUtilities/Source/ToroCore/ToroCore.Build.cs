@@ -10,16 +10,12 @@ public class ToroCore : ModuleRules
 
         PublicDependencyModuleNames.AddRange(
             [
-                "Core"
-            ]
-        );
-
-        PrivateDependencyModuleNames.AddRange(
-            [
+                "Core",
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "GameplayTags"
             ]
         );
     }
