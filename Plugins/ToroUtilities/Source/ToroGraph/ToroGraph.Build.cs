@@ -1,4 +1,4 @@
-﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 using UnrealBuildTool;
 
@@ -13,6 +13,7 @@ public class ToroGraph : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                
                 "ToroCore"
             ]
         );

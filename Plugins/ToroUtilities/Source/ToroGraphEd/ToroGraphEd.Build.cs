@@ -1,4 +1,4 @@
-﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 using UnrealBuildTool;
 
@@ -12,10 +12,20 @@ public class ToroGraphEd : ModuleRules
             [
                 "Core",
                 "CoreUObject",
+                "UnrealEd",
+                "Projects",
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "ToroCoreEd",
+                "ToolMenus",
+                "GraphEditor",
+                "ApplicationCore",
+                "AssetDefinition",
+                "DeveloperSettings",
+                "BlueprintGraph",
+                
+                "ToroCore",
+                "ToroEditor",
                 "ToroGraph"
             ]
         );

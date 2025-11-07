@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:serif="http://www.serif.com/" viewBox="0 0 1067 1080">
+  <!-- Generator: Adobe Illustrator 29.1.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 142)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #4d4d4d;
+        stroke: #999;
+        stroke-miterlimit: 10;
+        stroke-width: 15px;
+      }
+
+      .st1 {
+        fill: none;
+        stroke: #727171;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 54px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2">
+    <line class="st0" x1="876.2" y1="539.5" x2="850.9" y2="407.4"/>
+    <path class="st0" d="M200.1,498.2c7.4-26.5,14.8-53,22.2-79.5"/>
+    <line class="st0" x1="413.7" y1="557.6" x2="416.8" y2="464.7"/>
+    <line class="st0" x1="637.8" y1="548.8" x2="631.6" y2="471.4"/>
+    <path class="st1" d="M946.8,380s-167,74.5-421.5,79c-281.5,5-421.5-79-421.5-79"/>
+  </g>
+  <path class="st0" d="M202.3,630l-70.5-19.8c-13-3.6-21.1-17.5-17.6-30l19.6-69.7c3.5-12.5,17.7-20.1,30.6-16.5l70.5,19.8c13,3.6,21.1,17.5,17.6,30l-19.6,69.7c-3.5,12.5-13.9,21.1-30.6,16.5Z"/>
+  <circle class="st0" cx="411.4" cy="631" r="69"/>
+  <polygon class="st0" points="895 655.5 866.5 602 806.8 612.5 849 568.9 820.5 515.3 875 541.9 917.1 498.4 908.7 558.4 963.2 585 903.4 595.5 895 655.5"/>
+  <polygon class="st0" points="691.1 692.6 606.1 700 557.1 630.1 593.1 552.7 678.2 545.3 727.2 615.2 691.1 692.6"/>
+</svg>

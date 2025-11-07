@@ -1,18 +1,17 @@
-{
+﻿{
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
 	"FriendlyName": "ToroUtilities",
-	"Description": "A collection of general classes and utilities.",
+	"Description": "Common code plugin for RedCraft86's games.",
 	"Category": "Framework",
 	"CreatedBy": "RedCraft86",
 	"CreatedByURL": "https://github.com/RedCraft86",
 	"DocsURL": "",
-	"MarketplaceURL": "https://github.com/RedCraft86/ToroUtilities",
-	"SupportURL": "",
-	"IsBetaVersion": true,
+	"MarketplaceURL": "",
 	"CanContainContent": true,
 	"IsExperimentalVersion": false,
+	"IsBetaVersion": false,
 	"Installed": false,
 	"Modules": [
 		{
@@ -21,7 +20,7 @@
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "ToroCoreEd",
+			"Name": "ToroEditor",
 			"Type": "EditorNoCommandlet",
 			"LoadingPhase": "PostEngineInit"
 		},
@@ -34,6 +33,65 @@
 			"Name": "ToroGraphEd",
 			"Type": "EditorNoCommandlet",
 			"LoadingPhase": "PostEngineInit"
+		},
+		{
+			"Name": "ToroRuntime",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "CommonUI",
+			"Enabled": true
+		},
+		{
+			"Name": "Metasound",
+			"Enabled": true
+		},
+		{
+			"Name": "ProceduralMeshComponent",
+			"Enabled": true
+		},
+		{
+			"Name": "EditorScriptingUtilities",
+			"Enabled": true
+		},
+		{
+			"Name": "EnhancedCodeFlow",
+			"Enabled": true
+		},
+		{
+			"Name": "ExpressiveText",
+			"Enabled": true
+		},
+		{
+			"Name": "Narrative",
+			"Enabled": true
+		},
+		{
+			"Name": "FSR3",
+			"Enabled": true
+		},
+		{
+			"Name": "XeSS",
+			"Enabled": true
+		},
+		{
+			"Name": "DLSS",
+			"Enabled": true
+		},
+		{
+			"Name": "StreamlineCore",
+			"Enabled": true
+		},
+		{
+			"Name": "StreamlineDLSSG",
+			"Enabled": true
+		},
+		{
+			"Name": "StreamlineReflex",
+			"Enabled": true
 		}
 	]
 }

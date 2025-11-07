@@ -1,8 +1,6 @@
-﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #pragma once
-
-#include "Modules/ModuleManager.h"
 
 class FToroGraphModule final : public IModuleInterface
 {
