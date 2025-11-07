@@ -1,4 +1,4 @@
-﻿// Copyright (C) RedCraft86. All Rights Reserved.
+﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Graph/ToroGraphFactory.h"
 #include "Kismet2/SClassPickerDialog.h"
