@@ -177,17 +177,20 @@ void UNoticeWidget::RemoveInputRow(const FName& InKey)
 	UInputPreviewEntry* Widget = InputPreviews[InKey];
 	InputPreviews.Remove(InKey);
 
-	const bool bLastRow = InputPreviews.Num() == 1;
-	if (bLastRow)
+	if (!Widget) return;
+	if (InputPreviews.Num() == 1)
 	{
 		PlayAnimationReverse(InputRowAnim);
+		FFlow::Delay(this, WidgetAnimHelpers::GetAnimDuration(InputRowAnim),
+			[this, Widget]()
+		{
+			Widget->RemoveFromParent();
+		});
 	}
-
-	const float Duration = WidgetAnimHelpers::GetAnimDuration(InputRowAnim);
-	FFlow::Delay(this, bLastRow ? Duration : 0.01f, [this, Widget]()
+	else
 	{
 		Widget->RemoveFromParent();
-	});
+	}
 }
 
 void UNoticeWidget::AddInputRow(const FName& InKey, const FToroInputPrompt& InData)
