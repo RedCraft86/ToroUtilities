@@ -41,9 +41,6 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UWidgetSwitcher> DescSwitch;
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
-		TObjectPtr<UWidgetAnimation> FadeAnim;
-
 	uint8 Difficulty;
 	TObjectPtr<UUserWidget> ParentUI;
 	TObjectPtr<UToroUserSettings> Settings;
