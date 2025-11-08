@@ -24,7 +24,7 @@ void UInputPreviewEntry::InitializeWidget(const FToroInputPrompt& InPreview)
 			{
 				BoxSlot->SetVerticalAlignment(VAlign_Center);
 				BoxSlot->SetHorizontalAlignment(HAlign_Center);
-				BoxSlot->SetPadding(FMargin(2.0f, 0.0f));
+				BoxSlot->SetPadding(FMargin(5.0f, 0.0f));
 			}
 		}
 	}
