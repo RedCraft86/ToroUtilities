@@ -54,7 +54,7 @@ UDialogueWidget::UDialogueWidget(const FObjectInitializer& ObjectInitializer)
 void UDialogueWidget::PushWidget()
 {
 	Super::PushWidget();
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		InputConfig = PC->GetInputConfig();
 		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
@@ -64,7 +64,7 @@ void UDialogueWidget::PushWidget()
 
 void UDialogueWidget::PopWidget()
 {
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputConfig(InputConfig);
 	}

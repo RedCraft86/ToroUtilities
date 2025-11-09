@@ -3,6 +3,7 @@
 #include "UserInterface/ToroManagedWidget.h"
 #include "UserInterface/ToroContainerWidget.h"
 #include "UserInterface/ToroWidgetManager.h"
+#include "Framework/ToroPlayerController.h"
 #include "Helpers/LoggingMacros.h"
 #include "ToroRuntime.h"
 
@@ -37,15 +38,7 @@ UToroContainerWidget* UToroManagedWidget::GetContainerWidget() const
 		return nullptr;
 	}
 
-	const APlayerController* PC = GetOwningPlayer();
-	if (!PC)
-	{
-		UE_LOG_ERROR(LogToroRuntime, 1.0f,
-			TEXT("Widget %s has no Owning Player!"), *GetName())
-		return nullptr;
-	}
-
-	if (AToroWidgetManager* Manager = PC->GetHUD<AToroWidgetManager>())
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
 		return Manager->FindWidget<UToroContainerWidget>();
 	}

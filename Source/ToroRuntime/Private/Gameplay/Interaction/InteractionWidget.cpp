@@ -30,7 +30,7 @@ void UInteractionWidget::NativeConstruct()
 void UInteractionWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if (const APlayerController* PC = GetOwningPlayer())
+	if (const APlayerController* PC = AToroPlayerController::Get(this))
 	{
 		if (PC->ShouldShowMouseCursor())
 		{

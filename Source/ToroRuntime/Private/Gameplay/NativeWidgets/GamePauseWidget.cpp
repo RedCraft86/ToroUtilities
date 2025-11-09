@@ -26,7 +26,7 @@ void UGamePauseWidget::ReturnToWidget_Implementation(UUserWidget* FromWidget)
 void UGamePauseWidget::OnResumeButton()
 {
 	SetVisibility(ESlateVisibility::HitTestInvisible);
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetUserPause(false);
 	}
@@ -71,7 +71,7 @@ void UGamePauseWidget::OnPauseState(const bool bPaused)
 void UGamePauseWidget::PopWidget()
 {
 	SetVisibility(ESlateVisibility::HitTestInvisible);
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputConfig(InputConfig);
 	}
@@ -83,11 +83,11 @@ void UGamePauseWidget::PushWidget()
 	Super::PushWidget();
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 	VersionText->SetText(UToroSettings::Get()->GetVersionLabel());
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		InputConfig = PC->GetInputConfig();
 		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, false, this});
+			EMouseLockMode::LockAlways, false});
 	}
 }
 
@@ -97,7 +97,7 @@ void UGamePauseWidget::InitWidget(APlayerController* Controller)
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		Settings = AToroWidgetManager::GetWidget<USettingsWidget>(this);
-		if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+		if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 		{
 			PC->OnUserPaused.AddUObject(this, &UGamePauseWidget::OnPauseState);
 		}

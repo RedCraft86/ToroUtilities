@@ -26,7 +26,7 @@ void UInspectionWidget::ShowWidget(const UInventoryAsset* InArchive)
 
 void UInspectionWidget::PopWidget()
 {
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputConfig(InputConfig);
 		PC->RemovePauseRequest(this);
@@ -37,7 +37,7 @@ void UInspectionWidget::PopWidget()
 void UInspectionWidget::PushWidget()
 {
 	Super::PushWidget();
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		InputConfig = PC->GetInputConfig();
 		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
