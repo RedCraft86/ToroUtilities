@@ -22,7 +22,7 @@ UToroWidgetBase* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroWidg
 	if (!Widget)
 	{
 		Widget = UToroWidgetBase::CreateToroWidget(GetOwningPlayerController(), WidgetClass);
-		WidgetObjects.Add(Widget);
+		if (Widget) WidgetObjects.Add(Widget);
 	}
 
 	return Widget;
@@ -37,7 +37,7 @@ UToroWidgetBase* AToroWidgetManager::FindWidget(const TSubclassOf<UToroWidgetBas
 
 	for (UToroWidgetBase* Widget : WidgetObjects)
 	{
-		if (Widget->IsA(WidgetClass))
+		if (Widget && Widget->IsA(WidgetClass))
 		{
 			return Widget;
 		}
