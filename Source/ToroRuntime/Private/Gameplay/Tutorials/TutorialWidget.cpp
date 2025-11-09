@@ -54,6 +54,13 @@ void UTutorialWidget::UpdatePageCount() const
 	PageCount->SetText(FText::Format(INVTEXT("{0}/{1}"),
 		EntryContainer->GetActiveWidgetIndex() + 1,
 		EntryContainer->GetNumWidgets()));
+
+	// If last page, unlock close button
+	if (EntryContainer->GetActiveWidgetIndex()
+		== (EntryContainer->GetNumWidgets() - 1))
+	{
+		CloseButton->SetVisibility(ESlateVisibility::Visible);
+	}
 }
 
 void UTutorialWidget::CreateEntry(const FTutorialEntry& Entry)
@@ -69,6 +76,7 @@ void UTutorialWidget::CreateEntry(const FTutorialEntry& Entry)
 void UTutorialWidget::PushWidget()
 {
 	Super::PushWidget();
+	CloseButton->SetVisibility(ESlateVisibility::Collapsed);
 	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
 	{
 		InputConfig = PC->GetInputConfig();
