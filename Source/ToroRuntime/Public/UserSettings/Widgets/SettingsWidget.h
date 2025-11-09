@@ -31,9 +31,6 @@ protected:
 		TObjectPtr<UWidgetSwitcher> ScreenSwitch;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> LabelText;
-
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> DifficultyButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
@@ -44,9 +41,6 @@ protected:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> FadeAnim;
-
-	UPROPERTY(EditAnywhere, Category = Settings)
-		TArray<FText> TextLabels;
 
 	TObjectPtr<UUserWidget> ParentUI;
 	TObjectPtr<UDifficultyWidget> Difficulty;

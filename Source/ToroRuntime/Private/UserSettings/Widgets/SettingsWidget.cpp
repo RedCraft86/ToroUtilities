@@ -6,13 +6,7 @@
 #include "Interfaces/ExitInterface.h"
 
 USettingsWidget::USettingsWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), TextLabels({
-		INVTEXT("General"),
-		INVTEXT("Graphics"),
-		INVTEXT("Audio"),
-		INVTEXT("Keybinds"),
-		INVTEXT("Developer")
-	})
+	: Super(ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
@@ -53,9 +47,9 @@ void USettingsWidget::OnAutoAdjust()
 
 void USettingsWidget::OnScreenSelect(const int32 Idx)
 {
-	if (TextLabels.IsValidIndex(Idx) && ScreenSwitch->GetActiveWidgetIndex() != Idx)
+	if (Idx < 0 || Idx >= ScreenSwitch->GetNumWidgets()) return;
+	if (ScreenSwitch->GetActiveWidgetIndex() != Idx)
 	{
-		LabelText->SetText(TextLabels[Idx]);
 		ScreenSwitch->SetActiveWidgetIndex(Idx);
 		PlayAnimation(FadeAnim);
 	}
