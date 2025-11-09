@@ -2,6 +2,7 @@
 
 #include "UserInterface/ToroWidgetManager.h"
 #include "UserInterface/ToroContainerWidget.h"
+#include "Framework/ToroPlayerController.h"
 #include "ToroRuntime.h"
 
 AToroWidgetManager::AToroWidgetManager()
@@ -21,7 +22,8 @@ UToroWidgetBase* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroWidg
 	UToroWidgetBase* Widget = FindWidget(WidgetClass);
 	if (!Widget)
 	{
-		Widget = UToroWidgetBase::CreateToroWidget(GetOwningPlayerController(), WidgetClass);
+		Widget = UToroWidgetBase::CreateToroWidget(
+			AToroPlayerController::Get(this), WidgetClass);
 		if (Widget) WidgetObjects.Add(Widget);
 	}
 

@@ -32,7 +32,9 @@ public:
 
 	UToroContainerWidget(const FObjectInitializer& ObjectInitializer)
 		: Super(ObjectInitializer), ZOrder(100)
-	{}
+	{
+		UUserWidget::SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	}
 
 	void ClearNullEntries();
 	virtual bool PushEntry(UToroManagedWidget* Widget);

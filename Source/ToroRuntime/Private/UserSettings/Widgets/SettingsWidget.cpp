@@ -10,6 +10,7 @@ USettingsWidget::USettingsWidget(const FObjectInitializer& ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
 void USettingsWidget::ShowWidget(UUserWidget* InParent)

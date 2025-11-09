@@ -8,6 +8,7 @@ UResolutionWidget::UResolutionWidget(const FObjectInitializer& ObjectInitializer
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
 void UResolutionWidget::ShowWidget(const TFunction<void()>& OnRevert)

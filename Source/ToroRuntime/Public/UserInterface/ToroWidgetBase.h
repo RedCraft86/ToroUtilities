@@ -36,6 +36,7 @@ protected:
 
 	bool bHidden;
 	float HideCheckTime;
+	TOptional<ESlateVisibility> DefaultVisibility;
 
 	void UpdateFadeState();
 

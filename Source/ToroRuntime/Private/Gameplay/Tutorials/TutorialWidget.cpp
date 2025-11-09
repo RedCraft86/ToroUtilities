@@ -24,6 +24,7 @@ UTutorialWidget::UTutorialWidget(const FObjectInitializer& ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UOverlayWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
 void UTutorialWidget::ShowWidget(const FTutorialEntry& Entry)

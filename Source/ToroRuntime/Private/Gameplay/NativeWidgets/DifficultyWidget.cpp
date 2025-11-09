@@ -10,6 +10,7 @@ UDifficultyWidget::UDifficultyWidget(const FObjectInitializer& ObjectInitializer
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
 void UDifficultyWidget::ShowWidget(UUserWidget* InParent)

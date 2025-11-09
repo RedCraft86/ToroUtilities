@@ -13,6 +13,7 @@ UGamePauseWidget::UGamePauseWidget(const FObjectInitializer& ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
 void UGamePauseWidget::ReturnToWidget_Implementation(UUserWidget* FromWidget)
@@ -29,6 +30,7 @@ void UGamePauseWidget::OnResumeButton()
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetUserPause(false);
+		PopWidget();
 	}
 }
 
@@ -94,6 +96,10 @@ void UGamePauseWidget::PushWidget()
 void UGamePauseWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
+	ResumeButton->OnClicked.AddUniqueDynamic(this, &UGamePauseWidget::OnResumeButton);
+	SettingsButton->OnClicked.AddUniqueDynamic(this, &UGamePauseWidget::OnSettingsButton);
+	CheckpointButton->OnClicked.AddUniqueDynamic(this, &UGamePauseWidget::OnCheckpointButton);
+	MainMenuButton->OnClicked.AddUniqueDynamic(this, &UGamePauseWidget::OnMainMenuButton);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		Settings = AToroWidgetManager::GetWidget<USettingsWidget>(this);

@@ -32,6 +32,7 @@ void UToroContainerWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
 	AddToViewport(ZOrder);
+	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 }
 
 bool UToroOverlayContainer::PushEntry(UToroManagedWidget* Widget)
@@ -60,6 +61,7 @@ void UToroOverlayContainer::NativePreConstruct()
 	if (!WidgetStack)
 	{
 		WidgetStack = WidgetTree->ConstructWidget<UOverlay>(UOverlay::StaticClass());
+		WidgetStack->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 		WidgetTree->RootWidget = WidgetStack;
 	}
 }
@@ -90,6 +92,7 @@ void UToroStackContainer::NativePreConstruct()
 	if (!WidgetStack)
 	{
 		WidgetStack = WidgetTree->ConstructWidget<UCommonActivatableWidgetStack>(UCommonActivatableWidgetStack::StaticClass());
+		WidgetStack->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 		WidgetTree->RootWidget = WidgetStack;
 	}
 }

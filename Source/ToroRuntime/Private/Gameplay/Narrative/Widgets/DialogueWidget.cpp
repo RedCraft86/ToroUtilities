@@ -41,6 +41,7 @@ UDialogueWidget::UDialogueWidget(const FObjectInitializer& ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UGameplayWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 #if WITH_EDITOR
 	const ConstructorHelpers::FObjectFinder<UNarrativeDataTask> ReplyTaskFinder(
 		TEXT("/Narrative/DefaultTasks/PlayDialogueNode.PlayDialogueNode"));

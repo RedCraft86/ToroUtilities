@@ -35,7 +35,8 @@ protected:
 
 	virtual bool ShouldHideWidget() const override
 	{
-		return (Narrative && Narrative->IsInDialogue()) || AToroPlayerController::Get(this)->bCinematicMode;
+		const AToroPlayerController* PC = AToroPlayerController::Get(this);
+		return (Narrative && Narrative->IsInDialogue()) || (PC && PC->bCinematicMode);
 	}
 };
 

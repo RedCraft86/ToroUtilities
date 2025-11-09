@@ -60,14 +60,27 @@ void UToroWidgetBase::InitWidget(APlayerController* Controller)
 void UToroWidgetBase::InternalProcessActivation()
 {
 	Super::InternalProcessActivation();
-	SetVisibility(ESlateVisibility::Visible);
 	SetHidden(false);
+
+	if (DefaultVisibility.IsSet())
+	{
+		SetVisibility(DefaultVisibility.GetValue());
+	}
+	else
+	{
+		DefaultVisibility = GetVisibility();
+	}
 }
 
 void UToroWidgetBase::InternalProcessDeactivation()
 {
+	if (!DefaultVisibility.IsSet())
+	{
+		DefaultVisibility = GetVisibility();
+	}
+
 	SetHidden(true);
-	SetVisibility(ESlateVisibility::HitTestInvisible);
+	SetVisibility(ESlateVisibility::Collapsed);
 	Super::InternalProcessDeactivation();
 }
 
