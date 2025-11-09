@@ -7,7 +7,7 @@
 #include "UserInterface/ToroContainerWidget.h"
 #include "NativeContainers.generated.h"
 
-UCLASS(Abstract)
+UCLASS()
 class TORORUNTIME_API UGameplayWidgetContainer final : public UToroOverlayContainer
 {
 	GENERATED_BODY()
@@ -39,7 +39,7 @@ protected:
 	}
 };
 
-UCLASS(Abstract)
+UCLASS()
 class TORORUNTIME_API UMenuWidgetContainer final : public UToroStackContainer
 {
 	GENERATED_BODY()
@@ -53,7 +53,7 @@ public:
 	}
 };
 
-UCLASS(Abstract)
+UCLASS()
 class TORORUNTIME_API UOverlayWidgetContainer final : public UToroOverlayContainer
 {
 	GENERATED_BODY()
