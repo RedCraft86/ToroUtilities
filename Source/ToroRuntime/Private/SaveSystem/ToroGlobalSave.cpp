@@ -25,6 +25,6 @@ void UToroGlobalSave::SerializeData(FArchive& Ar)
 	Ar << Cutscenes;
 	Ar << Tutorials;
 	Ar << Achievements;
-	Ar << Endings;
+	Ar << Themes;
 	Ar << Content;
 }

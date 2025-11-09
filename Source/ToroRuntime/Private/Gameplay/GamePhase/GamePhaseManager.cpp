@@ -16,9 +16,10 @@
 #include "Helpers/LatentInfo.h"
 #include "ToroRuntime.h"
 
-namespace EndingTags
+namespace MenuThemeTags
 {
-	DEFINE_GAMEPLAY_TAG(Ending)
+	DEFINE_GAMEPLAY_TAG(MenuTheme)
+	DEFINE_GAMEPLAY_TAG_CHILD(MenuTheme, Default)
 }
 
 UGamePhaseManager::UGamePhaseManager(): bLoading(true), PhaseTime(0.0f), UnloadTasks(0)
@@ -115,17 +116,8 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 
 	if (UToroGlobalSave* GlobalSave = SaveManager->FindOrAddSave<UToroGlobalSave>(0))
 	{
+		GlobalSave->Themes.AddUnique(ThisPhase->UnlockTheme);
 		GlobalSave->Content.Append(ThisPhase->GetContentTags());
-		GlobalSave->SaveObject(nullptr);
-	}
-}
-
-void UGamePhaseManager::AchieveEnding(const FGameplayTag EndingTag) const
-{
-	if (!EndingTags::IsValidTag(EndingTag)) return;
-	if (UToroGlobalSave* GlobalSave = SaveManager->FindOrAddSave<UToroGlobalSave>(0))
-	{
-		GlobalSave->Endings.Add(EndingTag, FDateTime::Now());
 		GlobalSave->SaveObject(nullptr);
 	}
 }
@@ -206,7 +198,7 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		ThisPhase->TeleportPlayer();
 		ThisPhase->ApplyPlayerSettings(PlayerChar);
 		Narrative->BeginQuest(ThisPhase->Quest.LoadSynchronous());
-		MusicManager->ChangeMainTheme(ThisPhase->Theme.LoadSynchronous());
+		MusicManager->ChangeMainTheme(ThisPhase->Soundtrack.LoadSynchronous());
 		PostProcessing->SetUDSSettings(ThisPhase->SkyWeather);
 	}
 

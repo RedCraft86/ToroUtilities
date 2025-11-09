@@ -13,10 +13,11 @@
 #include "Helpers/ClassGetterMacros.h"
 #include "GamePhaseManager.generated.h"
 
-namespace EndingTags
+namespace MenuThemeTags
 {
-	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(Ending)
-	TORORUNTIME_API CREATE_TAG_VERIFIER(Ending)
+	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(MenuTheme)
+	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(Default)
+	TORORUNTIME_API CREATE_TAG_VERIFIER(MenuTheme)
 }
 
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
@@ -47,9 +48,6 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = GamePhase)
 		bool IsLoading() const { return bLoading; }
-
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = GamePhase)
-		void AchieveEnding(const FGameplayTag EndingTag) const;
 
 private:
 
