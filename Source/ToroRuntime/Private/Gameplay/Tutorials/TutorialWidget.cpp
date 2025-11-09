@@ -3,12 +3,20 @@
 #include "Gameplay/Tutorials/TutorialWidget.h"
 #include "UserInterface/NativeContainers.h"
 #include "Framework/ToroPlayerController.h"
+#include "Components/ScaleBox.h"
 
 void UTutorialEntryWidget::InitializeWidget(const FTutorialEntry& Entry) const
 {
-	PreviewImage->SetBrushFromTexture(Entry.Image.LoadSynchronous());
-	ContentText->SetText(Entry.Description);
 	TitleText->SetText(Entry.Name);
+	ContentText->SetText(Entry.Description);
+	if (UTexture2D* Image = Entry.Image.LoadSynchronous())
+	{
+		PreviewImage->SetBrushFromTexture(Image);
+	}
+	else if (UScaleBox* Scale = Cast<UScaleBox>(PreviewImage->GetParent()))
+	{
+		Scale->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 UTutorialWidget::UTutorialWidget(const FObjectInitializer& ObjectInitializer)
