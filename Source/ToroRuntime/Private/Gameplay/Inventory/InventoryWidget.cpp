@@ -51,7 +51,7 @@ void UInventoryWidget::PushWidget()
 	{
 		InputConfig = PC->GetInputConfig();
 		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, false, this});
+			EMouseLockMode::LockAlways, false});
 		PC->AddPauseRequest(this);
 	}
 	UpdateWidget();

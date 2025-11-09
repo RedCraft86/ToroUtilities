@@ -57,8 +57,8 @@ void UDialogueWidget::PushWidget()
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		InputConfig = PC->GetInputConfig();
-		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, false, this});
+		PC->SetInputConfig({EGameInputMode::UI_Only, true,
+			EMouseLockMode::LockAlways, false});
 	}
 }
 

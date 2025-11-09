@@ -86,7 +86,7 @@ void UGamePauseWidget::PushWidget()
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		InputConfig = PC->GetInputConfig();
-		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
+		PC->SetInputConfig({EGameInputMode::UI_Only, true,
 			EMouseLockMode::LockAlways, false});
 	}
 }
