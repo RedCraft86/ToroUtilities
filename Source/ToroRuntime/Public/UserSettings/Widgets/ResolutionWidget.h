@@ -13,6 +13,8 @@ class TORORUNTIME_API UResolutionWidget final : public UToroManagedWidget
 
 protected:
 
+	UResolutionWidget(const FObjectInitializer& ObjectInitializer);
+
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> RevertButton;
 

@@ -1,6 +1,14 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "UserSettings/Widgets/ResolutionWidget.h"
+#include "UserInterface/NativeContainers.h"
+
+UResolutionWidget::UResolutionWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer), Time(5.0f)
+{
+	bAutoPush = false;
+	ContainerClass = UMenuWidgetContainer::StaticClass();
+}
 
 void UResolutionWidget::ShowWidget(const TFunction<void()>& OnRevert)
 {
