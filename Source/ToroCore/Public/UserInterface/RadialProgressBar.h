@@ -47,7 +47,7 @@ protected:
 	virtual const FText GetPaletteCategory() override { return NSLOCTEXT("UMG", "Common", "Common"); }
 	virtual bool CanEditChange(const FProperty* InProperty) const override
 	{
-		return Super::CanEditChange(InProperty) || !InProperty || InProperty->GetFName() != "ResourceObject";
+		return Super::CanEditChange(InProperty) && InProperty && InProperty->GetFName() != "ResourceObject";
 	}
 #endif
 };
