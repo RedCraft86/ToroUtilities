@@ -44,7 +44,8 @@ FText UToroSettings::GetVersionLabel() const
 		Builder.AppendLine(ProjectSettings->ProjectVersion);
 		if (!DemoName.IsNone())
 		{
-			Builder.AppendLineFormat(INVTEXT(" | {0}"), FText::FromName(DemoName));
+			const FString DemoLabel = FName::NameToDisplayString(DemoName.ToString(), false);
+			Builder.AppendLineFormat(INVTEXT(" | {0}"), FText::FromString(DemoLabel));
 		}
 		return Builder.ToText();
 	}
