@@ -82,6 +82,7 @@ void UGamePauseWidget::PushWidget()
 {
 	Super::PushWidget();
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	VersionText->SetText(UToroSettings::Get()->GetVersionLabel());
 	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
 	{
 		InputConfig = PC->GetInputConfig();

@@ -34,6 +34,9 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> MainMenuButton;
 
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> VersionText;
+
 	FGameInputConfig InputConfig;
 	TObjectPtr<USettingsWidget> Settings;
 
