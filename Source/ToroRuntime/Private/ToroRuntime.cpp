@@ -40,8 +40,8 @@ FText UToroSettings::GetVersionLabel() const
 	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
 	{
 		FTextBuilder Builder;
-		Builder.AppendLine(INVTEXT("Version: "));
-		Builder.AppendLine(ProjectSettings->ProjectVersion);
+		Builder.AppendLineFormat(INVTEXT("Version: {0}"),
+			FText::FromString(ProjectSettings->ProjectVersion));
 		if (!DemoName.IsNone())
 		{
 			const FString DemoLabel = FName::NameToDisplayString(DemoName.ToString(), false);
