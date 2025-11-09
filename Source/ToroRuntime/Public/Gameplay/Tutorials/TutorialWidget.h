@@ -70,9 +70,6 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UWidgetSwitcher> EntryContainer;
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
-		TObjectPtr<UWidgetAnimation> SwapAnimation;
-
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
 		TSubclassOf<UTutorialEntryWidget> EntryClass;
 
