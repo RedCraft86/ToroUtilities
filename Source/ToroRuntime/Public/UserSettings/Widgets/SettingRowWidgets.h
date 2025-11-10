@@ -88,6 +88,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TInstancedStruct<FToggleOptionBinding> Binding;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		float AnimRate;
+
 	bool bState;
 
 	UFUNCTION() void ToggleClicked();

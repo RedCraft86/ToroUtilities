@@ -4,7 +4,7 @@
 #include "Helpers/WidgetAnimHelpers.h"
 
 UToggleSettingRow::UToggleSettingRow(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bState(false)
+	: Super(ObjectInitializer), AnimRate(1.0f), bState(false)
 {
 }
 
@@ -20,7 +20,8 @@ void UToggleSettingRow::ToggleClicked()
 
 void UToggleSettingRow::SyncVisualState(const bool bImmediate)
 {
-	WidgetAnimHelpers::PlayOrSnapAnim(this, ToggleAnim, bState, bImmediate);
+	const float Speed = bImmediate ? AnimRate : 1000.0f;
+	bState ? PlayAnimationForward(ToggleAnim, Speed) : PlayAnimationReverse(ToggleAnim, Speed);
 }
 
 void UToggleSettingRow::OnRefreshUI()
@@ -44,6 +45,8 @@ FText UToggleSettingRow::GetLabelText()
 
 void UToggleSettingRow::NativeConstruct()
 {
+	WidgetAnimHelpers::InitAnim(this, ToggleAnim);
+	
 	Super::NativeConstruct();
 	ToggleButton->OnClicked.AddUniqueDynamic(this, &UToggleSettingRow::ToggleClicked);
 }
