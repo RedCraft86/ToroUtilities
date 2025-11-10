@@ -48,6 +48,11 @@ struct TORORUNTIME_API FDevUnlitModeBinding : public FToggleOptionBinding
 			GI->SetUnlitViewmode(InValue);
 		}
 	}
+
+	virtual bool ShouldHide() const override
+	{
+		return !GetSettings()->GetDeveloperMode();
+	}
 };
 
 USTRUCT(BlueprintType, DisplayName = "[Developer] Invincible Player")
@@ -73,5 +78,10 @@ struct TORORUNTIME_API FDevInvincibilityBinding : public FToggleOptionBinding
 		{
 			GI->SetPlayerInvincible(InValue);
 		}
+	}
+
+	virtual bool ShouldHide() const override
+	{
+		return !GetSettings()->GetDeveloperMode();
 	}
 };
