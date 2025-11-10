@@ -31,6 +31,9 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Widget)
 		TObjectPtr<AGameModeBase> GameMode;
 
+	UPROPERTY(EditAnywhere, Category = Activation)
+		bool bCollapseOnDeactivate;
+
 	UPROPERTY(BlueprintReadOnly, Category = Widget)
 		bool bWantsToHide;
 

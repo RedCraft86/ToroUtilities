@@ -5,7 +5,8 @@
 #define HIDE_CHECK_INTERVAL 0.5f
 
 UToroWidgetBase::UToroWidgetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bWantsToHide(false), bHidden(false), HideCheckTime(0.0f)
+	: Super(ObjectInitializer), bCollapseOnDeactivate(false), bWantsToHide(false)
+	, bHidden(false), HideCheckTime(0.0f)
 {
 	bAutoActivate = true;
 }
@@ -62,13 +63,13 @@ void UToroWidgetBase::InternalProcessActivation()
 	Super::InternalProcessActivation();
 	SetHidden(false);
 
-	if (DefaultVisibility.IsSet())
-	{
-		SetVisibility(DefaultVisibility.GetValue());
-	}
-	else
+	if (!DefaultVisibility.IsSet())
 	{
 		DefaultVisibility = GetVisibility();
+	}
+	else if (bCollapseOnDeactivate)
+	{
+		SetVisibility(DefaultVisibility.GetValue());
 	}
 }
 
@@ -78,9 +79,12 @@ void UToroWidgetBase::InternalProcessDeactivation()
 	{
 		DefaultVisibility = GetVisibility();
 	}
+	if (bCollapseOnDeactivate)
+	{
+		SetVisibility(ESlateVisibility::Collapsed);
+	}
 
 	SetHidden(true);
-	SetVisibility(ESlateVisibility::Collapsed);
 	Super::InternalProcessDeactivation();
 }
 
