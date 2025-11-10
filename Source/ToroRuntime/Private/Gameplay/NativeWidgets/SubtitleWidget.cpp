@@ -78,11 +78,20 @@ void USubtitleWidget::OnNativeSubtitle(const FText& InText)
 	ShowSubtitle({FText::GetEmpty(), InText, 0.5f});
 }
 
+bool USubtitleWidget::ShouldHideWidget() const
+{
+	return Narrative && Narrative->IsInDialogue();
+}
+
 void USubtitleWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
 	LineText->SetText(FText::GetEmpty());
 	NameText->SetText(FText::GetEmpty());
+	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+	{
+		Narrative = UNarrativeManager::Get(this);
+	});
 	// if (bCaptureNativeSubtitles)
 	// {
 	// 	FSubtitleManager::GetSubtitleManager()->OnSetSubtitleText()

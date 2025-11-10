@@ -69,6 +69,7 @@ protected:
 
 	FTimerHandle SubtitleTimer;
 	TArray<FToroSubtitle> Subtitles;
+	TObjectPtr<UNarrativeManager> Narrative;
 
 	void NextSubtitle();
 	void ShowSubtitle(const FToroSubtitle& InData);
@@ -76,6 +77,7 @@ protected:
 	void AddSubtitles(const TArray<FToroSubtitle>& InSubtitles);
 	void OnNativeSubtitle(const FText& InText);
 
+	virtual bool ShouldHideWidget() const override;
 	virtual void InitWidget(APlayerController* Controller) override;
 	virtual bool CanCreateWidget(const UObject* ContextObject) const override
 	{
