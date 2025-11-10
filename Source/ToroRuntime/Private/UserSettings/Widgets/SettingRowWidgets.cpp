@@ -71,13 +71,13 @@ void USliderSettingRow::OnRefreshUI()
 	{
 		Ptr->InitBinding();
 		bOverriding = true;
-		SliderBox->SetValue(Ptr->GetValue());
 		SliderBox->SetMinValue(Ptr->SliderRange.X);
 		SliderBox->SetMaxValue(Ptr->SliderRange.Y);
 		SliderBox->SetMinSliderValue(Ptr->SliderRange.X);
 		SliderBox->SetMaxSliderValue(Ptr->SliderRange.Y);
 		SliderBox->SetMaxFractionalDigits(Ptr->MaxDecimals);
 		SliderBox->SetDelta(FMath::Pow(10.0f, -Ptr->MaxDecimals));
+		SliderBox->SetValue(Ptr->GetValue());
 		bOverriding = false;
 
 		SetToolTipText(Ptr->GetFormattedTooltip());
