@@ -21,19 +21,29 @@ void UDifficultyWidget::ShowWidget(UUserWidget* InParent)
 
 void UDifficultyWidget::OnLeftButton()
 {
-	if (Difficulty < Options.Num() - 1)
+	if (Difficulty > 0)
 	{
-		Difficulty++;
+		Difficulty--;
 		SyncVisualState();
+		LeftButton->SetIsEnabled(true);
+	}
+	else
+	{
+		RightButton->SetIsEnabled(false);
 	}
 }
 
 void UDifficultyWidget::OnRightButton()
 {
-	if (Difficulty > 0)
+	if (Difficulty < Options.Num() - 1)
 	{
-		Difficulty--;
+		Difficulty++;
 		SyncVisualState();
+		RightButton->SetIsEnabled(true);
+	}
+	else
+	{
+		LeftButton->SetIsEnabled(false);
 	}
 }
 
