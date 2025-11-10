@@ -58,6 +58,7 @@ void UToroUserSettings::UpdateResolutions()
 
 bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 {
+	GameInstance = GI;
 	if (SupportedResolutions.IsEmpty())
 	{
 		UpdateResolutions();
@@ -67,7 +68,6 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 	bool bFirstLoad = false;
 	if (!bInitialized)
 	{
-		GameInstance = GI;
 		bInitialized = true;
 		bFirstLoad = true;
 
@@ -181,7 +181,6 @@ FVector2D UToroUserSettings::GetSensitivity() const
 }
 
 DEFINE_PROPERTY_FUNC(bool, ShowFPS, OnSettingsApply(Dynamic))
-DEFINE_PROPERTY_FUNC(bool, DeveloperMode, OnSettingsApply(Developer))
 DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnSettingsApply(Difficulty))
 
 DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
@@ -212,6 +211,8 @@ DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSQuality, 0, 6, ApplyDLSS();)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSFrameGen, 0, 4, ApplyDLSS();)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSReflex, 0, 2, ApplyDLSS();)
 DEFINE_PROPERTY_FUNC(bool, DLSSRayReconstruct, ApplyDLSS();)
+
+DEFINE_PROPERTY_FUNC(bool, DeveloperMode, OnSettingsApply(Developer))
 
 void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 {
@@ -322,7 +323,7 @@ void UToroUserSettings::SetToDefaults()
 	UpdateResolutions();
 
 	ShowFPS = false;
-	DeveloperMode = false;
+	DeveloperMode = true;
 	Difficulty = EGameDifficulty::Unset;
 	
 	SmoothCamera = true;
@@ -374,7 +375,7 @@ UWorld* UToroUserSettings::GetWorld() const
 	UWorld* World = Super::GetWorld();
 	if (!World) World = GameInstance ? GameInstance->GetWorld() : nullptr;
 	if (!World) World = GEngine->GetCurrentPlayWorld();
-	return World;
+	return World ? World : GWorld;
 }
 
 #undef OnSettingsApply
