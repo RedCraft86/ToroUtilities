@@ -20,7 +20,7 @@ void UToggleSettingRow::ToggleClicked()
 
 void UToggleSettingRow::SyncVisualState(const bool bImmediate)
 {
-	const float Speed = bImmediate ? AnimRate : 1000.0f;
+	const float Speed = bImmediate ? 1000.0f : AnimRate;
 	bState ? PlayAnimationForward(ToggleAnim, Speed) : PlayAnimationReverse(ToggleAnim, Speed);
 }
 
