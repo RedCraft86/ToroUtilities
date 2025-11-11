@@ -24,7 +24,7 @@ void FResolutionBindings::SetValue(const FString InValue)
 	const FIntPoint& Selection = DecomposeResolution(InValue);
 	if (Resolutions.Contains(Selection))
 	{
-		ApplyInternal(Selection);
+		ApplyInternal(Selection, false);
 		if (UResolutionWidget* Widget = AToroWidgetManager::GetWidget<UResolutionWidget>(GetGameInstance()))
 		{
 			Widget->ShowWidget([this]()
@@ -52,14 +52,15 @@ void FResolutionBindings::RevertValue() const
 	const FIntPoint& Selection = DecomposeResolution(OldOption);
 	if (Resolutions.Contains(Selection))
 	{
-		ApplyInternal(Selection);
+		ApplyInternal(Selection, true);
 	}
 }
 
-void FResolutionBindings::ApplyInternal(const FIntPoint& Resolution) const
+void FResolutionBindings::ApplyInternal(const FIntPoint& Resolution, const bool bRefreshUI) const
 {
 	GetSettings()->SetScreenResolution(Resolution);
 	GetSettings()->ApplyResolutionSettings(true);
+	if (bRefreshUI) GetSettings()->OnSettingsUpdated.Broadcast(ESettingApplyType::UI);
 }
 
 FIntPoint FResolutionBindings::DecomposeResolution(const FString& Option)
@@ -83,7 +84,7 @@ bool FBorderlessBinding::GetValue() const
 void FBorderlessBinding::SetValue(const bool InValue)
 {
 	bOldValue = GetValue();
-	ApplyInternal(InValue);
+	ApplyInternal(InValue, false);
 	if (UResolutionWidget* Widget = AToroWidgetManager::GetWidget<UResolutionWidget>(GetGameInstance()))
 	{
 		Widget->ShowWidget([this]()
@@ -95,13 +96,14 @@ void FBorderlessBinding::SetValue(const bool InValue)
 
 void FBorderlessBinding::RevertValue() const
 {
-	ApplyInternal(bOldValue);
+	ApplyInternal(bOldValue, true);
 }
 
-void FBorderlessBinding::ApplyInternal(const bool bBorderless) const
+void FBorderlessBinding::ApplyInternal(const bool bBorderless, const bool bRefreshUI) const
 {
 	GetSettings()->SetBorderless(bBorderless);
 	GetSettings()->ApplyResolutionSettings(true);
+	if (bRefreshUI) GetSettings()->OnSettingsUpdated.Broadcast(ESettingApplyType::UI);
 }
 
 FResolutionScaleBinding::FResolutionScaleBinding()

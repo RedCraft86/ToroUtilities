@@ -56,10 +56,6 @@ struct TORORUNTIME_API FFrameRateLimitBinding : public FSwapperOptionBinding
 		}
 		GetSettings()->SetFrameRateLimit(FPS);
 	}
-	virtual bool ShouldHide() const override
-	{
-		return Super::ShouldHide() || GetSettings()->IsVSyncEnabled();
-	}
 };
 
 USTRUCT(BlueprintType, DisplayName = "V-Sync")
@@ -78,10 +74,10 @@ struct TORORUNTIME_API FVSyncBinding : public FToggleOptionBinding
 	virtual void SetValue(const bool InValue) override
 	{
 		GetSettings()->SetVSyncEnabled(InValue);
-		if (InValue)
-		{
-			GetSettings()->SetFrameRateLimit(0.0f);
-		}
+		// if (InValue)
+		// {
+		// 	GetSettings()->SetFrameRateLimit(0.0f);
+		// }
 		GetSettings()->OnSettingsUpdated.Broadcast(ESettingApplyType::UI);
 	}
 	virtual bool ShouldHide() const override

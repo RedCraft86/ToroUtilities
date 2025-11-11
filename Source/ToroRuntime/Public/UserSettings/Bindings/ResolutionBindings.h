@@ -24,7 +24,7 @@ protected:
 	virtual void InitBinding() override;
 
 	void RevertValue() const;
-	void ApplyInternal(const FIntPoint& Resolution) const;
+	void ApplyInternal(const FIntPoint& Resolution, bool bRefreshUI) const;
 	static FIntPoint DecomposeResolution(const FString& Option);
 };
 
@@ -42,7 +42,7 @@ protected:
 
 	bool bOldValue = false;
 	void RevertValue() const;
-	void ApplyInternal(const bool bBorderless) const;
+	void ApplyInternal(const bool bBorderless, bool bRefreshUI) const;
 };
 
 USTRUCT(BlueprintType, DisplayName = "Resolution Scale")

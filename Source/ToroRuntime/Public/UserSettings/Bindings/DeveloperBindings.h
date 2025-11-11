@@ -51,7 +51,7 @@ struct TORORUNTIME_API FDevUnlitModeBinding : public FToggleOptionBinding
 
 	virtual bool ShouldHide() const override
 	{
-		return !GetSettings()->GetDeveloperMode();
+		return Super::ShouldHide() || !GetSettings()->GetDeveloperMode();
 	}
 };
 
@@ -82,6 +82,6 @@ struct TORORUNTIME_API FDevInvincibilityBinding : public FToggleOptionBinding
 
 	virtual bool ShouldHide() const override
 	{
-		return !GetSettings()->GetDeveloperMode();
+		return Super::ShouldHide() || !GetSettings()->GetDeveloperMode();
 	}
 };
