@@ -4,6 +4,11 @@
 
 FImageFidelityBindings::FImageFidelityBindings()
 {
+	
+	Name = INVTEXT("Image Fidelity");
+	Tooltip = INVTEXT("The Anti-Aliasing or Upscaler to use.");
+	Impact = EUserOptionImpact::Varies;
+
 	Options = {
 		TEXT("None"),
 		TEXT("FXAA"),
