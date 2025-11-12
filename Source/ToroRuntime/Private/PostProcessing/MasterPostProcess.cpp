@@ -28,6 +28,8 @@ AMasterPostProcess::AMasterPostProcess()
 	Settings.bOverride_AutoExposureBias = true;
 	Settings.AutoExposureBias = 11.0f;
 
+	Settings.bOverride_DynamicGlobalIlluminationMethod = false;
+	Settings.bOverride_ReflectionMethod = false;
 	PostProcess->Settings = Settings;
 }
 
