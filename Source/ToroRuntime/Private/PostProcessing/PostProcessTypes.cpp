@@ -2,8 +2,6 @@
 
 #include "PostProcessing/PostProcessTypes.h"
 
-#include "Libraries/ToroConsoleLibrary.h"
-
 void FPPBloomConfig::ModifyPP(FPostProcessSettings& Settings) const
 {
 	Settings.bOverride_BloomMethod = true;
@@ -125,32 +123,20 @@ void FPPLumenChoice::ApplyChoice(FPostProcessSettings& Settings, const uint8 GI,
 
 void FPPLumenChoice::ApplyGI(FPostProcessSettings& Settings, const uint8 Quality) const
 {
-	// Legacy method
-	// Settings.bOverride_DynamicGlobalIlluminationMethod = true;
-	// Settings.DynamicGlobalIlluminationMethod = (Quality == 0)
-	//	? EDynamicGlobalIlluminationMethod::None
-	//	: EDynamicGlobalIlluminationMethod::Lumen;
-	
-	if (IConsoleVariable* Var = UToroConsoleLibrary::FindCVar(TEXT("r.DynamicGlobalIlluminationMethod")))
-	{
-		Var->Set(Quality == 0 ? 0 : 1);
-	}
+	Settings.bOverride_DynamicGlobalIlluminationMethod = true;
+	Settings.DynamicGlobalIlluminationMethod = (Quality == 0)
+		? EDynamicGlobalIlluminationMethod::None
+		: EDynamicGlobalIlluminationMethod::Lumen;
 
 	GetOption(Quality).ModifyGI(Settings);
 }
 
 void FPPLumenChoice::ApplyReflect(FPostProcessSettings& Settings, const uint8 Quality) const
 {
-	// Legacy method
-	// Settings.bOverride_ReflectionMethod = true;
-	// Settings.ReflectionMethod = (Quality == 0)
-	//	? EReflectionMethod::ScreenSpace
-	//	: EReflectionMethod::Lumen;
-	
-	if (IConsoleVariable* Var = UToroConsoleLibrary::FindCVar(TEXT("r.ReflectionMethod")))
-	{
-		Var->Set(Quality == 0 ? 2 : 1);
-	}
+	Settings.bOverride_ReflectionMethod = true;
+	Settings.ReflectionMethod = (Quality == 0)
+		? EReflectionMethod::ScreenSpace
+		: EReflectionMethod::Lumen;
 
 	GetOption(Quality).ModifyReflect(Settings);
 }
