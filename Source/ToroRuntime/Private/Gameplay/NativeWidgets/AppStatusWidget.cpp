@@ -47,7 +47,7 @@ void UAppStatusWidget::OnSettingsChanged(const ESettingApplyType Type)
 		}
 		
 		TargetFPS = UserSettings->GetFrameRateLimit();
-		if (TargetFPS > 150.0f || TargetFPS < 10.0f)
+		if (TargetFPS > 130.0f || TargetFPS < 20.0f)
 		{
 			TargetFPS = 60.0f;
 		}
