@@ -18,6 +18,7 @@ namespace PlayerLockTags
 	DEFINE_GAMEPLAY_TAG(PlayerLock)
 	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Loading)
 	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Gameplay)
+	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, MainMenu)
 }
 
 AToroPlayerCharacter::AToroPlayerCharacter()
