@@ -27,6 +27,31 @@ void UToroGameInstance::SetPlayerInvincible(const bool bInvincible)
 	}
 }
 
+void UToroGameInstance::AddTransientFlag(const UObject* ContextObject, const FGameplayTag InFlag)
+{
+	if (UToroGameInstance* GI = UToroGameInstance::Get(ContextObject))
+	{
+		GI->TransientFlags.AddTag(InFlag);
+	}
+}
+
+void UToroGameInstance::RemoveTransientFlag(const UObject* ContextObject, const FGameplayTag InFlag)
+{
+	if (UToroGameInstance* GI = UToroGameInstance::Get(ContextObject))
+	{
+		GI->TransientFlags.RemoveTag(InFlag);
+	}
+}
+
+bool UToroGameInstance::HasTransientFlag(const UObject* ContextObject, const FGameplayTag InFlag)
+{
+	if (const UToroGameInstance* GI = UToroGameInstance::Get(ContextObject))
+	{
+		return GI->TransientFlags.HasTagExact(InFlag);
+	}
+	return false;
+}
+
 void UToroGameInstance::OnSettingUpdate(const ESettingApplyType Type)
 {
 	if (Type == ESettingApplyType::Developer)

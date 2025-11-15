@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "SaveSystem/ToroSaveManager.h"
+#include "SaveSystem/ToroGlobalSave.h"
 #include "ToroRuntime.h"
 
 void FSaveSlots::AddSlotObject(UToroSaveObject* Object)
@@ -48,6 +49,42 @@ UToroSaveObject* UToroSaveManager::FindOrAddSave(const TSubclassOf<UToroSaveObje
 	}
     
 	return nullptr;
+}
+
+void UToroSaveManager::AddPermanentFlag(const UObject* ContextObject, const FGameplayTag InFlag)
+{
+	if (UToroSaveManager* SM = UToroSaveManager::Get(ContextObject))
+	{
+		if (UToroGlobalSave* GS = SM->FindOrAddSave<UToroGlobalSave>())
+		{
+			GS->Content.Add(InFlag);
+			GS->SaveObject(nullptr);
+		}
+	}
+}
+
+void UToroSaveManager::RemovePermanentFlag(const UObject* ContextObject, const FGameplayTag InFlag)
+{
+	if (UToroSaveManager* SM = UToroSaveManager::Get(ContextObject))
+	{
+		if (UToroGlobalSave* GS = SM->FindOrAddSave<UToroGlobalSave>())
+		{
+			GS->Content.Remove(InFlag);
+			GS->SaveObject(nullptr);
+		}
+	}
+}
+
+bool UToroSaveManager::HasPermanentFlag(const UObject* ContextObject, const FGameplayTag InFlag)
+{
+	if (UToroSaveManager* SM = UToroSaveManager::Get(ContextObject))
+	{
+		if (const UToroGlobalSave* GS = SM->FindOrAddSave<UToroGlobalSave>())
+		{
+			return GS->Content.Contains(InFlag);
+		}
+	}
+	return false;
 }
 
 void UToroSaveManager::OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const

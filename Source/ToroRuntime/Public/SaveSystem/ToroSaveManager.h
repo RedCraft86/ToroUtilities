@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "ToroSaveTypes.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Subsystems/GameInstanceSubsystem.h"
@@ -41,6 +42,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (DeterminesOutputType = "SaveClass"))
 		UToroSaveObject* FindOrAddSave(TSubclassOf<UToroSaveObject> SaveClass, const uint8 Slot = 0);
+
+	UFUNCTION(BlueprintCallable, Category = GlobalFlags, meta = (WorldContext = "ContextObject"))
+		static void AddPermanentFlag(const UObject* ContextObject, const FGameplayTag InFlag);
+
+	UFUNCTION(BlueprintCallable, Category = GlobalFlags, meta = (WorldContext = "ContextObject"))
+		static void RemovePermanentFlag(const UObject* ContextObject, const FGameplayTag InFlag);
+
+	UFUNCTION(BlueprintPure, Category = GlobalFlags, meta = (WorldContext = "ContextObject"))
+		static bool HasPermanentFlag(const UObject* ContextObject, const FGameplayTag InFlag);
 
 	template<typename T = UToroSaveObject>
 	T* FindOrAddSave(const uint8 Slot)
