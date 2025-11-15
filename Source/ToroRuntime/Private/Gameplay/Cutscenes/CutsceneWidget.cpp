@@ -43,7 +43,7 @@ void UCutsceneWidget::SetHoldingState(const bool InState)
 void UCutsceneWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	if (SkipKeyText) SkipKeyText->SetText(SkipKey.GetDisplayName());
+	if (SkipKeyText) SkipKeyText->SetText(SkipKey.GetDisplayName().ToUpper());
 }
 
 void UCutsceneWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
