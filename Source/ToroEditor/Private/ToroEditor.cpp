@@ -152,6 +152,7 @@ void FToroEditorStyle::Init()
 	StyleSet->SetContentRoot(PluginDir / TEXT("Resources"));
 
 	AddSVG(ToroEditor.AssetLibrary, LinkFolder, 20x20);
+	AddSVG(ToroEditor.AIAssistant, AIAssistant, 20x20);
 	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
 	AddSVG(ToroEditor.ActorLayout, ActorLayout, 20x20);
 	AddSVG(ToroEditor.StaticMeshBaker, StaticMeshBaker, 20x20);
