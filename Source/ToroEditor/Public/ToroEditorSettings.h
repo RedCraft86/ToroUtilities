@@ -4,6 +4,7 @@
 
 #include "Engine/DeveloperSettings.h"
 #include "Helpers/ClassGetterMacros.h"
+#include "EditorUtilityWidgetBlueprint.h"
 #include "ToroEditorSettings.generated.h"
 
 UCLASS(Config = Editor, DefaultConfig, DisplayName = "ToroEditor")
@@ -19,6 +20,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Editor)
 		TMap<FString, FString> StartupCommands;
+
+	UPROPERTY(Config, EditAnywhere, Category = Editor, DisplayName = "AI Assistant")
+		TSoftObjectPtr<UEditorUtilityWidgetBlueprint> AIAssistantWidget;
 	
 	UPROPERTY(Config, EditAnywhere, Category = AssetLibrary, DisplayName = "Root Path")
 		FDirectoryPath ALRoot;

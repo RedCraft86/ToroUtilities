@@ -58,6 +58,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "WebBrowserWidget",
+			"Enabled": true
+		},
+		{
 			"Name": "EnhancedCodeFlow",
 			"Enabled": true
 		},

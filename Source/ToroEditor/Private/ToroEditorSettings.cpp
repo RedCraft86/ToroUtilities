@@ -11,6 +11,8 @@ UToroEditorSettings::UToroEditorSettings()
 {
 	CategoryName = TEXT("Project");
 	SectionName = TEXT("ToroEditor");
+
+	AIAssistantWidget = FSoftObjectPath(TEXT("/ToroUtilities/Tools/EUW_AIAssistant.EUW_AIAssistant"));
 }
 
 TMap<FString, FString> UToroEditorSettings::GetAssetLibraryPaths() const

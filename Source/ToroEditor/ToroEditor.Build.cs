@@ -17,6 +17,8 @@ public class ToroEditor : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "UMGEditor",
+                "Blutility",
                 "Projects",
                 "MainFrame",
                 "ToolMenus",

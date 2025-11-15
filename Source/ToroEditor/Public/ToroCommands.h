@@ -36,6 +36,9 @@ public:
 		UI_COMMAND(AssetLibrary, "Link Asset Library", "Links a shared asset library (Specified in ToroEditor settings)",
 			EUserInterfaceActionType::Button, FInputChord());
 
+		UI_COMMAND(AIAssistant, "AI Assistant", "Opens the Developer AI Assistant webpage embedded into Unreal Editor",
+			EUserInterfaceActionType::Button, FInputChord());
+
 		UI_COMMAND(RestartEditor, "Restart Editor", "Restarts the Unreal Editor",
 			EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control | EModifierKey::Shift, EKeys::R));
 
@@ -47,6 +50,7 @@ public:
 	}
 
 	TSharedPtr<FUICommandInfo> AssetLibrary;
+	TSharedPtr<FUICommandInfo> AIAssistant;
 	TSharedPtr<FUICommandInfo> RestartEditor;
 	TSharedPtr<FUICommandInfo> ActorLayout;
 	TSharedPtr<FUICommandInfo> ActorMerger;
