@@ -58,6 +58,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = World, meta = (AdvancedDisplay = "Context", DefaultToSelf = "Context"))
 		static UWorld* GetPlayWorld(const UObject* Context);
 
+	/* Gets the number of shaders currently compiling for a Compiling Shaders screen. */
+	UFUNCTION(BlueprintPure, Category = World)
+		static int32 GetNumCompilingShaders();
+
 	/** Gets the vertices/corner locations of the actor's bounding box.
 	* @param Target - Actor to use.
 	* @param bOnlyCollidingComponents - If enabled, only components that can collide will be used in calculation.

@@ -18,6 +18,7 @@ public class ToroCore : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "RenderCore",
                 "CommonUI",
                 "GameplayTags",
                 "MovieScene",

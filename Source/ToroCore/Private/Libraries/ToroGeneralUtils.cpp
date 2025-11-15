@@ -4,6 +4,7 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/OutputDeviceNull.h"
+#include "ShaderPipelineCache.h"
 
 TArray<FVector> FActorBoundsCheckParams::ProcessVertices(const TArray<FVector>& InVertices, const FVector& Origin) const
 {
@@ -24,6 +25,11 @@ UWorld* UToroGeneralUtils::GetPlayWorld(const UObject* Context)
 	UWorld* World = GEngine->GetWorldFromContextObject(Context, EGetWorldErrorMode::LogAndReturnNull);
 	if (!World) World = GEngine->GetCurrentPlayWorld();
 	return World ? World : GWorld;
+}
+
+int32 UToroGeneralUtils::GetNumCompilingShaders()
+{
+	return FShaderPipelineCache::NumPrecompilesRemaining();
 }
 
 TArray<FVector> UToroGeneralUtils::GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
