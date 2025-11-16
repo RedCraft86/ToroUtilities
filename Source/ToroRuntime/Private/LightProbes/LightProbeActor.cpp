@@ -15,6 +15,7 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 	if (IconBillboard)
 	{
 		IconBillboard->SetupAttachment(GetRootComponent());
+	    IconBillboard->SetIsVisualizationComponent(true);
 		IconBillboard->SetHiddenInGame(true);
 	}
 #endif
