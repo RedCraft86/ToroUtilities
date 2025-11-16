@@ -20,6 +20,7 @@ namespace MenuThemeTags
 {
 	DEFINE_GAMEPLAY_TAG(MenuTheme)
 	DEFINE_GAMEPLAY_TAG_CHILD(MenuTheme, Default)
+	DEFINE_GAMEPLAY_TAG_CHILD(MenuTheme, Ending)
 }
 
 UGamePhaseManager::UGamePhaseManager(): bLoading(true), PhaseTime(0.0f), UnloadTasks(0)
