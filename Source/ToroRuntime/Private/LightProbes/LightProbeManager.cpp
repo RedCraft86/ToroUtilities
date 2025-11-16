@@ -147,12 +147,12 @@ void ULightProbeManager::OnWorldBeginPlay(UWorld& InWorld)
 	});
 }
 
-#if WITH_EDITOR
 bool ULightProbeManager::ShouldCreateSubsystem(UObject* Outer) const
 {
 	return Super::ShouldCreateSubsystem(Outer) && !UToroSettings::Get()->LightProbePPM.IsNull();
 }
 
+#if WITH_EDITOR
 void ULightProbeManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
