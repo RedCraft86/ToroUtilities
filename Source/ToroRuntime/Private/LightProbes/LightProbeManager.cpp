@@ -126,7 +126,7 @@ void ULightProbeManager::Tick(float DeltaTime)
 	if (TickTime > 0.25f)
 	{
 #endif
-		bHasLumenGI = MasterPP && MasterPP->HasLumenGI();
+		bHasLumenGI = IsValid(MasterPP) ? MasterPP->HasLumenGI() : false;
 		TickTime = 0.0f;
 		CollectProbes();
 	}
