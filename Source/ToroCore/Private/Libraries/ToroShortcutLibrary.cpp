@@ -21,7 +21,7 @@ void UToroShortcutLibrary::SetCameraFade(const UObject* ContextObject, const flo
 	}
 }
 
-void UToroShortcutLibrary::StartCameraFade(UObject* ContextObject, const float FromAlpha, const float ToAlpha,
+void UToroShortcutLibrary::StartCameraFade(const UObject* ContextObject, const float FromAlpha, const float ToAlpha,
 	const float Duration, const FLinearColor Color, const bool bShouldFadeAudio, const bool bHoldWhenFinished)
 {
 	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(ContextObject, 0))
@@ -30,7 +30,7 @@ void UToroShortcutLibrary::StartCameraFade(UObject* ContextObject, const float F
 	}
 }
 
-void UToroShortcutLibrary::SetViewTarget(UObject* ContextObject, AActor* NewTarget, const float BlendTime,
+void UToroShortcutLibrary::SetViewTarget(const UObject* ContextObject, AActor* NewTarget, const float BlendTime,
 	const EViewTargetBlendFunction BlendFunc, const float BlendExp, const bool bLockOutgoing)
 {
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(ContextObject, 0))

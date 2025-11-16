@@ -49,7 +49,7 @@ public:
 	* @param bHoldWhenFinished - True for fade to hold at the ToAlpha until explicitly stopped (e.g. with StopCameraFade).
 	*/
 	UFUNCTION(BlueprintCallable, Category = CameraFades, meta = (WorldContext = "ContextObject", Keywords = "Fade Camera", AdvancedDisplay = "Color, bHoldWhenFinished"))
-		static void StartCameraFade(UObject* ContextObject, const float FromAlpha = 0.0f, const float ToAlpha = 1.0f, const float Duration = 1.0f,
+		static void StartCameraFade(const UObject* ContextObject, const float FromAlpha = 0.0f, const float ToAlpha = 1.0f, const float Duration = 1.0f,
 			const FLinearColor Color = FLinearColor::Black, const bool bShouldFadeAudio = true, const bool bHoldWhenFinished = true);
 
 	/** Set the view target blending with variable control.
@@ -60,7 +60,7 @@ public:
 	* @param bLockOutgoing - If true, lock outgoing view target to last frame's camera position for the remainder of the blend.
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Game|Player", meta = (WorldContext = "ContextObject", DefaultToSelf = "NewTarget", Keywords = "Camera", AdvancedDisplay = "BlendFunc, BlendExp, bLockOutgoing"))
-		static void SetViewTarget(UObject* ContextObject, AActor* NewTarget, const float BlendTime = 1.0f,
+		static void SetViewTarget(const UObject* ContextObject, AActor* NewTarget, const float BlendTime = 1.0f,
 			const EViewTargetBlendFunction BlendFunc = VTBlend_Linear, const float BlendExp = 0.0f, const bool bLockOutgoing = false);
 
 	/* Adds an actor tag. */
