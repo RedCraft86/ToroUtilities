@@ -16,7 +16,12 @@ void AToroSplineGenBase::OnConstruction(const FTransform& Transform)
 {
 	SplineComponent->SetClosedLoop(bClosedLoop);
 	for (int i = 0; i < SplineComponent->GetNumberOfSplinePoints(); i++)
-		SplineComponent->SetSplinePointType(i, SplineType);
+	{
+		if (SplineComponent->GetSplinePointType(i) != SplineType)
+		{
+			SplineComponent->SetSplinePointType(i, SplineType);
+		}
+	}
 		
 	Super::OnConstruction(Transform);
 }
