@@ -16,3 +16,18 @@
 #define DEFINE_GAMEPLAY_TAG(TagName) UE_DEFINE_GAMEPLAY_TAG(TAG_##TagName, #TagName)
 #define DEFINE_GAMEPLAY_TAG_CHILD(BaseName, TagName) \
 		UE_DEFINE_GAMEPLAY_TAG(TAG_##TagName, UE_INLINE_STRINGIFY(BaseName.TagName))
+
+namespace GameplayTagHelpers
+{
+	inline TSet<FGameplayTag> GetAllLeafTags(const FGameplayTag& ParentTag)
+	{
+		if (ParentTag.IsValid())
+		{
+			FGameplayTagContainer Children = UGameplayTagsManager::Get()
+				.RequestGameplayTagChildrenInDictionary(ParentTag);
+
+			return Children.IsEmpty() ? TSet{ParentTag} : TSet(Children.GetGameplayTagArray());
+		}
+		return {};
+	}
+}
