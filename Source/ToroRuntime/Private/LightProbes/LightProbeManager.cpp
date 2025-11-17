@@ -117,14 +117,14 @@ void ULightProbeManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 #if WITH_EDITOR
-	if (TickTime > (FApp::IsGame() ? 10.0f : 0.01f))
+	if (TickTime > (FApp::IsGame() ? 0.1f : 0.01f))
 	{
 		if (!FApp::IsGame() && !MasterPP)
 		{
 			MasterPP = AMasterPostProcess::Get(this, false);
 		}
 #else
-	if (TickTime > 10.0f)
+	if (TickTime > 0.1f)
 	{
 #endif
 		TickTime = 0.0f;
