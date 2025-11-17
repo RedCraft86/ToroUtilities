@@ -110,7 +110,7 @@ UMaterialInstanceDynamic* ULightProbeManager::GetLightProbeMID()
 
 bool ULightProbeManager::IsTickable() const
 {
-	return Super::IsTickable() && ((MasterPP && CamManager) || !FApp::IsGame());
+	return Super::IsTickable();
 }
 
 void ULightProbeManager::Tick(float DeltaTime)
