@@ -11,12 +11,13 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 
 #if WITH_EDITOR
 	EditorShapes = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("EditorShapes");
-	IconBillboard = CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>("IconBillboard");
-	if (IconBillboard)
+	ProbeBillboard = CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>("ProbeBillboard");
+	if (ProbeBillboard)
 	{
-		IconBillboard->SetupAttachment(GetRootComponent());
-	    IconBillboard->SetIsVisualizationComponent(true);
-		IconBillboard->SetHiddenInGame(true);
+		ProbeBillboard->SetupAttachment(GetRootComponent());
+	    ProbeBillboard->SetIsVisualizationComponent(true);
+		ProbeBillboard->MarkAsEditorOnlySubobject();
+		ProbeBillboard->SetHiddenInGame(true);
 	}
 #endif
 }
@@ -86,33 +87,19 @@ void ALightProbeActor::OnConstruction(const FTransform& Transform)
 		Data.Color = FColor::FromHex(TEXT("97C1D0FF"));
 		EditorShapes->WireSpheres.Add(TEXT("Radius"), Data);
 	}
-	if (IconBillboard)
+	if (ProbeBillboard)
 	{
-		if (!IconMaterial)
-		{
-			if (UMaterialInterface* BaseMat = LoadObject<UMaterialInterface>(nullptr,
-				TEXT("/ToroUtilities/Icons/LightProbe/M_LightProbe.M_LightProbe")))
-			{
-				IconMaterial = UMaterialInstanceDynamic::Create(BaseMat, IconBillboard.Get());
-			}
-			
-			if (!IconBillboard->Elements.IsEmpty()) IconBillboard->SetElements({});
-		}
-
-		if (IconMaterial)
-		{
-			IconMaterial->SetVectorParameterValue(TEXT("Color"), Color);
-			if (IconBillboard->Elements.IsEmpty())
-			{
-				FMaterialSpriteElement Sprite;
-				Sprite.Material = IconMaterial.Get();
-				Sprite.BaseSizeX = Sprite.BaseSizeY = 40.0f;
-				Sprite.DistanceToSizeCurve = LoadObject<UCurveFloat>(nullptr,
-					TEXT("/ToroUtilities/Icons/LightProbe/C_LightProbe.C_LightProbe"));
+		FMaterialSpriteElement Sprite;
+		Sprite.BaseSizeX = Sprite.BaseSizeY = 40.0f;
+		Sprite.DistanceToSizeCurve = LoadObject<UCurveFloat>(nullptr,
+			TEXT("/ToroUtilities/Icons/LightProbe/C_LightProbe.C_LightProbe"));
+		Sprite.Material = LoadObject<UMaterialInterface>(nullptr,
+			TEXT("/ToroUtilities/Icons/LightProbe/M_LightProbe.M_LightProbe"));
 				
-				IconBillboard->SetElements({Sprite});
-			}
-		}
+		ProbeBillboard->SetElements({Sprite});
+		ProbeBillboard->SetDefaultCustomPrimitiveDataVector4(0, FVector4{
+			Color.R, Color.G, Color.B, 1.0f
+		});
 	}
 }
 #endif

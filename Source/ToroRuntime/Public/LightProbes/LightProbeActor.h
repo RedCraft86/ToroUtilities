@@ -46,8 +46,7 @@ private:
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UEditorShapeComponent> EditorShapes;
-	UPROPERTY() TObjectPtr<UMaterialBillboardComponent> IconBillboard;
-	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> IconMaterial;
+	UPROPERTY() TObjectPtr<UMaterialBillboardComponent> ProbeBillboard;
 #endif
 
 	virtual void EnableStateChanged(const bool bState) override;
