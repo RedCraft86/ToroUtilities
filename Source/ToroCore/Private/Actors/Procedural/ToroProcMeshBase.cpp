@@ -100,7 +100,7 @@ void AToroProcMeshBase::BakeInternal(const bool bRemoveSource, const bool bSelec
 						*FString::Printf(TEXT("Section_%d"), Material.Key)));
 			}
 
-			StaticMesh->ImportVersion = EImportStaticMeshVersion::LastVersion;
+			StaticMesh->SetImportVersion(EImportStaticMeshVersion::LastVersion);
 			StaticMesh->Build(false);
 			StaticMesh->PostEditChange();
 
