@@ -3,7 +3,7 @@
 #include "UserSettings/ToroUserSettings.h"
 #include "UserSettings/ImageFidelity.h"
 #include "ToroRuntime.h"
-#include "XeFGRHI.h"
+// #include "XeFGRHI.h"
 
 extern ENGINE_API float GAverageFPS;
 extern ENGINE_API float GAverageMS;
@@ -45,7 +45,8 @@ float UToroUserSettings::GetAverageFPS()
 		&& UserSettings->ImageFidelity == EImageFidelityMode::XeSS
 		&& ImageFidelity::IsUsingAnyFrameGen();
 
-	return bUsingXeFG ? GXeFGAverageFPS : GAverageFPS;
+	return GAverageFPS; // TODO - UPDATE
+	// return bUsingXeFG ? GXeFGAverageFPS : GAverageFPS;
 }
 
 void UToroUserSettings::UpdateResolutions()

@@ -47,15 +47,15 @@ public class ToroRuntime : ModuleRules
                 "EnhancedCodeFlow",
                 "ExpressiveText",
                 
-                "XeFGRHI",
-                "XeSSBlueprint",
-                "XeFGBlueprint",
-                "XeLLBlueprint",
-                
-                "DLSSBlueprint",
-                "StreamlineBlueprint",
-                "StreamlineDLSSGBlueprint",
-                "StreamlineReflexBlueprint"
+                // "XeFGRHI",
+                // "XeSSBlueprint",
+                // "XeFGBlueprint",
+                // "XeLLBlueprint",
+                //
+                // "DLSSBlueprint",
+                // "StreamlineBlueprint",
+                // "StreamlineDLSSGBlueprint",
+                // "StreamlineReflexBlueprint"
             ]
         );
         
