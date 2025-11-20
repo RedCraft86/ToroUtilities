@@ -5,7 +5,8 @@
 UToroEditorSettings::UToroEditorSettings()
 	: StartupCommands({
 		{TEXT("r.VSyncEditor"), TEXT("1")},
-		{TEXT("r.Streaming.PoolSize"), TEXT("3000")}
+		{TEXT("r.Streaming.PoolSize"), TEXT("3000")},
+		{TEXT("r.Shadow.Virtual.SMRT.AdaptiveRayCount"), TEXT("0")}
 	}), ALRoot(TEXT("D:/UnrealEngine/AssetProject/"))
 	, ALDirs({TEXT("Content/AssetPacks"), TEXT("Saved/Collections")})
 {
