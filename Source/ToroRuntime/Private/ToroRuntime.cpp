@@ -11,7 +11,9 @@ DEFINE_LOG_CATEGORY(LogToroRuntime);
 #define LOCTEXT_NAMESPACE "ToroRuntime"
 
 UToroSettings::UToroSettings()
-	: MapRegistry({
+	: StartupCommands({
+		{TEXT("r.Shadow.Virtual.SMRT.AdaptiveRayCount"), TEXT("0")}
+	}), MapRegistry({
 		  {EToroMapType::MainMenu, nullptr},
 		  {EToroMapType::Gameplay, nullptr},
 		  {EToroMapType::Extras, nullptr}

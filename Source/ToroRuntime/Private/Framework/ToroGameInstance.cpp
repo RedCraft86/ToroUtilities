@@ -1,9 +1,11 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Framework/ToroGameInstance.h"
+#include "ToroRuntime.h"
+#if WITH_EDITOR
 #include "Windows/WindowsPlatformApplicationMisc.h"
 #include "GeneralProjectSettings.h"
-#include "Helpers/WindowsHelpers.h"
+#endif
 
 void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)
 {
@@ -93,13 +95,16 @@ void UToroGameInstance::Init()
 	{
 		if (!IFileManager::Get().CreateFileWriter(*(FPaths::ProjectSavedDir() / ProjectSettings->ProjectID.ToString()), 0))
 		{
-			WindowsHelpers::OpenDialogue(TEXT("Failed to Launch Game"),
-				TEXT("An instance of this game is already running!"),
-				EWindowsDialogueType::Ok, EWindowsDialogueIcon::Error);
-
 			FPlatformApplicationMisc::RequestMinimize();
 			FPlatformMisc::RequestExit(false);
 		}
 	}
 #endif
+
+	const UToroSettings* Settings = UToroSettings::Get();
+	for (const TPair<FString, FString>& Command : Settings->StartupCommands)
+	{
+		UKismetSystemLibrary::ExecuteConsoleCommand(this,
+			*FString::Printf(TEXT("%s %s"), *Command.Key, *Command.Value));
+	}
 }

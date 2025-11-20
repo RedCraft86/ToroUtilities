@@ -36,6 +36,9 @@ public:
     SETTING_GETTER(UToroSettings)
 
     UPROPERTY(Config, EditAnywhere, Category = Defaults)
+        TMap<FString, FString> StartupCommands;
+
+    UPROPERTY(Config, EditAnywhere, Category = Defaults)
         TSoftObjectPtr<UInputMappingContext> InputMappings;
 
     UPROPERTY(Config, EditAnywhere, Category = Defaults)
