@@ -6,7 +6,6 @@
 
 #include "ToroCommands.h"
 #include "Toolbar/AssetLibrary.h"
-#include "Toolbar/AIAssistant.h"
 #include "Toolbar/RestartEditor.h"
 #include "Toolbar/ActorLayout.h"
 #include "Toolbar/ActorMerger.h"
@@ -40,7 +39,6 @@ void FToroEditorModule::StartupModule()
 		PluginCommands = MakeShareable(new FUICommandList);
 
 		FAssetLibrary::Register(PluginCommands);
-		FAIAssistant::Register(PluginCommands);
 		FRestartEditor::Register(PluginCommands);
 		FActorLayout::Register(PluginCommands);
 		FActorMerger::Register(PluginCommands);
@@ -125,7 +123,6 @@ void FToroEditorModule::RegisterMenus()
 	FToolMenuOwnerScoped OwnerScoped(this);
 	{
 		FAssetLibrary::RegisterMenus(PluginCommands);
-		FAIAssistant::RegisterMenus(PluginCommands);
 		FRestartEditor::RegisterMenus(PluginCommands);
 		FActorLayout::RegisterMenus(PluginCommands);
 		FActorMerger::RegisterMenus(PluginCommands);
@@ -155,7 +152,6 @@ void FToroEditorStyle::Init()
 	StyleSet->SetContentRoot(PluginDir / TEXT("Resources"));
 
 	AddSVG(ToroEditor.AssetLibrary, LinkFolder, 20x20);
-	AddSVG(ToroEditor.AIAssistant, AIAssistant, 20x20);
 	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
 	AddSVG(ToroEditor.ActorLayout, ActorLayout, 20x20);
 	AddSVG(ToroEditor.ActorBaker, ActorBaker, 20x20);
