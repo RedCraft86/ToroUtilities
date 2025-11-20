@@ -57,12 +57,13 @@ protected:
 	/* Remove this source actor after baking */
 	UPROPERTY(EditAnywhere, Category = Tools)
 		bool bBakeRemoveSource = true;
-#endif
-#if WITH_EDITOR
+
 	UFUNCTION(CallInEditor, Category = Tools, DisplayName = "Bake Meshes")
 		void BakeMeshes() { BakeInternal(bBakeRemoveSource, true, nullptr); }
 #endif
+
 	virtual void OnConstruction(const FTransform& Transform) override;
+
 #if WITH_EDITOR
 public:
 	virtual void BakeInternal(const bool bRemoveSource, const bool bSelectActors, TArray<AActor*>* OutActors);
