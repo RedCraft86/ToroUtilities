@@ -2,9 +2,10 @@
 
 #include "Toolbar/ActorBaker.h"
 #include "EditorDialogLibrary.h"
+#include "Helpers/LoggingMacros.h"
 #include "Actors/Procedural/BakerHelpers.h"
 #include "Actors/Procedural/ToroProcGenBase.h"
-#include "Helpers/LoggingMacros.h"
+#include "Actors/Procedural/ToroProcMeshBase.h"
 #include "Subsystems/EditorActorSubsystem.h"
 
 void FActorBaker::ExecuteAction()
@@ -42,7 +43,7 @@ void FActorBaker::ExecuteAction()
 				UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT(">	Baking [%d/%d] %s"),
 					i + 1, Actors.Num(), *Actors[i]->GetName());
 
-				if (Actors[i]->IsA<AStaticMeshActor>())
+				if (Actors[i]->IsA<AStaticMeshActor>() || Actors[i]->IsA<AToroProcMeshBase>())
 				{
 					Subsystem->SetActorSelectionState(Actors[i], true);
 					continue;
