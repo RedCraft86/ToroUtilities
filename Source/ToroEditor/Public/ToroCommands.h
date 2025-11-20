@@ -47,6 +47,9 @@ public:
 
 		UI_COMMAND(ActorMerger, "Merge Actors", "Opens the Merge Actors tab",
 			EUserInterfaceActionType::Button, FInputChord());
+
+		UI_COMMAND(ActorBaker, "Bake Actors", "Bakes MeshComponent(s) within selected actor into individual Static Mesh Actors",
+			EUserInterfaceActionType::Button, FInputChord());
 	}
 
 	TSharedPtr<FUICommandInfo> AssetLibrary;
@@ -54,5 +57,6 @@ public:
 	TSharedPtr<FUICommandInfo> RestartEditor;
 	TSharedPtr<FUICommandInfo> ActorLayout;
 	TSharedPtr<FUICommandInfo> ActorMerger;
+	TSharedPtr<FUICommandInfo> ActorBaker;
 };
 #undef LOCTEXT_NAMESPACE

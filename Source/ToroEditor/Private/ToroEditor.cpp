@@ -10,6 +10,7 @@
 #include "Toolbar/RestartEditor.h"
 #include "Toolbar/ActorLayout.h"
 #include "Toolbar/ActorMerger.h"
+#include "Toolbar/ActorBaker.h"
 #include "Interfaces/IMainFrameModule.h"
 
 #include "UnrealEd.h"
@@ -43,6 +44,7 @@ void FToroEditorModule::StartupModule()
 		FRestartEditor::Register(PluginCommands);
 		FActorLayout::Register(PluginCommands);
 		FActorMerger::Register(PluginCommands);
+		FActorBaker::Register(PluginCommands);
 
 		IMainFrameModule& MainFrame = FModuleManager::Get().LoadModuleChecked<IMainFrameModule>("MainFrame");
 		MainFrame.GetMainFrameCommandBindings()->Append(PluginCommands.ToSharedRef());
@@ -127,6 +129,7 @@ void FToroEditorModule::RegisterMenus()
 		FRestartEditor::RegisterMenus(PluginCommands);
 		FActorLayout::RegisterMenus(PluginCommands);
 		FActorMerger::RegisterMenus(PluginCommands);
+		FActorBaker::RegisterMenus(PluginCommands);
 	}
 }
 
@@ -155,7 +158,7 @@ void FToroEditorStyle::Init()
 	AddSVG(ToroEditor.AIAssistant, AIAssistant, 20x20);
 	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
 	AddSVG(ToroEditor.ActorLayout, ActorLayout, 20x20);
-	AddSVG(ToroEditor.StaticMeshBaker, StaticMeshBaker, 20x20);
+	AddSVG(ToroEditor.ActorBaker, ActorBaker, 20x20);
 	AddSVG(ToroEditor.ActorMerger, ActorMerger, 20x20);
 
 	AddSVG(ClassThumbnail.SplineCable, SplineCable, 64x64);
