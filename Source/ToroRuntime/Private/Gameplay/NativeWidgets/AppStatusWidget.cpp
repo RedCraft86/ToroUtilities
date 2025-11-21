@@ -36,7 +36,7 @@ void UAppStatusWidget::OnGameFocusChanged(const bool bFocused) const
 
 void UAppStatusWidget::OnSettingsChanged(const ESettingApplyType Type)
 {
-	if (Type == ESettingApplyType::Dynamic)
+	if (Type == ESettingApplyType::Dynamic || Type == ESettingApplyType::Manual)
 	{
 		const UToroUserSettings* UserSettings = UToroUserSettings::Get();
 		if (!UserSettings)
