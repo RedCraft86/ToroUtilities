@@ -40,7 +40,7 @@ public:
 		FExpressiveTextData ExpressiveText;
 
 	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
-		void SetText(const FText& InText, const bool bUseFieldsFromAsset = true);
+		void SetText(const FText InText, const bool bUseFieldsFromAsset = true);
 
 	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
 		void SetTextFields(const FExpressiveTextFields& InFields);
