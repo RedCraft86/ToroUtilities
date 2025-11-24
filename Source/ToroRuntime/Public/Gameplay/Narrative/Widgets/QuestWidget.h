@@ -51,6 +51,7 @@ protected:
 	UVerticalBox* FindOrAddTaskContainer(const UQuestBranch* Branch);
 	void ClearQuestContainers(const UQuest* Quest);
 
+	virtual void NativeConstruct() override;
 	virtual bool ShouldHideWidget() const override;
 	virtual void InitWidget(APlayerController* Controller) override;
 	virtual bool CanCreateWidget(const UObject* ContextObject) const override

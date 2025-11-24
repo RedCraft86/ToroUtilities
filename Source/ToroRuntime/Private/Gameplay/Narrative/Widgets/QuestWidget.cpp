@@ -137,6 +137,12 @@ void UQuestWidget::ClearQuestContainers(const UQuest* Quest)
 	}
 }
 
+void UQuestWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	HideIfEmpty();
+}
+
 bool UQuestWidget::ShouldHideWidget() const
 {
 	return !bVisible || Manager->IsInDialogue();
