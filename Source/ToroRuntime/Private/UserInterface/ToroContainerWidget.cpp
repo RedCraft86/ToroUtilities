@@ -2,6 +2,7 @@
 
 #include "UserInterface/ToroContainerWidget.h"
 #include "UserInterface/ToroManagedWidget.h"
+#include "Components/OverlaySlot.h"
 
 void UToroContainerWidget::ClearNullEntries()
 {
@@ -39,7 +40,11 @@ bool UToroOverlayContainer::PushEntry(UToroManagedWidget* Widget)
 {
 	if (Super::PushEntry(Widget))
 	{
-		WidgetStack->AddChild(Widget);
+		if (UOverlaySlot* OSlot = Cast<UOverlaySlot>(WidgetStack->AddChild(Widget)))
+		{
+			OSlot->SetHorizontalAlignment(HAlign_Fill);
+			OSlot->SetVerticalAlignment(VAlign_Fill);
+		}
 		return true;
 	}
 	return false;
