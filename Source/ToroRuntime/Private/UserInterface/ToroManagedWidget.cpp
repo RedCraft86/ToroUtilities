@@ -40,7 +40,7 @@ UToroContainerWidget* UToroManagedWidget::GetContainerWidget() const
 
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
-		return Manager->FindWidget<UToroContainerWidget>();
+		return Cast<UToroContainerWidget>(Manager->FindWidget(ContainerClass));
 	}
 
 	return nullptr;
