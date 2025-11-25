@@ -222,7 +222,7 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		{
 			UToroShortcutLibrary::CallRemoteEvent(this, ThisPhase->PostLoadEvent);
 		}
-	}, 1.0f, false);
+	}, 2.0f, false);
 }
 
 void UGamePhaseManager::BeginPlay()
