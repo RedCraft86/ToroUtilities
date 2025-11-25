@@ -65,6 +65,12 @@ void FExpressiveTextData::SetTextAsset(UExpressiveTextAsset* InAsset)
 	TextAsset = InAsset;
 }
 
+void UExprTextBlock::OverrideExpressiveText(const FExpressiveTextData& InText)
+{
+	ExpressiveText = InText;
+	UpdateText();
+}
+
 void UExprTextBlock::SetText(const FText InText, const bool bUseFieldsFromAsset)
 {
 	ExpressiveText.SetText(InText, bUseFieldsFromAsset);
