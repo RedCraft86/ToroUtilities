@@ -64,7 +64,7 @@ void UAppStatusWidget::OnSaveLoad(const UToroSaveObject* SaveObject, const ESave
 {
 	if (SaveObject && Activity == ESaveGameActivity::Saving)
 	{
-		PlayAnimation(SaveAnim, 0.0f, 5);
+		PlayAnimation(SaveAnim);
 	}
 }
 

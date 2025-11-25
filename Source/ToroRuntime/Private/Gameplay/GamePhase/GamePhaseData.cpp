@@ -27,6 +27,15 @@ UToroGamePhaseNode::UToroGamePhaseNode()
 #if WITH_EDITORONLY_DATA
 	ContextMenuName = NSLOCTEXT("Game", "GamePhase", "Game Phase");
 #endif
+
+	PlayerLight.Intensity = 0.025f;
+	PlayerLight.AttenuationRadius = 500.0f;
+	PlayerLight.bUseTemperature = true;
+	PlayerLight.Temperature = 12000.0f;
+	PlayerLight.bLightCastShadows = false;
+	PlayerLight.bUseInverseSquaredFalloff = true;
+	PlayerLight.LightFalloffExponent = 1.0f;
+	PlayerLight.SpecularScale = 0.0f;
 }
 
 TSet<FGameplayTag> UToroGamePhaseNode::GetContentTags() const

@@ -23,7 +23,7 @@ namespace MenuThemeTags
 	DEFINE_GAMEPLAY_TAG_CHILD(MenuTheme, Ending)
 }
 
-UGamePhaseManager::UGamePhaseManager(): bLoading(true), PhaseTime(0.0f), UnloadTasks(0)
+UGamePhaseManager::UGamePhaseManager(): bLoading(false), PhaseTime(0.0f), UnloadTasks(0)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
@@ -104,6 +104,7 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 		}
 		Inventory->EnsureInventory(ThisPhase->Archives, ThisPhase->Items);
 		PlayerChar->Teleport(FVector::ZeroVector, FRotator::ZeroRotator);
+		PostProcessing->SetUDSSettings(ThisPhase->SkyWeather);
 
 		for (const TSoftObjectPtr<UWorld>& Level : UnloadLevels)
 		{
@@ -200,7 +201,6 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		ThisPhase->ApplyPlayerSettings(PlayerChar);
 		Narrative->BeginQuest(ThisPhase->Quest.LoadSynchronous());
 		MusicManager->ChangeMainTheme(ThisPhase->Soundtrack.LoadSynchronous());
-		PostProcessing->SetUDSSettings(ThisPhase->SkyWeather);
 	}
 
 	if (ULoadingScreenWidget* Widget = GetLoadingWidget())
@@ -222,7 +222,7 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		{
 			UToroShortcutLibrary::CallRemoteEvent(this, ThisPhase->PostLoadEvent);
 		}
-	}, 0.25f, false);
+	}, 1.0f, false);
 }
 
 void UGamePhaseManager::BeginPlay()

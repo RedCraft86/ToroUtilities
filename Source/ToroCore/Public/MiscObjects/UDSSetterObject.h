@@ -53,7 +53,7 @@ struct TOROCORE_API FUDSSettings
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f, ClampMax = 2.0f, UIMax = 2.0f))
 		float WeatherVolume;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 0.5f, UIMin = 0.5f, ClampMax = 10.0f, UIMax = 10.0f))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f, ClampMax = 10.0f, UIMax = 10.0f))
 		float WeatherFadeTime;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Categories = "Weather"))
@@ -66,7 +66,7 @@ struct TOROCORE_API FUDSSettings
 		, CloudType(EUDSCloudType::None)
 		, TimeOfDay(0.0f)
 		, WeatherVolume(1.0f)
-		, WeatherFadeTime(1.0f)
+		, WeatherFadeTime(0.5f)
 		, WeatherPreset(WeatherTags::TAG_FogThick)
 	{}
 };
