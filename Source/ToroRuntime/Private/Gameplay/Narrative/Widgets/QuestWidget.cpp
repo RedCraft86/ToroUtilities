@@ -23,24 +23,22 @@ void UQuestWidget::ToggleVisibility()
 
 void UQuestWidget::OnQuestNewState(UQuest* Quest, const UQuestState* NewState)
 {
-	if (NewState) return;
+	if (!NewState) return;
 	ClearQuestContainers(Quest);
 	QuestLabel->SetText(Quest->GetQuestDescription());
 	for (const UQuestBranch* Branch : NewState->Branches)
 	{
 		AddOrUpdateQuestBranch(Branch);
 	}
-	HideIfEmpty();
-	if (!bVisible)
-	{
-		ShowObjectiveNotice();
-	}
+	ConfigureVisibility();
+	ShowObjectiveNotice();
 }
 
 void UQuestWidget::OnQuestTaskCompleted(const UQuest* Quest, const UNarrativeTask* CompletedTask, const UQuestBranch* Branch)
 {
 	AddOrUpdateQuestBranch(Branch);
 	QuestLabel->SetText(Quest->GetQuestDescription());
+	ConfigureVisibility();
 	ShowObjectiveNotice();
 }
 
@@ -49,6 +47,7 @@ void UQuestWidget::OnQuestTaskProgressChanged(const UQuest* Quest, const UNarrat
 {
 	AddOrUpdateQuestBranch(Branch);
 	QuestLabel->SetText(Quest->GetQuestDescription());
+	ConfigureVisibility();
 	ShowObjectiveNotice();
 }
 
@@ -56,21 +55,30 @@ void UQuestWidget::OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucce
 {
 	ClearQuestContainers(Quest);
 	QuestLabel->SetText(INVTEXT("Objectives"));
-	HideIfEmpty();
+	ConfigureVisibility();
 }
 
-void UQuestWidget::HideIfEmpty()
+void UQuestWidget::ConfigureVisibility()
 {
-	if (bVisible && BranchBoxes.IsEmpty())
+	if (BranchBoxes.IsEmpty())
+	{
+		if (bVisible) ToggleVisibility();
+		QuestLabel->SetText(INVTEXT("Objectives"));
+	}
+	else if (!bVisible)
 	{
 		ToggleVisibility();
-		QuestLabel->SetText(INVTEXT("Objectives"));
 	}
 }
 
 void UQuestWidget::ShowObjectiveNotice() const
 {
-	UNoticeWidget::QueueNotice(this, {INVTEXT("Objective Updated")});
+	if (!BranchBoxes.IsEmpty())
+	{
+		UNoticeWidget::QueueNotice(this, {
+			INVTEXT("Objective Updated")
+		});
+	}
 }
 
 void UQuestWidget::AddOrUpdateQuestBranch(const UQuestBranch* Branch)
@@ -83,8 +91,9 @@ void UQuestWidget::AddOrUpdateQuestBranch(const UQuestBranch* Branch)
 		{
 			if (Manager && Task && !Task->bHidden && !Task->IsComplete())
 			{
-				Tasks.Add(Manager->InjectTextVariables(FText::Format(INVTEXT("{0}{1} {2}"),
-					TaskPrefix, Task->GetTaskDescription(), Task->GetTaskProgressText())));
+				Tasks.Add(FText::Format(INVTEXT("{0}{1} {2}"), TaskPrefix,
+					Manager->InjectTextVariables(Task->DescriptionOverride),
+					Task->GetTaskProgressText()));
 			}
 		}
 		if (Tasks.IsEmpty()) return;
@@ -140,7 +149,7 @@ void UQuestWidget::ClearQuestContainers(const UQuest* Quest)
 void UQuestWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	HideIfEmpty();
+	ConfigureVisibility();
 }
 
 bool UQuestWidget::ShouldHideWidget() const

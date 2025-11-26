@@ -26,8 +26,9 @@ public:
 		return Get(ContextObject, PlayerIdx);
 	}
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintNativeEvent)
 		FText InjectTextVariables(const FText& InText) const;
+	FText InjectTextVariables_Implementation(const FText& InText) const { return InText; }
 
 	void ToggleQuests();
 	virtual void DialogueBegan(UDialogue* Dialogue) override;
