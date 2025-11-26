@@ -195,24 +195,25 @@ void UGamePhaseManager::FadeFromBlack()
 
 void UGamePhaseManager::OnMainLevelLoaded()
 {
-	if (ThisPhase)
+	if (!ThisPhase)
 	{
-		ThisPhase->TeleportPlayer();
-		ThisPhase->ApplyPlayerSettings(PlayerChar);
-		Narrative->BeginQuest(ThisPhase->Quest.LoadSynchronous());
-		MusicManager->ChangeMainTheme(ThisPhase->Soundtrack.LoadSynchronous());
+		return;
 	}
+
+	ThisPhase->TeleportPlayer();
+	ThisPhase->ApplyPlayerSettings(PlayerChar);
+	MusicManager->ChangeMainTheme(ThisPhase->Soundtrack.LoadSynchronous());
 
 	if (ULoadingScreenWidget* Widget = GetLoadingWidget())
 	{
 		Widget->PopWidget();
 	}
 
-	FadeFromBlack();
 	FTimerHandle FadeTimer;
 	GetWorld()->GetTimerManager().SetTimer(FadeTimer, [this]()
 	{
 		bLoading = false;
+		Narrative->BeginQuest(ThisPhase->Quest.LoadSynchronous());
 		PlayerChar->RemoveLockTag(PlayerLockTags::TAG_Loading);
 		if (AToroPlayerController* PC = PlayerChar->GetPlayerController<AToroPlayerController>())
 		{
@@ -222,7 +223,8 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		{
 			UToroShortcutLibrary::CallRemoteEvent(this, ThisPhase->PostLoadEvent);
 		}
-	}, 2.0f, false);
+		FadeFromBlack();
+	}, 1.0f, false);
 }
 
 void UGamePhaseManager::BeginPlay()
