@@ -59,6 +59,7 @@ void AToroCutsceneActor::OnFinished()
 {
 	UnlockPlayer();
 	OnFinishedEvent.Broadcast();
+	OnFinishedEventBP.Broadcast();
 	if (UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr)
 	{
 		Save->Cutscenes.Add(CutsceneGuid);
@@ -102,6 +103,10 @@ void AToroCutsceneActor::BeginPlay()
 {
 	Super::BeginPlay();
 	GetSequencePlayer()->OnNativeFinished.BindUObject(this, &AToroCutsceneActor::OnFinished);
+	if (bSkippable && CutsceneGuid.IsValid())
+	{
+		SaveManager = UToroSaveManager::Get(this);
+	}
 }
 
 void AToroCutsceneActor::OnConstruction(const FTransform& Transform)

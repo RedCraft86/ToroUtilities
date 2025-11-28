@@ -27,6 +27,10 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Sequencer|Player")
 		void SkipCutscene();
 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFinishedEventBP);
+	UPROPERTY(BlueprintAssignable, DisplayName = "On Finished")
+		FOnFinishedEventBP OnFinishedEventBP;
+
 	DECLARE_MULTICAST_DELEGATE(FOnFinishedEvent)
 	FOnFinishedEvent OnFinishedEvent;
 
