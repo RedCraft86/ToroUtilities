@@ -76,6 +76,10 @@ void UCullingComponent::BeginPlay()
 		SetComponentTickEnabled(false);
 		DestroyComponent();
 	}
+	else
+	{
+		ProcessRequests();
+	}
 }
 
 void UCullingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
