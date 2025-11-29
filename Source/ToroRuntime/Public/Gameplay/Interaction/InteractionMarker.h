@@ -28,9 +28,11 @@ public:
 
 private:
 
-	bool bTargetVis;
+	float TickTime;
+	FToroInterpVector SizeInterp;
 	TObjectPtr<APlayerCameraManager> CamManager;
 
+	void CheckDistance();
 	FVector GetCameraPos() const;
 
 	virtual void BeginPlay() override;

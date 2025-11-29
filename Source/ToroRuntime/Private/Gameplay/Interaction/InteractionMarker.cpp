@@ -7,19 +7,22 @@
 #endif
 
 UInteractionMarker::UInteractionMarker()
-	: MaxDistance(250.0f), ScaleSpeed(10.0f), BaseSize(1.5f)
+	: MaxDistance(250.0f), ScaleSpeed(2.0f), BaseSize(0.75f), TickTime(0.1f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
-	PrimaryComponentTick.TickInterval = 0.1f;
+	PrimaryComponentTick.TickInterval = 0.05f;
 	
 	SetHiddenInGame(false);
-	bIsScreenSizeScaled = true;
-	OpacityMaskRefVal = 0.4f;
-	ScreenSize = 0.0025f;
+	bIsScreenSizeScaled = false;
+
+	SizeInterp.bConstant = true;
+	SizeInterp.Speed = ScaleSpeed;
+	SizeInterp.Target = BaseSize;
+	SizeInterp.SnapToTarget();
 
 #if WITH_EDITOR
-	bTickInEditor = true;
+	bTickInEditor = false;
 	const ConstructorHelpers::FObjectFinder<UTexture2D> SpriteFinder(
 		TEXT("/ToroUtilities/Assets/T_Interactable.T_Interactable"));
 	if (SpriteFinder.Succeeded())
@@ -31,7 +34,14 @@ UInteractionMarker::UInteractionMarker()
 
 void UInteractionMarker::ResetScale()
 {
+	SizeInterp.Current = BaseSize;
 	SetWorldScale3D(BaseSize);
+}
+
+void UInteractionMarker::CheckDistance()
+{
+	const bool bNearby = FVector::Dist(GetComponentLocation(), GetCameraPos()) <= MaxDistance;
+	SizeInterp.Target = bNearby ? BaseSize : FVector::ZeroVector;
 }
 
 FVector UInteractionMarker::GetCameraPos() const
@@ -61,6 +71,7 @@ void UInteractionMarker::BeginPlay()
 {
 	Super::BeginPlay();
 	SetWorldScale3D(BaseSize);
+	SizeInterp.Current = BaseSize;
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
@@ -70,9 +81,20 @@ void UInteractionMarker::BeginPlay()
 void UInteractionMarker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (!GetOwner()->IsHidden())
+	if (!bHiddenInGame && !GetOwner()->IsHidden())
 	{
-		SetVisibility(FVector::Dist(GetComponentLocation(), GetCameraPos()) <= MaxDistance);
+		if (TickTime < 0.0f)
+		{
+			TickTime = 0.1f + DeltaTime;
+			CheckDistance();
+		}
+		TickTime -= DeltaTime;
+
+		if (!SizeInterp.IsComplete())
+		{
+			SetWorldScale3D(SizeInterp.Tick(DeltaTime));
+			MarkRenderStateDirty();
+		}
 	}
 }
 
