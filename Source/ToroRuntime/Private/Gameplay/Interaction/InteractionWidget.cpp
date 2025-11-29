@@ -14,11 +14,9 @@ UInteractionWidget::UInteractionWidget(const FObjectInitializer& ObjectInitializ
 
 void UInteractionWidget::SetInteractionInfo(const FInteractionInfo& Info) const
 {
-	IconSwitch->SetActiveWidgetIndex(Info.bEnabled ? 1 : 0);
 	InteractText->SetText(Info.Label);
-	InteractText->SetVisibility(Info.bEnabled
-		? ESlateVisibility::HitTestInvisible
-		: ESlateVisibility::Visible);
+	InteractText->SetVisibility(Info.bEnabled ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+	IconSwitch->SetActiveWidgetIndex(Info.bEnabled ? 1 : 0);
 }
 
 void UInteractionWidget::NativeConstruct()
