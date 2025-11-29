@@ -9,6 +9,8 @@ AInteractableVolume::AInteractableVolume()
 
 	Marker = CreateDefaultSubobject<UInteractionMarker>("Marker");
 	Marker->SetupAttachment(GetRootComponent());
+
+	GetBrushComponent()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }
 
 void AInteractableVolume::SetMarkerState_Implementation(const bool bVisible)
