@@ -1,10 +1,13 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Components/CullingComponent.h"
+#include "Interfaces/ActorStateInterface.h"
 #include "Helpers/LoggingMacros.h"
 #include "ToroCore.h"
 
-UCullingComponent::UCullingComponent(): bAffectTicking(false)
+UCullingComponent::UCullingComponent()
+	: bAffectVisibility(true), bAffectTicking(false), bAffectState(false)
+	, bCulled(false), bCachedTick(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
@@ -45,19 +48,28 @@ void UCullingComponent::ProcessRequests()
 	if (!IsComponentTickEnabled()) return;
 	if (AActor* OwnerActor = GetOwner())
 	{
-		OwnerActor->SetActorHiddenInGame(Requests.IsEmpty());
+		bCulled = Requests.IsEmpty();
+		if (bAffectVisibility)
+		{
+			OwnerActor->SetActorHiddenInGame(bCulled);
+		}
+
 		if (bAffectTicking)
 		{
-			if (OwnerActor->IsHidden())
+			if (bCulled)
 			{
 				bCachedTick = OwnerActor->IsActorTickEnabled();
 				OwnerActor->SetActorTickEnabled(false);
 			}
-			else if (bCachedTick.IsSet())
+			else
 			{
-				OwnerActor->SetActorTickEnabled(*bCachedTick);
-				bCachedTick.Reset();
+				OwnerActor->SetActorTickEnabled(bCachedTick);
 			}
+		}
+
+		if (bAffectState)
+		{
+			IActorStateInterface::SetEnabled(OwnerActor, !bCulled);
 		}
 	}
 }
