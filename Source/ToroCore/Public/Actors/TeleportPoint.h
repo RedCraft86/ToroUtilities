@@ -38,9 +38,11 @@ private:
 
 	UFUNCTION(CallInEditor, Category = Tools)
 		void OffsetFromFloor();
+	
+	UPROPERTY(EditAnywhere, Category = Tools, AdvancedDisplay)
+		bool bDidOffset = false;
 #endif
 #if WITH_EDITOR
-	bool bDidOffset = false;
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
 };
