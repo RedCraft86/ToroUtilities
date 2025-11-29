@@ -6,7 +6,6 @@
 #include "Components/HorizontalBoxSlot.h"
 #include "Helpers/WidgetAnimHelpers.h"
 #include "Blueprint/WidgetTree.h"
-#include "EnhancedCodeFlow.h"
 
 void UInputPreviewEntry::InitializeWidget(const FToroInputPrompt& InPreview)
 {
@@ -164,10 +163,12 @@ void UNoticeWidget::ClearInputRows()
 	InputPreviews.Empty();
 	PlayAnimationReverse(InputRowAnim);
 	const float Duration = WidgetAnimHelpers::GetAnimDuration(InputRowAnim);
-	FFlow::Delay(this, Duration, [this]()
+
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 	{
 		InputContainer->ClearChildren();
-	});
+	}, Duration, false);
 }
 
 void UNoticeWidget::RemoveInputRow(const FName& InKey)
@@ -181,11 +182,12 @@ void UNoticeWidget::RemoveInputRow(const FName& InKey)
 	if (InputPreviews.Num() == 1)
 	{
 		PlayAnimationReverse(InputRowAnim);
-		FFlow::Delay(this, WidgetAnimHelpers::GetAnimDuration(InputRowAnim),
-			[this, Widget]()
+		
+		FTimerHandle Handle;
+		GetWorld()->GetTimerManager().SetTimer(Handle, [this, Widget]()
 		{
 			Widget->RemoveFromParent();
-		});
+		}, WidgetAnimHelpers::GetAnimDuration(InputRowAnim), false);
 	}
 	else
 	{

@@ -44,7 +44,6 @@ public class ToroRuntime : ModuleRules
                 "ToroCore",
                 "ToroGraph",
                 "Narrative",
-                "EnhancedCodeFlow",
                 "ExpressiveText",
                 
                 // "XeFGRHI",
