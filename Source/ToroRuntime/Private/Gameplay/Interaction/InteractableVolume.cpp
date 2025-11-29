@@ -13,9 +13,9 @@ AInteractableVolume::AInteractableVolume()
 	GetBrushComponent()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }
 
-void AInteractableVolume::SetMarkerState_Implementation(const bool bVisible)
+void AInteractableVolume::SetMarkerState_Implementation(const bool bHideMarker)
 {
-	Marker->SetHiddenInGame(!bVisible);
+	Marker->SetHiddenInGame(bHideMarker);
 }
 
 bool AInteractableVolume::GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)

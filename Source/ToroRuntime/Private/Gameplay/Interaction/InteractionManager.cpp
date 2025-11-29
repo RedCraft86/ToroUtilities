@@ -52,11 +52,8 @@ UInteractionWidget* UInteractionManager::GetInteractionWidget()
 
 void UInteractionManager::CleanupCache()
 {
-	if (InteractCache.GetTarget())
-	{
-		InteractCache.StopInteract(PlayerChar);
-		InteractCache.Reset();
-	}
+	InteractCache.StopInteract(PlayerChar);
+	InteractCache.Reset();
 
 	if (const UInteractionWidget* Widget = GetInteractionWidget())
 	{
@@ -91,6 +88,7 @@ void UInteractionManager::TickComponent(float DeltaTime, ELevelTick TickType, FA
 		return;
 	}
 
+	InteractCache.SetInfoTarget(HitActor);
 	if (const UInteractionWidget* Widget = GetInteractionWidget())
 	{
 		Widget->SetInteractionInfo(Info);

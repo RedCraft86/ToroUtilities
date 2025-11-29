@@ -26,7 +26,7 @@ public:
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnInteracted, AInteractableVolume*, AToroPlayerCharacter*)
 	FOnInteracted OnInteracted;
 
-	virtual void SetMarkerState_Implementation(const bool bVisible) override;
+	virtual void SetMarkerState_Implementation(const bool bHideMarker) override;
 	virtual bool GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info) override;
 	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit) override;
 
@@ -39,7 +39,7 @@ protected:
 	virtual void OnConstruction(const FTransform& Transform) override
 	{
 		Super::OnConstruction(Transform);
-		Marker->SetWorldScale3D(FVector::OneVector);
+		Marker->ResetScale();
 	}
 #endif
 };

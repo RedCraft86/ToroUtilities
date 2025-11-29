@@ -21,15 +21,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		float ScaleSpeed;
 
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (UIMin = 1.0f, AllowPreserveRatio = true))
+		FVector BaseSize;
+
+	void ResetScale();
+
 private:
 
 	bool bTargetVis;
-	float SlowInterval;
-	FVector CachedBaseSize;
-	FToroInterpVector SizeInterp;
 	TObjectPtr<APlayerCameraManager> CamManager;
 
-	void UpdateTargetSize();
 	FVector GetCameraPos() const;
 
 	virtual void BeginPlay() override;

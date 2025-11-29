@@ -7,15 +7,16 @@
 #endif
 
 UInteractionMarker::UInteractionMarker()
-	: MaxDistance(250.0f), ScaleSpeed(10.0f), SizeInterp(FVector::OneVector, ScaleSpeed)
+	: MaxDistance(250.0f), ScaleSpeed(10.0f), BaseSize(1.5f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
+	PrimaryComponentTick.TickInterval = 0.1f;
 	
 	SetHiddenInGame(false);
 	bIsScreenSizeScaled = true;
-	ScreenSize = 0.0035f;
 	OpacityMaskRefVal = 0.4f;
+	ScreenSize = 0.0025f;
 
 #if WITH_EDITOR
 	bTickInEditor = true;
@@ -28,10 +29,9 @@ UInteractionMarker::UInteractionMarker()
 #endif
 }
 
-void UInteractionMarker::UpdateTargetSize()
+void UInteractionMarker::ResetScale()
 {
-	bTargetVis = FVector::Dist(GetComponentLocation(), GetCameraPos()) <= MaxDistance;
-	SizeInterp.Target = bTargetVis ? CachedBaseSize : FVector::ZeroVector;
+	SetWorldScale3D(BaseSize);
 }
 
 FVector UInteractionMarker::GetCameraPos() const
@@ -60,7 +60,7 @@ FVector UInteractionMarker::GetCameraPos() const
 void UInteractionMarker::BeginPlay()
 {
 	Super::BeginPlay();
-	CachedBaseSize = GetComponentScale();
+	SetWorldScale3D(BaseSize);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
@@ -72,22 +72,7 @@ void UInteractionMarker::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if (!GetOwner()->IsHidden())
 	{
-		if (SlowInterval > 0.1f)
-		{
-			SlowInterval = 0.0f;
-			UpdateTargetSize();
-			return;
-		}
-
-		SlowInterval += DeltaTime;
-		if (!SizeInterp.IsComplete())
-		{
-			SetWorldScale3D(SizeInterp.Tick(DeltaTime));
-		}
-		else if (IsVisible() != bTargetVis)
-		{
-			SetVisibility(bTargetVis);
-		}
+		SetVisibility(FVector::Dist(GetComponentLocation(), GetCameraPos()) <= MaxDistance);
 	}
 }
 

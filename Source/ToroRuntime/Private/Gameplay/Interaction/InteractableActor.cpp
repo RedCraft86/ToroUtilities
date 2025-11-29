@@ -15,9 +15,9 @@ AInteractableActor::AInteractableActor()
 #endif
 }
 
-void AInteractableActor::SetMarkerState_Implementation(const bool bVisible)
+void AInteractableActor::SetMarkerState_Implementation(const bool bHideMarker)
 {
-	Marker->SetHiddenInGame(!bVisible);
+	Marker->SetHiddenInGame(bHideMarker);
 }
 
 bool AInteractableActor::GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)

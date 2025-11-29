@@ -36,12 +36,16 @@ private:
 
 	bool bTriggered;
 	TWeakObjectPtr<AActor> Target;
+	TWeakObjectPtr<AActor> InfoTarget;
 
 public:
 
-	FInteractionCache(): bTriggered(false), Target(nullptr) {}
+	FInteractionCache()
+		: bTriggered(false), Target(nullptr), InfoTarget(nullptr)
+	{}
 
 	void Reset();
+	void SetInfoTarget(AActor* InTarget);
 
 	void SetTarget(AActor* InTarget);
 	AActor* GetTarget() const { return Target.Get(); }

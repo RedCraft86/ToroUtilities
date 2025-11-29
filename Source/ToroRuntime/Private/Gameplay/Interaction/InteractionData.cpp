@@ -9,15 +9,38 @@ void FInteractionCache::Reset()
 {
 	bTriggered = false;
 	SetTarget(nullptr);
+	SetInfoTarget(nullptr);
+}
+
+void FInteractionCache::SetInfoTarget(AActor* InTarget)
+{
+	if (InTarget != InfoTarget.Get())
+	{
+		IInteractionInterface::SetMarkerState(InfoTarget.Get(), false);
+		IInteractionInterface::SetMarkerState(InTarget, true);
+		if (InTarget)
+		{
+			InfoTarget = InTarget;
+		}
+		else
+		{
+			InfoTarget.Reset();
+		}
+	}
 }
 
 void FInteractionCache::SetTarget(AActor* InTarget)
 {
-	IInteractionInterface::SetMarkerState(Target.Get(), true);
-	if (InTarget)
+	if (InTarget != Target.Get())
 	{
-		Target = InTarget;
-		IInteractionInterface::SetMarkerState(InTarget, false);
+		if (InTarget)
+		{
+			Target = InTarget;
+		}
+		else
+		{
+			Target.Reset();
+		}
 	}
 }
 
