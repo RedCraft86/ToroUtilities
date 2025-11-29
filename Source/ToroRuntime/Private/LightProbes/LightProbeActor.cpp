@@ -29,7 +29,7 @@ bool ALightProbeActor::IsRelevantProbe(const FTransform& Camera, const bool bHas
 #else
 	if (!IsEnabled()
 #endif
-		|| IsHidden() || Radius < 50.0f
+		|| Radius < 50.0f
 		|| FMath::IsNearlyZero(Intensity)
 		|| (bHasLumenGI && bDisableWithLumenGI))
 		return false;
