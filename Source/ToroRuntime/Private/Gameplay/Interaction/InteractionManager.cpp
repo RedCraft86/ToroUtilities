@@ -56,11 +56,11 @@ void UInteractionManager::CleanupCache()
 	{
 		InteractCache.StopInteract(PlayerChar);
 		InteractCache.Reset();
+	}
 
-		if (const UInteractionWidget* Widget = GetInteractionWidget())
-		{
-			Widget->SetInteractionInfo(FInteractionInfo::Empty);
-		}
+	if (const UInteractionWidget* Widget = GetInteractionWidget())
+	{
+		Widget->SetInteractionInfo(FInteractionInfo::Empty);
 	}
 }
 
