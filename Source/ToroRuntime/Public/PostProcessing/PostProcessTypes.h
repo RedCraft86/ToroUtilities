@@ -143,7 +143,7 @@ struct TORORUNTIME_API FPPLumenConfig
 		float ReflectionQuality;
 
 	/* Sets the maximum number of recursive reflection bounces. 1 means a single reflection ray (no secondary reflections in mirrors). Currently only supported by Hardware Ray Tracing with Hit Lighting. */
-	UPROPERTY(Interp, EditAnywhere, Category = "Lumen|Reflection", meta = (ClampMin = 0, ClampMax = 8))
+	UPROPERTY(Interp, EditAnywhere, Category = "Lumen|Reflection", meta = (ClampMin = 1, ClampMax = 8))
 		uint8 ReflectionBounces;
 
 	/* The maximum count of refraction event to trace. When hit lighting is used, Translucent meshes will be traced when LumenMaxRefractionBounces > 0, making the reflection tracing more expensive. */
