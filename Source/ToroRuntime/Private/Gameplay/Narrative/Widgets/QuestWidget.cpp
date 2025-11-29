@@ -93,7 +93,7 @@ void UQuestWidget::AddOrUpdateQuestBranch(const UQuestBranch* Branch)
 			{
 				Tasks.Add(FText::Format(INVTEXT("{0}{1} {2}"), TaskPrefix,
 					Manager->InjectTextVariables(Task->DescriptionOverride),
-					Task->GetTaskProgressText()));
+					Task->RequiredQuantity > 1 ? Task->GetTaskProgressText() : FText::GetEmpty()));
 			}
 		}
 		if (Tasks.IsEmpty()) return;
