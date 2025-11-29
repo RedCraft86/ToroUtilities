@@ -21,7 +21,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Begin Interact")
 		void OnBeginInteract(AToroPlayerCharacter* Player, const FHitResult& Hit);
-	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit) {}
+	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit) = 0;
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "End Interact")
 		void OnEndInteract(AToroPlayerCharacter* Player);
@@ -33,14 +33,11 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		void SetMarkerState(const bool bVisible);
-	virtual void SetMarkerState_Implementation(const bool bVisible) {}
+	virtual void SetMarkerState_Implementation(const bool bVisible) = 0;
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		bool GetInteractInfo(const FHitResult& Hit, FInteractionInfo& Info);
-	virtual bool GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)
-	{
-		return false;
-	}
+	virtual bool GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info) = 0;
 
 	static bool ImplementedBy(const UObject* Target) 
 	{ 

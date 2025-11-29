@@ -15,7 +15,7 @@ AInteractableVolume::AInteractableVolume()
 
 void AInteractableVolume::SetMarkerState_Implementation(const bool bVisible)
 {
-	Marker->SetVisibility(bVisible);
+	Marker->SetHiddenInGame(!bVisible);
 }
 
 bool AInteractableVolume::GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)
