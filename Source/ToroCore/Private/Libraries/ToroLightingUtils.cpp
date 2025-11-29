@@ -125,7 +125,7 @@ void UToroLightingUtils::SetPointLightProperties(UPointLightComponent* Target, c
 		Target->SetSourceRadius(Properties.SourceRadius);
 		Target->SetSoftSourceRadius(Properties.SoftSourceRadius);
 		Target->SetSourceLength(Properties.SourceLength);
-		Target->bUseInverseSquaredFalloff = Properties.bUseInverseSquaredFalloff;
+		Target->SetUseInverseSquaredFalloff(Properties.bUseInverseSquaredFalloff);
 		Target->SetLightFalloffExponent(Properties.LightFalloffExponent);
 	}
 }
@@ -155,7 +155,7 @@ void UToroLightingUtils::SetSpotLightProperties(USpotLightComponent* Target, con
 		Target->SetSourceRadius(Properties.SourceRadius);
 		Target->SetSoftSourceRadius(Properties.SoftSourceRadius);
 		Target->SetSourceLength(Properties.SourceLength);
-		Target->bUseInverseSquaredFalloff = Properties.bUseInverseSquaredFalloff;
+		Target->SetUseInverseSquaredFalloff(Properties.bUseInverseSquaredFalloff);
 		Target->SetLightFalloffExponent(Properties.LightFalloffExponent);
 	}
 }
