@@ -99,7 +99,7 @@ void AMasterPostProcess::ApplySettings()
 {
 	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
-		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
+		//BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
 		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
 		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(),
 			UserSettings->GetLumenReflection(), UserSettings->GetHitLighting());
