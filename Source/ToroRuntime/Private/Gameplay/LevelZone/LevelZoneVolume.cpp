@@ -19,7 +19,7 @@ ALevelZoneVolume::ALevelZoneVolume(): ThemeIntensity(0.0f), CullInvert(false)
 	ActionManager->bAutoConstruction = false;
 
 #if WITH_EDITORONLY_DATA
-	bDisplayShadedVolume = true;
+	// bDisplayShadedVolume = true;
 	bRunConstructionScriptOnDrag = true;
 #endif
 }
@@ -124,7 +124,7 @@ void ALevelZoneVolume::OnConstruction(const FTransform& Transform)
 	ActionManager->SetActions(ActionsEnter, false);
 	ActionManager->AppendActions(ActionsExit, true);
 
-	bDisplayShadedVolume = true;
+	// bDisplayShadedVolume = true;
 	BrushColor = (FLinearColor::MakeRandomColor().Desaturate(0.4f) * 0.5f).ToFColor(true);
 	UPDATE_VISUAL_ICON(TEXT("/ToroUtilities/Icons/LevelZoneVolume.LevelZoneVolume"));
 }
