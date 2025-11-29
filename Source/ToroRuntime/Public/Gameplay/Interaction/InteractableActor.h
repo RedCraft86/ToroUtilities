@@ -33,5 +33,13 @@ public:
 protected:
 
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
-		FInteractionInfo Interaction;
+	FInteractionInfo Interaction;
+
+#if WITH_EDITOR
+	virtual void OnConstruction(const FTransform& Transform) override
+	{
+		Super::OnConstruction(Transform);
+		Marker->SetWorldScale3D(FVector::OneVector);
+	}
+#endif
 };
