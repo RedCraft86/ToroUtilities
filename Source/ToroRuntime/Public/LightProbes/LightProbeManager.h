@@ -26,6 +26,7 @@ private:
 	float TickTime;
 	bool bHasLumenGI;
 	TObjectPtr<AMasterPostProcess> MasterPP;
+	TObjectPtr<APlayerCameraManager> CamManager;
 	TWeakObjectPtr<UMaterialInstanceDynamic> LightProbeMID;
 	TArray<TWeakObjectPtr<class ALightProbeActor>> LightProbes;
 

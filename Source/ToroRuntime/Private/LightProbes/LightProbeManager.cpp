@@ -90,10 +90,10 @@ FTransform ULightProbeManager::GetCameraTransform() const
 	}
 	else
 #endif
-	if (APlayerCameraManager* CM = UGameplayStatics::GetPlayerCameraManager(this, 0))
+	if (CamManager)
 	{
-		Position = CM->GetCameraLocation();
-		Rotation = CM->GetCameraRotation();
+		Position = CamManager->GetCameraLocation();
+		Rotation = CamManager->GetCameraRotation();
 	}
 
 	return FTransform(Rotation, Position);
@@ -143,6 +143,7 @@ void ULightProbeManager::OnWorldBeginPlay(UWorld& InWorld)
 	InWorld.GetTimerManager().SetTimerForNextTick([this]()
 	{
 		MasterPP = AMasterPostProcess::Get(this);
+		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
 	});
 }
 
