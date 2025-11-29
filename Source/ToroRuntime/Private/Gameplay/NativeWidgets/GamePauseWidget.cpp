@@ -44,25 +44,17 @@ void UGamePauseWidget::OnCheckpointButton()
 {
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
-	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);
-	FFlow::Delay(this, 0.6f, [this]()
-	{
-		UToroShortcutLibrary::RestartLevel(this);
-	});
+	UToroShortcutLibrary::RestartLevel(this);
 }
 
 void UGamePauseWidget::OnMainMenuButton()
 {
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
-	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);
-	FFlow::Delay(this, 0.6f, [this]()
+	if (const TSoftObjectPtr<UWorld>* Map = UToroSettings::Get()->MapRegistry.Find(EToroMapType::MainMenu))
 	{
-		if (const TSoftObjectPtr<UWorld>* Map = UToroSettings::Get()->MapRegistry.Find(EToroMapType::MainMenu))
-		{
-			UGameplayStatics::OpenLevelBySoftObjectPtr(this, *Map);
-		}
-	});
+		UGameplayStatics::OpenLevelBySoftObjectPtr(this, *Map);
+	}
 }
 
 void UGamePauseWidget::OnPauseState(const bool bPaused)
