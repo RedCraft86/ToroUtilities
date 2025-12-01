@@ -7,7 +7,7 @@
 #endif
 
 UInteractionMarker::UInteractionMarker()
-	: MaxDistance(300.0f), ScaleSpeed(2.0f), BaseSize(0.75f), TickTime(0.1f)
+	: MaxDistance(300.0f), ScaleSpeed(5.0f), BaseSize(0.75f), TickTime(0.1f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
@@ -15,11 +15,6 @@ UInteractionMarker::UInteractionMarker()
 	
 	SetHiddenInGame(false);
 	bIsScreenSizeScaled = false;
-
-	SizeInterp.bConstant = true;
-	SizeInterp.Speed = ScaleSpeed;
-	SizeInterp.Target = BaseSize;
-	SizeInterp.SnapToTarget();
 
 #if WITH_EDITOR
 	bTickInEditor = false;
@@ -34,7 +29,6 @@ UInteractionMarker::UInteractionMarker()
 
 void UInteractionMarker::ResetScale()
 {
-	SizeInterp.Current = BaseSize;
 	SetWorldScale3D(BaseSize);
 }
 
@@ -70,8 +64,12 @@ FVector UInteractionMarker::GetCameraPos() const
 void UInteractionMarker::BeginPlay()
 {
 	Super::BeginPlay();
-	SetWorldScale3D(BaseSize);
-	SizeInterp.Current = BaseSize;
+	SizeInterp.bConstant = true;
+	SizeInterp.Speed = ScaleSpeed;
+	SizeInterp.Target = BaseSize;
+	SizeInterp.SnapToTarget();
+
+	SetWorldScale3D(SizeInterp.Current);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
