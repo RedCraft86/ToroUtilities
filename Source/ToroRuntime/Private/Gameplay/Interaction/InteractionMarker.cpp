@@ -7,7 +7,7 @@
 #endif
 
 UInteractionMarker::UInteractionMarker()
-	: MaxDistance(250.0f), ScaleSpeed(2.0f), BaseSize(0.75f), TickTime(0.1f)
+	: MaxDistance(300.0f), ScaleSpeed(2.0f), BaseSize(0.75f), TickTime(0.1f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
