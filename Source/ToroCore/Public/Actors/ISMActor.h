@@ -39,14 +39,35 @@ public:
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(Category = StaticMesh, EditAnywhere, meta = (MakeEditWidget, DisplayPriority = 1))
 		TArray<FTransform> Instances = {FTransform::Identity};
+
+	bool bPauseConstruction = false;
+
+	void CopyInstancesFromComponent()
+	{
+		if (UInstancedStaticMeshComponent* ISMC = GetMeshComponent<UInstancedStaticMeshComponent>())
+		{
+			const int32 NumInstances = ISMC->GetNumInstances();
+			Instances.Empty(NumInstances);
+
+			for (int32 i = 0; i < NumInstances; i++)
+			{
+				FTransform T;
+				ISMC->GetInstanceTransform(i, T, false);
+				Instances.Add(T);
+			}
+		}
+	}
+
 protected:
+
 	virtual void OnConstruction(const FTransform& Transform) override
 	{
 		Super::OnConstruction(Transform);
-		if (UInstancedStaticMeshComponent* ISMComponent = GetMeshComponent<UInstancedStaticMeshComponent>())
+		if (bPauseConstruction) return;
+		if (UInstancedStaticMeshComponent* ISMC = GetMeshComponent<UInstancedStaticMeshComponent>())
 		{
-			ISMComponent->ClearInstances();
-			ISMComponent->AddInstances(Instances, false);
+			ISMC->ClearInstances();
+			ISMC->AddInstances(Instances, false);
 		}
 	}
 #endif
