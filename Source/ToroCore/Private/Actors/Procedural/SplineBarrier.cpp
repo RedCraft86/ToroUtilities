@@ -1,6 +1,10 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Actors/Procedural/SplineBarrier.h"
+#if WITH_EDITOR
+#include "Subsystems/EditorActorSubsystem.h"
+#include "Actors/ISMActor.h"
+#endif
 
 ASplineBarrier::ASplineBarrier(): WallHeight(2.0f)
 {
@@ -27,6 +31,35 @@ ASplineBarrier::ASplineBarrier(): WallHeight(2.0f)
 #endif
 }
 
+#if WITH_EDITORONLY_DATA
+void ASplineBarrier::BakeInstances()
+{
+#if WITH_EDITOR
+	const FScopedTransaction Transaction(NSLOCTEXT("ToroCore", "BakeSplineBarrier", "Bake Spline Barrier"));
+
+	UEditorActorSubsystem* Subsystem = GEditor ? GEditor->GetEditorSubsystem<UEditorActorSubsystem>() : nullptr;
+	if (!Subsystem) return;
+
+	if (AInstancedStaticMeshActor* ISMA = Cast<AInstancedStaticMeshActor>(Subsystem->SpawnActorFromClass(
+		AInstancedStaticMeshActor::StaticClass(), GetActorLocation(), GetActorRotation())))
+	{
+		ISMA->bPauseConstruction = true;
+		ISMA->SetActorHiddenInGame(true);
+		UpdateInstances(ISMA->GetMeshComponent<UInstancedStaticMeshComponent>());
+		ISMA->CopyInstancesFromComponent();
+		ISMA->bPauseConstruction = false;
+
+		Subsystem->SetActorSelectionState(ISMA, true);
+		if (bBakeRemoveSource)
+		{
+			Subsystem->SetActorSelectionState(this, false);
+			Subsystem->DestroyActor(this);
+		}
+	}
+#endif
+}
+#endif
+
 #if WITH_EDITOR
 void ASplineBarrier::LoadObjects()
 {
@@ -47,22 +80,12 @@ bool ASplineBarrier::CanEditChange(const FProperty* InProperty) const
 }
 #endif
 
-void ASplineBarrier::BeginPlay()
+void ASplineBarrier::UpdateInstances(UInstancedStaticMeshComponent* Comp) const
 {
-	Super::BeginPlay();
-	WallMeshComponent->SetOverlayMaterial(nullptr);
-}
-
-void ASplineBarrier::Construct()
-{
-#if WITH_EDITOR
-	LoadObjects();
-#endif
-	
-	WallMeshComponent->ClearInstances();
-	WallMeshComponent->SetStaticMesh(Mesh);
-	WallMeshComponent->SetMaterial(0, Material);
-	Collision.ToPrimitiveComponent(WallMeshComponent);
+	Comp->ClearInstances();
+	Comp->SetStaticMesh(Mesh);
+	Comp->SetMaterial(0, Material);
+	Collision.ToPrimitiveComponent(Comp);
 
 	const int NumPoints = SplineComponent->GetNumberOfSplinePoints();
 	if (NumPoints < 2)
@@ -81,14 +104,28 @@ void ASplineBarrier::Construct()
 		const float DistB = SplineComponent->GetDistanceAlongSplineAtSplinePoint(i + 1);
 		const float DistA = SplineComponent->GetDistanceAlongSplineAtSplinePoint(i);
 
-		WallMeshComponent->AddInstance({
+		Comp->AddInstance({
 			Tangent.Rotation(), Location,
 			FVector((DistB - DistA) / 100.0f, 1.0f, WallHeight)
-		});
+		}, false);
 	}
 	
 #if WITH_EDITOR
-	WallMeshComponent->SetOverlayMaterial(OverlayMaterial);
+	Comp->SetOverlayMaterial(OverlayMaterial);
 #endif
+}
+
+void ASplineBarrier::BeginPlay()
+{
+	Super::BeginPlay();
+	WallMeshComponent->SetOverlayMaterial(nullptr);
+}
+
+void ASplineBarrier::Construct()
+{
+#if WITH_EDITOR
+	LoadObjects();
+#endif
+	UpdateInstances(WallMeshComponent);
 	Super::Construct();
 }
