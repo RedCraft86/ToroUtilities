@@ -204,7 +204,7 @@ void AToroPlayerCharacter::Teleport(const FVector& InLocation, const FRotator& I
 	FRotator Rot(InRotation); Rot.Roll = 0.0f;
 	Controller->SetControlRotation(Rot);
 
-	// Reenable after this frame to prevent SpringArm from spinning
+	// Reenable after this frame to prevent SpringArm from spinning (though inconsistent)
 	GetWorldTimerManager().SetTimerForNextTick([this, bSmooth]()
 	{
 		CameraArm->bEnableCameraRotationLag = bSmooth;
