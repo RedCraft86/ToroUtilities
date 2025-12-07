@@ -17,9 +17,6 @@ ATeleportPoint::ATeleportPoint()
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
-	bIsSpatiallyLoaded = false;
-	bIsMainWorldOnly = true;
-
 	SetHidden(true);
 
 #if WITH_EDITOR
@@ -45,6 +42,9 @@ ATeleportPoint::ATeleportPoint()
 			Arrow->SetRelativeScale3D(FVector::OneVector / Icon->GetRelativeScale3D());
 		}
 	}
+
+	bIsMainWorldOnly = true;
+	bIsSpatiallyLoaded = false;
 #endif
 }
 
