@@ -1,4 +1,4 @@
-﻿// Copyright (Class) RedCraft86. All Rights Reserved.
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #pragma once
 
