@@ -79,7 +79,7 @@ void UInteractionMarker::BeginPlay()
 void UInteractionMarker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (!bHiddenInGame && !GetOwner()->IsHidden())
+	if (!bHiddenInGame && IsVisible() && !GetOwner()->IsHidden())
 	{
 		if (TickTime < 0.0f)
 		{
