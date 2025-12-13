@@ -49,6 +49,9 @@ void ASplineBarrier::BakeInstances()
 		ISMA->CopyInstancesFromComponent();
 		ISMA->bPauseConstruction = false;
 
+		ISMA->SetActorLabel(GetActorLabel() + TEXT("_BAKED"));
+		ISMA->SetFolderPath(GetFolderPath());
+
 		Subsystem->SetActorSelectionState(ISMA, true);
 		if (bBakeRemoveSource)
 		{
