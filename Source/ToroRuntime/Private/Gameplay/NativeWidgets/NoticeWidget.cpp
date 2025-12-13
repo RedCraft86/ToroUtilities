@@ -147,7 +147,7 @@ void UNoticeWidget::NextTitle()
 {
 	if (!Titles.IsEmpty())
 	{
-		ShowNotice(Titles[0]);
+		ShowTitle(Titles[0]);
 		Titles.RemoveAt(0);
 	}
 	else
