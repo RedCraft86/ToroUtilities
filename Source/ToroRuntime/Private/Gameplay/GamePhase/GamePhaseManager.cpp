@@ -124,6 +124,13 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 	}
 }
 
+void UGamePhaseManager::SetSequence(const TArray<uint8>& InSequence)
+{
+	if (!IsValidManager() || bLoading) return;
+	Sequence = Graph->ValidateSequence(InSequence.IsEmpty() ? TArray<uint8>{0} : InSequence);
+	ChangePhase(Graph->GetLeafInSequence<UToroGamePhaseNode>(Sequence, true));
+}
+
 ULoadingScreenWidget* UGamePhaseManager::GetLoadingWidget()
 {
 	if (!LoadingWidget)

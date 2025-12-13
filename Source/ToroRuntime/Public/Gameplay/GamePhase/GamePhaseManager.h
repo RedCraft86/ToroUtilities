@@ -47,6 +47,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = GamePhase)
 		void ChangePhase(UToroGamePhaseNode* NewPhase);
 
+	UFUNCTION(BlueprintCallable, Category = GamePhase, meta = (AutoCreateRefTerm = "InSequence"))
+		void SetSequence(const TArray<uint8>& InSequence);
+
 	UFUNCTION(BlueprintPure, Category = GamePhase)
 		bool IsLoading() const { return bLoading; }
 
