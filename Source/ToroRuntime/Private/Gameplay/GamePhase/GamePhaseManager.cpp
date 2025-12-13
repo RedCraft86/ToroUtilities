@@ -191,13 +191,13 @@ void UGamePhaseManager::OnUnloadLevel()
 void UGamePhaseManager::FadeToBlack()
 {
 	UToroShortcutLibrary::StartCameraFade(this, 0.0, 1.0,
-		0.5f, FLinearColor::Black, false, true);
+		0.5f, FLinearColor::Black, true, true);
 }
 
 void UGamePhaseManager::FadeFromBlack()
 {
 	UToroShortcutLibrary::StartCameraFade(this, 1.0, 0.0,
-		0.5f, FLinearColor::Black, false, false);
+		0.5f, FLinearColor::Black, true, false);
 }
 
 void UGamePhaseManager::OnMainLevelLoaded()
