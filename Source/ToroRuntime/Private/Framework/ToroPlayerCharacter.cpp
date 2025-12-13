@@ -152,10 +152,12 @@ bool AToroPlayerCharacter::GetStandingSurface(TEnumAsByte<EPhysicalSurface>& Sur
 	FVector Start, End;
 	UToroMathLibrary::GetComponentLineTraceVectors(FootstepAudio, EVectorDirection::Up,
 		-(GetCapsuleComponent()->GetScaledCapsuleHalfHeight() + 16.0f), Start, End);
+
+	FCollisionQueryParams Params("PlayerTrace_Floor", false, this);
+	Params.bReturnPhysicalMaterial = true;
 	
 	FHitResult Hit;
-	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel,
-		FCollisionQueryParams("PlayerTrace_Floor", true, this)))
+	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel, Params))
 	{
 		Surface = (!Hit.PhysMaterial.IsValid()) ? SurfaceType_Default
 			: UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());
