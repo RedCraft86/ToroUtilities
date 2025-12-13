@@ -49,7 +49,9 @@ public:
 	FString GetSaveName() const { return SaveName; }
 	ESaveGameStatus GetStatus() const { return Status; }
 
-	virtual void DeleteData();
+	UFUNCTION(BlueprintCallable, Category = SaveSystem)
+		virtual void DeleteData();
+
 	virtual void SaveObject(const TFunction<void(const ESaveGameStatus)>& Callback);
 	virtual void LoadObject(const TFunction<void(const ESaveGameStatus)>& Callback);
 	virtual FString GetSavePath();
