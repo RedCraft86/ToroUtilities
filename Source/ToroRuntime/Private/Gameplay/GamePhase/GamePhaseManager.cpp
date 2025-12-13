@@ -226,10 +226,7 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		{
 			PC->ExitCinematic();
 		}
-		if (!ThisPhase->PostLoadEvent.IsNone())
-		{
-			UToroShortcutLibrary::CallRemoteEvent(this, ThisPhase->PostLoadEvent);
-		}
+		UToroShortcutLibrary::CallRemoteEvent(this, ThisPhase->PostLoadEvent);
 		FadeFromBlack();
 	}, 1.0f, false);
 }
