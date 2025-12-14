@@ -7,7 +7,7 @@ UToroEditorSettings::UToroEditorSettings()
 		{TEXT("r.VSyncEditor"), TEXT("1")},
 		{TEXT("r.Streaming.PoolSize"), TEXT("3000")},
 		{TEXT("r.Shadow.Virtual.SMRT.AdaptiveRayCount"), TEXT("0")}
-	}), ALRoot(TEXT("D:/UnrealEngine/AssetProject/"))
+	}), ALRoot(TEXT("D:/UnrealEngine/UnrealProjects/AssetProject/"))
 	, ALDirs({TEXT("Content/AssetPacks"), TEXT("Saved/Collections")})
 {
 	CategoryName = TEXT("Project");
