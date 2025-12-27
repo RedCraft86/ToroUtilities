@@ -41,6 +41,7 @@ private:
 	virtual void Tick(float DeltaTime) override;
 	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+	virtual bool IsTickableWhenPaused() const override { return true; }
 	virtual TStatId GetStatId() const override { return GetStatID(); }
 #if WITH_EDITOR
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
