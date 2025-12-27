@@ -15,8 +15,10 @@ namespace ContentTags
 
 UToroGamePhaseGraph::UToroGamePhaseGraph()
 {
+#if WITH_EDITOR
 	CompatibleNode = UToroGamePhaseNode::StaticClass();
 	CompatibleEdge = nullptr;
+#endif
 }
 
 UToroGamePhaseNode::UToroGamePhaseNode()
