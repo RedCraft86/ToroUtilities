@@ -21,6 +21,9 @@ UToroSettings::UToroSettings()
 {
 	CategoryName = TEXT("Project");
 	SectionName = TEXT("ToroRuntime");
+	
+	DefaultButtonListEntry = FSoftObjectPath(TEXT("/ToroUtilities/Widgets/DefaultButtonListEntry.DefaultButtonListEntry_C"));
+	DefaultInteractionIcon = FSoftObjectPath(TEXT("/ToroUtilities/Assets/T_Interactable.T_Interactable"));
 
 	LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbe.PPM_LightProbe"));
 	BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
@@ -57,7 +60,7 @@ FText UToroSettings::GetVersionLabel() const
 bool UToroSettings::IsOnMap(const UObject* ContextObject, const EToroMapType MapType) const
 {
 	const TSoftObjectPtr<UWorld>* World = MapRegistry.Find(MapType);
-	return World && UGameplayStatics::GetCurrentLevelName(ContextObject) == World->GetAssetName();
+	return World && UGameplayStatics::GetCurrentLevelName(FWorldGetter::Get(ContextObject)) == World->GetAssetName();
 }
 
 float UToroSettings::CalcReadingTime(const FText& InText)

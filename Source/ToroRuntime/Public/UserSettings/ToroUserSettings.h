@@ -54,14 +54,14 @@ public:
 
 	static float GetAverageMS();
 	static float GetAverageFPS();
-	static void UpdateResolutions();
+	static void UpdateResolutions(bool bFromConstructor);
 	static FIntPoint GetFullscreenResolution() { return FullscreenRes; }
 	static TArray<FIntPoint> GetSupportedResolutions() { return SupportedResolutions; }
 
 	bool InitializeSettings(UGameInstance* GI);
 	void AutoAdjustScalability();
 
-	void SetAdjustedFullscreenMode();
+	void SetAdjustedFullscreenMode(FIntPoint EstimatedRes);
 	void SetResolutionPercent(const uint8 InValue);
 	uint8 GetResolutionPercent() const { return ResPercent; }
 
@@ -71,7 +71,7 @@ public:
 	void SetAudioVolume(const ESoundClassType InType, const uint8 InVolume);
 	uint8 GetAudioVolume(const ESoundClassType InType) const
 	{
-		return FMath::Clamp(AudioVolume.FindRef(InType), 0, 150);
+		return FMath::Clamp(AudioVolume.FindRef(InType), 0, 500);
 	}
 
 	void SetSensitivityX(const float InValue);
@@ -121,7 +121,7 @@ public:
 	FUserSettingsDelegate OnSettingsUpdated;
 
 	UGameInstance* GetGameInstance() const { return GameInstance; }
-	virtual void ApplySettings(bool bCheckForCommandLineOverrides) override;
+	virtual void ApplySettings(bool bCheckForCommandLineOverrides = false) override;
 
 protected:
 

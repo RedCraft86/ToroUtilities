@@ -12,6 +12,7 @@
 #include "MiscObjects/ToroDataAsset.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "UserInterface/ToroWidgetBase.h"
+#include "UserInterface/Elements/ToroButtonList.h"
 #include "UserSettings/UserSettingTypes.h"
 #include "ToroRuntime.generated.h"
 
@@ -49,6 +50,12 @@ public:
 
     UPROPERTY(Config, EditAnywhere, Category = Defaults)
         TSet<TSoftObjectPtr<UToroDatabase>> Databases;
+
+    UPROPERTY(Config, EditAnywhere, Category = Defaults)
+        TSoftClassPtr<UToroButtonListEntry> DefaultButtonListEntry;
+
+    UPROPERTY(Config, EditAnywhere, Category = Defaults)
+        TSoftObjectPtr<UTexture2D> DefaultInteractionIcon;
 
     UPROPERTY(Config, EditAnywhere, Category = World, meta = (ReadOnlyKeys = true))
         TMap<EToroMapType, TSoftObjectPtr<UWorld>> MapRegistry;

@@ -4,7 +4,7 @@
 #include "UserSettings/Widgets/ResolutionWidget.h"
 #include "UserInterface/ToroWidgetManager.h"
 
-FResolutionBindings::FResolutionBindings()
+FResolutionBindings::FResolutionBindings(): bReverting(false)
 {
 	Name = INVTEXT("Resolution");
 	Tooltip = INVTEXT("The target resolution of the game window.");
@@ -13,13 +13,17 @@ FResolutionBindings::FResolutionBindings()
 
 FString FResolutionBindings::GetValue() const
 {
-	const FIntPoint Res = GetSettings()->GetScreenResolution();
+	FIntPoint Res = GetSettings()->GetScreenResolution();
+	if (bReverting)
+	{
+		Res = OldOption;
+		const_cast<FResolutionBindings*>(this)->bReverting = false;
+	}
 	return FString::Printf(TEXT("%dx%d"), Res.X, Res.Y);
 }
 
 void FResolutionBindings::SetValue(const FString InValue)
 {
-	OldOption = GetValue();
 	const TArray<FIntPoint>& Resolutions = UToroUserSettings::GetSupportedResolutions();
 	const FIntPoint& Selection = DecomposeResolution(InValue);
 	if (Resolutions.Contains(Selection))
@@ -30,6 +34,9 @@ void FResolutionBindings::SetValue(const FString InValue)
 			Widget->ShowWidget([this]()
 			{
 				RevertValue();
+			}, [this, Selection]()
+			{
+				OldOption = Selection;
 			});
 		}
 	}
@@ -44,22 +51,20 @@ void FResolutionBindings::InitBinding()
 	{
 		Options.Add(FString::Printf(TEXT("%dx%d"), Res.X, Res.Y));
 	}
+	OldOption = GetSettings()->GetScreenResolution();
 }
 
 void FResolutionBindings::RevertValue() const
 {
-	const TArray<FIntPoint>& Resolutions = UToroUserSettings::GetSupportedResolutions();
-	const FIntPoint& Selection = DecomposeResolution(OldOption);
-	if (Resolutions.Contains(Selection))
-	{
-		ApplyInternal(Selection, true);
-	}
+	const_cast<FResolutionBindings*>(this)->bReverting = true;
+	ApplyInternal(OldOption, true);
 }
 
 void FResolutionBindings::ApplyInternal(const FIntPoint& Resolution, const bool bRefreshUI) const
 {
+	GetSettings()->SetAdjustedFullscreenMode(Resolution);
 	GetSettings()->SetScreenResolution(Resolution);
-	GetSettings()->ApplyResolutionSettings(true);
+	GetSettings()->ApplyResolutionSettings(false);
 	if (bRefreshUI) GetSettings()->OnSettingsUpdated.Broadcast(ESettingApplyType::UI);
 }
 
@@ -102,7 +107,7 @@ void FBorderlessBinding::RevertValue() const
 void FBorderlessBinding::ApplyInternal(const bool bBorderless, const bool bRefreshUI) const
 {
 	GetSettings()->SetBorderless(bBorderless);
-	GetSettings()->ApplyResolutionSettings(true);
+	GetSettings()->ApplyResolutionSettings(false);
 	if (bRefreshUI) GetSettings()->OnSettingsUpdated.Broadcast(ESettingApplyType::UI);
 }
 

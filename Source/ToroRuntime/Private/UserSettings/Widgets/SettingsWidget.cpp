@@ -58,7 +58,7 @@ void USettingsWidget::OnScreenSelect(const int32 Idx)
 
 void USettingsWidget::PopWidget()
 {
-	Settings->ApplySettings(true);
+	Settings->ApplySettings(false);
 	IExitInterface::ReturnToWidget(ParentUI, this);
 	ParentUI = nullptr;
 	Super::PopWidget();

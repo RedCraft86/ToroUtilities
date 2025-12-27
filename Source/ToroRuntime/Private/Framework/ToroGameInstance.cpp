@@ -78,11 +78,20 @@ void UToroGameInstance::OnFirstLaunch()
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
-	UToroUserSettings* UserSettings = UToroUserSettings::Get();
-	if (UserSettings && UserSettings->InitializeSettings(this))
+	if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
-		OnFirstLaunch();
-		UserSettings->OnSettingsUpdated.AddUObject(this, &UToroGameInstance::OnSettingUpdate);
+		UserSettings->SetScreenResolution({1920, 1080});
+		UserSettings->SetFullscreenMode(EWindowMode::Windowed);
+		UserSettings->ApplyResolutionSettings(false);
+
+		InWorld->GetTimerManager().SetTimerForNextTick([this, UserSettings]()
+		{
+			if (UserSettings->InitializeSettings(this))
+			{
+				OnFirstLaunch();
+			}
+			UserSettings->OnSettingsUpdated.AddUObject(this, &UToroGameInstance::OnSettingUpdate);
+		});
 	}
 }
 

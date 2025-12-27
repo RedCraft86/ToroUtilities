@@ -11,15 +11,22 @@ UResolutionWidget::UResolutionWidget(const FObjectInitializer& ObjectInitializer
 	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
-void UResolutionWidget::ShowWidget(const TFunction<void()>& OnRevert)
+void UResolutionWidget::ShowWidget(const TFunction<void()>& OnRevertFunc, const TFunction<void()>& OnAcceptFunc)
 {
-	RevertFunc = OnRevert;
+	RevertFunc = OnRevertFunc;
+	AcceptFunc = OnAcceptFunc;
 	PushWidget();
 }
 
 void UResolutionWidget::OnRevert()
 {
 	if (RevertFunc) RevertFunc();
+	PopWidget();
+}
+
+void UResolutionWidget::OnAccept()
+{
+	if (AcceptFunc) AcceptFunc();
 	PopWidget();
 }
 
@@ -39,8 +46,8 @@ void UResolutionWidget::PushWidget()
 void UResolutionWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
-	AcceptButton->OnClicked.AddUniqueDynamic(this, &UResolutionWidget::OnAccept);
 	RevertButton->OnClicked.AddUniqueDynamic(this, &UResolutionWidget::OnRevert);
+	AcceptButton->OnClicked.AddUniqueDynamic(this, &UResolutionWidget::OnAccept);
 }
 
 void UResolutionWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

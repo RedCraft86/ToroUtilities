@@ -49,7 +49,7 @@ float UToroUserSettings::GetAverageFPS()
 	// return bUsingXeFG ? GXeFGAverageFPS : GAverageFPS;
 }
 
-void UToroUserSettings::UpdateResolutions()
+void UToroUserSettings::UpdateResolutions(bool bFromConstructor)
 {
 	SupportedResolutions.Empty();
 	UKismetSystemLibrary::GetSupportedFullscreenResolutions(SupportedResolutions);
@@ -57,7 +57,7 @@ void UToroUserSettings::UpdateResolutions()
 	{
 		FullscreenRes = SupportedResolutions.Last();
 	}
-	else
+	else if (bFromConstructor)
 	{
 		FDisplayMetrics DisplayMetrics;
 		if (FSlateApplication::IsInitialized())
@@ -71,6 +71,10 @@ void UToroUserSettings::UpdateResolutions()
 
 		FullscreenRes = FIntPoint(DisplayMetrics.PrimaryDisplayWidth, DisplayMetrics.PrimaryDisplayHeight);
 	}
+	else if (const UToroUserSettings* Settings = Get())
+	{
+		FullscreenRes = Settings->GetDesktopResolution();
+	}
 	Algo::Reverse(SupportedResolutions);
 }
 
@@ -79,7 +83,7 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 	GameInstance = GI;
 	if (SupportedResolutions.IsEmpty())
 	{
-		UpdateResolutions();
+		UpdateResolutions(false);
 	}
 
 	LoadSettings(true);
@@ -92,11 +96,15 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 		AutoAdjustScalability();
 		SetResolutionPercent(100);
 
-		SetAdjustedFullscreenMode();
-		SetScreenResolution(GetFullscreenResolution());
+		SetAdjustedFullscreenMode(FullscreenRes);
+		SetScreenResolution(FullscreenRes);
+	}
+	else
+	{
+		SetAdjustedFullscreenMode(GetScreenResolution());
 	}
 
-	ApplySettings(true);
+	ApplySettings(false);
 	return bFirstLoad;
 }
 
@@ -107,19 +115,25 @@ void UToroUserSettings::AutoAdjustScalability()
 	SetResolutionScaleNormalized(ResPercent * 0.01f);
 }
 
-void UToroUserSettings::SetAdjustedFullscreenMode()
+void UToroUserSettings::SetAdjustedFullscreenMode(FIntPoint EstimatedRes)
 {
-#if WITH_EDITOR
-	SetFullscreenMode(EWindowMode::Windowed);
-#else
-	EWindowMode::Type WindowMode = EWindowMode::WindowedFullscreen;
-	if (!GetBorderless())
+	if (EstimatedRes == FIntPoint::ZeroValue)
 	{
-		WindowMode = (GetScreenResolution() == GetFullscreenResolution())
-			? EWindowMode::Fullscreen : EWindowMode::Windowed;
+		EstimatedRes = GetScreenResolution();
 	}
-	SetFullscreenMode(WindowMode);
+
+	EWindowMode::Type WindowMode = GetBorderless() ? EWindowMode::WindowedFullscreen : EWindowMode::Fullscreen;
+	if (EstimatedRes.X < FullscreenRes.X && EstimatedRes.Y < FullscreenRes.Y)
+	{
+		WindowMode = EWindowMode::Windowed;
+	}
+
+	SetFullscreenMode(
+#if WITH_EDITOR
+		GIsPlayInEditorWorld ? EWindowMode::Windowed : 
 #endif
+		WindowMode
+	);
 }
 
 void UToroUserSettings::SetResolutionPercent(const uint8 InValue)
@@ -170,7 +184,7 @@ uint8 UToroUserSettings::GetOverallQuality() const
 void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8 InVolume)
 {
 	if (InType == ESoundClassType::MAX) return;
-	AudioVolume.FindOrAdd(InType) = FMath::Clamp(InVolume, 0, 150);
+	AudioVolume.FindOrAdd(InType) = FMath::Clamp(InVolume, 0, 500);
 	ApplyAudioVolume();
 }
 
@@ -203,7 +217,7 @@ DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnSettingsApply(Difficulty))
 
 DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
 
-DEFINE_PROPERTY_FUNC(bool, Borderless, SetAdjustedFullscreenMode();)
+DEFINE_PROPERTY_FUNC(bool, Borderless, SetAdjustedFullscreenMode(FIntPoint::ZeroValue);)
 
 DEFINE_PROPERTY_FUNC(bool, FancyBloom, OnSettingsApply(Dynamic);)
 DEFINE_PROPERTY_FUNC(bool, SSFogScattering, ApplySSFogScattering();)
@@ -245,7 +259,7 @@ void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 	}
 
 	OnSettingsApply(Manual)
-	Super::ApplySettings(bCheckForCommandLineOverrides);
+	Super::ApplySettings(false);
 }
 
 void UToroUserSettings::ApplyScreenGamma() const
@@ -338,7 +352,7 @@ void UToroUserSettings::SetToDefaults()
 {
 	Super::SetToDefaults();
 	ImageFidelity::FSR::Initialize();
-	UpdateResolutions();
+	UpdateResolutions(true);
 
 	ShowFPS = false;
 	DeveloperMode = true;

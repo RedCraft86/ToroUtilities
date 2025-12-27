@@ -26,15 +26,16 @@ protected:
 
 public:
 
-	void ShowWidget(const TFunction<void()>& OnRevert);
+	void ShowWidget(const TFunction<void()>& OnRevertFunc, const TFunction<void()>& OnAcceptFunc = nullptr);
 
 private:
 
 	float Time;
 	TFunction<void()> RevertFunc;
+	TFunction<void()> AcceptFunc;
 
 	UFUNCTION() void OnRevert();
-	UFUNCTION() void OnAccept() { PopWidget(); }
+	UFUNCTION() void OnAccept();
 
 	virtual void PopWidget() override;
 	virtual void PushWidget() override;

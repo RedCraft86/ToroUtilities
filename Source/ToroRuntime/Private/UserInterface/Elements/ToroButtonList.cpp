@@ -4,6 +4,7 @@
 #include "Components/VerticalBoxSlot.h"
 #include "Helpers/WidgetAnimHelpers.h"
 #include "Blueprint/WidgetTree.h"
+#include "ToroRuntime.h"
 
 void UToroButtonListEntry::SelectButton(bool bImmediate)
 {
@@ -27,6 +28,10 @@ void UToroButtonListEntry::SetDisplayData(const FText& InText, const FSlateFontI
 {
 	Label->SetText(InText);
 	Label->SetFont(InFont);
+	if (!InFont.FontObject)
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("ButtonListEntry has no FontObject!"))
+	}
 }
 
 void UToroButtonListEntry::OnButtonClicked()
@@ -52,14 +57,11 @@ void UToroButtonListEntry::NativeConstruct()
 UToroButtonList::UToroButtonList(const FObjectInitializer& ObjectInitializer)
 	: UVerticalBox(ObjectInitializer), EntryPadding(0.0f, 2.0f), SelectedIndex(INDEX_NONE)
 {
-#if WITH_EDITOR
-	ConstructorHelpers::FClassFinder<UToroButtonListEntry> EntryFinder(
-		TEXT("/ToroUtilities/Widgets/DefaultButtonListEntry.DefaultButtonListEntry_C"));
-	if (EntryFinder.Succeeded())
+	if (!EntryClass)
 	{
-		EntryClass = EntryFinder.Class;
+		EntryClass = UToroSettings::Get()->DefaultButtonListEntry.LoadSynchronous();
 	}
-
+#if WITH_EDITOR
 	const ConstructorHelpers::FObjectFinder<UObject> FontFinder(TEXT("/Engine/EngineFonts/Roboto.Roboto"));
 	if (FontFinder.Succeeded())
 	{
@@ -92,7 +94,11 @@ void UToroButtonList::SynchronizeProperties()
 	ClearChildren();
 	SelectedIndex = INDEX_NONE;
 	Buttons.Empty(Entries.Num());
-	if (!EntryClass) return;
+	if (!EntryClass)
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("ButtonList has no EntryClass!"))
+		return;
+	}
 
 	for (const FText& Entry : Entries)
 	{

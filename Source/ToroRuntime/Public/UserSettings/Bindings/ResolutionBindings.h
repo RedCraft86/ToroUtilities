@@ -19,7 +19,8 @@ struct TORORUNTIME_API FResolutionBindings : public FDropdownOptionBinding
 
 protected:
 
-	FString OldOption;
+	bool bReverting;
+	FIntPoint OldOption;
 
 	virtual void InitBinding() override;
 

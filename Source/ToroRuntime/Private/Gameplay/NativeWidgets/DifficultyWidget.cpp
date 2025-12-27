@@ -25,11 +25,11 @@ void UDifficultyWidget::OnLeftButton()
 	{
 		Difficulty--;
 		SyncVisualState();
-		LeftButton->SetIsEnabled(true);
+		RightButton->SetIsEnabled(true);
 	}
-	else
+	if (Difficulty <= 0)
 	{
-		RightButton->SetIsEnabled(false);
+		LeftButton->SetIsEnabled(false);
 	}
 }
 
@@ -39,11 +39,11 @@ void UDifficultyWidget::OnRightButton()
 	{
 		Difficulty++;
 		SyncVisualState();
-		RightButton->SetIsEnabled(true);
+		LeftButton->SetIsEnabled(true);
 	}
-	else
+	if (Difficulty >= Options.Num() - 1)
 	{
-		LeftButton->SetIsEnabled(false);
+		RightButton->SetIsEnabled(false);
 	}
 }
 
