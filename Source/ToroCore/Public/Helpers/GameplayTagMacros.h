@@ -23,8 +23,12 @@ namespace GameplayTagHelpers
 	{
 		if (ParentTag.IsValid())
 		{
-			FGameplayTagContainer Children = UGameplayTagsManager::Get()
-				.RequestGameplayTagChildrenInDictionary(ParentTag);
+			const FGameplayTagContainer Children = 
+#if WITH_EDITOR
+				UGameplayTagsManager::Get().RequestGameplayTagChildrenInDictionary(ParentTag);
+#else
+					{};
+#endif
 
 			return Children.IsEmpty() ? TSet{ParentTag} : TSet(Children.GetGameplayTagArray());
 		}
