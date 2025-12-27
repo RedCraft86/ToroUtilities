@@ -2,6 +2,7 @@
 
 #include "Interaction/InteractionMarker.h"
 #include "Kismet/GameplayStatics.h"
+#include "ToroRuntime.h"
 #if WITH_EDITOR
 #include "Subsystems/UnrealEditorSubsystem.h"
 #endif
@@ -18,13 +19,11 @@ UInteractionMarker::UInteractionMarker()
 
 #if WITH_EDITOR
 	bTickInEditor = false;
-	const ConstructorHelpers::FObjectFinder<UTexture2D> SpriteFinder(
-		TEXT("/ToroUtilities/Assets/T_Interactable.T_Interactable"));
-	if (SpriteFinder.Succeeded())
-	{
-		UBillboardComponent::SetSprite(SpriteFinder.Object);
-	}
 #endif
+	if (!Sprite)
+	{
+		UBillboardComponent::SetSprite(UToroSettings::Get()->DefaultInteractionIcon.LoadSynchronous());
+	}
 }
 
 void UInteractionMarker::ResetScale()
