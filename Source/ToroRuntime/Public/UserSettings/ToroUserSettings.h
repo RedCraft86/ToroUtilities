@@ -68,8 +68,8 @@ public:
 	void SetOverallQuality(const uint8 InValue);
 	uint8 GetOverallQuality() const;
 
-	void SetAudioVolume(const ESoundClassType InType, const uint8 InVolume);
-	uint8 GetAudioVolume(const ESoundClassType InType) const
+	void SetAudioVolume(const ESoundClassType InType, const int32 InVolume);
+	int32 GetAudioVolume(const ESoundClassType InType) const
 	{
 		return FMath::Clamp(AudioVolume.FindRef(InType), 0, 500);
 	}
@@ -189,7 +189,7 @@ protected:
 	UPROPERTY(Config) bool DLSSRayReconstruct;
 	
 	/* Audio */
-	UPROPERTY(Config) TMap<ESoundClassType, uint8> AudioVolume;
+	UPROPERTY(Config) TMap<ESoundClassType, int32> AudioVolume;
 };
 
 #undef DECLARE_PROPERTY_FUNC

@@ -181,7 +181,7 @@ uint8 UToroUserSettings::GetOverallQuality() const
 	return 0;
 }
 
-void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8 InVolume)
+void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const int32 InVolume)
 {
 	if (InType == ESoundClassType::MAX) return;
 	AudioVolume.FindOrAdd(InType) = FMath::Clamp(InVolume, 0, 500);
@@ -279,15 +279,17 @@ void UToroUserSettings::ApplyAudioVolume() const
 #endif
 	const UToroSettings* Settings = UToroSettings::Get();
 	USoundMix* SoundMix = Settings->MainSoundMix.LoadSynchronous();
+	UE_LOG(LogTemp, Warning, TEXT("[SoundMix] %s"), *GetNameSafe(SoundMix));
 	if (!SoundMix) return;
 
 	for (const ESoundClassType Type : TEnumRange<ESoundClassType>())
 	{
 		USoundClass* SoundClass = Settings->SoundClasses[static_cast<uint8>(Type)].LoadSynchronous();
+		UE_LOG(LogTemp, Warning, TEXT("[SoundClass] %s"), *GetNameSafe(SoundClass));
 		if (!SoundClass) continue;
 
-		UGameplayStatics::SetSoundMixClassOverride(this, SoundMix, SoundClass,
-			GetAudioVolume(Type), 1.0f, 0.5f, true);
+		UGameplayStatics::SetSoundMixClassOverride(FWorldGetter::Get(this), 
+			SoundMix, SoundClass, GetAudioVolume(Type) * 0.01f, 1.0f, 0.5f, true);
 	}
 }
 

@@ -100,7 +100,7 @@ struct TORORUNTIME_API FAudioVolumeBinding : public FSliderOptionBinding
 	{
 		Name = INVTEXT("Audio Volume");
 		Tooltip = INVTEXT("Volume of the Sound Type.");
-		SliderRange = {0, 150};
+		SliderRange = {0, 300};
 		bConstantUpdate = true;
 	}
 
@@ -110,6 +110,6 @@ struct TORORUNTIME_API FAudioVolumeBinding : public FSliderOptionBinding
 	virtual float GetValue() const override { return GetSettings()->GetAudioVolume(SoundType); }
 	virtual void SetValue(const float InValue) override
 	{
-		GetSettings()->SetAudioVolume(SoundType, static_cast<uint8>(FMath::RoundToInt32(InValue)));
+		GetSettings()->SetAudioVolume(SoundType, FMath::TruncToInt32(InValue));
 	}
 };
