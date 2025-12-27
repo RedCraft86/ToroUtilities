@@ -53,7 +53,14 @@ void UToroUserSettings::UpdateResolutions()
 {
 	SupportedResolutions.Empty();
 	UKismetSystemLibrary::GetSupportedFullscreenResolutions(SupportedResolutions);
-	FullscreenRes = SupportedResolutions.Last();
+	if (!SupportedResolutions.IsEmpty())
+	{
+		FullscreenRes = SupportedResolutions.Last();
+	}
+	else if (const UToroUserSettings* Settings = Get())
+	{
+		FullscreenRes = Settings->GetDesktopResolution();
+	}
 	Algo::Reverse(SupportedResolutions);
 }
 
