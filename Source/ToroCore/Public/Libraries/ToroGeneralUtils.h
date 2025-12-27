@@ -73,18 +73,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target"))
 	static TArray<FVector> GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
 		const bool bIncludeFromChildActors, FVector& Origin, FVector& BoxExtent);
-	
-	/** Checks if actor is on the player screen.
-	* @param Target - Actor to check.
-	* @param MaxDistance - The maximum distance before the actor is considered no longer in sight.
-	* @param bOriginOnly - If enabled, the checks will only make use of the actor's origin, bounds will not be used.
-	* @param bLineTrace - Draw a line trace from the camera to the target when checking if it's in player view.
-	* @param TraceParams - Settings to use when testing the different vertices of the actor's bounding box.
-	* @return Whether the actor is visible in screen with the given settings.
-	*/
-	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target", AutoCreateRefTerm = "TraceCheckParams"))
-	static bool IsActorOnScreen(const AActor* Target, const float MaxDistance = 5000.0f, const bool bOriginOnly = false,
-		const bool bLineTrace = true, const FActorBoundsCheckParams& TraceParams = FActorBoundsCheckParams());
 
 	/* Force a garbage collection to take place to hopefully reduce memory usage */
 	UFUNCTION(BlueprintCallable, Category = Loading)
@@ -101,12 +89,4 @@ public:
 	/* Calls an event by name in the Target object. */
 	UFUNCTION(BlueprintCallable, Category = Object, meta = (DefaultToSelf = "Target"))
 		static void CallLocalEvent(UObject* Target, const FName EventName);
-
-	/* Check if we're currently in editor or in a PIE/Standalone game. */
-	UFUNCTION(BlueprintPure, Category = Misc)
-		static bool IsInEditor();
-
-	/* EDITOR ONLY - Adds a component to an actor similar to the add component functions but also refreshes component list to include this new one. */
-	UFUNCTION(BlueprintCallable, Category = Editor, meta = (DefaultToSelf = "Target", DeterminesOutputType = "InClass"))
-		static UActorComponent* AddActorInstanceComponent(AActor* Target, const TSubclassOf<UActorComponent> InClass);
 };

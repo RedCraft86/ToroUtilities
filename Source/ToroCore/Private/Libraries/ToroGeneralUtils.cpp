@@ -51,83 +51,6 @@ TArray<FVector> UToroGeneralUtils::GetBoundingBoxVertices(const AActor* Target, 
 	return Result;
 }
 
-bool UToroGeneralUtils::IsActorOnScreen(const AActor* Target, const float MaxDistance,
-	const bool bOriginOnly, const bool bLineTrace, const FActorBoundsCheckParams& TraceParams)
-{
-	if (!IsValid(Target) || MaxDistance <= 0 || (bLineTrace && TraceParams.BoundingBoxLerp.GetMin() <= 0))
-	{
-		return false;
-	}
-
-	APlayerController* Controller = UGameplayStatics::GetPlayerController(Target, 0);
-	if (!Controller || !Controller->GetLocalPlayer()) return false;
-	
-	ULocalPlayer* LocalPlayer = Controller->GetLocalPlayer();
-	FSceneViewFamilyContext ViewFamily(
-		FSceneViewFamily::ConstructionValues(LocalPlayer->ViewportClient->Viewport, Target->GetWorld()->Scene,
-			LocalPlayer->ViewportClient->EngineShowFlags).SetRealtimeUpdate(true)
-	);
-	
-	FVector ViewLocation;
-	FRotator ViewRotation;
-	FSceneView* SceneView = LocalPlayer->CalcSceneView(&ViewFamily, ViewLocation, ViewRotation, LocalPlayer->ViewportClient->Viewport);
-	if (FVector::Distance(ViewLocation, Target->GetActorLocation()) > MaxDistance)
-	{
-		return false;
-	}
-
-	FVector Origin, BoxExtent = FVector::ZeroVector;
-	Target->GetActorBounds(false, Origin, BoxExtent, false);
-	if (!SceneView || !SceneView->ViewFrustum.IntersectBox(Origin, BoxExtent))
-	{
-		return false;
-	}
-	
-	TArray<FVector> TestVectors;
-	TestVectors.Add(Target->GetActorLocation());
-
-	if (!bOriginOnly)
-	{
-		TArray<FVector> BoundingBoxVertices = GetBoundingBoxVertices(
-			Target, TraceParams.bOnlyCollidingComponents,
-			TraceParams.bIncludeFromChildActors, Origin, BoxExtent
-		);
-		
-		TestVectors = TraceParams.ProcessVertices(BoundingBoxVertices, Origin);
-	}
-
-	bool bPassedScreenTest = false;
-	for (int i = 0; i < TestVectors.Num(); i++)
-	{
-		FVector2D ScreenLoc;
-		FVector2D ViewportSize = UWidgetLayoutLibrary::GetViewportSize(Controller);
-		
-		if (!Controller->ProjectWorldLocationToScreen(TestVectors[i], ScreenLoc)) continue;
-		if (ScreenLoc.X >= 0 && ScreenLoc.X <= ViewportSize.X && ScreenLoc.Y >= 0 && ScreenLoc.Y <= ViewportSize.Y)
-		{
-			bPassedScreenTest = true;
-			break;
-		}
-	}
-
-	if (!bPassedScreenTest) return false;
-	if (!bLineTrace) return true;
-
-	FCollisionQueryParams QueryParams;
-	QueryParams.AddIgnoredActor(Target);
-	QueryParams.AddIgnoredActor(UGameplayStatics::GetPlayerPawn(Target, 0));
-
-	FHitResult HitResult;
-	for (int i = 0; i < TestVectors.Num(); i++)
-	{
-		if (!Target->GetWorld()->LineTraceSingleByChannel(HitResult, ViewLocation,
-			TestVectors[i], TraceParams.LineTraceChannel, QueryParams))
-			return true;
-	}
-
-	return false;
-}
-
 void UToroGeneralUtils::ForceGarbageCollection()
 {
 	if (GEngine)
@@ -158,27 +81,4 @@ void UToroGeneralUtils::CallLocalEvent(UObject* Target, const FName EventName)
 		Target->CallFunctionByNameWithArguments(*EventName.ToString(),
 			Ar, nullptr, true);
 	}
-}
-
-bool UToroGeneralUtils::IsInEditor()
-{
-#if WITH_EDITOR
-	return !FApp::IsGame();
-#else
-	return false;
-#endif
-}
-
-UActorComponent* UToroGeneralUtils::AddActorInstanceComponent(AActor* Target, const TSubclassOf<UActorComponent> InClass)
-{
-#if WITH_EDITOR
-	if (Target && InClass) 
-	{
-		UActorComponent* NewComponent = NewObject<UActorComponent>(Target, InClass);
-		NewComponent->RegisterComponent();
-		Target->AddInstanceComponent(NewComponent);
-		return NewComponent;
-	}
-#endif
-	return nullptr;
 }
