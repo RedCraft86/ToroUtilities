@@ -390,10 +390,11 @@ void UToroUserSettings::SetToDefaults()
 
 UWorld* UToroUserSettings::GetWorld() const
 {
-	UWorld* World = Super::GetWorld();
-	if (!World) World = GameInstance ? GameInstance->GetWorld() : nullptr;
-	if (!World) World = GEngine->GetCurrentPlayWorld();
-	return World ? World : GWorld;
+#if WITH_EDITOR
+	return FApp::IsGame() ? FWorldGetter::Get(this) : GEngine->GetCurrentPlayWorld();
+#else
+	return FWorldGetter::Get(this);
+#endif
 }
 
 #undef OnSettingsApply

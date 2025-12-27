@@ -37,7 +37,7 @@ AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject, const 
 	if (!Out && bCreateIfNull)
 	{
 		UE_LOG(LogToroRuntime, Warning, TEXT("Toro Post Process actor not found! Attempting to spawn one."));
-		UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
+		UWorld* World = FWorldGetter::Get(ContextObject);
 		Out = World ? World->SpawnActor<AMasterPostProcess>() : nullptr;
 	}
 	return Out;

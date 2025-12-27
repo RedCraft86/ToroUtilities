@@ -4,10 +4,11 @@
 #include "Engine/LevelScriptActor.h"
 #include "Kismet/GameplayStatics.h"
 #include "LevelSequencePlayer.h"
+#include "Helpers/WorldGetter.h"
 
 void UToroShortcutLibrary::ClearCameraFade(const UObject* ContextObject)
 {
-	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(ContextObject, 0))
+	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), 0))
 	{
 		PCM->StopCameraFade();
 	}
@@ -15,7 +16,7 @@ void UToroShortcutLibrary::ClearCameraFade(const UObject* ContextObject)
 
 void UToroShortcutLibrary::SetCameraFade(const UObject* ContextObject, const float Alpha, const FLinearColor Color, const bool bFadeAudio)
 {
-	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(ContextObject, 0))
+	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), 0))
 	{
 		PCM->SetManualCameraFade(Alpha, Color, bFadeAudio);
 	}
@@ -24,7 +25,7 @@ void UToroShortcutLibrary::SetCameraFade(const UObject* ContextObject, const flo
 void UToroShortcutLibrary::StartCameraFade(const UObject* ContextObject, const float FromAlpha, const float ToAlpha,
 	const float Duration, const FLinearColor Color, const bool bShouldFadeAudio, const bool bHoldWhenFinished)
 {
-	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(ContextObject, 0))
+	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), 0))
 	{
 		PCM->StartCameraFade(FromAlpha, ToAlpha, Duration, Color, bShouldFadeAudio, bHoldWhenFinished);
 	}
@@ -33,7 +34,7 @@ void UToroShortcutLibrary::StartCameraFade(const UObject* ContextObject, const f
 void UToroShortcutLibrary::SetViewTarget(const UObject* ContextObject, AActor* NewTarget, const float BlendTime,
 	const EViewTargetBlendFunction BlendFunc, const float BlendExp, const bool bLockOutgoing)
 {
-	if (APlayerController* PC = UGameplayStatics::GetPlayerController(ContextObject, 0))
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(FWorldGetter::Get(ContextObject), 0))
 	{
 		PC->SetViewTargetWithBlend(NewTarget, BlendTime, BlendFunc, BlendExp, bLockOutgoing);
 	}
@@ -57,13 +58,14 @@ void UToroShortcutLibrary::RemoveActorTag(AActor* Target, const FName InTag)
 
 void UToroShortcutLibrary::RestartLevel(const UObject* ContextObject, const FString Options)
 {
-	UGameplayStatics::OpenLevel(ContextObject, *UGameplayStatics::GetCurrentLevelName(ContextObject), true, Options);
+	const UWorld* World = FWorldGetter::Get(ContextObject);
+	UGameplayStatics::OpenLevel(World, *UGameplayStatics::GetCurrentLevelName(World), true, Options);
 }
 
 void UToroShortcutLibrary::CallRemoteEvent(UObject* ContextObject, const FName EventName)
 {
 	if (EventName.IsNone()) return;
-	const UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	const UWorld* World = FWorldGetter::Get(ContextObject);
 	if (ALevelScriptActor* LSA = World ? World->GetLevelScriptActor() : nullptr)
 	{
 		LSA->RemoteEvent(EventName);

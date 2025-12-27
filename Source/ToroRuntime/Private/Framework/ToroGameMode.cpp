@@ -6,6 +6,7 @@
 #include "Framework/ToroPlayerState.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroPlayerController.h"
+#include "Helpers/WorldGetter.h"
 #include "UserInterface/ToroWidgetManager.h"
 
 AToroGameMode::AToroGameMode()
@@ -27,6 +28,7 @@ AToroGameMode::AToroGameMode()
 void AToroGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	FWorldGetter::SetWorld(GetWorld());
 	if (GameInstance = UToroGameInstance::Get(this); GameInstance)
 	{
 		GameInstance->OnWorldBeginPlay(GetWorld());

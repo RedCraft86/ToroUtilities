@@ -1,11 +1,11 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Gameplay/WorldActions/ActionFlow.h"
+#include "Helpers/WorldGetter.h"
 
 FTimerManager* FWAFlow_Delay::GetTimerManager() const
 {
-	const UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(
-		GetWorldContext(), EGetWorldErrorMode::LogAndReturnNull) : nullptr;
+	const UWorld* World = FWorldGetter::Get(GetWorldContext());
 	return World ? &World->GetTimerManager() : nullptr;
 }
 

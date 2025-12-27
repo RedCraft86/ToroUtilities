@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Misc/OutputDeviceNull.h"
 #include "ShaderPipelineCache.h"
+#include "Helpers/WorldGetter.h"
 
 TArray<FVector> FActorBoundsCheckParams::ProcessVertices(const TArray<FVector>& InVertices, const FVector& Origin) const
 {
@@ -22,9 +23,7 @@ TArray<FVector> FActorBoundsCheckParams::ProcessVertices(const TArray<FVector>& 
 
 UWorld* UToroGeneralUtils::GetPlayWorld(const UObject* Context)
 {
-	UWorld* World = GEngine->GetWorldFromContextObject(Context, EGetWorldErrorMode::LogAndReturnNull);
-	if (!World) World = GEngine->GetCurrentPlayWorld();
-	return World ? World : GWorld;
+	return FWorldGetter::Get(Context);
 }
 
 int32 UToroGeneralUtils::GetNumCompilingShaders()

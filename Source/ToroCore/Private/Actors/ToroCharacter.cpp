@@ -2,6 +2,7 @@
 
 #include "Actors/ToroCharacter.h"
 #include "Components/CapsuleComponent.h"
+#include "Helpers/WorldGetter.h"
 #include "EngineUtils.h"
 
 namespace CharacterTags
@@ -13,7 +14,7 @@ namespace CharacterTags
 AToroCharacter* AToroCharacter::FindCharacter(const UObject* ContextObject, const TSubclassOf<AToroCharacter> Class, const FGameplayTag CharID)
 {
 	if (!ContextObject || !Class || !CharacterTags::IsValidTag(CharID)) return nullptr;
-	const UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull) : nullptr;
+	const UWorld* World = FWorldGetter::Get(ContextObject);
 	for (AToroCharacter* Character : TActorRange(World, Class))
 	{
 		if (ICharInterface::GetCharacterID(Character) == CharID)

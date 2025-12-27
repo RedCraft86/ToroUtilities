@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "UserInterface/ToroWidgetBase.h"
+#include "Helpers/WorldGetter.h"
 
 #define HIDE_CHECK_INTERVAL 0.5f
 
@@ -24,7 +25,7 @@ UToroWidgetBase* UToroWidgetBase::CreateToroWidget(APlayerController* Owner, con
 		return nullptr;
 	}
 
-	if (UToroWidgetBase* Widget = CreateWidget<UToroWidgetBase>(Owner, WidgetClass))
+	if (UToroWidgetBase* Widget = CreateWidget<UToroWidgetBase>(FWorldGetter::Get(Owner), WidgetClass))
 	{
 		Widget->InitWidget(Owner);
 		return Widget;

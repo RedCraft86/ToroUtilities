@@ -8,7 +8,7 @@
 void FWTEvent_Remote::RunAction()
 {
 	if (EventName.IsNone()) return;
-	const UWorld* World = GEngine->GetWorldFromContextObject(GetWorldContext(), EGetWorldErrorMode::LogAndReturnNull);
+	const UWorld* World = FWorldGetter::Get(GetWorldContext());
 	if (ALevelScriptActor* LSA = World ? World->GetLevelScriptActor() : nullptr)
 	{
 		LSA->RemoteEvent(EventName);
