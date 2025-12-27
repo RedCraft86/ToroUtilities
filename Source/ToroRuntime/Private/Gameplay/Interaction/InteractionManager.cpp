@@ -20,11 +20,11 @@ void UInteractionManager::SetEnabled(const bool bInEnabled)
 		{
 			SetInteracting(false);
 		}
+	}
 
-		if (UInteractionWidget* Widget = GetInteractionWidget())
-		{
-			bEnabled ? Widget->PushWidget() : Widget->PopWidget();
-		}
+	if (UInteractionWidget* Widget = GetInteractionWidget())
+	{
+		bEnabled ? Widget->PushWidget() : Widget->PopWidget();
 	}
 }
 
