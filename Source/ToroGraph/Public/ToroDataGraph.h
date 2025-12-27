@@ -18,7 +18,7 @@ public:
 	UToroDataGraph();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Graph)
-	FGuid GraphID;
+		FGuid GraphID;
 	
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(VisibleAnywhere, Category = Graph, AdvancedDisplay)

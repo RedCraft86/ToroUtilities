@@ -19,6 +19,11 @@ UToroEditorSettings::UToroEditorSettings()
 TMap<FString, FString> UToroEditorSettings::GetAssetLibraryPaths() const
 {
 	static FString ProjectPath = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir());
+	
+	if (!FPaths::DirectoryExists(ProjectPath))
+	{
+		return {};
+	}
 
 	TMap<FString, FString> Paths;
 	for (const FString& Dir : ALDirs)

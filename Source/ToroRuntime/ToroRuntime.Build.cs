@@ -30,6 +30,7 @@ public class ToroRuntime : ModuleRules
                 "Slate",
                 "SlateCore",
                 "EnhancedInput",
+                "ApplicationCore",
                 "InputCore",
                 "CommonUI",
                 "MovieScene",

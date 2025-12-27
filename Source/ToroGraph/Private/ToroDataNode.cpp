@@ -3,9 +3,12 @@
 #include "ToroDataNode.h"
 #include "ToroDataGraph.h"
 
-UToroDataNode::UToroDataNode(): NodeID(FGuid::NewGuid()), BackgroundColor(0.1f, 0.1f, 0.1f)
+UToroDataNode::UToroDataNode(): NodeID(FGuid::NewGuid())
+#if WITH_EDITOR
+	, BackgroundColor(0.1f, 0.1f, 0.1f)
 	, ContextMenuName(INVTEXT("Generic Data Node")), ParentLimit(255), ChildLimit(255)
 	, CompatibleGraph(UToroDataGraph::StaticClass())
+#endif
 {}
 
 UToroDataEdge* UToroDataNode::GetEdge(UToroDataNode* ChildNode) const

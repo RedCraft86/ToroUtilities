@@ -57,9 +57,19 @@ void UToroUserSettings::UpdateResolutions()
 	{
 		FullscreenRes = SupportedResolutions.Last();
 	}
-	else if (const UToroUserSettings* Settings = Get())
+	else
 	{
-		FullscreenRes = Settings->GetDesktopResolution();
+		FDisplayMetrics DisplayMetrics;
+		if (FSlateApplication::IsInitialized())
+		{
+			FSlateApplication::Get().GetInitialDisplayMetrics(DisplayMetrics);
+		}
+		else if (FApp::CanEverRender())
+		{
+			FDisplayMetrics::RebuildDisplayMetrics(DisplayMetrics);
+		}
+
+		FullscreenRes = FIntPoint(DisplayMetrics.PrimaryDisplayWidth, DisplayMetrics.PrimaryDisplayHeight);
 	}
 	Algo::Reverse(SupportedResolutions);
 }

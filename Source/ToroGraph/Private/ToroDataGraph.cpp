@@ -4,9 +4,12 @@
 #include "ToroDataEdge.h"
 #include "ToroDataNode.h"
 
-UToroDataGraph::UToroDataGraph(): GraphID(FGuid::NewGuid()), bCyclical(false)
+UToroDataGraph::UToroDataGraph(): GraphID(FGuid::NewGuid())
+#if WITH_EDITOR
+	, bCyclical(false)
 	, CompatibleNode(UToroDataNode::StaticClass())
 	, CompatibleEdge(UToroDataEdge::StaticClass())
+#endif
 {}
 
 int32 UToroDataGraph::GetNodeDepth() const

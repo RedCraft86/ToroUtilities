@@ -8,7 +8,7 @@ void UToroConsoleLibrary::SetCVarBool(const FString& InName, const bool InValue)
 {
 	if (IConsoleVariable* CVar = FindCVar(InName))
 	{
-		CVar->SetWithCurrentPriority(InValue);
+		CVar->SetWithCurrentPriority(InValue, NAME_None, ECVF_SetByConsole, ECVF_SetByScalability);
 	}
 }
 
@@ -16,7 +16,7 @@ void UToroConsoleLibrary::SetCVarInt(const FString& InName, const int32 InValue)
 {
 	if (IConsoleVariable* CVar = FindCVar(InName))
 	{
-		CVar->SetWithCurrentPriority(InValue);
+		CVar->SetWithCurrentPriority(InValue, NAME_None, ECVF_SetByConsole, ECVF_SetByScalability);
 	}
 }
 
@@ -24,7 +24,7 @@ void UToroConsoleLibrary::SetCVarFloat(const FString& InName, const float InValu
 {
 	if (IConsoleVariable* CVar = FindCVar(InName))
 	{
-		CVar->SetWithCurrentPriority(InValue);
+		CVar->SetWithCurrentPriority(InValue, NAME_None, ECVF_SetByConsole, ECVF_SetByScalability);
 	}
 }
 
@@ -32,7 +32,7 @@ void UToroConsoleLibrary::SetCVarString(const FString& InName, const FString& In
 {
 	if (IConsoleVariable* CVar = FindCVar(InName))
 	{
-		CVar->SetWithCurrentPriority(*InValue);
+		CVar->SetWithCurrentPriority(*InValue, NAME_None, ECVF_SetByConsole, ECVF_SetByScalability);
 	}
 }
 

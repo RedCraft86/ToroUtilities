@@ -35,14 +35,21 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Tools)
 		float DesiredOffset = 88.0f;
-
-	UFUNCTION(CallInEditor, Category = Tools)
-		void OffsetFromFloor();
 	
 	UPROPERTY(EditAnywhere, Category = Tools, AdvancedDisplay)
 		bool bDidOffset = false;
 #endif
+
+	UFUNCTION(CallInEditor, Category = Tools)
+	void OffsetFromFloor()
+	{
 #if WITH_EDITOR
+		OffsetFromFloorInternal();
+#endif
+	}
+
+#if WITH_EDITOR
+	void OffsetFromFloorInternal();
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
 };

@@ -17,7 +17,9 @@ class TOROGRAPH_API UToroDataEdge : public UDataAsset
 public:
 
 	UToroDataEdge(): Name(INVTEXT("Generic Data Edge")), EdgeID(FGuid::NewGuid())
+#if WITH_EDITOR
 		, bDrawTitle(false), EdgeColor(0.9f, 0.9f, 0.9f, 1.0f)
+#endif
 	{}
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Edge)

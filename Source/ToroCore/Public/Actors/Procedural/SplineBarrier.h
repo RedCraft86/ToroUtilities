@@ -37,12 +37,19 @@ private:
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		TObjectPtr<UMaterialInterface> OverlayMaterial = nullptr;
+#endif
 
 	UFUNCTION(CallInEditor, Category = Tools, DisplayName = "Bake Instances")
-		void BakeInstances();
+	void BakeInstances()
+	{
+#if WITH_EDITOR
+		BakeInstancesInternal();
 #endif
+	}
+
 #if WITH_EDITOR
 	void LoadObjects();
+	void BakeInstancesInternal();
 	virtual bool CanEditChange(const FProperty* InProperty) const override;
 #endif
 

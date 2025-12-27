@@ -49,6 +49,7 @@ protected:
 	virtual void NativeConstruct() override
 	{
 		Super::NativeConstruct();
+		LabelText->SetText(GetLabelText());
 		OnRefreshUI();
 	}
 	virtual void NativeOnInitialized() override

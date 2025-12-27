@@ -44,8 +44,10 @@ public:
 #if WITH_EDITORONLY_DATA
         SetIsVisualizationComponent(true);
 #endif
+#if WITH_EDITOR
         UpdateSize();
         UpdateIcon();
+#endif
     }
 
 #if WITH_EDITOR

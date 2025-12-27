@@ -68,7 +68,7 @@ void ATeleportPoint::TeleportPlayer(const int32 PlayerIndex) const
 }
 
 #if WITH_EDITOR
-void ATeleportPoint::OffsetFromFloor()
+void ATeleportPoint::OffsetFromFloorInternal()
 {
 	const FVector Start = GetActorLocation();
 	const FVector End = Start - FVector(0, 0, 10000.0f);

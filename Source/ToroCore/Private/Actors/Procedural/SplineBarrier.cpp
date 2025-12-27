@@ -31,10 +31,21 @@ ASplineBarrier::ASplineBarrier(): WallHeight(2.0f)
 #endif
 }
 
-#if WITH_EDITORONLY_DATA
-void ASplineBarrier::BakeInstances()
-{
 #if WITH_EDITOR
+void ASplineBarrier::LoadObjects()
+{
+	if (!Mesh) Mesh = LoadObject<UStaticMesh>(nullptr,
+		TEXT("/ToroUtilities/Assets/Procedural/SM_ProcBarrier.SM_ProcBarrier"));
+
+	if (!Material) Material = LoadObject<UMaterialInterface>(nullptr,
+		TEXT("/ToroUtilities/Assets/Procedural/M_ProcBarrier_01.M_ProcBarrier_01"));
+
+	if (!OverlayMaterial) OverlayMaterial = LoadObject<UMaterialInterface>(nullptr,
+		TEXT("/ToroUtilities/Assets/Procedural/M_ProcBarrier_02.M_ProcBarrier_02"));
+}
+
+void ASplineBarrier::BakeInstancesInternal()
+{
 	const FScopedTransaction Transaction(NSLOCTEXT("ToroCore", "BakeSplineBarrier", "Bake Spline Barrier"));
 
 	UEditorActorSubsystem* Subsystem = GEditor ? GEditor->GetEditorSubsystem<UEditorActorSubsystem>() : nullptr;
@@ -59,21 +70,6 @@ void ASplineBarrier::BakeInstances()
 			Subsystem->DestroyActor(this);
 		}
 	}
-#endif
-}
-#endif
-
-#if WITH_EDITOR
-void ASplineBarrier::LoadObjects()
-{
-	if (!Mesh) Mesh = LoadObject<UStaticMesh>(nullptr,
-		TEXT("/ToroUtilities/Assets/Procedural/SM_ProcBarrier.SM_ProcBarrier"));
-
-	if (!Material) Material = LoadObject<UMaterialInterface>(nullptr,
-		TEXT("/ToroUtilities/Assets/Procedural/M_ProcBarrier_01.M_ProcBarrier_01"));
-
-	if (!OverlayMaterial) OverlayMaterial = LoadObject<UMaterialInterface>(nullptr,
-		TEXT("/ToroUtilities/Assets/Procedural/M_ProcBarrier_02.M_ProcBarrier_02"));
 }
 
 bool ASplineBarrier::CanEditChange(const FProperty* InProperty) const
