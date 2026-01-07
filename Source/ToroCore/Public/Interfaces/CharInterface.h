@@ -5,6 +5,21 @@
 #include "GameplayTagContainer.h"
 #include "CharInterface.generated.h"
 
+UENUM(BlueprintType)
+enum class ECharInteractType : uint8
+{
+	Door,
+	Unknown
+};
+
+UENUM(BlueprintType)
+enum class EPathingRejectType : uint8
+{
+	Story,
+	Door,
+	Unknown
+};
+
 UINTERFACE()
 class UCharInterface : public UInterface
 {
@@ -36,6 +51,14 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = Character)
 		void GetViewPoint(FVector& Location, FVector& Forward, float& Angle) const;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const {}
+
+	UFUNCTION(BlueprintNativeEvent, Category = Character)
+		void EntityInteraction(ECharInteractType InteractType, AActor* Interactable) const;
+	virtual void EntityInteraction_Implementation(ECharInteractType InteractType, AActor* Interactable) const {}
+
+	UFUNCTION(BlueprintNativeEvent, Category = Character)
+		void PathingRejected(EPathingRejectType RejectionType) const;
+	virtual void PathingRejected_Implementation(EPathingRejectType RejectionType) const {}
 
 	static bool ImplementedBy(const UObject* Target) 
 	{ 
@@ -77,5 +100,15 @@ public:
 	static void GetViewPoint(const UObject* Target, FVector& Location, FVector& Forward, float& FOV)
 	{
 		if (ImplementedBy(Target)) Execute_GetViewPoint(Target, Location, Forward, FOV);
+	}
+
+	static void OnEntityInteraction(const UObject* Target, ECharInteractType InteractType, AActor* Interactable)
+	{
+		if (ImplementedBy(Target)) Execute_EntityInteraction(Target, InteractType, Interactable);
+	}
+
+	static void OnPathingRejected(const UObject* Target, EPathingRejectType RejectionType)
+	{
+		if (ImplementedBy(Target)) Execute_PathingRejected(Target, RejectionType);
 	}
 };
