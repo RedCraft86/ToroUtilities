@@ -28,8 +28,8 @@ public:
 	virtual void OnEndInteract_Implementation(AToroPlayerCharacter* Player) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Pawn Interact")
-		void OnPawnInteract(APawn* Pawn, const FHitResult& Hit);
-	virtual void OnPawnInteract_Implementation(APawn* Pawn, const FHitResult& Hit) {}
+		void OnPawnInteract(AActor* Pawn);
+	virtual void OnPawnInteract_Implementation(AActor* Pawn) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		void SetMarkerState(const bool bHideMarker);
@@ -54,9 +54,9 @@ public:
 		if (ImplementedBy(Target)) Execute_OnEndInteract(Target, Player);
 	}
 
-	static void PawnInteract(UObject* Target, APawn* Pawn, const FHitResult& Hit)
+	static void PawnInteract(UObject* Target, AActor* Pawn)
 	{
-		if (ImplementedBy(Target)) Execute_OnPawnInteract(Target, Pawn, Hit);
+		if (ImplementedBy(Target)) Execute_OnPawnInteract(Target, Pawn);
 	}
 
 	static void SetMarkerState(UObject* Target, const bool bHideMarker)
