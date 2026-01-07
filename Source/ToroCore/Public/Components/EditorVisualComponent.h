@@ -36,6 +36,7 @@ public:
         PrimaryComponentTick.bCanEverTick = true;
 	    PrimaryComponentTick.TickGroup = TG_DuringPhysics;
         PrimaryComponentTick.TickInterval = 0.2f;
+        bAllowAnyoneToDestroyMe = true;
         bIsScreenSizeScaled = true;
         bAutoActivate = false;
         bIsEditorOnly = true;
@@ -82,6 +83,9 @@ private:
     virtual void BeginPlay() override
     {
         Super::BeginPlay();
-        DestroyComponent();
+        GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+        {
+            DestroyComponent();
+        });
     }
 };
