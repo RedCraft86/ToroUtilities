@@ -18,6 +18,7 @@ public:
 	TOROCORE_API UEditorShapeComponent()
 	{
 		PrimaryComponentTick.bCanEverTick = false;
+        bAllowAnyoneToDestroyMe = true;
 		bAutoActivate = false;
 		bIsEditorOnly = true;
 #if WITH_EDITORONLY_DATA
@@ -103,7 +104,10 @@ private:
 	virtual void BeginPlay() override
 	{
 		Super::BeginPlay();
-		DestroyComponent();
+		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+		{
+			DestroyComponent();
+		});
 	}
 #if WITH_EDITOR
 	virtual void PostInitProperties() override
