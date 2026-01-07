@@ -279,13 +279,11 @@ void UToroUserSettings::ApplyAudioVolume() const
 #endif
 	const UToroSettings* Settings = UToroSettings::Get();
 	USoundMix* SoundMix = Settings->MainSoundMix.LoadSynchronous();
-	UE_LOG(LogTemp, Warning, TEXT("[SoundMix] %s"), *GetNameSafe(SoundMix));
 	if (!SoundMix) return;
 
 	for (const ESoundClassType Type : TEnumRange<ESoundClassType>())
 	{
 		USoundClass* SoundClass = Settings->SoundClasses[static_cast<uint8>(Type)].LoadSynchronous();
-		UE_LOG(LogTemp, Warning, TEXT("[SoundClass] %s"), *GetNameSafe(SoundClass));
 		if (!SoundClass) continue;
 
 		UGameplayStatics::SetSoundMixClassOverride(FWorldGetter::Get(this), 
