@@ -20,10 +20,10 @@ struct TORORUNTIME_API FTutorialEntry : public FDatabaseEntry
 	UPROPERTY(EditAnywhere, Category = Entry)
 		TSoftObjectPtr<UTexture2D> Image;
 
-	UPROPERTY(EditAnywhere, Category = Entry)
+	UPROPERTY(EditAnywhere, Category = Entry, meta = (MultiLine = true))
 		FText Name;
 
-	UPROPERTY(EditAnywhere, Category = Entry)
+	UPROPERTY(EditAnywhere, Category = Entry, meta = (MultiLine = true))
 		FText Description;
 
 	virtual bool IsValidData() const override
