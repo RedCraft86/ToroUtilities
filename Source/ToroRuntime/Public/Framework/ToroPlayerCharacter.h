@@ -100,7 +100,7 @@ public:
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void PlayFootstep(USoundBase* InSound);
+		virtual void PlayFootstep(USoundBase* InSound, float InVolume = 1.0f);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual bool GetStandingSurface(TEnumAsByte<EPhysicalSurface>& Surface, const ECollisionChannel TraceChannel);

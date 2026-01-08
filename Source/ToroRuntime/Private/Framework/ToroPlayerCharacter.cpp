@@ -138,11 +138,12 @@ void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSetti
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
 }
 
-void AToroPlayerCharacter::PlayFootstep(USoundBase* InSound)
+void AToroPlayerCharacter::PlayFootstep(USoundBase* InSound, float InVolume)
 {
-	if (InSound)
+	if (InSound && InVolume > 0.05f)
 	{
 		FootstepAudio->SetSound(InSound);
+		FootstepAudio->SetVolumeMultiplier(InVolume);
 		FootstepAudio->Play();
 	}
 }
