@@ -14,6 +14,11 @@ void UToroManagedWidget::PushWidget()
 		if (Container->PushEntry(this))
 		{
 			bIsPushed = true;
+			if (!bAutoPush)
+			{
+				UGameplayStatics::PlaySound2D(this, PushSound);
+			}
+			bAutoPush = false;
 		}
 	}
 }
@@ -25,6 +30,7 @@ void UToroManagedWidget::PopWidget()
 		if (Container->PopEntry(this))
 		{
 			bIsPushed = false;
+			UGameplayStatics::PlaySound2D(this, PopSound);
 		}
 	}
 }

@@ -85,7 +85,8 @@ void UTutorialWidget::CreateEntry(const FTutorialEntry& Entry)
 void UTutorialWidget::PushWidget()
 {
 	Super::PushWidget();
-	PlayAnimation(HideAnim, HideAnim->GetEndTime(), 1, EUMGSequencePlayMode::Reverse);
+	PlayAnimation(ShowAnim);
+
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		InputConfig = PC->GetInputConfig();

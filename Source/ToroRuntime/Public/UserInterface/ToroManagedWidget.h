@@ -33,6 +33,12 @@ protected:
 		TSubclassOf<UToroContainerWidget> ContainerClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
+		TObjectPtr<USoundBase> PushSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = Settings)
+		TObjectPtr<USoundBase> PopSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = Settings)
 		bool bAutoPush;
 
 	bool bIsPushed;
