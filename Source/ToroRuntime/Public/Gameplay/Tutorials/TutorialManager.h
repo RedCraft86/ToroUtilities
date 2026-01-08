@@ -47,6 +47,7 @@ private:
 
 	TArray<FGameplayTag> Tutorials;
 	TObjectPtr<UToroSaveManager> SaveManager;
+	TObjectPtr<UToroUserSettings> UserSettings;
 
 	TObjectPtr<UTutorialWidget> TutorialWidget;
 	UTutorialWidget* GetTutorialWidget();

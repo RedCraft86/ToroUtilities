@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Gameplay/Tutorials/TutorialWidget.h"
+
+#include "Animation/WidgetAnimation.h"
 #include "UserInterface/NativeContainers.h"
 #include "Framework/ToroPlayerController.h"
 #include "Components/ScaleBox.h"
@@ -60,13 +62,11 @@ void UTutorialWidget::MoveRight()
 
 void UTutorialWidget::UpdatePageCount() const
 {
-	PageCount->SetText(FText::Format(INVTEXT("{0}/{1}"),
-		EntryContainer->GetActiveWidgetIndex() + 1,
-		EntryContainer->GetNumWidgets()));
-
-	// If last page, unlock close button
-	if (EntryContainer->GetActiveWidgetIndex()
-		== (EntryContainer->GetNumWidgets() - 1))
+	const uint8 Current = EntryContainer->GetActiveWidgetIndex() + 1, Max = EntryContainer->GetNumWidgets();
+	if (Max > 1) PageCount->SetText(FText::Format(INVTEXT("{0}/{1}"), Current, Max));
+	
+	PageBox->SetVisibility(Max == 1 ? ESlateVisibility::Collapsed : ESlateVisibility::SelfHitTestInvisible);
+	if (Max == 1 || Current == Max)
 	{
 		CloseButton->SetVisibility(ESlateVisibility::Visible);
 	}
@@ -85,7 +85,7 @@ void UTutorialWidget::CreateEntry(const FTutorialEntry& Entry)
 void UTutorialWidget::PushWidget()
 {
 	Super::PushWidget();
-	CloseButton->SetVisibility(ESlateVisibility::Collapsed);
+	PlayAnimation(HideAnim, HideAnim->GetEndTime(), 1, EUMGSequencePlayMode::Reverse);
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		InputConfig = PC->GetInputConfig();
@@ -104,6 +104,7 @@ void UTutorialWidget::PopWidget()
 	}
 	if (CloseFunc) CloseFunc();
 	EntryContainer->ClearChildren();
+	CloseButton->SetVisibility(ESlateVisibility::Collapsed);
 	Super::PopWidget();
 }
 

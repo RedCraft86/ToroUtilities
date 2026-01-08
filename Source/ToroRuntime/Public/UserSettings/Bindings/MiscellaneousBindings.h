@@ -5,6 +5,21 @@
 #include "UserSettings/OptionBindingBase.h"
 #include "MiscellaneousBindings.generated.h"
 
+USTRUCT(BlueprintType, DisplayName = "Hide Seen Tutorials")
+struct TORORUNTIME_API FHideSeenTutorialsBinding : public FToggleOptionBinding
+{
+	GENERATED_BODY()
+
+	FHideSeenTutorialsBinding()
+	{
+		Name = INVTEXT("Hide Seen Tutorials");
+		Tooltip = INVTEXT("Whether to hide tutorials/tips that have been shown before.");
+	}
+
+	virtual bool GetValue() const override { return GetSettings()->GetHideSeenTutorials(); }
+	virtual void SetValue(const bool InValue) override { GetSettings()->SetHideSeenTutorials(InValue); }
+};
+
 USTRUCT(BlueprintType, DisplayName = "Screen Gamma")
 struct TORORUNTIME_API FScreenGammaBinding : public FSliderOptionBinding
 {

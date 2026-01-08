@@ -9,7 +9,7 @@ void UTutorialManager::QueueTutorial(const FGameplayTag Key)
 {
 	if (!TutorialTags::IsValidTag(Key)) return;
 	const UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr;
-	if (!Save || !Save->Tutorials.Contains(Key))
+	if (!UserSettings || !UserSettings->GetHideSeenTutorials() || !Save || !Save->Tutorials.Contains(Key))
 	{
 		QueueInternal(Key);
 	}
@@ -21,10 +21,10 @@ void UTutorialManager::QueueTutorials(const TArray<FGameplayTag>& Keys)
 	for (const FGameplayTag& Key : Keys)
 	{
 		if (!TutorialTags::IsValidTag(Key)) continue;
-		if (!Save || !Save->Tutorials.Contains(Key))
-		{
-			QueueInternal(Key);
-		}
+	    if (!UserSettings || !UserSettings->GetHideSeenTutorials() || !Save || !Save->Tutorials.Contains(Key))
+	    {
+	        QueueInternal(Key);
+	    }
 	}
 }
 
@@ -78,6 +78,7 @@ void UTutorialManager::BeginPlay()
 	Super::BeginPlay();
 	SaveManager = UToroSaveManager::Get(this);
 	Database = UToroSettings::Get()->GetDatabase<UTutorialDatabase>();
+	UserSettings = UToroUserSettings::Get();
 #if WITH_EDITOR
 	if (!Database)
 	{

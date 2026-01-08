@@ -213,6 +213,7 @@ FVector2D UToroUserSettings::GetSensitivity() const
 }
 
 DEFINE_PROPERTY_FUNC(bool, ShowFPS, OnSettingsApply(Dynamic))
+DEFINE_PROPERTY_FUNC(bool, HideSeenTutorials,)
 DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnSettingsApply(Difficulty))
 
 DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
@@ -356,6 +357,7 @@ void UToroUserSettings::SetToDefaults()
 
 	ShowFPS = false;
 	DeveloperMode = true;
+	HideSeenTutorials = true;
 	Difficulty = EGameDifficulty::Unset;
 	
 	SmoothCamera = true;

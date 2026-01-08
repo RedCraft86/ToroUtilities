@@ -68,6 +68,9 @@ protected:
 		TObjectPtr<UTextBlock> PageCount;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UPanelWidget> PageBox;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UWidgetSwitcher> EntryContainer;
 
 	UPROPERTY(EditDefaultsOnly, Category = Settings)

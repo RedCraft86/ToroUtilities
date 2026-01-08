@@ -85,6 +85,7 @@ public:
 
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(bool, DeveloperMode)
+	DECLARE_PROPERTY_FUNC(bool, HideSeenTutorials)
 	DECLARE_PROPERTY_FUNC(EGameDifficulty, Difficulty)
 
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
@@ -146,6 +147,7 @@ protected:
 	/* General */
 	UPROPERTY(Config) bool ShowFPS;
 	UPROPERTY(Config) bool DeveloperMode;
+	UPROPERTY(Config) bool HideSeenTutorials;
 	UPROPERTY(Config) EGameDifficulty Difficulty;
 
 	// Camera
