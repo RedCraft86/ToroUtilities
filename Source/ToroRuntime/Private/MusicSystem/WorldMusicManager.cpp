@@ -50,6 +50,7 @@ void UWorldMusicManager::SetThemeState(const uint8 State)
 	{
 		StateIdx = State;
 		GetParamInterface()->SetIntParameter(TEXT("State"), State);
+		GetParamInterface()->SetTriggerParameter(TEXT("OnUpdate"));
 		OnStateChanged.Broadcast(StateIdx);
 	}
 }
@@ -57,6 +58,7 @@ void UWorldMusicManager::SetThemeState(const uint8 State)
 void UWorldMusicManager::SetThemeIntensity(const uint8 Intensity)
 {
 	GetParamInterface()->SetIntParameter(TEXT("Intensity"), Intensity);
+	GetParamInterface()->SetTriggerParameter(TEXT("OnUpdate"));
 }
 
 void UWorldMusicManager::AddDipRequest(const UObject* InObject)
