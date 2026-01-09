@@ -221,10 +221,13 @@ DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
 DEFINE_PROPERTY_FUNC(bool, Borderless, SetAdjustedFullscreenMode(FIntPoint::ZeroValue);)
 
 DEFINE_PROPERTY_FUNC(bool, FancyBloom, OnSettingsApply(Dynamic);)
-DEFINE_PROPERTY_FUNC(bool, SSFogScattering, ApplySSFogScattering();)
 DEFINE_PROPERTY_FUNC_CLAMPED(float, Gamma, 0.5f, 5.0f, ApplyScreenGamma();)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 200, OnSettingsApply(Dynamic);)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3, OnSettingsApply(Dynamic);)
+
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, VolumetricFogQuality, 0, 4, ApplyVolumetricFog();)
+DEFINE_PROPERTY_FUNC(bool, TemporalReprojection, ApplyVolumetricFog();)
+DEFINE_PROPERTY_FUNC(bool, SSFogScattering, ApplyVolumetricFog();)
 
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3, OnSettingsApply(Dynamic);)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflection, 0, 3, OnSettingsApply(Dynamic);)
@@ -254,7 +257,7 @@ void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 #endif
 	{
 		ApplyScreenGamma();
-		ApplySSFogScattering();
+		ApplyVolumetricFog();
 		ApplyAudioVolume();
 		ApplyImageFidelity();
 	}
@@ -268,8 +271,44 @@ void UToroUserSettings::ApplyScreenGamma() const
 	if (GEngine) GEngine->DisplayGamma = GetGamma();
 }
 
-void UToroUserSettings::ApplySSFogScattering() const
+void UToroUserSettings::ApplyVolumetricFog() const
 {
+	const uint8 Quality = GetVolumetricFogQuality();
+	int32 GridSizeZ, GridPixelSize;
+	switch (Quality)
+	{
+	case 0:
+		GridSizeZ = 64;
+		GridPixelSize = 10;
+		break;
+
+	case 2:
+		GridSizeZ = 192;
+		GridPixelSize = 6;
+		break;
+
+	case 3:
+		GridSizeZ = 256;
+		GridPixelSize = 4;
+		break;
+
+	case 4:
+		GridSizeZ = 300;
+		GridPixelSize = 2;
+		break;
+		
+	default: // covers case 1
+		GridSizeZ = 128;
+		GridPixelSize = 8;
+		break;
+	}
+
+	UToroConsoleLibrary::SetCVarInt(TEXT("r.VolumetricFog.GridSizeZ"), GridSizeZ);
+	UToroConsoleLibrary::SetCVarInt(TEXT("r.VolumetricFog.GridPixelSize"), GridPixelSize);
+	UToroConsoleLibrary::SetCVarFloat(TEXT("r.VolumetricFog.HistoryWeight"), Quality >= 2 ? 0.8f : 0.9f);
+
+	UToroConsoleLibrary::SetCVarBool(TEXT("r.VolumetricFog.TemporalReprojection"), GetTemporalReprojection());
+
 	UToroConsoleLibrary::SetCVarBool(TEXT("r.SSFS"), GetSSFogScattering());
 }
 
@@ -374,6 +413,12 @@ void UToroUserSettings::SetToDefaults()
 	FancyBloom = true;
 	SSFogScattering = true;
 	MotionBlur = 1;
+	
+	VolumetricFogQuality = 2;
+	TemporalReprojection = true;
+#if WITH_EDITOR
+	ApplyVolumetricFog(); // Rare exception, apply here too to match the editor
+#endif
 	
 	LumenGI = 0;
 	LumenReflection = 2;

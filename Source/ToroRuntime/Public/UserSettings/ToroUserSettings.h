@@ -94,10 +94,13 @@ public:
 	DECLARE_PROPERTY_FUNC(uint8, ResPercent)
 
 	DECLARE_PROPERTY_FUNC(bool, FancyBloom)
-	DECLARE_PROPERTY_FUNC(bool, SSFogScattering)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, Gamma, 0.5f, 5.0f)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 200)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3)
+
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, VolumetricFogQuality, 0, 4)
+	DECLARE_PROPERTY_FUNC(bool, TemporalReprojection)
+	DECLARE_PROPERTY_FUNC(bool, SSFogScattering)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflection, 0, 3)
@@ -131,7 +134,7 @@ protected:
 	TObjectPtr<UGameInstance> GameInstance;
 
 	void ApplyScreenGamma() const;
-	void ApplySSFogScattering() const;
+	void ApplyVolumetricFog() const;
 	void ApplyAudioVolume() const;
 	void ApplyImageFidelity();
 
@@ -161,10 +164,14 @@ protected:
 
 	// Visuals
 	UPROPERTY(Config) bool FancyBloom;
-	UPROPERTY(Config) bool SSFogScattering;
 	UPROPERTY(Config) float Gamma;
 	UPROPERTY(Config) uint8 Brightness;
 	UPROPERTY(Config) uint8 MotionBlur;
+
+	// Volumetric Fog
+	UPROPERTY(Config) uint8 VolumetricFogQuality;
+	UPROPERTY(Config) bool TemporalReprojection;
+	UPROPERTY(Config) bool SSFogScattering;
 
 	// Lumen
 	UPROPERTY(Config) uint8 LumenGI;

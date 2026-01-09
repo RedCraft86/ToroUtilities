@@ -74,22 +74,6 @@ struct TORORUNTIME_API FFancyBloomBinding : public FToggleOptionBinding
 	virtual void SetValue(const bool InValue) override { GetSettings()->SetFancyBloom(InValue); }
 };
 
-USTRUCT(BlueprintType, DisplayName = "Screen Space Fog Scattering")
-struct TORORUNTIME_API FSSFogScatteringBinding : public FToggleOptionBinding
-{
-	GENERATED_BODY()
-
-	FSSFogScatteringBinding()
-	{
-		Name = INVTEXT("Screen Space Fog Scattering");
-		Tooltip = INVTEXT("Simulate light scattering in Exponential Height Fog.");
-		Impact = EUserOptionImpact::Low;
-	}
-
-	virtual bool GetValue() const override { return GetSettings()->GetSSFogScattering(); }
-	virtual void SetValue(const bool InValue) override { GetSettings()->SetSSFogScattering(InValue); }
-};
-
 USTRUCT(BlueprintType, DisplayName = "Motion Blur")
 struct TORORUNTIME_API FMotionBlurBinding : public FSwapperOptionBinding
 {
