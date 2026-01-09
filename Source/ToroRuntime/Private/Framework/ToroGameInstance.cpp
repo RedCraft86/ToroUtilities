@@ -2,7 +2,7 @@
 
 #include "Framework/ToroGameInstance.h"
 #include "ToroRuntime.h"
-#if WITH_EDITOR
+#if UE_BUILD_SHIPPING
 #include "Windows/WindowsPlatformApplicationMisc.h"
 #include "GeneralProjectSettings.h"
 #endif
