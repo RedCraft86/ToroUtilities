@@ -14,6 +14,7 @@ namespace WeatherTags
 	DEFINE_GAMEPLAY_TAG_CHILD(Weather, FogThin)
 	DEFINE_GAMEPLAY_TAG_CHILD(Weather, Rain)
 	DEFINE_GAMEPLAY_TAG_CHILD(Weather, RainLight)
+	DEFINE_GAMEPLAY_TAG_CHILD(Weather, RainFoggy)
 	DEFINE_GAMEPLAY_TAG_CHILD(Weather, Thunderstorm)
 }
 
