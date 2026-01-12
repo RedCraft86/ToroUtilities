@@ -4,11 +4,6 @@
 #include "UserInterface/ToroWidgetManager.h"
 #include "SaveSystem/ToroGameSave.h"
 
-namespace InventoryTags
-{
-	DEFINE_GAMEPLAY_TAG(Inventory)
-}
-
 void UInventoryManager::AddItem(UInventoryAsset* InItem, const uint8 Amount)
 {
 	uint8& Count = Items.FindOrAdd(InItem);
@@ -118,13 +113,12 @@ bool UInventoryManager::IsInventoryOpen()
 	return Widget && Widget->IsPushed();
 }
 
-void UInventoryManager::PullFromSave(const FGameplayTag& Profile)
+void UInventoryManager::PullFromSave()
 {
-	if (!InventoryTags::IsValidTag(Profile)) return;
 	if (const UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr)
 	{
 		Archives = Save->Archives.ToInventoryArchives();
-		Items = Save->Items.FindRef(Profile).ToInventoryItems();
+		Items = Save->Items.ToInventoryItems();
 		if (!Save->Equipment.IsNull())
 		{
 			EquipItem(TSoftObjectPtr<UInventoryAsset>(Save->Equipment).LoadSynchronous());
@@ -132,14 +126,22 @@ void UInventoryManager::PullFromSave(const FGameplayTag& Profile)
 	}
 }
 
-void UInventoryManager::PushToSave(const FGameplayTag& Profile) const
+void UInventoryManager::PushToSave()
 {
-	if (!InventoryTags::IsValidTag(Profile)) return;
 	if (UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr)
 	{
+		Save->Items = FInventoryItemSave(Items);
 		Save->Archives = FInventoryArchiveSave(Archives);
-		Save->Items.Add(Profile, FInventoryItemSave(Items));
 		Save->Equipment = Equipment.Item.ToSoftObjectPath();
+	}
+
+	for (auto It = Items.CreateIterator(); It; ++It)
+	{
+		const UInventoryAsset* Asset = It.Key().LoadSynchronous();
+		if (!Asset || Asset->bTransient)
+		{
+			It.RemoveCurrent();
+		}
 	}
 }
 
@@ -151,6 +153,7 @@ void UInventoryManager::EnsureInventory(
 	{
 		if (!Archives.Contains(Archive)) Archives.Add(Archive);
 	}
+
 	for (const TPair<TSoftObjectPtr<UInventoryAsset>, uint8>& Item : InItems)
 	{
 		uint8& Amount = Items.FindOrAdd(Item.Key);

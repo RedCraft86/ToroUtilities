@@ -83,8 +83,8 @@ private:
 		void OnMainLevelLoaded();
 	void OnUnloadLevel();
 
-	void FadeToBlack();
-	void FadeFromBlack();
+	void FadeToBlack() const;
+	void FadeFromBlack() const;
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

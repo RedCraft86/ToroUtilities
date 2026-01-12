@@ -11,16 +11,6 @@
 #include "SaveSystem/ToroSaveManager.h"
 #include "InventoryManager.generated.h"
 
-namespace InventoryTags
-{
-	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(Inventory)
-	TORORUNTIME_API inline bool IsValidTag(const FGameplayTag& InTag)
-	{
-		static FGameplayTag BaseTag = TAG_Inventory.GetTag();
-		return InTag.MatchesTag(BaseTag) || InTag == BaseTag;
-	}
-}
-
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FInventoryEquipment
 {
@@ -82,11 +72,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 		bool IsInventoryOpen();
 	
-	void PullFromSave(const FGameplayTag& Profile);
-	void PushToSave(const FGameplayTag& Profile) const;
+	void PullFromSave();
+	void PushToSave();
 	void EnsureInventory(
 		const TArray<TSoftObjectPtr<UInventoryAsset>>& InArchives,
-		const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& InItems);
+		const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& InItems
+	);
 
 	const TArray<TSoftObjectPtr<UInventoryAsset>>& GetArchives() { return Archives; }
 	const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& GetItems() { return Items; }

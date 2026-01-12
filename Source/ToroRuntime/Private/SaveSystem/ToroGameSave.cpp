@@ -15,6 +15,8 @@ void UToroGameSave::DeleteData()
 	Archives.Empty();
 	Items.Empty();
 	Equipment.Reset();
+
+	Archives.DeleteTransient();
 }
 
 void UToroGameSave::SerializeData(FArchive& Ar)

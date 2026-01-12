@@ -3,7 +3,7 @@
 #include "Gameplay/Inventory/InventoryAsset.h"
 
 UInventoryAsset::UInventoryAsset()
-	: AssetType(EInvAssetType::Item), ItemType(EInvItemType::QuestItem), bReusableKey(true)
+	: bTransient(true), AssetType(EInvAssetType::Item), ItemType(EInvItemType::QuestItem), bReusableKey(true)
 {
 }
 

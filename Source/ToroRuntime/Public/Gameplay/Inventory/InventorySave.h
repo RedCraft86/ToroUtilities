@@ -66,6 +66,18 @@ struct TORORUNTIME_API FInventoryArchiveSave
 
 	void Empty() { Paths.Empty(); }
 
+	void DeleteTransient()
+	{		
+		for (auto It = Paths.CreateIterator(); It; ++It)
+		{
+			const UInventoryAsset* Asset = It->ToAsset().LoadSynchronous();
+			if (!Asset || Asset->bTransient)
+			{
+				It.RemoveCurrent();
+			}
+		}
+	}
+
 	TArray<TSoftObjectPtr<UInventoryAsset>> ToInventoryArchives() const
 	{
 		TArray<TSoftObjectPtr<UInventoryAsset>> Result;
@@ -114,6 +126,8 @@ struct TORORUNTIME_API FInventoryItemSave
 		}
 		return Result;
 	}
+
+	void Empty() { Paths.Empty(); }
 
 	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FInventoryItemSave& Data)
 	{

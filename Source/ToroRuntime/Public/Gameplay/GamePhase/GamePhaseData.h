@@ -74,9 +74,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = Player, meta = (DisplayPriority = 1))
 		FPointLightProperties PlayerLight;
 
-	UPROPERTY(EditAnywhere, Category = Inventory, meta = (Categories = "Inventory"))
-		FGameplayTag InventoryProfile;
-
 	UPROPERTY(EditAnywhere, Category = Inventory)
 		TArray<TSoftObjectPtr<UInventoryAsset>> Archives;
 

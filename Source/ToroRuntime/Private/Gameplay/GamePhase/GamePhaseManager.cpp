@@ -94,14 +94,7 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 			Widget->ShowWidget(ThisPhase->bSimpleLoading);
 		}
 
-		if (OldPhase)
-		{
-			Inventory->PushToSave(OldPhase->InventoryProfile);
-		}
-		if (!OldPhase || OldPhase->InventoryProfile != ThisPhase->InventoryProfile)
-		{
-			Inventory->PullFromSave(ThisPhase->InventoryProfile);
-		}
+		OldPhase ? Inventory->PushToSave() : Inventory->PullFromSave();
 		Inventory->EnsureInventory(ThisPhase->Archives, ThisPhase->Items);
 		PlayerChar->Teleport(FVector::ZeroVector, FRotator::ZeroRotator);
 		PostProcessing->SetUDSSettings(ThisPhase->SkyWeather);
@@ -188,13 +181,13 @@ void UGamePhaseManager::OnUnloadLevel()
 	}
 }
 
-void UGamePhaseManager::FadeToBlack()
+void UGamePhaseManager::FadeToBlack() const
 {
 	UToroShortcutLibrary::StartCameraFade(this, 0.0, 1.0,
 		0.5f, FLinearColor::Black, true, true);
 }
 
-void UGamePhaseManager::FadeFromBlack()
+void UGamePhaseManager::FadeFromBlack() const
 {
 	UToroShortcutLibrary::StartCameraFade(this, 1.0, 0.0,
 		0.5f, FLinearColor::Black, true, false);

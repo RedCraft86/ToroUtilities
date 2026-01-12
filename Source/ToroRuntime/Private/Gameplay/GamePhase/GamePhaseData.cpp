@@ -21,8 +21,7 @@ UToroGamePhaseGraph::UToroGamePhaseGraph()
 #endif
 }
 
-UToroGamePhaseNode::UToroGamePhaseNode()
-	: bSimpleLoading(false), InventoryProfile(InventoryTags::TAG_Inventory.GetTag())
+UToroGamePhaseNode::UToroGamePhaseNode(): bSimpleLoading(false)
 {
 	Name = NSLOCTEXT("Game", "NewPhaseName", "New Phase");
 	Description = NSLOCTEXT("Game", "NewPhaseDesc", "A node containing data relevant to a Phase of the game.");

@@ -30,6 +30,10 @@ public:
 
 	UInventoryAsset();
 
+	// If the item can be cleared with a save reset
+	UPROPERTY(EditAnywhere, Category = Asset)
+		bool bTransient;
+
 	UPROPERTY(EditAnywhere, Category = Asset)
 		EInvAssetType AssetType;
 

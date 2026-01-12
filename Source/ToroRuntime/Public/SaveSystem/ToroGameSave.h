@@ -26,7 +26,7 @@ public:
 		FInventoryArchiveSave Archives;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TMap<FGameplayTag, FInventoryItemSave> Items;
+		FInventoryItemSave Items;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		FSoftObjectPath Equipment;
