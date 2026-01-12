@@ -22,9 +22,6 @@ public:
 		TSet<FGameplayTag> Tutorials;
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
-		TMap<FGameplayTag, uint8> Achievements;
-
-	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TArray<FGameplayTag> Themes;
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
