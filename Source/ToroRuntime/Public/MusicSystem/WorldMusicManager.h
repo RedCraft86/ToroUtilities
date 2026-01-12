@@ -46,6 +46,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void ClearDipRequests();
 
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		void SetMuted(const bool bMuted, const float Delay);
+
 	DECLARE_MULTICAST_DELEGATE(FOnMusicUpdate);
 	FOnMusicUpdate OnThemeChanged;
 	FOnMusicUpdate OnAudioDipped;
@@ -57,6 +60,7 @@ private:
 
 	uint8 StateIdx;
 	bool bGamePaused;
+	FTimerHandle MuteTimer;
 	FTimerHandle ChangeTimer;
 	TSet<TWeakObjectPtr<const UObject>> DipRequests;
 

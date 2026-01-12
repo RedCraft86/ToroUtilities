@@ -84,6 +84,24 @@ void UWorldMusicManager::ClearDipRequests()
 	UpdateDipState();
 }
 
+void UWorldMusicManager::SetMuted(const bool bMuted, const float Delay)
+{
+	GetWorld()->GetTimerManager().ClearTimer(MuteTimer);
+	if (bMuted)
+	{
+		if (Delay >= 0.1f) AdjustVolume(Delay, 0.05f);
+		GetWorld()->GetTimerManager().SetTimer(MuteTimer, [this]()
+		{
+			SetPaused(true);
+		}, Delay + UE_SMALL_NUMBER, false);
+	}
+	else if (bIsPaused)
+	{
+		SetPaused(false);
+		if (Delay >= 0.1f) AdjustVolume(FMath::Max(0.1f, Delay), 1.0f);
+	}
+}
+
 void UWorldMusicManager::UpdateDipState()
 {
 	for (auto It = DipRequests.CreateIterator(); It; ++It)
