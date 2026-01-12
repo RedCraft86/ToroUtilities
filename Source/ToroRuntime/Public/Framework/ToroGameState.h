@@ -22,4 +22,10 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UGamePhaseManager> GamePhase;
+	
+	UFUNCTION(BlueprintPure, Category = Subobjects)
+		float GetTotalPlayProgress() const;
+	
+	UFUNCTION(BlueprintPure, Category = Subobjects)
+		float GetTotalPlayTime() const;
 };

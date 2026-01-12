@@ -79,9 +79,8 @@ private:
 	void UnloadLevel(const TSoftObjectPtr<UWorld>& InLevel);
 	void LoadLevel(const TSoftObjectPtr<UWorld>& InLevel);
 	
-	UFUNCTION()
-		void OnMainLevelLoaded();
-	void OnUnloadLevel();
+	UFUNCTION() void OnMainLevelLoaded();
+	UFUNCTION() void OnUnloadLevel();
 
 	void FadeToBlack() const;
 	void FadeFromBlack() const;

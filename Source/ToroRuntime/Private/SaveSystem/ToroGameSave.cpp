@@ -11,6 +11,7 @@ void UToroGameSave::DeleteData()
 {
 	Super::DeleteData();
 	PlayTime = 0.0f;
+	Progress.Empty();
 	Sequence.Empty();
 	Archives.Empty();
 	Items.Empty();
@@ -22,6 +23,7 @@ void UToroGameSave::DeleteData()
 void UToroGameSave::SerializeData(FArchive& Ar)
 {
 	Ar << PlayTime;
+	Ar << Progress;
 	Ar << Sequence;
 	Ar << Archives;
 	Ar << Items;

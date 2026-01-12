@@ -19,6 +19,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		float PlayTime;
 
+	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
+		TMap<FGuid, bool> Progress;
+
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		TArray<uint8> Sequence;
 

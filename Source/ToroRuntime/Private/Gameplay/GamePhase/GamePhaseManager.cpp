@@ -66,19 +66,21 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 	{
 		PC->EnterCinematic(GetOwner());
 	}
+	
+	Save->PlayTime += PhaseTime;
+	Save->Progress.Add(NewPhase->NodeID, true);
 
 	// Don't need to worry about OldPhase getting GC'd since it lives in Graph which is keeping it loaded
 	UToroGamePhaseNode* OldPhase = ThisPhase;
 	ThisPhase = NewPhase;
 
+	PhaseTime = 0.0f;
 	UnloadTasks = 0;
 	LoadLevels = ThisPhase->GetLevels();
 	if (OldPhase)
 	{
 		UnloadLevels = OldPhase->GetLevels().Difference(LoadLevels);
 		Narrative->ForgetQuest(OldPhase->Quest.LoadSynchronous());
-		Save->PlayTime += PhaseTime;
-		PhaseTime = 0.0f;
 	}
 	else
 	{
@@ -87,7 +89,7 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 
 	FadeToBlack();
 	FTimerHandle FadeTimer;
-	GetWorld()->GetTimerManager().SetTimer(FadeTimer, [this, OldPhase = OldPhase]()
+	GetWorld()->GetTimerManager().SetTimer(FadeTimer, [this, Save = Save, OldPhase = OldPhase]()
 	{
 		if (ULoadingScreenWidget* Widget = GetLoadingWidget())
 		{
@@ -107,6 +109,8 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 		{
 			LoadLevel(Level);
 		}
+		
+		Save->SaveObject(nullptr);
 	}, 0.6f, false);
 
 	if (UToroGlobalSave* GlobalSave = SaveManager->FindOrAddSave<UToroGlobalSave>(0))
@@ -227,7 +231,7 @@ void UGamePhaseManager::OnMainLevelLoaded()
 void UGamePhaseManager::BeginPlay()
 {
 	Super::BeginPlay();
-	UToroSettings* Settings = UToroSettings::Get();
+	const UToroSettings* Settings = UToroSettings::Get();
 	if (Settings && Settings->IsOnMap(this, EToroMapType::Gameplay))
 	{
 		if (Graph = Settings->PhaseGraph.LoadSynchronous(); Graph)
@@ -241,6 +245,18 @@ void UGamePhaseManager::BeginPlay()
 				MusicManager = UWorldMusicManager::Get(this);
 				PlayerChar = AToroPlayerCharacter::Get(this);
 				PostProcessing = AMasterPostProcess::Get(this);
+				
+				if (UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr)
+				{
+					for (const UToroDataNode* Node : Graph->AllNodes)
+					{
+						if (!Node) continue;
+						if (!Save->Progress.Contains(Node->NodeID))
+						{
+							Save->Progress.Add(Node->NodeID, false);
+						}
+					}
+				}
 			});
 		}
 	}

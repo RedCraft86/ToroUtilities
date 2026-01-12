@@ -2,6 +2,8 @@
 
 #include "Framework/ToroGameState.h"
 #include "GamePhase/GamePhaseManager.h"
+#include "SaveSystem/ToroSaveManager.h"
+#include "SaveSystem/ToroGameSave.h"
 
 AToroGameState::AToroGameState()
 {
@@ -13,4 +15,36 @@ AToroGameState::AToroGameState()
 	SetRootComponent(SceneRoot);
 
 	GamePhase = CreateDefaultSubobject<UGamePhaseManager>("GamePhase");
+}
+
+float AToroGameState::GetTotalPlayProgress() const
+{
+	UToroSaveManager* SM = UToroSaveManager::Get(this);
+	if (const UToroGameSave* Save = SM ? SM->FindOrAddSave<UToroGameSave>() : nullptr)
+	{
+		const int32 Total = Save->Progress.Num();
+		if (Total == 0)
+		{
+			return 0.0f;
+		}
+
+		int32 Finished = 0;
+		for (const TPair<FGuid, bool>& Entry : Save->Progress)
+		{
+			if (Entry.Value) Finished++;
+		}
+
+		return static_cast<float>(Finished) / static_cast<float>(Total);
+	}
+	return -1.0f;
+}
+
+float AToroGameState::GetTotalPlayTime() const
+{
+	UToroSaveManager* SM = UToroSaveManager::Get(this);
+	if (const UToroGameSave* Save = SM ? SM->FindOrAddSave<UToroGameSave>() : nullptr)
+	{
+		return Save->PlayTime;
+	}
+	return -1.0f;
 }
