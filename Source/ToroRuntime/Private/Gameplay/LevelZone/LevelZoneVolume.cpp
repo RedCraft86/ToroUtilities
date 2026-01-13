@@ -2,13 +2,9 @@
 
 #include "LevelZone/LevelZoneVolume.h"
 #include "LevelZone/LevelZoneManager.h"
-#include "Components/CullingComponent.h"
 #include "Actors/ToroCharacter.h"
-#if WITH_EDITOR
-#include "EngineUtils.h"
-#endif
 
-ALevelZoneVolume::ALevelZoneVolume(): ThemeIntensity(0.0f), CullInvert(false)
+ALevelZoneVolume::ALevelZoneVolume(): ThemeIntensity(0.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
@@ -24,64 +20,18 @@ ALevelZoneVolume::ALevelZoneVolume(): ThemeIntensity(0.0f), CullInvert(false)
 #endif
 }
 
-#if WITH_EDITOR
-void ALevelZoneVolume::FindCullTargets()
-{
-	for (const TObjectPtr<AActor> Actor : TActorRange<AActor>(GetWorld()))
-	{
-		if (!UCullingComponent::Get(Actor))
-		{
-			CullTargets.Remove(Actor);
-		}
-		else if (!CullFindBounded || EncompassesPoint(Actor->GetActorLocation()))
-		{
-			if (CullFindTag.IsNone() || Actor->ActorHasTag(CullFindTag))
-			{
-				CullTargets.Add(Actor);
-			}
-		}
-	}
-	
-	for (auto It = CullTargets.CreateIterator(); It; ++It)
-	{
-		if (!It->LoadSynchronous()) It.RemoveCurrent();
-	}
-}
-#endif
-
-void ALevelZoneVolume::UpdateRefCulling()
-{
-	bool bShouldRender = EncompassesPoint(CamManager->GetCameraLocation());
-	if (CullInvert) bShouldRender = !bShouldRender;
-
-	for (auto It = CullTargets.CreateIterator(); It; ++It)
-	{
-		UCullingComponent* Comp = UCullingComponent::Get(It->LoadSynchronous());
-		if (Comp && Comp->IsComponentTickEnabled())
-		{
-			bShouldRender ? Comp->AddRenderRequest(this) : Comp->RemoveRenderRequest(this);
-		}
-		else
-		{
-			It.RemoveCurrent();
-		}
-	}
-}
-
 void ALevelZoneVolume::BeginPlay()
 {
 	Super::BeginPlay();
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		MusicManager = UWorldMusicManager::Get(this);
-		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
 	});
 }
 
 void ALevelZoneVolume::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if (CamManager) UpdateRefCulling();
 }
 
 void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)

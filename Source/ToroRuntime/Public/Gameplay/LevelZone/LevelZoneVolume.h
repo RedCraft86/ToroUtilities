@@ -28,36 +28,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		float ThemeIntensity;
 
-	UPROPERTY(EditAnywhere, Category = "Settings|Culling", DisplayName = "Invert")
-		bool CullInvert;
-
-	UPROPERTY(EditAnywhere, Category = "Settings|Culling", DisplayName = "Targets")
-		TSet<TSoftObjectPtr<AActor>> CullTargets;
-
 	UPROPERTY(EditAnywhere, Category = "Settings|Actions", DisplayName = "On Enter")
 		FWorldActionArray ActionsEnter;
 
 	UPROPERTY(EditAnywhere, Category = "Settings|Actions", DisplayName = "On Exit")
 		FWorldActionArray ActionsExit;
 
-private:
-#if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Category = Tools, DisplayName = "Bounded")
-		bool CullFindBounded = true;
-
-	UPROPERTY(EditAnywhere, Category = Tools, DisplayName = "Find Tag")
-		FName CullFindTag = NAME_None;
-#endif
-#if WITH_EDITOR
-	UFUNCTION(CallInEditor, Category = Tools)
-		void FindCullTargets();
-#endif
-
-	FTimerHandle CullingTimer;
 	TObjectPtr<UWorldMusicManager> MusicManager;
-	TObjectPtr<APlayerCameraManager> CamManager;
 
-	void UpdateRefCulling();
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
