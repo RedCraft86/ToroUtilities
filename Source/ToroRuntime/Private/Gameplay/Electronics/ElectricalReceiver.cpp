@@ -24,3 +24,10 @@ void AElectricalReceiver::OnConstruction(const FTransform& Transform)
 	Targets.Empty();
 }
 #endif
+
+AElectricalLight::AElectricalLight()
+{
+	Culling = CreateDefaultSubobject<UCullingComponent>("Culling");
+	Culling->bAffectTicking = false;
+	Culling->bAffectState = false;
+}
