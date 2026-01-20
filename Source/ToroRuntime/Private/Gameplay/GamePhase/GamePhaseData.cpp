@@ -99,7 +99,9 @@ void UToroGamePhaseNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyC
 	if (!MainLevel.IsNull()) Levels.Remove(MainLevel);
 	if (Quest.LoadSynchronous() == UQuest::StaticClass()) Quest.Reset();
 	
-	PlayerLight.bUseInverseSquaredFalloff = true;
+	PlayerLight.bUseInverseSquaredFalloff = false;
+	PlayerLight.VolumetricScatteringIntensity = 0.0f;
+	PlayerLight.IndirectIntensity = 0.0f;
 
 	for (auto It = Archives.CreateIterator(); It; ++It)
 	{

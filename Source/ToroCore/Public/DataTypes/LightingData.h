@@ -114,7 +114,7 @@ struct TOROCORE_API FPointLightProperties : public FBaseLightProperties
         : SourceRadius(0.0f)
         , SoftSourceRadius(0.0f)
         , SourceLength(0.0f)
-        , bUseInverseSquaredFalloff(false)
+        , bUseInverseSquaredFalloff(true)
         , LightFalloffExponent(8.0f)
     {}
 };
@@ -151,7 +151,7 @@ struct TOROCORE_API FSpotLightProperties : public FBaseLightProperties
         , SourceRadius(0.0f)
         , SoftSourceRadius(0.0f)
         , SourceLength(0.0f)
-        , bUseInverseSquaredFalloff(false)
+        , bUseInverseSquaredFalloff(true)
         , LightFalloffExponent(8.0f)
     {}
 };
