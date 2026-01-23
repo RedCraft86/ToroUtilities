@@ -115,14 +115,15 @@ bool UInventoryManager::IsInventoryOpen()
 
 void UInventoryManager::PullFromSave()
 {
+	UnEquipItem();
 	if (const UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr)
 	{
 		Archives = Save->Archives.ToInventoryArchives();
-		Items = Save->Items.ToInventoryItems();
-		if (!Save->Equipment.IsNull())
-		{
-			EquipItem(TSoftObjectPtr<UInventoryAsset>(Save->Equipment).LoadSynchronous());
-		}
+		//Items = Save->Items.ToInventoryItems();
+		// if (!Save->Equipment.IsNull())
+		// {
+		// 	EquipItem(TSoftObjectPtr<UInventoryAsset>(Save->Equipment).LoadSynchronous());
+		// }
 	}
 }
 
@@ -130,11 +131,12 @@ void UInventoryManager::PushToSave()
 {
 	if (UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr)
 	{
-		Save->Items = FInventoryItemSave(Items);
+		//Save->Items = FInventoryItemSave(Items);
 		Save->Archives = FInventoryArchiveSave(Archives);
 		Save->Equipment = Equipment.Item.ToSoftObjectPath();
 	}
 
+	UnEquipItem();
 	for (auto It = Items.CreateIterator(); It; ++It)
 	{
 		const UInventoryAsset* Asset = It.Key().LoadSynchronous();
@@ -158,6 +160,12 @@ void UInventoryManager::EnsureInventory(
 	{
 		uint8& Amount = Items.FindOrAdd(Item.Key);
 		Amount = FMath::Max(Amount, Item.Value);
+	}
+	
+	const UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr;
+	if (Save && !Save->Equipment.IsNull())
+	{
+		EquipItem(TSoftObjectPtr<UInventoryAsset>(Save->Equipment).LoadSynchronous());
 	}
 }
 

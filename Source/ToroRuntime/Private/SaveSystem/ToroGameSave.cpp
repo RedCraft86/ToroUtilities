@@ -14,7 +14,7 @@ void UToroGameSave::DeleteData()
 	Progress.Empty();
 	Sequence.Empty();
 	Archives.Empty();
-	Items.Empty();
+	//Items.Empty();
 	Equipment.Reset();
 
 	Archives.DeleteTransient();
@@ -26,6 +26,6 @@ void UToroGameSave::SerializeData(FArchive& Ar)
 	Ar << Progress;
 	Ar << Sequence;
 	Ar << Archives;
-	Ar << Items;
+	//Ar << Items;
 	FArchiveUObject::SerializeSoftObjectPath(Ar, Equipment);
 }

@@ -28,8 +28,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		FInventoryArchiveSave Archives;
 
-	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		FInventoryItemSave Items;
+	// UPROPERTY(BlueprintReadOnly, Category = GameSave)
+	// 	FInventoryItemSave Items;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		FSoftObjectPath Equipment;
