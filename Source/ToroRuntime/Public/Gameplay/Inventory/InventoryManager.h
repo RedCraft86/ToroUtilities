@@ -5,7 +5,6 @@
 #include "InventoryAsset.h"
 #include "InventoryWidget.h"
 #include "Helpers/ClassGetterMacros.h"
-#include "Helpers/GameplayTagMacros.h"
 #include "Components/ActorComponent.h"
 #include "Framework/ToroPlayerState.h"
 #include "SaveSystem/ToroSaveManager.h"
