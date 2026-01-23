@@ -33,6 +33,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = GameInstance)
 		bool IsPlayerInvincible() const { return bInvinciblePlayer; }
 
+	UFUNCTION(BlueprintCallable, Category = GameInstance)
+		void SetFreePlayTarget(const FGuid InTarget);
+
+	UFUNCTION(BlueprintPure, Category = GameInstance)
+		FGuid GetFreePlayTarget() const { return FreePlayTarget.IsSet() ? FreePlayTarget.GetValue() : FGuid(); }
+
 	UFUNCTION(BlueprintCallable, Category = GlobalFlags, meta = (WorldContext = "ContextObject"))
 		static void AddTransientFlag(const UObject* ContextObject, const FGameplayTag InFlag);
 
@@ -49,6 +55,7 @@ protected:
 
 	bool bUnlitMode;
 	bool bInvinciblePlayer;
+	TOptional<FGuid> FreePlayTarget;
 	FGameplayTagContainer TransientFlags;
 
 	void OnSettingUpdate(const ESettingApplyType Type);

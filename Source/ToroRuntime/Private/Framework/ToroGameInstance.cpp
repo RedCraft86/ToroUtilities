@@ -29,6 +29,18 @@ void UToroGameInstance::SetPlayerInvincible(const bool bInvincible)
 	}
 }
 
+void UToroGameInstance::SetFreePlayTarget(const FGuid InTarget)
+{
+	if (InTarget.IsValid())
+	{
+		FreePlayTarget = InTarget;
+	}
+	else
+	{
+		FreePlayTarget.Reset();
+	}
+}
+
 void UToroGameInstance::AddTransientFlag(const UObject* ContextObject, const FGameplayTag InFlag)
 {
 	if (UToroGameInstance* GI = UToroGameInstance::Get(ContextObject))

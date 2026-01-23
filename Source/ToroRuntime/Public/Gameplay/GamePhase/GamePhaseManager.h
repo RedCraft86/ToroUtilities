@@ -45,7 +45,7 @@ public:
 		void StepSequence(const uint8 InIndex);
 
 	UFUNCTION(BlueprintCallable, Category = GamePhase)
-		void ChangePhase(UToroGamePhaseNode* NewPhase);
+		void ChangePhase(UToroGamePhaseNode* NewPhase, bool bSaveSequence = false);
 
 	UFUNCTION(BlueprintCallable, Category = GamePhase, meta = (AutoCreateRefTerm = "InSequence"))
 		void SetSequence(const TArray<uint8>& InSequence);
@@ -65,6 +65,7 @@ private:
 	TObjectPtr<class UNarrativeManager> Narrative;
 	TObjectPtr<class UInventoryManager> Inventory;
 	TObjectPtr<class UToroSaveManager> SaveManager;
+	TObjectPtr<class UToroGameInstance> GameInstance;
 	TObjectPtr<class UWorldMusicManager> MusicManager;
 	TObjectPtr<class AToroPlayerCharacter> PlayerChar;
 	TObjectPtr<class AMasterPostProcess> PostProcessing;

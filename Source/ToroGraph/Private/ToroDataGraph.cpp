@@ -123,6 +123,71 @@ TArray<uint8> UToroDataGraph::GetSequenceFromNode(UToroDataNode* InNode) const
 	return Sequence;
 }
 
+TArray<uint8> UToroDataGraph::GetSequenceFromNodeID(const FGuid& InID, const TArray<uint8>& InSequence, const bool bRootFallback) const
+{
+	UToroDataNode* TargetNode = GetNodeByID(InID, bRootFallback);
+	if (!TargetNode)
+	{
+		return {0};
+	}
+
+	if (InSequence.IsEmpty())
+	{
+		return GetSequenceFromNode(TargetNode);
+	}
+	
+	bool bWalked = false;
+	TArray<uint8> Sequence = WalkSequence(InSequence, [TargetNode, &bWalked](const UToroDataNode* CurrentNode)
+	{
+		if (CurrentNode == TargetNode)
+		{
+			bWalked = true;
+			return true;
+		}
+		return false;
+	}, true);
+
+	return bWalked ? Sequence : GetSequenceFromNode(TargetNode);
+}
+
+TArray<uint8> UToroDataGraph::WalkSequence(const TArray<uint8>& InSequence, const TFunction<bool(const UToroDataNode*)>& StopWhen, const bool bInclusive) const
+{
+	if (!StopWhen || RootNodes.IsEmpty() || InSequence.IsEmpty())
+	{
+		return {};
+	}
+
+	TArray<uint8> Sequence;
+	TArray<TObjectPtr<UToroDataNode>> ThisLayer = RootNodes;
+	for (const int32 Idx : InSequence)
+	{
+		if (!ThisLayer.IsValidIndex(Idx))
+		{
+			break;
+		}
+		
+		TObjectPtr<UToroDataNode> Node = ThisLayer[Idx];
+		if (!Node)
+		{
+			break;
+		}
+
+		if (StopWhen(Node))
+		{
+			if (bInclusive)
+			{
+				Sequence.Add(Idx);
+			}
+			break;
+		}
+
+		Sequence.Add(Idx);
+		ThisLayer = Node->ChildNodes;
+	}
+	
+	return Sequence;
+}
+
 #if WITH_EDITOR
 void UToroDataGraph::ClearGraph()
 {

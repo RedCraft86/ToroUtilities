@@ -10,6 +10,8 @@
 #include "Framework/ToroPlayerController.h"
 #include "PostProcessing/MasterPostProcess.h"
 #include "UserInterface/ToroWidgetManager.h"
+#include "NativeWidgets/NoticeWidget.h"
+#include "Framework/ToroGameInstance.h"
 #include "Inventory/InventoryManager.h"
 #include "SaveSystem/ToroGlobalSave.h"
 #include "SaveSystem/ToroGameSave.h"
@@ -35,24 +37,35 @@ void UGamePhaseManager::LoadSequence()
 	if (!IsValidManager() || bLoading) return;
 	if (const UToroGameSave* Save = SaveManager->FindOrAddSave<UToroGameSave>())
 	{
-		Sequence = Graph->ValidateSequence(Save->Sequence);
-		ChangePhase(Graph->GetLeafInSequence<UToroGamePhaseNode>(Sequence, true));
+		const FGuid PlayTarget = GameInstance->GetFreePlayTarget();
+		if (PlayTarget.IsValid())
+		{
+			Sequence = Graph->GetSequenceFromNodeID(PlayTarget, Sequence);
+		}
+		else
+		{
+			Sequence = Graph->ValidateSequence(Save->Sequence);
+		}
+
+		ChangePhase(Graph->GetLeafInSequence<UToroGamePhaseNode>(Sequence, true), !PlayTarget.IsValid());
+	}
+	else
+	{
+		UNoticeWidget::QueueNotice(this, FToroSimpleMsg(INVTEXT("FAILED TO LOAD GAME PHASE"), 5.0f), true);
 	}
 }
 
 void UGamePhaseManager::StepSequence(const uint8 InIndex)
 {
-	if (!IsValidManager() || bLoading) return;
-	if (UToroGameSave* Save = SaveManager->FindOrAddSave<UToroGameSave>())
+	if (IsValidManager() && !bLoading)
 	{
 		Sequence.Add(InIndex);
 		Sequence = Graph->ValidateSequence(Sequence);
-		ChangePhase(Graph->GetLeafInSequence<UToroGamePhaseNode>(Sequence, true));
-		Save->Sequence = Sequence;
+		ChangePhase(Graph->GetLeafInSequence<UToroGamePhaseNode>(Sequence, true), true);
 	}
 }
 
-void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
+void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase, bool bSaveSequence)
 {
 	if (!IsValidManager() || bLoading || !NewPhase || NewPhase == ThisPhase
 		|| !Graph->AllNodes.Contains(NewPhase)) return;
@@ -65,6 +78,12 @@ void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 	if (AToroPlayerController* PC = PlayerChar->GetPlayerController<AToroPlayerController>())
 	{
 		PC->EnterCinematic(GetOwner());
+	}
+	
+	if (bSaveSequence)
+	{
+		Save->Sequence = Sequence;
+		GameInstance->SetFreePlayTarget(FGuid());
 	}
 	
 	Save->PlayTime += PhaseTime;
@@ -242,6 +261,7 @@ void UGamePhaseManager::BeginPlay()
 				Narrative = UNarrativeManager::Get(this);
 				Inventory = UInventoryManager::Get(this);
 				SaveManager = UToroSaveManager::Get(this);
+				GameInstance = UToroGameInstance::Get(this);
 				MusicManager = UWorldMusicManager::Get(this);
 				PlayerChar = AToroPlayerCharacter::Get(this);
 				PostProcessing = AMasterPostProcess::Get(this);

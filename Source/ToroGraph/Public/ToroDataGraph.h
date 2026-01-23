@@ -57,6 +57,11 @@ public:
 	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		TArray<uint8> GetSequenceFromNode(UToroDataNode* InNode) const;
 
+	UFUNCTION(BlueprintPure, Category = DataGraphs)
+		TArray<uint8> GetSequenceFromNodeID(const FGuid& InID, const TArray<uint8>& InSequence, const bool bRootFallback = true) const;
+
+	TArray<uint8> WalkSequence(const TArray<uint8>& InSequence, const TFunction<bool(const UToroDataNode*)>& StopWhen, const bool bInclusive) const;
+
 	template<typename T>
 	TArray<T*> GetNodesInSequence(const TArray<uint8>& InSequence, const bool bRootFallback) const
 	{
