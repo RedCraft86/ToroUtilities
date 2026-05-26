@@ -5,9 +5,14 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogToroCore, All, All)
+
 class FToroCoreModule : public IModuleInterface
 {
 public:
+
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
+
+    static void OnPreLoadMap(const FString& NewMap);
 };

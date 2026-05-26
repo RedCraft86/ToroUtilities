@@ -4,6 +4,8 @@
 
 #define LOCTEXT_NAMESPACE "ProjectLink"
 
+DEFINE_LOG_CATEGORY(LogProjectLink)
+
 void FProjectLinkModule::StartupModule()
 {
     

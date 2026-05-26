@@ -4,6 +4,8 @@
 
 #define LOCTEXT_NAMESPACE "ToroRuntime"
 
+DEFINE_LOG_CATEGORY(LogToroRuntime)
+
 void FToroRuntimeModule::StartupModule()
 {
     

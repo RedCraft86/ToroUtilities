@@ -4,6 +4,8 @@
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
+DEFINE_LOG_CATEGORY(LogToroEditor)
+
 void FToroEditorModule::StartupModule()
 {
     
