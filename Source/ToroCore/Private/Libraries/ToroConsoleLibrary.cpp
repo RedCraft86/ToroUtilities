@@ -60,16 +60,5 @@ FString UToroConsoleLibrary::GetCVarString(const FString& InName)
 
 IConsoleVariable* UToroConsoleLibrary::FindCVar(const FString& InName)
 {
-	if (IConsoleVariable** CachedCVar = CachedCVars.Find(InName); CachedCVar && *CachedCVar)
-	{
-		return *CachedCVar;
-	}
-
-	if (IConsoleVariable* FoundCVar = IConsoleManager::Get().FindConsoleVariable(*InName))
-	{
-		CachedCVars.Add(InName, FoundCVar);
-		return FoundCVar;
-	}
-
-	return nullptr;
+	return IConsoleManager::Get().FindConsoleVariable(*InName);
 }

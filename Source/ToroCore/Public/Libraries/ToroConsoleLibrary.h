@@ -9,9 +9,6 @@
 /**
  * A utility library for managing Unreal Engine Console Variables (CVars) through Blueprints.
  * Provides a clean interface for getting and setting CVars of various types (Bool, Int, Float, String).
- * 
- * Performance Note: This library utilizes a static cache for IConsoleVariable pointers to minimize 
- * expensive lookups in the global Console Manager.
  */
 UCLASS(NotBlueprintable, NotBlueprintType)
 class TOROCORE_API UToroConsoleLibrary final : public UBlueprintFunctionLibrary
@@ -86,7 +83,6 @@ public:
 
 	/** 
 	 * Locates a console variable in the engine's global manager.
-	 * Uses internal caching to optimize repeat lookups.
 	 * @param InName The name of the CVar to find.
 	 * @return Pointer to the CVar interface, or nullptr if not found.
 	 */
@@ -97,9 +93,4 @@ public:
 
 	/** The maximum priority flag used when setting CVar values. */
 	static inline EConsoleVariableFlags MaxPriority = ECVF_SetByConsole;
-
-private:
-
-	/** Cache of CVar names to their interface pointers to avoid repeated lookups. */
-	static inline TMap<FString, IConsoleVariable*> CachedCVars = {};
 };
