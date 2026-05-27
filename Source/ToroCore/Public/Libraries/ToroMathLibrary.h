@@ -44,7 +44,7 @@ public:
 		static double GetHorizontalDistance(const FVector A, const FVector B);
 
 	/** 
-	 * Adds two rotators together. 
+	 * Composes two rotators together. 
 	 * This is exposed as an operator (+) node in Blueprints.
 	 * @param A The base rotator.
 	 * @param B The rotation to add.
