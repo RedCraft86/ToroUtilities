@@ -4,7 +4,10 @@
 
 #include "Engine/Scene.h"
 #include "Components/LightComponent.h"
-#include "Components/LocalLightComponent.h"
+#include "Components/PointLightComponent.h"
+#include "Components/SpotLightComponent.h"
+#include "Components/RectLightComponent.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "LightProperties.generated.h"
 
 /**
@@ -252,4 +255,125 @@ struct TOROCORE_API FRectLightProperties final : public FBaseLightProperties
 
     virtual void FromLightComponent(const ULightComponent* Target) override;
     virtual void ToLightComponent(ULightComponent* Target) const override;
+};
+
+/**
+ * Blueprint function wrappers for LightProperties series of structs
+ */
+UCLASS(NotBlueprintable, NotBlueprintType)
+class TOROCORE_API ULightPropertiesLibrary final : public UBlueprintFunctionLibrary
+{
+    GENERATED_BODY()
+
+public:
+
+	/** 
+	 * Applies distance-based culling and fading settings to a Light Component.
+	 * @param Target The light component to update.
+	 * @param Settings The draw distance configuration to apply.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void SetLightDrawDistanceSettings(ULightComponent* Target, const FLightDrawDistance& Settings)
+	{
+		Settings.ToLightComponent(Target);
+	}
+
+	/** 
+	 * Extracts the current draw distance and fading settings from a Light Component.
+	 * @param OutData The struct to receive the extracted draw distance data (Output).
+	 * @param Target The source light component to read from.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void GetLightDrawDistanceSettings(FLightDrawDistance& OutData, const ULightComponent* Target)
+	{
+		OutData.FromLightComponent(Target);
+	}
+
+	/** 
+	 * Applies common base lighting properties (Intensity, Color, Attenuation, etc.) to any Light Component.
+	 * @param Target The light component to update.
+	 * @param Properties The base properties to apply.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void SetBaseLightProperties(ULightComponent* Target, const FBaseLightProperties& Properties)
+	{
+		Properties.ToLightComponent(Target);
+	}
+
+	/** 
+	 * Extracts common base lighting properties from any Light Component.
+	 * @param OutData The struct to receive the base property data (Output).
+	 * @param Target The source light component to read from.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void GetBaseLightProperties(FBaseLightProperties& OutData, const ULightComponent* Target)
+	{
+		OutData.FromLightComponent(Target);
+	}
+
+	/** 
+	 * Applies point-light specific properties (Source Radius, Falloff, etc.) to a Point Light Component.
+	 * @param Target The point light component to update.
+	 * @param Properties The specialized point light properties to apply.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void SetPointLightProperties(UPointLightComponent* Target, const FPointLightProperties& Properties)
+	{
+		Properties.ToLightComponent(Target);
+	}
+
+	/** 
+	 * Extracts specialized point-light properties from a Point Light Component.
+	 * @param OutData The struct to receive the point light property data (Output).
+	 * @param Target The source point light component to read from.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void GetPointLightProperties(FPointLightProperties& OutData, const UPointLightComponent* Target)
+	{
+		OutData.FromLightComponent(Target);
+	}
+
+	/** 
+	 * Applies spot-light specific properties (Cone Angles, Source Radius, etc.) to a Spot Light Component.
+	 * @param Target The spot light component to update.
+	 * @param Properties The specialized spot light properties to apply.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void SetSpotLightProperties(USpotLightComponent* Target, const FSpotLightProperties& Properties)
+	{
+		Properties.ToLightComponent(Target);
+	}
+	 
+	/** 
+	 * Extracts specialized spot-light properties from a Spot Light Component.
+	 * @param OutData The struct to receive the spot light property data (Output).
+	 * @param Target The source spot light component to read from.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void GetSpotLightProperties(FSpotLightProperties& OutData, const USpotLightComponent* Target)
+	{
+		OutData.FromLightComponent(Target);
+	}
+	 
+	/** 
+	 * Applies rect-light specific properties (Width, Height, Barn Doors, etc.) to a Rect Light Component.
+	 * @param Target The rect light component to update.
+	 * @param Properties The specialized rect light properties to apply.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void SetRectLightProperties(URectLightComponent* Target, const FRectLightProperties& Properties)
+	{
+		Properties.ToLightComponent(Target);
+	}
+	 
+	/** 
+	 * Extracts specialized rect-light properties from a Rect Light Component.
+	 * @param OutData The struct to receive the rect light property data (Output).
+	 * @param Target The source rect light component to read from.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = "Target"))
+	static void GetRectLightProperties(FRectLightProperties& OutData, const URectLightComponent* Target)
+	{
+		OutData.FromLightComponent(Target);
+	}
 };
