@@ -7,7 +7,7 @@
 ULazyRenderComponent::ULazyRenderComponent(): bNullChecks(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.bStartWithTickEnabled = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
 	PrimaryComponentTick.bTickEvenWhenPaused = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
 	PrimaryComponentTick.TickInterval = 1.0f;
