@@ -18,7 +18,7 @@ UEdShapeComponent::UEdShapeComponent()
 
 	bAutoActivate = false;
 	bIsEditorOnly = true;
-#if WITH_EDITORONLY_DATA && !WITH_EDITOR
+#if WITH_EDITORONLY_DATA
 	SetIsVisualizationComponent(true);
 #endif
 }
