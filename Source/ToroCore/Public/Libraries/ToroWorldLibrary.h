@@ -17,7 +17,7 @@ class TOROCORE_API UToroWorldLibrary final : public UBlueprintFunctionLibrary
 public:
 
 	/** 
-	 * Attempts to find a valid UWorld pointer from FWorldGetter.
+	 * Attempts to find a valid UWorld pointer from FWorldGetter which is a global world pointer caching class.
 	 * 
 	 * @param Context  (Optional) The object to search the world from.
 	 * @return         A pointer to the UWorld associated with the context, or nullptr.
@@ -33,7 +33,7 @@ public:
 	 * @param Options        Optional URL-style parameters to pass to the level on reload (e.g., "?game=MyGameMode").
 	 */
 	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject", AdvancedDisplay = "Options"))
-		static void ReloadLevel(const UObject* ContextObject, const FString Options = TEXT(""));
+		static void ReloadLevel(const UObject* ContextObject, const FString& Options = TEXT(""));
 
 	/** 
 	 * Triggers a Remote Event defined in the Level Blueprint.

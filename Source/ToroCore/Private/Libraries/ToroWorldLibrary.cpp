@@ -10,7 +10,7 @@ UWorld* UToroWorldLibrary::GetPossibleWorld(const UObject* Context)
 	return FWorldGetter::Get(Context);
 }
 
-void UToroWorldLibrary::ReloadLevel(const UObject* ContextObject, const FString Options)
+void UToroWorldLibrary::ReloadLevel(const UObject* ContextObject, const FString& Options)
 {
 	const UWorld* World = FWorldGetter::Get(ContextObject);
 	UGameplayStatics::OpenLevel(World, *UGameplayStatics::GetCurrentLevelName(World), true, Options);
