@@ -12,7 +12,7 @@
  * explicitly ask for it to be rendered. This is highly effective for localized rendering systems.
  */
 UCLASS(NotBlueprintable, DisplayName = "Lazy Renderer", ClassGroup = (Optimization), meta = (BlueprintSpawnableComponent))
-class TOROCORE_API ULazyRenderComponent final : public UToroActorComponent
+class TORORUNTIME_API ULazyRenderComponent final : public UToroActorComponent
 {
 	GENERATED_BODY()
 

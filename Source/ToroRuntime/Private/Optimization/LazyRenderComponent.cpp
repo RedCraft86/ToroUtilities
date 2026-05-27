@@ -1,6 +1,6 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
-#include "Components/Optimization/LazyRenderComponent.h"
+#include "Optimization/LazyRenderComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 
