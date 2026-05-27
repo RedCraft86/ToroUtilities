@@ -9,7 +9,7 @@
 
 #define DECLARE_ICON_COMPONENT TObjectPtr<UEdIconComponent> EdIconComp = nullptr;
 #define DEFINE_ICON_COMPONENT \
-	if (!FApp::IsGame()) EdIconComp = CreateEditorOnlyDefaultSubobject<UEdIconComponent>(TEXT("EdIcon")); \
+	EdIconComp = CreateEditorOnlyDefaultSubobject<UEdIconComponent>(TEXT("EdIcon")); \
 	if (EdIconComp) EdIconComp->SetupAttachment(GetRootComponent());
 
 #define UPDATE_ICON_MAX_COMP(Max) if (EdIconComp) EdIconComp->SetMaxComponents(Max);
@@ -47,5 +47,6 @@ private:
 #if WITH_EDITOR
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
+	virtual void OnRegister() override;
 #endif
 };

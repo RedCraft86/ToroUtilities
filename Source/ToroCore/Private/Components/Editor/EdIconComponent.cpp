@@ -17,9 +17,6 @@ UEdIconComponent::UEdIconComponent()
 #if WITH_EDITORONLY_DATA
 	SetIsVisualizationComponent(true);
 #endif
-
-	UpdateSize();
-	UpdateIcon();
 }
 
 #if WITH_EDITOR
@@ -54,5 +51,12 @@ void UEdIconComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	}
 
 	SetVisibility(Count < MaxComps);
+}
+
+void UEdIconComponent::OnRegister()
+{
+	Super::OnRegister();
+	UpdateSize();
+	UpdateIcon();
 }
 #endif
