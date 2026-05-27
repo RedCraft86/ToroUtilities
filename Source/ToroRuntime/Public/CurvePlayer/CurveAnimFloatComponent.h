@@ -44,6 +44,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		FInlineFloatCurve Curve;
 
+	virtual void InitializeCurve() override;
 	virtual void BroadcastEval() const override;
-	virtual void BeginPlay() override;
 };

@@ -83,6 +83,12 @@ void UCurveAnimBaseComponent::BroadcastState() const
 	OnStateChangedBP.Broadcast(PlayState);
 }
 
+void UCurveAnimBaseComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	InitializeCurve();
+}
+
 void UCurveAnimBaseComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);

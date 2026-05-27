@@ -15,11 +15,16 @@ void UCurveAnimVectorComponent::SetCurve(const FInlineVectorCurve& InCurve)
 		StopPlaying(false);
 
 		Curve =	InCurve;
-		Curve.GetTimeRange(TimeRange.X, TimeRange.Y);
-		CurrentTime = TimeRange.X;
+		InitializeCurve();
 
 		BroadcastEval();
 	}
+}
+
+void UCurveAnimVectorComponent::InitializeCurve()
+{
+	Curve.GetTimeRange(TimeRange.X, TimeRange.Y);
+	CurrentTime = TimeRange.X;
 }
 
 void UCurveAnimVectorComponent::BroadcastEval() const
@@ -27,11 +32,4 @@ void UCurveAnimVectorComponent::BroadcastEval() const
 	const FVector Value = GetValue();
 	OnEvaluateTick.Broadcast(Value, CurrentTime);
 	OnEvaluateTickBP.Broadcast(Value, CurrentTime);
-}
-
-void UCurveAnimVectorComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	Curve.GetTimeRange(TimeRange.X, TimeRange.Y);
-	CurrentTime = TimeRange.X;
 }

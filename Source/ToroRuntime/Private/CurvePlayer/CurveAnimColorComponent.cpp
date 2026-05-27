@@ -15,11 +15,16 @@ void UCurveAnimColorComponent::SetCurve(const FInlineColorCurve& InCurve)
 		StopPlaying(false);
 
 		Curve =	InCurve;
-		Curve.GetTimeRange(TimeRange.X, TimeRange.Y);
-		CurrentTime = TimeRange.X;
+		InitializeCurve();
 
 		BroadcastEval();
 	}
+}
+
+void UCurveAnimColorComponent::InitializeCurve()
+{
+	Curve.GetTimeRange(TimeRange.X, TimeRange.Y);
+	CurrentTime = TimeRange.X;
 }
 
 void UCurveAnimColorComponent::BroadcastEval() const
@@ -27,11 +32,4 @@ void UCurveAnimColorComponent::BroadcastEval() const
 	const FLinearColor Value = GetValue();
 	OnEvaluateTick.Broadcast(Value, CurrentTime);
 	OnEvaluateTickBP.Broadcast(Value, CurrentTime);
-}
-
-void UCurveAnimColorComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	Curve.GetTimeRange(TimeRange.X, TimeRange.Y);
-	CurrentTime = TimeRange.X;
 }

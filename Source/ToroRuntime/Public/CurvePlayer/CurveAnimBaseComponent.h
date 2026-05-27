@@ -49,15 +49,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
 		void PlayReverse(const bool bFromEnd = false);
 
-	/** Manually sets the evaluation time. bNotify determines if evaluation events are fired. */
+	/** Manually sets the evaluation time. bNotify determines if evaluation events are fired if the time is changed. */
 	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
 		void SetPlaybackTime(const float InTime, const bool bNotify = true);
 
-	/** Snaps current time to the curve's minimum time. */
+	/** Snaps current time to the curve's minimum time. bNotify determines if evaluation events are fired if snapped. */
 	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
 		void SnapToStart(const bool bNotify = true) { SetPlaybackTime(TimeRange.X, bNotify); }
 
-	/** Snaps current time to the curve's maximum time. */
+	/** Snaps current time to the curve's maximum time. bNotify determines if evaluation events are fired if snapped. */
 	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
 		void SnapToEnd(const bool bNotify = true) { SetPlaybackTime(TimeRange.Y, bNotify); }
 
@@ -99,8 +99,10 @@ protected:
 	FVector2D TimeRange;
 	ECurvePlayerState PlayState;
 
-	virtual void BroadcastEval() const PURE_VIRTUAL(UCurvePlayerComponent::BroadcastEval,);
+	virtual void InitializeCurve() PURE_VIRTUAL(UCurveAnimBaseComponent::InitializeCurve,);
+	virtual void BroadcastEval() const PURE_VIRTUAL(UCurveAnimBaseComponent::BroadcastEval,);
 
 	void BroadcastState() const;
+	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 };
