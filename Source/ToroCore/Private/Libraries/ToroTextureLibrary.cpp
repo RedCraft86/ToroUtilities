@@ -157,7 +157,7 @@ bool UToroTextureLibrary::SaveRenderTargetToFile(UTextureRenderTarget2D* Target,
 	return GetDataFromRenderTarget(Data, Target, bInvertAlpha) && SaveTextureDataToFile(Data, FilePath);
 }
 
-FVoidCoroutine UToroTextureLibrary::AsyncSaveTextureDataToFile(bool& bSuccess, const FGenericImageData& InData, const FString& FilePath, FLatentActionInfo LatentInfo)
+FVoidCoroutine UToroTextureLibrary::AsyncSaveTextureDataToFile(FLatentActionInfo LatentInfo, bool& bSuccess, const FGenericImageData& InData, const FString& FilePath)
 {
 	co_await UE5Coro::Async::MoveToTask();
 	const bool bResult = SaveTextureDataToFile(InData, FilePath);
@@ -165,7 +165,7 @@ FVoidCoroutine UToroTextureLibrary::AsyncSaveTextureDataToFile(bool& bSuccess, c
 	bSuccess = bResult;
 }
 
-FVoidCoroutine UToroTextureLibrary::AsyncSaveTextureToFile(bool& bSuccess, const UTexture2D* Target, const FString& FilePath, FLatentActionInfo LatentInfo)
+FVoidCoroutine UToroTextureLibrary::AsyncSaveTextureToFile(FLatentActionInfo LatentInfo, bool& bSuccess, const UTexture2D* Target, const FString& FilePath)
 {
 	co_await UE5Coro::Async::MoveToTask();
 	const bool bResult = SaveTextureToFile(Target, FilePath);
@@ -173,7 +173,7 @@ FVoidCoroutine UToroTextureLibrary::AsyncSaveTextureToFile(bool& bSuccess, const
 	bSuccess = bResult;
 }
 
-FVoidCoroutine UToroTextureLibrary::AsyncSaveRenderTargetToFile(bool& bSuccess, UTextureRenderTarget2D* Target, const FString& FilePath, const bool bInvertAlpha, FLatentActionInfo LatentInfo)
+FVoidCoroutine UToroTextureLibrary::AsyncSaveRenderTargetToFile(FLatentActionInfo LatentInfo, bool& bSuccess, UTextureRenderTarget2D* Target, const FString& FilePath, const bool bInvertAlpha)
 {
 	co_await UE5Coro::Async::MoveToTask();
 	const bool bResult = SaveRenderTargetToFile(Target, FilePath, bInvertAlpha);

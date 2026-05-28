@@ -126,7 +126,7 @@ public:
 	 * @param FilePath   Full disk path (including extension) where the file should be saved.
 	 */
 	UFUNCTION(BlueprintCallable, Category = TextureUtils, meta = (Latent, LatentInfo = LatentInfo))
-		static FVoidCoroutine AsyncSaveTextureDataToFile(bool& bSuccess, const FGenericImageData& InData, const FString& FilePath, FLatentActionInfo LatentInfo);
+		static FVoidCoroutine AsyncSaveTextureDataToFile(FLatentActionInfo LatentInfo, bool& bSuccess, const FGenericImageData& InData, const FString& FilePath);
 
 	/** 
 	 * Asynchronously saves a Texture2D asset to a file (PNG format) on disk. 
@@ -137,7 +137,7 @@ public:
 	 * @param FilePath   Full disk path (including extension) where the file should be saved.
 	 */
 	UFUNCTION(BlueprintCallable, Category = TextureUtils, meta = (Latent, LatentInfo = LatentInfo))
-		static FVoidCoroutine AsyncSaveTextureToFile(bool& bSuccess, const UTexture2D* Target, const FString& FilePath, FLatentActionInfo LatentInfo);
+		static FVoidCoroutine AsyncSaveTextureToFile(FLatentActionInfo LatentInfo, bool& bSuccess, const UTexture2D* Target, const FString& FilePath);
 
 	/** 
 	 * Asynchronously saves a Render Target to a file (PNG format) on disk. 
@@ -148,7 +148,7 @@ public:
 	 * @param FilePath   Full disk path (including extension) where the file should be saved.
 	 */
 	UFUNCTION(BlueprintCallable, Category = TextureUtils, meta = (Latent, LatentInfo = LatentInfo))
-		static FVoidCoroutine AsyncSaveRenderTargetToFile(bool& bSuccess, UTextureRenderTarget2D* Target, const FString& FilePath, const bool bInvertAlpha, FLatentActionInfo LatentInfo);
+		static FVoidCoroutine AsyncSaveRenderTargetToFile(FLatentActionInfo LatentInfo, bool& bSuccess, UTextureRenderTarget2D* Target, const FString& FilePath, const bool bInvertAlpha);
 
 private:
 
