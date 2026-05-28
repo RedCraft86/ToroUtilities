@@ -20,7 +20,9 @@ public class ToroCore : ModuleRules
                 "RenderCore",
                 "GameplayTags",
                 "NavigationSystem",
-                "ProceduralMeshComponent",
+                "ProceduralMeshComponent", 
+                "LevelSequence",
+                "MovieScene",
                 "CommonUI",
                 "UE5Coro",
                 "ExpressiveText"
