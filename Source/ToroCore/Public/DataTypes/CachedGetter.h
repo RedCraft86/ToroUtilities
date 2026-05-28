@@ -55,7 +55,7 @@ public:
 	 */
 	[[nodiscard]] T* Fetch()
 	{
-		if (ensureAlwaysMsgf(IsValid(Getter), TEXT("TCachedGetter has no getter bound!")))
+		if (ensureAlwaysMsgf(Getter, TEXT("TCachedGetter has no getter bound!")))
 		{
 			CachedPtr = Getter();
 		}
