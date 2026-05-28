@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "UE5Coro.h"
 #include "ImageUtils.h"
-#include "UE5Coro/UnrealTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ToroTextureLibrary.generated.h"
 

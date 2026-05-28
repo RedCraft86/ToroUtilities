@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "UE5Coro/UnrealTypes.h"
+#include "UE5Coro.h"
 #include "Engine/LatentActionManager.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
