@@ -6,7 +6,7 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogToroRuntime, All, All)
 
-class FToroRuntimeModule : public IModuleInterface
+class FToroRuntimeModule final : public IModuleInterface
 {
 public:
     virtual void StartupModule() override;

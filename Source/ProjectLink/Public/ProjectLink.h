@@ -6,7 +6,7 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogProjectLink, All, All)
 
-class FProjectLinkModule : public IModuleInterface
+class FProjectLinkModule final : public IModuleInterface
 {
 public:
     virtual void StartupModule() override;

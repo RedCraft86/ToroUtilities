@@ -6,7 +6,7 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogToroCore, All, All)
 
-class FToroCoreModule : public IModuleInterface
+class FToroCoreModule final : public IModuleInterface
 {
 public:
 

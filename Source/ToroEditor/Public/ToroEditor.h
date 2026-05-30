@@ -6,7 +6,7 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogToroEditor, All, All)
 
-class FToroEditorModule : public IModuleInterface
+class TOROEDITOR_API FToroEditorModule final : public IModuleInterface
 {
 public:
     virtual void StartupModule() override;
