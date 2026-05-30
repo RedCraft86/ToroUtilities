@@ -3,6 +3,8 @@
 #include "ToroEditor.h"
 #include "ToroEditorStyle.h"
 
+#include "ToolbarButton/ToolbarButtonRegistry.h"
+
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
 DEFINE_LOG_CATEGORY(LogToroEditor)
@@ -10,10 +12,13 @@ DEFINE_LOG_CATEGORY(LogToroEditor)
 void FToroEditorModule::StartupModule()
 {
     FToroEditorStyle::Register();
+
+    FToolbarButtonRegistry::Register();
 }
 
 void FToroEditorModule::ShutdownModule()
 {
+	FToolbarButtonRegistry::UnregisterAll();
     FToroEditorStyle::Unregister();
 }
 
