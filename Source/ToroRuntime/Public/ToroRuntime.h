@@ -4,7 +4,7 @@
 
 #include "Modules/ModuleManager.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogToroRuntime, All, All)
+TORORUNTIME_API DECLARE_LOG_CATEGORY_EXTERN(LogToroRuntime, All, All)
 
 class FToroRuntimeModule final : public IModuleInterface
 {

@@ -4,7 +4,7 @@
 
 #include "Modules/ModuleManager.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogToroCore, All, All)
+TOROCORE_API DECLARE_LOG_CATEGORY_EXTERN(LogToroCore, All, All)
 
 class FToroCoreModule final : public IModuleInterface
 {
