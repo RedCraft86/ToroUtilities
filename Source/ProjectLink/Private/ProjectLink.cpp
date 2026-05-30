@@ -7,7 +7,7 @@
 #include "Framework/Application/SlateApplication.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 #include "ProjectLinkSettings.h"
-#include "ProjectConfigData.h"
+#include "PLConfigData.h"
 
 #define LOCTEXT_NAMESPACE "ProjectLink"
 
