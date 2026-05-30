@@ -7,6 +7,8 @@ AToroCharacter::AToroCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
+	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
+
 	SetCanBeDamaged(false);
 
 	UniqueId.RegenerateGuid();
