@@ -9,6 +9,8 @@
 #include "ComponentVis/FEdShapeVisualizer.h"
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 
+#include "DetailsPanel/DetailsCustomizationRegistry.h"
+
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
 DEFINE_LOG_CATEGORY(LogToroEditor)
@@ -27,6 +29,7 @@ void FToroEditorModule::ShutdownModule()
 {
 	FToolbarButtonRegistry::UnregisterAll();
 	FComponentVisualizerRegistry::UnregisterAll();
+	FDetailsCustomizationRegistry::UnregisterAll();
     FToroEditorStyle::Unregister();
 }
 
