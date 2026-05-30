@@ -74,7 +74,15 @@ void FToroClassCustomization::CustomizeDetails(const TSharedPtr<IDetailLayoutBui
 	}
 
 	HandleShowOnlyCategories();
-		
+
+	// Always prioritize Settings and Tools unless metadata specified
+	static const FName NAME_PrioritizeCategories("PrioritizeCategories");
+	if (!CustomizingClass->HasMetaData(NAME_PrioritizeCategories))
+	{
+		DetailBuilder->EditCategory(TEXT("Settings"), FText::GetEmpty(), ECategoryPriority::Important);
+		DetailBuilder->EditCategory(TEXT("Tools"), FText::GetEmpty(), ECategoryPriority::Important);
+	}
+
 	IDetailCustomization::CustomizeDetails(DetailBuilder);
 }
 
