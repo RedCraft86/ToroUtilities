@@ -10,6 +10,7 @@
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
+#include "DetailsPanel/PropertyMetadataDetails.h"
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
@@ -23,10 +24,22 @@ void FToroEditorModule::StartupModule()
     FToolbarButtonRegistry::Register();
 
 	FComponentVisualizerRegistry::Register<UEdShapeComponent, FEdShapeVisualizer>();
+
+	if (FBlueprintEditorModule* BPEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>(TEXT("Kismet")))
+	{
+		BPEditorModule->RegisterVariableCustomization(FProperty::StaticClass(),
+			FOnGetVariableCustomizationInstance::CreateStatic(&FPropertyMetadataDetails::MakeInstance));
+	}
 }
 
 void FToroEditorModule::ShutdownModule()
 {
+	if (FBlueprintEditorModule* BPEditorModule = FModuleManager::GetModulePtr<FBlueprintEditorModule>(TEXT("Kismet")))
+	{
+		const FDelegateHandle Handle;
+		BPEditorModule->UnregisterVariableCustomization(FProperty::StaticClass(), Handle);
+	}
+
 	FToolbarButtonRegistry::UnregisterAll();
 	FComponentVisualizerRegistry::UnregisterAll();
 	FDetailsCustomizationRegistry::UnregisterAll();
