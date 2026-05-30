@@ -4,6 +4,10 @@
 #include "ToroEditorStyle.h"
 
 #include "ToolbarButton/RestartEditor.h"
+#include "ToolbarButton/ActorLayout.h"
+#include "ToolbarButton/ActorMerger.h"
+#include "ToolbarButton/ActorBaker.h"
+#include "ToolbarButton/ActorInstancer.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 
 #include "ComponentVis/FEdShapeVisualizer.h"
@@ -29,7 +33,11 @@ void FToroEditorModule::StartupModule()
 {
     FToroEditorStyle::Register();
 
-    FToolbarButtonRegistry::AddButton<FRestartEditor>();
+	FToolbarButtonRegistry::AddButton<FRestartEditor>();
+	FToolbarButtonRegistry::AddButton<FActorLayout>();
+	FToolbarButtonRegistry::AddButton<FActorMerger>();
+	FToolbarButtonRegistry::AddButton<FActorBaker>();
+	FToolbarButtonRegistry::AddButton<FActorInstancer>();
     FToolbarButtonRegistry::Register();
 
 	FComponentVisualizerRegistry::Register<UEdShapeComponent, FEdShapeVisualizer>();
