@@ -9,8 +9,17 @@
 #include "ComponentVis/FEdShapeVisualizer.h"
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 
+#include "DetailsPanel/GameObjectIdDetails.h"
+#include "DetailsPanel/PrimitiveCollisionDetails.h"
+#include "DetailsPanel/InlineCurveDetails.h"
+#include "DetailsPanel/WrappedTypeDetails.h"
+#include "DetailsPanel/ToroClassCustomization.h"
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
 #include "DetailsPanel/PropertyMetadataDetails.h"
+
+#include "Actors/ToroActor.h"
+#include "Actors/ToroCharacter.h"
+#include "Actors/ToroVolume.h"
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
@@ -24,6 +33,24 @@ void FToroEditorModule::StartupModule()
     FToolbarButtonRegistry::Register();
 
 	FComponentVisualizerRegistry::Register<UEdShapeComponent, FEdShapeVisualizer>();
+
+	FDetailsCustomizationRegistry::Register<FGameObjectId, FGameObjectIdDetails>();
+	FDetailsCustomizationRegistry::Register<FPrimitiveCollision, FPrimitiveCollisionDetails>();
+
+	FDetailsCustomizationRegistry::Register<FInlineFloatCurve, FInlineCurveDetails>();
+	FDetailsCustomizationRegistry::Register<FInlineVectorCurve, FInlineCurveDetails>();
+	FDetailsCustomizationRegistry::Register<FInlineColorCurve, FInlineCurveDetails>();
+
+	FDetailsCustomizationRegistry::Register<FWrappedBool, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedFloat, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedByte, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedInt32, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedInt64, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedString, FWrappedTypeDetails>();
+
+	FDetailsCustomizationRegistry::Register<AToroActor, FToroClassCustomization>();
+	FDetailsCustomizationRegistry::Register<AToroVolume, FToroClassCustomization>();
+	FDetailsCustomizationRegistry::Register<AToroCharacter, FToroClassCustomization>();
 
 	if (FBlueprintEditorModule* BPEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>(TEXT("Kismet")))
 	{

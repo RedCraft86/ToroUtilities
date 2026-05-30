@@ -19,9 +19,9 @@ struct TOROCORE_API FPrimitiveCollision final
 	GENERATED_BODY()
 
 private:
-// #if WITH_EDITOR
-// 	friend class FPrimitiveCollisionDetails; // TODO details visualization
-// #endif
+#if WITH_EDITOR
+	friend class FPrimitiveCollisionDetails;
+#endif
 	 
 	/** 
 	 * Determines if the component is enabled for queries (traces/overlaps) and/or physics simulation. 
@@ -100,7 +100,7 @@ public:
 	void FromPrimitiveComponent(const UPrimitiveComponent* Target);
 	void ToPrimitiveComponent(UPrimitiveComponent* Target) const;
 
-	struct Utils
+	struct TOROCORE_API Utils
 	{
 		/** 
 		 * Retrieves raw collision data for a named profile from the engine. 
@@ -109,12 +109,6 @@ public:
 		 * @return True if the profile exists.
 		 */
 		static bool GetProfile(const FName& ProfileName, FCollisionResponseTemplate* OutData = nullptr);
-
-		/** @return True if the channel is valid and not 'None'. */
-		static bool IsValidChannel(const ECollisionChannel InChannel);
-
-		/** @return True if the channel is marked as hidden in project settings. (Editor-Only) */
-		static bool IsHiddenChannel(const ECollisionChannel InChannel);
 
 		/** 
 		 * Iterates through all available collision channels.

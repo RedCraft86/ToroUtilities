@@ -73,7 +73,7 @@ void FPrimitiveCollision::FillDefaultResponses(const ECollisionResponse InRespon
 	{
 		if (!ResponsesMap.Contains(Channel) || bResetAll)
 		{
-			ResponsesMap.Add(Channel, Utils::IsHiddenChannel(Channel) ? ECR_Ignore : InResponses);
+			ResponsesMap.Add(Channel, InResponses);
 		}
 	}, false);
 }
@@ -140,22 +140,6 @@ bool FPrimitiveCollision::Utils::GetProfile(const FName& ProfileName, FCollision
 	return Profile->GetProfileTemplate(ProfileName, Template);
 }
 
-bool FPrimitiveCollision::Utils::IsValidChannel(const ECollisionChannel InChannel)
-{
-	return InChannel != ECC_OverlapAll_Deprecated && InChannel != ECC_MAX; 
-}
-
-bool FPrimitiveCollision::Utils::IsHiddenChannel(const ECollisionChannel InChannel)
-{
-#if WITH_EDITOR
-	if (const UEnum* EnumPtr = StaticEnum<ECollisionChannel>())
-	{
-		return EnumPtr->HasMetaData(TEXT("Hidden"), EnumPtr->GetIndexByValue(InChannel));
-	}
-#endif
-	return false;
-}
-
 void FPrimitiveCollision::Utils::ForEachChannel(const TFunction<void(const ECollisionChannel, const int32, const UEnum*)>& Func, const bool bIgnoreHidden)
 {
 	if (const UEnum* EnumPtr = StaticEnum<ECollisionChannel>())
@@ -169,7 +153,7 @@ void FPrimitiveCollision::Utils::ForEachChannel(const TFunction<void(const EColl
 			}
 #endif
 			const TEnumAsByte<ECollisionChannel> EnumVal(i);
-			if (IsValidChannel(EnumVal) && Func)
+			if (EnumVal != ECC_OverlapAll_Deprecated && EnumVal != ECC_MAX && Func)
 			{
 				Func(EnumVal, i, EnumPtr);
 			}
