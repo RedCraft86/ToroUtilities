@@ -8,7 +8,8 @@ DECLARE_LOG_CATEGORY_EXTERN(LogToroRuntime, All, All)
 
 class FToroRuntimeModule final : public IModuleInterface
 {
-public:
+private:
+
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
 };

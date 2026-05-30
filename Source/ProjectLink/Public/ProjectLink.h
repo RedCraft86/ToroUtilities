@@ -8,7 +8,8 @@ DECLARE_LOG_CATEGORY_EXTERN(LogProjectLink, All, All)
 
 class FProjectLinkModule final : public IModuleInterface
 {
-public:
+private:
+
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
 };
