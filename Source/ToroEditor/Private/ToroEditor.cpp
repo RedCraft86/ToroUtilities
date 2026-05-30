@@ -6,6 +6,7 @@
 #include "ToolbarButton/RestartEditor.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 
+#include "ComponentVis/FEdShapeVisualizer.h"
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
@@ -18,6 +19,8 @@ void FToroEditorModule::StartupModule()
 
     FToolbarButtonRegistry::AddButton<FRestartEditor>();
     FToolbarButtonRegistry::Register();
+
+	FComponentVisualizerRegistry::Register<UEdShapeComponent, FEdShapeVisualizer>();
 }
 
 void FToroEditorModule::ShutdownModule()
