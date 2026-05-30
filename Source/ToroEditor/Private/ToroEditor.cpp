@@ -6,6 +6,8 @@
 #include "ToolbarButton/RestartEditor.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 
+#include "ComponentVis/ComponentVisualizerRegistry.h"
+
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
 DEFINE_LOG_CATEGORY(LogToroEditor)
@@ -21,6 +23,7 @@ void FToroEditorModule::StartupModule()
 void FToroEditorModule::ShutdownModule()
 {
 	FToolbarButtonRegistry::UnregisterAll();
+	FComponentVisualizerRegistry::UnregisterAll();
     FToroEditorStyle::Unregister();
 }
 
