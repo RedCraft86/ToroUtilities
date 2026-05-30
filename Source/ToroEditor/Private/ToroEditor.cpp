@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "ToroEditor.h"
+#include "ToroEditorStyle.h"
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
@@ -8,12 +9,12 @@ DEFINE_LOG_CATEGORY(LogToroEditor)
 
 void FToroEditorModule::StartupModule()
 {
-    
+    FToroEditorStyle::Register();
 }
 
 void FToroEditorModule::ShutdownModule()
 {
-    
+    FToroEditorStyle::Unregister();
 }
 
 #undef LOCTEXT_NAMESPACE
