@@ -1,16 +1,16 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
-#include "Helpers/ActorInstancer.h"
+#include "Helpers/ActorInstancing.h"
 #if WITH_EDITOR
 #include "Actors/ISMActors.h"
 #include "Components/InstancedStaticMeshComponent.h"
-#include "Helpers/ActorBaker.h"
+#include "Helpers/ActorBaking.h"
 
 #define LOCTEXT_NAMESPACE "ToroCore"
 
-TArray<AActor*> FActorInstancer::InstanceActors(const TArray<AActor*>& Sources, const bool bUseHISM, const bool bDestroySources)
+TArray<AActor*> FActorInstancing::InstanceActors(const TArray<AActor*>& Sources, const bool bUseHISM, const bool bDestroySources)
 {
-	UEditorActorSubsystem* Subsystem = FActorBaker::ActorSubsystem.Get();
+	UEditorActorSubsystem* Subsystem = FActorBaking::ActorSubsystem.Get();
 	if (!Subsystem || Sources.IsEmpty()) return TArray<AActor*>();
 
 	UE_LOG(LogToroCore, Display, TEXT("[InstanceActors] Starting Instancing for %d actors..."), Sources.Num())
@@ -41,7 +41,7 @@ TArray<AActor*> FActorInstancer::InstanceActors(const TArray<AActor*>& Sources, 
 			Idx++;
 			if (Instance.Value.Num() == 1)
 			{
-				AStaticMeshActor* Actor = FActorBaker::SpawnStaticMesh<AStaticMeshActor>(Instance.Value[0]);
+				AStaticMeshActor* Actor = FActorBaking::SpawnStaticMesh<AStaticMeshActor>(Instance.Value[0]);
 				Instance.Key.ToMeshComponent(Actor->GetStaticMeshComponent());
 
 				Actor->SetActorLabel(FString::Printf(TEXT("%s_Inst_%d"),
@@ -51,8 +51,8 @@ TArray<AActor*> FActorInstancer::InstanceActors(const TArray<AActor*>& Sources, 
 			else
 			{
 				AInstancedStaticMeshActor* Actor = bUseHISM 
-					? FActorBaker::SpawnStaticMesh<AHierarchicalInstancedStaticMeshActor>(Instance.Key.Transform)
-					: FActorBaker::SpawnStaticMesh<AInstancedStaticMeshActor>(Instance.Key.Transform);
+					? FActorBaking::SpawnStaticMesh<AHierarchicalInstancedStaticMeshActor>(Instance.Key.Transform)
+					: FActorBaking::SpawnStaticMesh<AInstancedStaticMeshActor>(Instance.Key.Transform);
 
 				UInstancedStaticMeshComponent* Component = Actor->GetMeshComponent<UInstancedStaticMeshComponent>();
 				Instance.Key.ToMeshComponent(Component);
@@ -73,7 +73,7 @@ TArray<AActor*> FActorInstancer::InstanceActors(const TArray<AActor*>& Sources, 
 		for (int32 i = 0; i < AllComponents.Num(); i++)
 		{
 			Idx++;
-			Actors.Append(FActorBaker::BakeComponent(AllComponents[i], Idx));
+			Actors.Append(FActorBaking::BakeComponent(AllComponents[i], Idx));
 			UE_LOG(LogToroCore, Display, TEXT("[InstanceActors] \t Baked [%d/%d] remaining components"), i, AllComponents.Num())
 		}
 	}
@@ -95,7 +95,7 @@ TArray<AActor*> FActorInstancer::InstanceActors(const TArray<AActor*>& Sources, 
 	return Actors;
 }
 
-TMap<FStaticMeshProperties, TArray<FTransform>> FActorInstancer::ExtractInstances(TArray<UStaticMeshComponent*>& Components)
+TMap<FStaticMeshProperties, TArray<FTransform>> FActorInstancing::ExtractInstances(TArray<UStaticMeshComponent*>& Components)
 {
 	TMap<FStaticMeshProperties, TArray<FTransform>> Result;
 	for (auto It = Components.CreateIterator(); It; ++It)

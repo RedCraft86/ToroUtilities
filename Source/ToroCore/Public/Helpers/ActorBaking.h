@@ -22,7 +22,7 @@
  * 
  * All functions are Editor-Only.
  */
-class TOROCORE_API FActorBaker final
+class TOROCORE_API FActorBaking final
 {
 #if WITH_EDITOR
 public:

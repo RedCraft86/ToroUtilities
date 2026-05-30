@@ -13,7 +13,7 @@
  * 
  * All functions are Editor-Only.
  */
-class TOROCORE_API FActorInstancer final
+class TOROCORE_API FActorInstancing final
 {
 #if WITH_EDITOR
 public:

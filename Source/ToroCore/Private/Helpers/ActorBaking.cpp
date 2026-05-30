@@ -1,6 +1,6 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
-#include "Helpers/ActorBaker.h"
+#include "Helpers/ActorBaking.h"
 #if WITH_EDITOR
 #include "AssetToolsModule.h"
 #include "EditorDirectories.h"
@@ -19,7 +19,7 @@
 
 #define LOCTEXT_NAMESPACE "ToroCore"
 
-TArray<AActor*> FActorBaker::BakeActors(const TArray<AActor*>& Sources, const bool bDestroySources)
+TArray<AActor*> FActorBaking::BakeActors(const TArray<AActor*>& Sources, const bool bDestroySources)
 {
 	UEditorActorSubsystem* Subsystem = ActorSubsystem.Get();
 	if (!Subsystem || Sources.IsEmpty()) return TArray<AActor*>();
@@ -57,7 +57,7 @@ TArray<AActor*> FActorBaker::BakeActors(const TArray<AActor*>& Sources, const bo
 	return Actors;
 }
 
-TArray<AActor*> FActorBaker::BakeComponent(const UMeshComponent* Source, const int32 Index)
+TArray<AActor*> FActorBaking::BakeComponent(const UMeshComponent* Source, const int32 Index)
 {
 	if (!Source)
 	{
@@ -119,7 +119,7 @@ TArray<AActor*> FActorBaker::BakeComponent(const UMeshComponent* Source, const i
 	return Actors;
 }
 
-AActor* FActorBaker::BakeProceduralMesh(UProceduralMeshComponent* Source, const FName& Name)
+AActor* FActorBaking::BakeProceduralMesh(UProceduralMeshComponent* Source, const FName& Name)
 {
 	FString DefaultPath;
 	const FString DefaultDirectory = FEditorDirectories::Get().GetLastDirectory(ELastDirectory::NEW_ASSET);
@@ -217,7 +217,7 @@ AActor* FActorBaker::BakeProceduralMesh(UProceduralMeshComponent* Source, const 
 	return nullptr;
 }
 
-AStaticMeshActor* FActorBaker::BakeStaticMesh(const UStaticMeshComponent* Src)
+AStaticMeshActor* FActorBaking::BakeStaticMesh(const UStaticMeshComponent* Src)
 {
 	FStaticMeshProperties Data;
 	Data.FromMeshComponent(Src);
@@ -238,7 +238,7 @@ AStaticMeshActor* FActorBaker::BakeStaticMesh(const UStaticMeshComponent* Src)
 	return nullptr;
 }
 
-ASplineMeshActor* FActorBaker::BakeSplineMesh(const USplineMeshComponent* Src)
+ASplineMeshActor* FActorBaking::BakeSplineMesh(const USplineMeshComponent* Src)
 {
 	FStaticMeshProperties Data;
 	Data.FromMeshComponent(Src);
@@ -266,7 +266,7 @@ ASplineMeshActor* FActorBaker::BakeSplineMesh(const USplineMeshComponent* Src)
 	return nullptr;
 }
 
-ASkeletalMeshActor* FActorBaker::BakeSkeletalMesh(const USkeletalMeshComponent* Src)
+ASkeletalMeshActor* FActorBaking::BakeSkeletalMesh(const USkeletalMeshComponent* Src)
 {
 	if (!Src || !Src->GetSkeletalMeshAsset())
 	{
