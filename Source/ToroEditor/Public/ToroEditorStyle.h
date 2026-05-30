@@ -13,5 +13,7 @@ public:
 	virtual void AddResources() override
 	{
 		SetContentRoot(FToroEditorModule::GetPluginDirectory() / TEXT("Resources"));
+
+		AddSVG(TEXT("Toolbar.Restart"), TEXT("Toolbar/Restart"), Icon20x20);
 	}
 };

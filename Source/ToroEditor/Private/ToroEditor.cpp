@@ -3,6 +3,7 @@
 #include "ToroEditor.h"
 #include "ToroEditorStyle.h"
 
+#include "ToolbarButton/RestartEditor.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
@@ -13,6 +14,7 @@ void FToroEditorModule::StartupModule()
 {
     FToroEditorStyle::Register();
 
+    FToolbarButtonRegistry::AddButton<FRestartEditor>();
     FToolbarButtonRegistry::Register();
 }
 
