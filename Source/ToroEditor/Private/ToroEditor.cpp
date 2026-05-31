@@ -15,6 +15,7 @@
 
 #include "DetailsPanel/GameObjectIdDetails.h"
 #include "DetailsPanel/PrimitiveCollisionDetails.h"
+#include "DetailsPanel/WorldActionListDetails.h"
 #include "DetailsPanel/InlineCurveDetails.h"
 #include "DetailsPanel/WrappedTypeDetails.h"
 #include "DetailsPanel/ToroClassCustomization.h"
@@ -44,6 +45,7 @@ void FToroEditorModule::StartupModule()
 
 	FDetailsCustomizationRegistry::Register<FGameObjectId, FGameObjectIdDetails>();
 	FDetailsCustomizationRegistry::Register<FPrimitiveCollision, FPrimitiveCollisionDetails>();
+	FDetailsCustomizationRegistry::Register<FWorldActionList, FWorldActionListDetails>();
 
 	FDetailsCustomizationRegistry::Register<FInlineFloatCurve, FInlineCurveDetails>();
 	FDetailsCustomizationRegistry::Register<FInlineVectorCurve, FInlineCurveDetails>();
