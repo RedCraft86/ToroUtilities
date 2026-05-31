@@ -25,7 +25,8 @@ public class ToroRuntime : ModuleRules
                 "ProceduralMeshComponent",
                 "CommonUI",
                 "ToroCore",
-                "UE5Coro"
+                "UE5Coro", 
+                "Flow"
             ]
         );
 
