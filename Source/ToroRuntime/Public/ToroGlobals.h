@@ -4,7 +4,9 @@
 
 #include "NativeGameplayTags.h"
 
-#define TAG_VALID_CHECK() inline bool IsValid(const FGameplayTag& InTag) \
+#define ALLOW_PACKAGED_FEATURES !WITH_EDITOR
+
+#define TAG_VALID_CHECK() inline bool IsValidTag(const FGameplayTag& InTag) \
 	{ \
 		return InTag.MatchesTag(BaseTag.GetTag()) && InTag != BaseTag.GetTag(); \
 	}
@@ -14,13 +16,13 @@ namespace ToroGameplayTags
 	namespace Flag
 	{
 		TORORUNTIME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BaseTag)
-		TORORUNTIME_API TAG_VALID_CHECK()
+		TAG_VALID_CHECK()
 	}
 
 	namespace Event
 	{
 		TORORUNTIME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BaseTag)
-		TORORUNTIME_API TAG_VALID_CHECK()
+		TAG_VALID_CHECK()
 	}
 }
 

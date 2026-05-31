@@ -5,10 +5,9 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "HAL/FileManager.h"
 #include "Misc/App.h"
+#include "ToroGlobals.h"
 
-#define ALLOW_SHIPPING_FEATURES !WITH_EDITOR
-
-#if ALLOW_SHIPPING_FEATURES
+#if ALLOW_PACKAGED_FEATURES
 #include "ShaderPipelineCache.h"
 #include "Libraries/ToroWindowsLibrary.h"
 #include "HAL/PlatformApplicationMisc.h"
@@ -18,7 +17,7 @@
 void UToroGameInstance::RestartGame()
 {
 	ClearInstanceLock();
-#if ALLOW_SHIPPING_FEATURES
+#if ALLOW_PACKAGED_FEATURES
 	const FProcHandle NewInstHandle = FWindowsPlatformProcess::CreateProc(
 		FWindowsPlatformProcess::ExecutablePath(), nullptr, 
 		true, false, false, nullptr, 0, nullptr, nullptr
@@ -63,7 +62,7 @@ void UToroGameInstance::OnWorldTick(UWorld* InWorld, const float DeltaTime)
 
 void UToroGameInstance::Init()
 {
-#if ALLOW_SHIPPING_FEATURES
+#if ALLOW_PACKAGED_FEATURES
 	FShaderPipelineCache::PauseBatching(); // Pause Shader Compile for instance check
 
 	LockPath = FPaths::ProjectSavedDir() / FApp::GetProjectName() + TEXT(".Lock");
