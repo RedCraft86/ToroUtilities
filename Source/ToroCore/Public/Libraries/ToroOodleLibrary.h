@@ -78,6 +78,8 @@ class TOROCORE_API UToroOodleLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
+public:
+
 	/**
 	 * Compresses a byte array using the Oodle Data Compression library.
 	 * 
