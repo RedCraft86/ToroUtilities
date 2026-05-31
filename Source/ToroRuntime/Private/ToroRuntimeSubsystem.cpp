@@ -6,7 +6,7 @@
 
 void UToroRuntimeSubsystem::AddGlobalMetadata(const FGameplayTag Key, const FInstancedStruct& Value)
 {
-	if (ToroGameplayTags::Flag::IsValid(Key))
+	if (ToroGameplayTags::Flag::IsValidTag(Key))
 	{
 		Metadata.Add(Key, Value);
 	}
@@ -18,7 +18,7 @@ void UToroRuntimeSubsystem::AddGlobalMetadata(const FGameplayTag Key, const FIns
 
 void UToroRuntimeSubsystem::RemoveGlobalMetadata(const FGameplayTag Key)
 {
-	if (ToroGameplayTags::Flag::IsValid(Key))
+	if (ToroGameplayTags::Flag::IsValidTag(Key))
 	{
 		Metadata.Remove(Key);
 	}
@@ -30,7 +30,7 @@ void UToroRuntimeSubsystem::RemoveGlobalMetadata(const FGameplayTag Key)
 
 bool UToroRuntimeSubsystem::HasGlobalMetadata(const FGameplayTag Key) const
 {
-	return ToroGameplayTags::Flag::IsValid(Key) && Metadata.Contains(Key);
+	return ToroGameplayTags::Flag::IsValidTag(Key) && Metadata.Contains(Key);
 }
 
 const FInstancedStruct& UToroRuntimeSubsystem::GetGlobalMetadata(const FGameplayTag Key) const
@@ -80,7 +80,7 @@ void UToroRuntimeSubsystem::RemoveGlobalEvent(const FGameplayTag Key)
 
 FGlobalEventMultiDelegate* UToroRuntimeSubsystem::GetEventDelegate(const FGameplayTag& Key)
 {
-	if (ToroGameplayTags::Event::IsValid(Key))
+	if (ToroGameplayTags::Event::IsValidTag(Key))
 	{
 		return &Events.FindOrAdd(Key);
 	}

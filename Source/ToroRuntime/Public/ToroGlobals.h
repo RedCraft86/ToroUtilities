@@ -6,24 +6,21 @@
 
 #define ALLOW_PACKAGED_FEATURES !WITH_EDITOR
 
-#define TAG_VALID_CHECK() inline bool IsValidTag(const FGameplayTag& InTag) \
-	{ \
-		return InTag.MatchesTag(BaseTag.GetTag()) && InTag != BaseTag.GetTag(); \
-	}
+#define DECLARE_TAG_CHECK() bool IsValidTag(const FGameplayTag& InTag);
 
 namespace ToroGameplayTags
 {
 	namespace Flag
 	{
 		TORORUNTIME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BaseTag)
-		TAG_VALID_CHECK()
+        TORORUNTIME_API DECLARE_TAG_CHECK()
 	}
 
 	namespace Event
 	{
 		TORORUNTIME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BaseTag)
-		TAG_VALID_CHECK()
+        TORORUNTIME_API DECLARE_TAG_CHECK()
 	}
 }
 
-#undef TAG_VALID_CHECK
+#undef DECLARE_TAG_CHECK
