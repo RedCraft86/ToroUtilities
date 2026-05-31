@@ -1,6 +1,7 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Framework/ToroGameInstance.h"
+#include "UserSettings/ToroGameUserSettings.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "HAL/FileManager.h"
 #include "Misc/App.h"
@@ -83,7 +84,10 @@ void UToroGameInstance::Init()
 
 	Super::Init();
 
-	// TODO initialize settings
+	if (UToroGameUserSettings* UserSettings = UToroGameUserSettings::Get())
+	{
+		UserSettings->InitializeSettings();
+	}
 }
 
 void UToroGameInstance::Shutdown()
