@@ -32,6 +32,7 @@ public:
 
 	/** 
 	 * Returns if Lumen Global Illumination is currently active.
+	 * See bAdvancedLumenCheck for details on how this check is performed.
 	 */
 	UFUNCTION(BlueprintPure, Category = PostProcess)
 		bool IsUsingLumenGI() const { return bUsesLumenGI; }
@@ -87,7 +88,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PostProcessing, meta = (ClampMin = 0.0f, UIMin = 0.0f))
 		float PostProcessTickInterval;
 
-	/** If true, Lumen-GI will be checked by going through every post-processing entry in the world. */
+	/** 
+	 * If false, it will check compatibility, scalability settings, and global state to determine Lumen-GI usage.
+	 * If true, it will additionally go through every post-processing volume in the world to find the exact state. 
+	 */
 	UPROPERTY(BlueprintReadOnly, Category = PostProcessing)
 		bool bAdvancedLumenCheck;
 
