@@ -8,16 +8,28 @@
 #include "Serialization/MemoryWriter.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
+/**
+ * An intermediary proxy archive used to translate UObject and FName references 
+ * into string-based paths during serialization. This prevents "stale pointer" 
+ * issues when reloading data in a different session.
+ */
 struct TORORUNTIME_API FToroSaveGameProxyArchive : FObjectAndNameAsStringProxyArchive
 {
 	FToroSaveGameProxyArchive(FArchive& InInnerArchive)
 		: FObjectAndNameAsStringProxyArchive(InInnerArchive, true)
 	{
+		// Only serialize properties marked with the 'SaveGame' UPROPERTY flag.
 		ArIsSaveGame = true;
+
+		// Do not use delta serialization; ensure the full state is captured.
 		ArNoDelta = true;
 	}
 };
 
+/**
+ * A memory writer that handles the high-level logic for serializing 
+ * UObjects and various smart pointers into a byte array.
+ */
 class TORORUNTIME_API FToroSaveGameArchive : public FMemoryWriter
 {
 public:
@@ -83,6 +95,10 @@ public:
 	}
 };
 
+/**
+ * A memory reader used to reconstruct UObject data from a byte array.
+ * Includes safety checks for class-mismatches during deserialization.
+ */
 class TORORUNTIME_API FToroLoadGameArchive : public FMemoryReader
 {
 public:
@@ -149,7 +165,7 @@ public:
 			{
 				SetError();
 				UE_LOG(LogToroRuntime, Error, 
-					TEXT("Class mismatch: Expected %s, got %s at archive position %lld"), 
+					TEXT("Class mismatch during load: Expected %s, got %s at byte position %lld"), 
 					*Obj->GetClass()->GetPathName(), *Class, Tell()
 				);
 			}
