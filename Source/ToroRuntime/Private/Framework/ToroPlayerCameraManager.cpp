@@ -7,6 +7,11 @@ AToroPlayerCameraManager::AToroPlayerCameraManager()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bTickEvenWhenPaused = true;
+	PrimaryActorTick.TickGroup = TG_PrePhysics;
+
+	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
+
+	SetCanBeDamaged(false);
 }
 
 void AToroPlayerCameraManager::BeginPlay()

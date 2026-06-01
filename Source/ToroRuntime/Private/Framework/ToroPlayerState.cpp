@@ -10,4 +10,8 @@ AToroPlayerState::AToroPlayerState()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
+
+	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
+
+	SetCanBeDamaged(false);
 }

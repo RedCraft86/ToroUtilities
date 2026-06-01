@@ -12,7 +12,7 @@ AToroGameMode::AToroGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
-	PrimaryActorTick.TickGroup = TG_DuringPhysics;
+	PrimaryActorTick.TickGroup = TG_PrePhysics;
 
 	GameStateClass = AToroGameState::StaticClass();
 	PlayerControllerClass = AToroPlayerController::StaticClass();
@@ -22,6 +22,10 @@ AToroGameMode::AToroGameMode()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
+
+	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
+
+	SetCanBeDamaged(false);
 }
 
 void AToroGameMode::BeginPlay()

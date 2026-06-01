@@ -5,10 +5,19 @@
 
 AToroPlayerController::AToroPlayerController()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bTickEvenWhenPaused = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.TickGroup = TG_PrePhysics;
+
 	PlayerCameraManagerClass = AToroPlayerCameraManager::StaticClass();
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
+
+	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
+
+	SetCanBeDamaged(false);
 }
 
 void AToroPlayerController::SetInputConfig(const FGameInputConfig& InConfig)

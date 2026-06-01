@@ -9,6 +9,10 @@
 AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f), SlowTickTime(1.0f) // Initial run
 {
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.TickGroup = TG_PrePhysics;
+
+	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	AutoReceiveInput = EAutoReceiveInput::Player0;
 

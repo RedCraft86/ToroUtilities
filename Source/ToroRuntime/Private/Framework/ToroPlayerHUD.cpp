@@ -42,6 +42,10 @@ AToroPlayerHUD::AToroPlayerHUD()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
+
+	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
+
+	SetCanBeDamaged(false);
 }
 
 void AToroPlayerHUD::BeginPlay()
