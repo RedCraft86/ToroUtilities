@@ -7,7 +7,7 @@
 
 #define DEFINE_TAG_CHECK(Category) bool Category::IsValidTag(const FGameplayTag& InTag) \
 	{ \
-		InTag.MatchesTag(Category::BaseTag.GetTag()) && InTag != Category::BaseTag.GetTag(); \
+		return InTag.MatchesTag(Category::BaseTag.GetTag()) && InTag != Category::BaseTag.GetTag(); \
 	}
 
 namespace ToroGameplayTags
