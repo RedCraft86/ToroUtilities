@@ -19,5 +19,7 @@ public:
 		AddSVG(TEXT("Toolbar.ActorInstance"), TEXT("Toolbar/ActorInstance"), Icon20x20);
 		AddSVG(TEXT("Toolbar.ActorLayout"), TEXT("Toolbar/ActorLayout"), Icon20x20);
 		AddSVG(TEXT("Toolbar.ActorMerge"), TEXT("Toolbar/ActorMerge"), Icon20x20);
+
+		AddPNG(TEXT("ClassThumbnail.LightProbeActor"), TEXT("Class/LightProbe"), Icon64x64);
 	}
 };
