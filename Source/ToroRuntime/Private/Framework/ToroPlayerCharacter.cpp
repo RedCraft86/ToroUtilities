@@ -19,6 +19,8 @@ AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f), SlowTickTi
 	PlayerFootstep->SetupAttachment(GetCapsuleComponent());
 	FixFootstepPosition();
 
+	GetCapsuleComponent()->SetCapsuleHalfHeight(88.0f);
+
 	LightSettings.Intensity = 0.02f;
 	LightSettings.AttenuationRadius = 500.0f;
 	LightSettings.bUseTemperature = true;
@@ -118,5 +120,7 @@ void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 	LightSettings.ToLightComponent(AmbientLight);
-	FixFootstepPosition();
+#if WITH_EDITOR
+	if (!FApp::IsGame()) FixFootstepPosition();
+#endif
 }

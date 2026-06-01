@@ -58,7 +58,7 @@ public:
 	}
 
 	UFUNCTION(BlueprintPure, Category = HUD)
-		UToroMasterWidget* GetMainGameHUD() { return MainGameHUD; }
+		UToroMasterWidget* GetMainGameHUD() { return MasterWidget; }
 
 protected:
 
@@ -66,7 +66,7 @@ protected:
 		TObjectPtr<USceneComponent> SceneRoot;
 
 	UPROPERTY(Transient)
-		TObjectPtr<UToroMasterWidget> MainGameHUD;
+		TObjectPtr<UToroMasterWidget> MasterWidget;
 
 	virtual void BeginPlay() override;
 };

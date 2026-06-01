@@ -21,4 +21,9 @@ public:
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? Cast<T>(World->GetWorldSettings()) : nullptr;
 	}
+
+protected:
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USceneComponent> SceneRoot;
 };

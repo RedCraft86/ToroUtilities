@@ -52,12 +52,12 @@ void UToroGameInstance::ClearInstanceLock()
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
-	if (InWorld) WorldBeginPlay();
+	WorldBeginPlay();
 }
 
 void UToroGameInstance::OnWorldTick(UWorld* InWorld, const float DeltaTime)
 {
-	if (InWorld) WorldTick(DeltaTime);
+	WorldTick(DeltaTime);
 }
 
 void UToroGameInstance::Init()

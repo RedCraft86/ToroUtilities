@@ -27,5 +27,5 @@ public:
 protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-	TObjectPtr<USceneComponent> SceneRoot;
+		TObjectPtr<USceneComponent> SceneRoot;
 };

@@ -13,7 +13,7 @@ void AToroPlayerCameraManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Fixes motion blur issues when paused
+	// Fixes motion blur issues when paused. Technically a world property but related to camera manager.
 	GetWorld()->bIsCameraMoveableWhenPaused = true;
 }
 

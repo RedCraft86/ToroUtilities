@@ -50,14 +50,14 @@ void AToroPlayerHUD::BeginPlay()
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
 	if (const TSubclassOf<UToroMasterWidget> MainHUDClass = Settings->MasterWidgetClass.LoadSynchronous())
 	{
-		MainGameHUD = CreateWidget<UToroMasterWidget>(GetWorld(), MainHUDClass);
-		if (MainGameHUD)
+		MasterWidget = CreateWidget<UToroMasterWidget>(GetWorld(), MainHUDClass);
+		if (MasterWidget)
 		{
-			MainGameHUD->AddToViewport();
+			MasterWidget->AddToViewport();
 		}
 		else
 		{
-			UE_LOG(LogToroRuntime, Error, TEXT("Failed to add MainGameHUD even though MasterWidgetClass is valid."))
+			UE_LOG(LogToroRuntime, Error, TEXT("Failed to add MasterWidget even though Class provided is valid."))
 		}
 	}
 	else
