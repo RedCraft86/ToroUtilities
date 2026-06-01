@@ -12,6 +12,12 @@
 DECLARE_DYNAMIC_DELEGATE_TwoParams(FGlobalEventSingleDelegate, const FInstancedStruct&, Payload, UObject*, Instigator);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGlobalEventMultiDelegate, const FInstancedStruct&, Payload, UObject*, Instigator);
 
+/**
+ * A global, persistent subsystem tied to the Game Instance lifetime.
+ * This subsystem serves as a centralized communication hub and data store, providing:
+ * 1. Global Metadata: A tag-indexed map of polymorphic data (FInstancedStruct).
+ * 2. Global Event Bus: A decoupled event system using Gameplay Tags as channels.
+ */
 UCLASS(NotBlueprintable, BlueprintType)
 class TORORUNTIME_API UToroRuntimeSubsystem final : public UGameInstanceSubsystem
 {
@@ -28,27 +34,64 @@ public:
 		return IsValid(GI) ? GI->GetSubsystem<UToroRuntimeSubsystem>() : nullptr;
 	}
 
+	/** 
+	 * Adds or updates a piece of global metadata.
+	 * @param Key Unique GameplayTag identifier (filtered to 'Flag' category).
+	 * @param Value The data structure to store. Supports any USTRUCT marked as BlueprintType.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Global|Flags")
 		void AddGlobalMetadata(UPARAM(meta = (Categories = "Flag")) const FGameplayTag Key, const FInstancedStruct& Value);
 
+	/** 
+	 * Removes the metadata entry associated with the provided key. 
+	 * @param Key The tag to remove from the metadata map.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Global|Flags")
 		void RemoveGlobalMetadata(UPARAM(meta = (Categories = "Flag")) const FGameplayTag Key);
 
+	/** 
+	 * Checks if a valid metadata entry exists for the specific key.
+	 * @return True if the key is present in the internal storage.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Global|Flags")
 		bool HasGlobalMetadata(UPARAM(meta = (Categories = "Flag")) const FGameplayTag Key) const;
 
+	/** 
+	 * Retrieves the stored metadata for a key.
+	 * @note In Blueprints, use 'Break InstancedStruct' to access the underlying data.
+	 * @return A reference to the stored FInstancedStruct. Returns an empty struct if the key is missing.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Global|Flags")
 		const FInstancedStruct& GetGlobalMetadata(UPARAM(meta = (Categories = "Flag")) const FGameplayTag Key) const;
 
+	/** 
+	 * Binds a Blueprint delegate to a global event channel.
+	 * @param Key Unique event identifier (filtered to 'Event' category).
+	 * @param Event The delegate to trigger when this event is invoked.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Global|Events")
 		void BindGlobalEvent(UPARAM(meta = (Categories = "Event")) const FGameplayTag Key, const FGlobalEventSingleDelegate& Event);
 
+	/** 
+	 * Unbinds a previously bound delegate from a global event channel.
+	 * If no delegates are present for the event, it is removed from the event map.
+	 * @param Key The specific event tag to unbind from.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Global|Events")
 		void UnbindGlobalEvent(UPARAM(meta = (Categories = "Event")) const FGameplayTag Key, const FGlobalEventSingleDelegate& Event);
 
+	/** 
+	 * Fires a global event, notifying all listeners bound to the specified channel.
+	 * @param Key The event tag to invoke.
+	 * @param Payload Optional data passed to all listeners (e.g., damage amounts, update counts).
+	 * @param Instigator The object that triggered the event (defaults to the calling object).
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Global|Events", meta = (AdvancedDisplay = "Instigator", DefaultToSelf = "Instigator"))
 		void InvokeGlobalEvent(UPARAM(meta = (Categories = "Event")) const FGameplayTag Key, const FInstancedStruct& Payload, UObject* Instigator);
 
+	/** 
+	 * Clears all listeners and removes the event from the event map.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Global|Events")
 		void RemoveGlobalEvent(UPARAM(meta = (Categories = "Event")) const FGameplayTag Key);
 
