@@ -17,6 +17,7 @@ public class ToroRuntime : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "RenderCore",
                 "PhysicsCore",
                 "MovieScene",
                 "LevelSequence",
