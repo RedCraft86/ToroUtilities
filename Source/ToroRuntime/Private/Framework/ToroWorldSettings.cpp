@@ -2,6 +2,9 @@
 
 #include "Framework/ToroWorldSettings.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "Sound/AudioSettings.h"
+#include "Sound/SoundMix.h"
+#include "AudioDevice.h"
 
 AToroWorldSettings::AToroWorldSettings()
 {
@@ -111,6 +114,17 @@ void AToroWorldSettings::RemoveBlendable(UMaterialInterface* InMaterial)
 	}
 }
 
+void AToroWorldSettings::SetSoundVolume(USoundClass* InSoundClass, float InVolume) const
+{
+	if (DefaultBaseSoundMix && InSoundClass && GEngine && GEngine->UseSound() && GetWorld()->bAllowAudioPlayback)
+	{
+		if (FAudioDeviceHandle AudioDevice = GetWorld()->GetAudioDevice())
+		{
+			AudioDevice->SetSoundMixClassOverride(DefaultBaseSoundMix, InSoundClass, InVolume, 1.0f, 0.0f, true);
+		}
+	}
+}
+
 void AToroWorldSettings::UpdatePostProcess()
 {
 #if WITH_EDITOR
@@ -165,6 +179,14 @@ void AToroWorldSettings::Tick(float DeltaSeconds)
 void AToroWorldSettings::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+	if (!DefaultBaseSoundMix)
+	{
+		if (const UAudioSettings* Settings = GetDefault<UAudioSettings>())
+		{
+			DefaultBaseSoundMix = Cast<USoundMix>(Settings->DefaultBaseSoundMix.TryLoad());
+		}
+	}
+
 	UpdatePostProcess();
 }
 #endif

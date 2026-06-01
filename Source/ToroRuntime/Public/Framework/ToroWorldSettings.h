@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Sound/SoundClass.h"
 #include "Helpers/WorldGetter.h"
 #include "DataTypes/CachedGetter.h"
 #include "GameFramework/WorldSettings.h"
@@ -67,6 +68,14 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = PostProcess)
 		void RemoveBlendable(UMaterialInterface* InMaterial);
+
+	/** 
+	 * Overrides the volume of a specific Sound Class globally using the default Sound Mix.
+	 * @param InSoundClass Sound class to override the volume of.
+	 * @param InVolume The volume multiplier to set.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Audio)
+		void SetSoundVolume(USoundClass* InSoundClass, float InVolume) const;
 
 protected:
 
