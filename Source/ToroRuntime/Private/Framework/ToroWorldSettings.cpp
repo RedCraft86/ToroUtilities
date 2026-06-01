@@ -5,6 +5,8 @@
 #include "Sound/AudioSettings.h"
 #include "Sound/SoundMix.h"
 #include "AudioDevice.h"
+#include "RenderUtils.h"
+#include "SceneInterface.h"
 
 AToroWorldSettings::AToroWorldSettings()
 {
@@ -24,7 +26,8 @@ AToroWorldSettings::AToroWorldSettings()
 	PostProcess->bEnabled = true;
 
 	PostProcessTickInterval = 0.1f;
-	PostProcessTick = 0.0f;
+	PostProcessTick = PostProcessTickInterval;
+	bAdvancedLumenCheck = true;
 
 	PostProcessing.bOverride_AutoExposureMethod = true;
 	PostProcessing.AutoExposureMethod = AEM_Manual;
@@ -40,20 +43,6 @@ AToroWorldSettings::AToroWorldSettings()
 	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
 
 	SetCanBeDamaged(false);
-}
-
-bool AToroWorldSettings::IsUsingLumenGI()
-{
-	// Ideally, other post-processes should override GI to only DISABLE Lumen, never ENABLE it. This one keeps it on.
-	// If GlobalIlluminationQuality == 0 (Low), GI is off even when set to Lumen.
-	return UserSettings->GetGlobalIlluminationQuality() > 0 && 
-		(!PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod // Assume project default is being ON
-		|| PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen);
-}
-
-const FPostProcessSettings& AToroWorldSettings::GetPostProcessSettings() const
-{
-	return PostProcess->Settings;
 }
 
 UMaterialInterface* AToroWorldSettings::FindBlendable(const UMaterialInterface* InMaterial) const
@@ -156,13 +145,59 @@ void AToroWorldSettings::UpdatePostProcess()
 	PostProcess->Settings = PostProcessing;
 }
 
+void AToroWorldSettings::UpdateLumenGIUsage()
+{
+	const IConsoleManager& CM = IConsoleManager::Get();
+	static const auto GIAllowed = CM.FindTConsoleVariableDataInt(TEXT("r.Lumen.DiffuseIndirect.Allow"));
+	if (!GIAllowed->GetValueOnGameThread() || !DoesPlatformSupportLumenGI(PostProcess->GetScene()->GetShaderPlatform()))
+	{
+		bUsesLumenGI = false;
+		return;
+	}
+
+	if (!PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod)
+	{
+		static const auto GIMethod = CM.FindTConsoleVariableDataInt(TEXT("r.DynamicGlobalIlluminationMethod"));
+		bUsesLumenGI = GIMethod->GetValueOnGameThread() == static_cast<int32>(EDynamicGlobalIlluminationMethod::Lumen);
+	}
+	else
+	{
+		bUsesLumenGI = PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+	}
+
+	if (!bAdvancedLumenCheck)
+	{
+		return;
+	}
+
+	FVector ViewLocation = FVector::ZeroVector;
+	if (const APlayerController* PC = GetWorld()->GetFirstPlayerController())
+	{
+		FRotator Unused;
+		PC->GetPlayerViewPoint(ViewLocation, Unused);
+	}
+
+	float HighestPriority = PostProcess->Priority;
+	for (IInterface_PostProcessVolume& PPVolume : GetWorld()->GetPostProcessVolumeIterator())
+	{
+		const FPostProcessVolumeProperties Prop = PPVolume.GetProperties();
+		if (Prop.Settings->bOverride_DynamicGlobalIlluminationMethod && Prop.Priority > HighestPriority
+			&& (Prop.bIsUnbound || PPVolume.EncompassesPoint(ViewLocation, 0.0f, nullptr)))
+		{
+			HighestPriority = Prop.Priority;
+			bUsesLumenGI = Prop.Settings->DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+		}
+	}
+}
+
 void AToroWorldSettings::BeginPlay()
 {
 	Super::BeginPlay();
-	PostProcessTick = -1.0f; // For initial run
 
 	// Fixes motion blur issues when paused
 	GetWorld()->bIsCameraMoveableWhenPaused = true;
+
+	UpdatePostProcess();
 }
 
 void AToroWorldSettings::Tick(float DeltaSeconds)
@@ -172,6 +207,7 @@ void AToroWorldSettings::Tick(float DeltaSeconds)
 	{
 		PostProcessTick = PostProcessTickInterval;
 		UpdatePostProcess();
+		UpdateLumenGIUsage();
 	}
 }
 

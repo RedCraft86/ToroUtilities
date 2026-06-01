@@ -11,9 +11,8 @@
 #include "ToroWorldSettings.generated.h"
 
 /**
- * Custom implementation of AWorldSettings that serves as the centralized visual 
- * and configuration baseline for the level. Also hosts a global UPostProcessComponent 
- * with a dynamic Post-Process Material (Blendable) management.
+ * Custom World Settings for the ToroUtilities framework. Manages global post-processing,
+ * dynamic blendables (MIDs), and global audio volume overrides.
  */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType)
 class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
@@ -32,18 +31,17 @@ public:
 	}
 
 	/** 
-	 * Checks if Lumen GI is currently enabled. Returns false if GI Quality is Low. 
-	 * @note Assumes it is on by default in the project and does NOT account for local post process volumes.
+	 * Returns if Lumen Global Illumination is currently active.
 	 */
 	UFUNCTION(BlueprintPure, Category = PostProcess)
-		bool IsUsingLumenGI();
+		bool IsUsingLumenGI() const { return bUsesLumenGI; }
 
 	/** 
-	 * Accesses the underlying PostProcessSettings structure.
+	 * Accesses the underlying PostProcessSettings structure. (Read-only)
 	 * @return Reference to the final global post-processing configuration.
 	 */
 	UFUNCTION(BlueprintPure, Category = PostProcess)
-		const FPostProcessSettings& GetPostProcessSettings() const;
+		const FPostProcessSettings& GetPostProcessSettings() const { return PostProcess->Settings; }
 
 	/** 
 	 * Searches the current active blendable stack for a specific material.
@@ -89,10 +87,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PostProcessing, meta = (ClampMin = 0.0f, UIMin = 0.0f))
 		float PostProcessTickInterval;
 
+	/** If true, Lumen-GI will be checked by going through every post-processing entry in the world. */
+	UPROPERTY(BlueprintReadOnly, Category = PostProcessing)
+		bool bAdvancedLumenCheck;
+
 	/** The baseline post-processing configuration for this specific world. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PostProcessing, meta = (ShowOnlyInnerProperties))
 		FPostProcessSettings PostProcessing;
 
+	bool bUsesLumenGI;
 	float PostProcessTick;
 	TCachedGetter<UToroGameUserSettings> UserSettings {[]
 	{
@@ -100,6 +103,8 @@ protected:
 	}};
 
 	void UpdatePostProcess();
+	void UpdateLumenGIUsage();
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
