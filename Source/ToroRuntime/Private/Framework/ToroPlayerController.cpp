@@ -2,11 +2,9 @@
 
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCameraManager.h"
-#include "Framework/ToroCheatManager.h"
 
 AToroPlayerController::AToroPlayerController()
 {
-	CheatClass = UToroCheatManager::StaticClass();
 	PlayerCameraManagerClass = AToroPlayerCameraManager::StaticClass();
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
