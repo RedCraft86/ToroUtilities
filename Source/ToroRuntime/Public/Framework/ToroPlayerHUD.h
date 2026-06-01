@@ -11,6 +11,9 @@
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerHUD.generated.h"
 
+/**
+ * The root UI container. Manages a stack of activatable widgets (Menus) and a global overlay layer.
+ */
 UCLASS(Abstract, Blueprintable, BlueprintType)
 class TORORUNTIME_API UToroMasterWidget : public UCommonUserWidget
 {
@@ -20,11 +23,17 @@ public:
 
 	UToroMasterWidget(const FObjectInitializer& ObjectInit);
 
-	/** Pushes a widget into the end of the MasterStack. */
+	/** 
+	 * Instantiates and pushes a widget onto the stack. 
+	 * The stack automatically handles input focus and visibility of previous widgets.
+	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = HUD)
 		void PushToStack(TSubclassOf<UCommonActivatableWidget> WidgetClass) const;
 
-	/** Pops off a widget with a matching class from the end of the MasterStack. */
+	/** 
+	 * Removes the specified widget class from the stack. 
+	 * If it was the top-most widget, focus returns to the previous item.
+	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = HUD)
 		void PopFromStack(TSubclassOf<UCommonActivatableWidget> WidgetClass) const;
 
@@ -33,13 +42,18 @@ public:
 
 protected:
 
+	/** The primary menu stack. Requires a 'CommonActivatableWidgetStack' named 'MasterStack' in the Blueprint. */
 	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UCommonActivatableWidgetStack> MasterStack;
 
+	/** Persistent UI layer. Requires an 'Overlay' named 'MasterOverlay' in the Blueprint. */
 	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UOverlay> MasterOverlay;
 };
 
+/**
+ * Manages the lifetime and visibility of the UToroMasterWidget.
+ */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType, PrioritizeCategories = (Settings), meta = (ChildCanTick = true))
 class TORORUNTIME_API AToroPlayerHUD : public AHUD
 {
@@ -57,6 +71,7 @@ public:
 		return IsValid(PC) ? PC->GetHUD<T>() : nullptr;
 	}
 
+	/** Returns the master UI widget container. */
 	UFUNCTION(BlueprintPure, Category = HUD)
 		UToroMasterWidget* GetMainGameHUD() { return MasterWidget; }
 
@@ -65,6 +80,7 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
+	/** The instantiated Master Widget. Created during BeginPlay using the class from ToroRuntimeSettings. */
 	UPROPERTY(Transient)
 		TObjectPtr<UToroMasterWidget> MasterWidget;
 

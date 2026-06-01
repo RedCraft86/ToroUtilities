@@ -6,6 +6,9 @@
 #include "GameFramework/GameStateBase.h"
 #include "ToroGameState.generated.h"
 
+/**
+ * Synchronized state of the game (scores, timers, objective progress).
+ */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType, meta = (ChildCanTick = true))
 class TORORUNTIME_API AToroGameState : public AGameStateBase
 {

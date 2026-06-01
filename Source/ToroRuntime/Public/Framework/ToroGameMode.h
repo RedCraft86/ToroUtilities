@@ -6,6 +6,9 @@
 #include "GameFramework/GameModeBase.h"
 #include "ToroGameMode.generated.h"
 
+/**
+ * Defines the rules, score, and core class defaults for the current level.
+ */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType)
 class TORORUNTIME_API AToroGameMode : public AGameModeBase
 {
@@ -27,7 +30,8 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
-	UPROPERTY(Transient)
+	/** Cached reference to the global game instance. */
+	UPROPERTY(Transient, BlueprintReadOnly, Category = GameMode)
 		TWeakObjectPtr<class UToroGameInstance> GameInstance;
 
 	virtual void BeginPlay() override;

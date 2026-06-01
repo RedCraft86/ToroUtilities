@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerState.generated.h"
 
+/**
+ * Container for non-visual player data (names, IDs, persistent stats).
+ */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType, meta = (ChildCanTick = true))
 class TORORUNTIME_API AToroPlayerState : public APlayerState
 {

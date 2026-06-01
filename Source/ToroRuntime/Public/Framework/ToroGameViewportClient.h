@@ -6,6 +6,9 @@
 #include "CommonGameViewportClient.h"
 #include "ToroGameViewportClient.generated.h"
 
+/**
+ * Custom viewport logic for handling window focus and global UI rendering.
+ */
 UCLASS(Blueprintable, BlueprintType)
 class TORORUNTIME_API UToroGameViewportClient : public UCommonGameViewportClient
 {

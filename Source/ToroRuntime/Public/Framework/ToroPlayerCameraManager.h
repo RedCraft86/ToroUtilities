@@ -7,6 +7,10 @@
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerCameraManager.generated.h"
 
+/**
+ * Handles per-frame camera updates, post-process blending, and camera shakes.
+ * @note This class also allows camera movement when paused.
+ */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType)
 class TORORUNTIME_API AToroPlayerCameraManager : public APlayerCameraManager
 {

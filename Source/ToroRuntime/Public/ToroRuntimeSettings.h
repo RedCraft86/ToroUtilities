@@ -20,6 +20,7 @@ public:
 		return GetMutableDefault<UToroRuntimeSettings>();
 	}
 
+	/** The default Master Widget class to spawn for the Player HUD. */
 	UPROPERTY(Config, EditAnywhere, Category = Gameplay)
 		TSoftClassPtr<class UToroMasterWidget> MasterWidgetClass;
 };

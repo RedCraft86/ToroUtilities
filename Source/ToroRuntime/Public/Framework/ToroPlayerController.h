@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
 
+/**
+ * The interface between the player and the pawn. Manages Input Configurations.
+ */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType)
 class TORORUNTIME_API AToroPlayerController : public APlayerController
 {
@@ -23,9 +26,11 @@ public:
 		return IsValid(World) ? World->GetFirstPlayerController<T>() : nullptr;
 	}
 
+	/** Updates the input routing and cursor behavior through a single struct containing all settings. */
 	UFUNCTION(BlueprintCallable, Category = Input)
 		virtual void SetInputConfig(const FGameInputConfig& InConfig);
 
+	/** Returns the currently active input configuration. */
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputConfig& GetInputConfig() const { return InputConfig; }
 
@@ -34,6 +39,7 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
+	/** Cached input configuration last applied. */
 	UPROPERTY(Transient)
 		FGameInputConfig InputConfig;
 

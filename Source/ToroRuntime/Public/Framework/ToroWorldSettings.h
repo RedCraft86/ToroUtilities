@@ -6,6 +6,9 @@
 #include "GameFramework/WorldSettings.h"
 #include "ToroWorldSettings.generated.h"
 
+/**
+ * Specialized level-specific configuration.
+ */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType)
 class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
 {

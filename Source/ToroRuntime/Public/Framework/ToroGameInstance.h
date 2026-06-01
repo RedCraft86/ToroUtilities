@@ -6,6 +6,9 @@
 #include "Engine/GameInstance.h"
 #include "ToroGameInstance.generated.h"
 
+/**
+ * High-level manager persistent across level transitions. Handles application lifecycle and instance locking.
+ */
 UCLASS(Blueprintable, BlueprintType)
 class TORORUNTIME_API UToroGameInstance : public UGameInstance
 {
@@ -24,12 +27,18 @@ public:
 		return IsValid(World) ? World->GetGameInstance<T>() : nullptr;
 	}
 
+	/** 
+	 * Forcefully restarts the application. 
+	 * Releases the instance lock file to ensure the new instance can start without conflict.
+	 */
 	UFUNCTION(BlueprintCallable, Category = Instance)
 		void RestartGame();
 
+	/** Event triggered when a level (World) has finished its BeginPlay phase. */
 	UFUNCTION(BlueprintImplementableEvent)
 		void WorldBeginPlay();
 
+	/** Event triggered every frame from the world's tick, provided by the active GameMode. */
 	UFUNCTION(BlueprintImplementableEvent)
 		void WorldTick(const float DeltaTime);
 

@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerController.h"
 #include "ToroCheatManager.generated.h"
 
+/**
+ * Centralized logic for debug and cheat commands.
+ */
 UCLASS(Blueprintable, BlueprintType)
 class TORORUNTIME_API UToroCheatManager : public UCheatManager
 {
