@@ -1,4 +1,4 @@
-// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
+// Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "WorldActions/Native/ActorActions.h"
 #include "Components/StaticMeshComponent.h"

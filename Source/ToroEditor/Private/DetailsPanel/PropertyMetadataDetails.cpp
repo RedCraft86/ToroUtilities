@@ -1,4 +1,4 @@
-// Copyright (C) RedCraft86. Licensed under LGPL-3.0 (See LICENSE file for details).
+// Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "PropertyMetadataDetails.h"
 #include "Widgets/Input/SEditableTextBox.h"
