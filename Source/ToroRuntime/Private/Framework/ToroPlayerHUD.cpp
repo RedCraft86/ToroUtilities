@@ -1,7 +1,6 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Framework/ToroPlayerHUD.h"
-#include "ToroRuntimeSettings.h"
 #include "Blueprint/UserWidget.h"
 #include "ToroRuntime.h"
 
@@ -51,10 +50,9 @@ AToroPlayerHUD::AToroPlayerHUD()
 void AToroPlayerHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (const TSubclassOf<UToroMasterWidget> MainHUDClass = Settings->MasterWidgetClass.LoadSynchronous())
+	if (MasterWidgetClass)
 	{
-		MasterWidget = CreateWidget<UToroMasterWidget>(GetWorld(), MainHUDClass);
+		MasterWidget = CreateWidget<UToroMasterWidget>(GetWorld(), MasterWidgetClass);
 		if (MasterWidget)
 		{
 			MasterWidget->AddToViewport();

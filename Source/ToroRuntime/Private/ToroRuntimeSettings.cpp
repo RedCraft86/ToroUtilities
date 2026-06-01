@@ -3,6 +3,5 @@
 #include "ToroRuntimeSettings.h"
 
 UToroRuntimeSettings::UToroRuntimeSettings()
-	: MasterWidgetClass(nullptr)
 {
 }

@@ -73,12 +73,16 @@ public:
 
 	/** Returns the master UI widget container. */
 	UFUNCTION(BlueprintPure, Category = HUD)
-		UToroMasterWidget* GetMainGameHUD() { return MasterWidget; }
+		UToroMasterWidget* GetMasterWidget() { return MasterWidget; }
 
 protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
+
+	/** The default Master Widget class to spawn for the Player HUD. */
+	UPROPERTY(Config, EditAnywhere, Category = Gameplay)
+		TSubclassOf<UToroMasterWidget> MasterWidgetClass;
 
 	/** The instantiated Master Widget. Created during BeginPlay using the class from ToroRuntimeSettings. */
 	UPROPERTY(Transient)
