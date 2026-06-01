@@ -24,6 +24,7 @@ public:
 		SetCanBeDamaged(false);
 	}
 
+	/** Executes all actions within the provided ActionList. */
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
 	void ExecuteActions() const
 	{
@@ -37,6 +38,7 @@ public:
 
 protected:
 
+	/** The collection of polymorphic actions. Use the '+' button in the editor to select specific action types. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FWorldActionList Actions;
 

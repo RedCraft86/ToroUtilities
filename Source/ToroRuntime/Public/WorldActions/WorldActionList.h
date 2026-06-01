@@ -7,7 +7,9 @@
 #include "WorldActionList.generated.h"
 
 /**
- * A list of inlined WorldAction objects that can be easily initialized and executed through this struct.
+ * A container for a list of inlined, polymorphic WorldAction objects.
+ * This struct allows designers to define a sequence of logic (e.g., spawn particles, play sound, update quest)
+ * directly within an Actor or Data Asset details panel using the 'Instanced' pattern.
  */
 USTRUCT(BlueprintType)
 struct TORORUNTIME_API FWorldActionList final
@@ -19,6 +21,7 @@ private:
 	friend class FWorldActionListDetails;
 #endif
 
+	/** The collection of polymorphic actions. Use the '+' button in the editor to select specific action types. */
 	UPROPERTY(EditAnywhere, Instanced, Category = Actions)
 		TArray<TObjectPtr<UWorldActionBase>> Actions;
 
@@ -26,15 +29,21 @@ public:
 
 	FWorldActionList() {}
 
+	/** Runs the 'Execute' logic for every valid action in the list. */
 	void Execute(const UObject* WorldContext) const;
+
+	/** Pre-initializes all actions in the list. Useful for setting up cached references before execution. */
 	void Initialize(const UObject* WorldContext) const;
+
+	/** Helper for iterating through actions with a custom lambda function. */
 	void ForEachAction(const TFunction<void(UWorldActionBase*)>& Func) const;
 
+	/** Returns a read-only reference to the internal action array. */
 	const TArray<TObjectPtr<UWorldActionBase>>& GetActions() const { return Actions; }
 };
 
 /**
- * Blueprint function wrappers for FWorldActionList
+ * Static utility class to expose FWorldActionList functionality to Blueprint Graphs.
  */
 UCLASS()
 class TORORUNTIME_API UWorldActionLibrary final : public UBlueprintFunctionLibrary
@@ -43,18 +52,21 @@ class TORORUNTIME_API UWorldActionLibrary final : public UBlueprintFunctionLibra
 
 public:
 
+	/** Executes all actions within the provided ActionList. */
 	UFUNCTION(BlueprintCallable, Category = WorldActions, meta = (DefaultToSelf = "ContextObject"))
 	static void ExecuteActions(const FWorldActionList& ActionList, const UObject* ContextObject)
 	{
 		ActionList.Execute(ContextObject);
 	}
 
+	/** Initializes all actions within the provided ActionList. */
 	UFUNCTION(BlueprintCallable, Category = WorldActions, meta = (DefaultToSelf = "ContextObject"))
 	static void InitializeActions(const FWorldActionList& ActionList, const UObject* ContextObject)
 	{
 		ActionList.Initialize(ContextObject);
 	}
 
+	/** Returns the raw array of Action objects from the list for manual iteration in Blueprints. */
 	UFUNCTION(BlueprintPure, Category = WorldActions)
 	static TArray<UWorldActionBase*> GetActions(const FWorldActionList& ActionList)
 	{

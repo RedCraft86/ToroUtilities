@@ -26,13 +26,8 @@ void UWorldAction_LevelStreaming::OnExecute_Implementation()
 
 void UWorldAction_LevelSequence::OnExecute_Implementation()
 {
-	ALevelSequenceActor* ActorPtr = Sequence.LoadSynchronous();
-	// if (ALevelCutsceneActor* Cutscene = Cast<ALevelCutsceneActor>(ActorPtr))
-	// {
-	// 	Cutscene->PlayCutscene(); // TODO
-	// }
-	// else 
-		if (ULevelSequencePlayer* SequencePlayer = ActorPtr ? ActorPtr->GetSequencePlayer() : nullptr)
+	const ALevelSequenceActor* ActorPtr = Sequence.LoadSynchronous();
+	if (ULevelSequencePlayer* SequencePlayer = ActorPtr ? ActorPtr->GetSequencePlayer() : nullptr)
 	{
 		SequencePlayer->RewindForReplay();
 		SequencePlayer->Play();
@@ -44,9 +39,20 @@ void UWorldAction_RemoteEvent::OnExecute_Implementation()
 	UToroWorldLibrary::CallRemoteEvent(this, EventName);
 }
 
+void UWorldAction_GlobalMetadata::OnExecute_Implementation()
+{
+	if (ToroGameplayTags::Flag::IsValidTag(Key))
+	{
+		if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
+		{
+			Subsystem->AddGlobalMetadata(Key, Value);
+		}
+	}
+}
+
 void UWorldAction_GlobalEvent::OnExecute_Implementation()
 {
-	if (ToroGameplayTags::Event::IsValid(Identifier))
+	if (ToroGameplayTags::Event::IsValidTag(Key))
 	{
 		AActor* InstigatorPtr = Instigator.Get();
 		if (!InstigatorPtr)
@@ -56,7 +62,7 @@ void UWorldAction_GlobalEvent::OnExecute_Implementation()
 
 		if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
 		{
-			Subsystem->InvokeGlobalEvent(Identifier, Payload, InstigatorPtr);
+			Subsystem->InvokeGlobalEvent(Key, Payload, InstigatorPtr);
 		}
 	}
 }

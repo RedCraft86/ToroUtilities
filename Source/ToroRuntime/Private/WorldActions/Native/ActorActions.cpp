@@ -2,7 +2,6 @@
 
 #include "WorldActions/Native/ActorActions.h"
 #include "Components/StaticMeshComponent.h"
-#include "Engine/StaticMeshActor.h"
 
 void UWorldAction_Visibility::OnExecute_Implementation()
 {
