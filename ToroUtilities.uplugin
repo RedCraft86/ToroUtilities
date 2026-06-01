@@ -56,14 +56,6 @@
 		{
 			"Name": "UE5Coro",
 			"Enabled": true
-		},
-		{
-			"Name": "Flow",
-			"Enabled": true
-		},
-		{
-			"Name": "ExpressiveText",
-			"Enabled": true
 		}
 	]
 }

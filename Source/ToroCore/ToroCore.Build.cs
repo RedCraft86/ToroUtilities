@@ -24,8 +24,7 @@ public class ToroCore : ModuleRules
                 "LevelSequence",
                 "MovieScene",
                 "CommonUI",
-                "UE5Coro",
-                "ExpressiveText"
+                "UE5Coro"
             ]
         );
 

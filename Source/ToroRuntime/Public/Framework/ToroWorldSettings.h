@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "FlowWorldSettings.h"
 #include "Helpers/WorldGetter.h"
+#include "GameFramework/WorldSettings.h"
 #include "ToroWorldSettings.generated.h"
 
 UCLASS(NotPlaceable, Blueprintable, BlueprintType)
-class TORORUNTIME_API AToroWorldSettings : public AFlowWorldSettings
+class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
 {
 	GENERATED_BODY()
 
