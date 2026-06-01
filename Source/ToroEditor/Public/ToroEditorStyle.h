@@ -6,7 +6,7 @@
 
 class FToroEditorStyle final : public FToroSlateStyle
 {
-	TORO_SLATE_STYLE(FToroEditorModule, FToroEditorStyle, ToroEditor)
+	TORO_SLATE_STYLE(FToroEditorModule, FToroEditorStyle, ToroEditorStyle)
 
 public:
 
