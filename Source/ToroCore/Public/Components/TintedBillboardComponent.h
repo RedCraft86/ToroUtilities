@@ -82,7 +82,7 @@ public:
 protected:
 
 	/** The color applied to the billboard texture. */
-	UPROPERTY(EditAnywhere, Category = Sprite, meta = (HideAlphaChannel = true))
+	UPROPERTY(EditAnywhere, Category = Sprite)
 		FLinearColor SpriteColor;
 
 	virtual FPrimitiveSceneProxy* CreateSceneProxy() override;
