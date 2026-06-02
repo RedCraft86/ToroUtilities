@@ -11,11 +11,14 @@
 #include "UserSettings/ToroGameUserSettings.h"
 #include "ToroWorldSettings.generated.h"
 
+class ULightProbeManager;
+
 /**
  * Custom World Settings for the ToroUtilities framework. Manages global post-processing,
  * dynamic blendables (MIDs), light probe system, and global audio volume overrides.
  */
-UCLASS(NotPlaceable, Blueprintable, BlueprintType)
+UCLASS(NotPlaceable, Blueprintable, BlueprintType, PrioritizeCategories = (PostProcessing, LightProbes), 
+	HideCategories = (Cooking, Lightmass, VR, PrecomputedVisibility, Broadphase, Network, Nanite, Bookmark, Networking))
 class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
 {
 	GENERATED_BODY()
@@ -77,6 +80,8 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Audio)
 		void SetSoundVolume(USoundClass* InSoundClass, float InVolume) const;
 
+	ULightProbeManager* GetLightProbeManager() const { return LightProbes; }
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = Subobjects)
@@ -84,6 +89,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UPostProcessComponent> PostProcess;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<ULightProbeManager> LightProbes;
 
 	/** 
 	 * Time (in seconds) between user-setting synchronization and Lumen GI usage checks. 
@@ -103,8 +111,7 @@ protected:
 		FPostProcessSettings PostProcessing;
 
 	bool bUsesLumenGI;
-	TCachedGetter<UToroGameUserSettings> UserSettings {[]
-	{
+	TCachedGetter<UToroGameUserSettings> UserSettings {[] {
 		return UToroGameUserSettings::Get();
 	}};
 

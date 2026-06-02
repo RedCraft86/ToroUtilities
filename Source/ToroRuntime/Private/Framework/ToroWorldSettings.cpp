@@ -1,6 +1,7 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Framework/ToroWorldSettings.h"
+#include "LightProbes/LightProbeManager.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Libraries/ToroWorldLibrary.h"
 #include "Sound/AudioSettings.h"
@@ -25,6 +26,8 @@ AToroWorldSettings::AToroWorldSettings()
 	PostProcess->Priority = -1.0f;
 	PostProcess->bUnbound = true;
 	PostProcess->bEnabled = true;
+
+	LightProbes = CreateDefaultSubobject<ULightProbeManager>(TEXT("LightProbes"));
 
 	bAdvancedLumenCheck = true;
 	PostProcessing.bOverride_AutoExposureMethod = true;
