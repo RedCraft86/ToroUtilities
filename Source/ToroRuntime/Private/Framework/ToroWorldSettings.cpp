@@ -43,7 +43,7 @@ AToroWorldSettings::AToroWorldSettings()
 
 UMaterialInterface* AToroWorldSettings::FindBlendable(const UMaterialInterface* InMaterial) const
 {
-	if (InMaterial)
+	if (!InMaterial)
 	{
 		return nullptr;
 	}
@@ -70,7 +70,7 @@ UMaterialInterface* AToroWorldSettings::FindBlendable(const UMaterialInterface* 
 
 UMaterialInterface* AToroWorldSettings::FindOrAddBlendable(UMaterialInterface* InMaterial, const bool bDynamic)
 {
-	if (InMaterial)
+	if (!InMaterial)
 	{
 		return nullptr;
 	}
