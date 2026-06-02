@@ -2,6 +2,7 @@
 
 #include "Framework/ToroWorldSettings.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "Libraries/ToroWorldLibrary.h"
 #include "Sound/AudioSettings.h"
 #include "Sound/SoundMix.h"
 #include "AudioDevice.h"
@@ -25,16 +26,11 @@ AToroWorldSettings::AToroWorldSettings()
 	PostProcess->bUnbound = true;
 	PostProcess->bEnabled = true;
 
-	PostProcessTickInterval = 0.1f;
-	PostProcessTick = PostProcessTickInterval;
 	bAdvancedLumenCheck = true;
-
 	PostProcessing.bOverride_AutoExposureMethod = true;
 	PostProcessing.AutoExposureMethod = AEM_Manual;
-
 	PostProcessing.bOverride_AutoExposureBias = true;
 	PostProcessing.AutoExposureBias = 11.0f;
-
 	PostProcessing.bOverride_BloomMethod = true;
 	PostProcessing.BloomMethod = EBloomMethod::BM_FFT;
 
@@ -49,20 +45,22 @@ UMaterialInterface* AToroWorldSettings::FindBlendable(const UMaterialInterface* 
 {
 	if (InMaterial)
 	{
-		for (const FWeightedBlendable& Blendable : PostProcessing.WeightedBlendables.Array)
-		{
-			if (UMaterialInterface* Material = Cast<UMaterialInterface>(Blendable.Object))
-			{
-				if (Material == InMaterial)
-				{
-					return Material;
-				}
+		return nullptr;
+	}
 
-				const UMaterialInstanceDynamic* MID = Cast<UMaterialInstanceDynamic>(Material);
-				if (MID && MID->Parent == InMaterial)
-				{
-					return Material;
-				}
+	for (const FWeightedBlendable& Blendable : PostProcessing.WeightedBlendables.Array)
+	{
+		if (UMaterialInterface* Material = Cast<UMaterialInterface>(Blendable.Object))
+		{
+			if (Material == InMaterial)
+			{
+				return Material;
+			}
+
+			const UMaterialInstanceDynamic* MID = Cast<UMaterialInstanceDynamic>(Material);
+			if (MID && MID->Parent == InMaterial)
+			{
+				return Material;
 			}
 		}
 	}
@@ -74,23 +72,22 @@ UMaterialInterface* AToroWorldSettings::FindOrAddBlendable(UMaterialInterface* I
 {
 	if (InMaterial)
 	{
-		UMaterialInterface* Blendable = FindBlendable(InMaterial);
-		if (Blendable)
-		{
-			// Set weight to 1 just in case
-			PostProcessing.AddBlendable(Blendable, 1.0f);
-			return Blendable;
-		}
+		return nullptr;
+	}
 
-		Blendable = bDynamic ? UMaterialInstanceDynamic::Create(InMaterial, this) : InMaterial;
+	UMaterialInterface* Blendable = FindBlendable(InMaterial);
+	if (Blendable)
+	{
+		// Reset weight to 1 just in case
 		PostProcessing.AddBlendable(Blendable, 1.0f);
-		PostProcessTick = PostProcessTickInterval;
-		UpdatePostProcess();
-
 		return Blendable;
 	}
 
-	return nullptr;
+	Blendable = bDynamic ? UMaterialInstanceDynamic::Create(InMaterial, this) : InMaterial;
+	PostProcessing.AddBlendable(Blendable, 1.0f);
+	PostProcessTickInterval.ForceReady();
+
+	return Blendable;
 }
 
 void AToroWorldSettings::RemoveBlendable(UMaterialInterface* InMaterial)
@@ -98,8 +95,7 @@ void AToroWorldSettings::RemoveBlendable(UMaterialInterface* InMaterial)
 	if (UMaterialInterface* Blendable = FindBlendable(InMaterial))
 	{
 		PostProcessing.RemoveBlendable(Blendable);
-		PostProcessTick = PostProcessTickInterval;
-		UpdatePostProcess();
+		PostProcessTickInterval.ForceReady();
 	}
 }
 
@@ -165,26 +161,21 @@ void AToroWorldSettings::UpdateLumenGIUsage()
 		bUsesLumenGI = PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
 	}
 
-	if (!bAdvancedLumenCheck)
+	if (bAdvancedLumenCheck)
 	{
-		return;
-	}
-
-	FVector ViewLocation = FVector::ZeroVector;
-	if (const APlayerCameraManager* CamManager = CameraManager.Get())
-	{
-		ViewLocation = CamManager->GetCameraLocation();
-	}
-
-	float HighestPriority = PostProcess->Priority;
-	for (IInterface_PostProcessVolume& PPVolume : GetWorld()->GetPostProcessVolumeIterator())
-	{
-		const FPostProcessVolumeProperties Prop = PPVolume.GetProperties();
-		if (Prop.Settings->bOverride_DynamicGlobalIlluminationMethod && Prop.Priority > HighestPriority
-			&& (Prop.bIsUnbound || PPVolume.EncompassesPoint(ViewLocation, 0.0f, nullptr)))
+		float HighestPriority = PostProcess->Priority;
+		const FVector ViewLocation = UToroWorldLibrary::GetMainCameraTransform(this).GetLocation();
+		for (IInterface_PostProcessVolume& PPVolume : GetWorld()->GetPostProcessVolumeIterator())
 		{
-			HighestPriority = Prop.Priority;
-			bUsesLumenGI = Prop.Settings->DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+			const FPostProcessVolumeProperties Prop = PPVolume.GetProperties();
+			if (Prop.Settings && Prop.Priority > HighestPriority 
+				&& Prop.Settings->bOverride_DynamicGlobalIlluminationMethod 
+				&& (Prop.bIsUnbound || PPVolume.EncompassesPoint(ViewLocation, 0.0f, nullptr)))
+			{
+				HighestPriority = Prop.Priority;
+				bUsesLumenGI = Prop.Settings->DynamicGlobalIlluminationMethod 
+								== EDynamicGlobalIlluminationMethod::Lumen;
+			}
 		}
 	}
 }
@@ -192,19 +183,17 @@ void AToroWorldSettings::UpdateLumenGIUsage()
 void AToroWorldSettings::BeginPlay()
 {
 	Super::BeginPlay();
+	PostProcessTickInterval.ForceReady();
 
 	// Fixes motion blur issues when paused
 	GetWorld()->bIsCameraMoveableWhenPaused = true;
-
-	UpdatePostProcess();
 }
 
 void AToroWorldSettings::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if ((PostProcessTick -= DeltaSeconds) < 0.0f)
+	if (PostProcessTickInterval.TickCooldown(DeltaSeconds))
 	{
-		PostProcessTick = PostProcessTickInterval;
 		UpdatePostProcess();
 		UpdateLumenGIUsage();
 	}

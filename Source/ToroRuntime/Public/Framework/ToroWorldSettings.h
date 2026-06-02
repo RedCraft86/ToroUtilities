@@ -5,7 +5,7 @@
 #include "Sound/SoundClass.h"
 #include "Helpers/WorldGetter.h"
 #include "DataTypes/CachedGetter.h"
-#include "ToroPlayerCameraManager.h"
+#include "DataTypes/SimpleCooldown.h"
 #include "GameFramework/WorldSettings.h"
 #include "Components/PostProcessComponent.h"
 #include "UserSettings/ToroGameUserSettings.h"
@@ -13,7 +13,7 @@
 
 /**
  * Custom World Settings for the ToroUtilities framework. Manages global post-processing,
- * dynamic blendables (MIDs), and global audio volume overrides.
+ * dynamic blendables (MIDs), light probe system, and global audio volume overrides.
  */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType)
 class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
@@ -85,9 +85,11 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UPostProcessComponent> PostProcess;
 
-	/** Time (in seconds) between user-setting synchronization. 0.0 for every frame (Runtime Only). */
+	/** 
+	 * Time (in seconds) between user-setting synchronization and Lumen GI usage checks. 
+	 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PostProcessing, meta = (ClampMin = 0.0f, UIMin = 0.0f))
-		float PostProcessTickInterval;
+		FSimpleCooldown PostProcessTickInterval;
 
 	/** 
 	 * If false, it will check compatibility, scalability settings, and global state to determine Lumen-GI usage.
@@ -101,16 +103,9 @@ protected:
 		FPostProcessSettings PostProcessing;
 
 	bool bUsesLumenGI;
-	float PostProcessTick;
-
 	TCachedGetter<UToroGameUserSettings> UserSettings {[]
 	{
 		return UToroGameUserSettings::Get();
-	}};
-
-	TCachedGetter<APlayerCameraManager> CameraManager {[this]
-	{
-		return AToroPlayerCameraManager::Get(this);
 	}};
 
 	void UpdatePostProcess();
