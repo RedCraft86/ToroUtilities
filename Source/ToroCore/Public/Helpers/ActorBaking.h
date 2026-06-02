@@ -31,8 +31,7 @@ public:
 	 * Cached accessor for the Editor Actor Subsystem.
 	 * Uses TCachedGetter to avoid repeated subsystem lookups in GEditor.
 	 */
-	static inline TCachedGetter<UEditorActorSubsystem> ActorSubsystem{[]()
-	{
+	static inline TCachedGetter<UEditorActorSubsystem> ActorSubsystem{[] {
 		return GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
 	}};
 
