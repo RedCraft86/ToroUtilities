@@ -35,6 +35,12 @@ void UToroWorldLibrary::CallRemoteEvent(const UObject* ContextObject, const FNam
 
 FTransform UToroWorldLibrary::GetMainCameraTransform(const UObject* ContextObject, const int32 PlayerIdx)
 {
+	static TFrameValue<FTransform> CameraTransform;
+	if (CameraTransform.IsSet())
+	{
+		return CameraTransform.GetValue();
+	}
+
 #if WITH_EDITOR
 	if (!FApp::IsGame())
 	{
@@ -43,15 +49,15 @@ FTransform UToroWorldLibrary::GetMainCameraTransform(const UObject* ContextObjec
 			FVector Position;
 			FRotator Rotation;
 			UES->GetLevelViewportCameraInfo(Position, Rotation);
-			return FTransform(Rotation, Position, FVector::OneVector);
+			CameraTransform = FTransform(Rotation, Position, FVector::OneVector);
 		}
 	}
 	else
 #endif
 	if (const APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIdx))
 	{
-		return FTransform(PCM->GetCameraRotation(), PCM->GetCameraLocation(), FVector::OneVector);
+		CameraTransform = FTransform(PCM->GetCameraRotation(), PCM->GetCameraLocation(), FVector::OneVector);
 	}
 
-	return FTransform::Identity;
+	return CameraTransform.GetValue();
 }
