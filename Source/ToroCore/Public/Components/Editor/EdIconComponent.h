@@ -47,6 +47,5 @@ private:
 #if WITH_EDITOR
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
-	virtual void OnRegister() override;
 #endif
 };
