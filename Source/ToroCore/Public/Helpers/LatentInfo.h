@@ -33,7 +33,7 @@ public:
 	{
 		return FLatentActionInfo(0, NextId(), FuncName, Target);
 	}
-	 
+
 	/**
 	 * Increments and returns the next available LinkID. 
 	 * Automatically wraps back to 1000 if the <c>UINT16_MAX</c> limit 

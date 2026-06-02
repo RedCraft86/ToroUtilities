@@ -15,7 +15,7 @@
 #define UPDATE_ICON_MAX_COMP(Max) if (EdIconComp) EdIconComp->SetMaxComponents(Max);
 #define UPDATE_ICON_SIZE(Size) if (EdIconComp) EdIconComp->UpdateSize(Size);
 #define UPDATE_ICON_IMAGE(Image) if (EdIconComp) EdIconComp->UpdateIcon(TEXT(Image));
-	 
+
 /**
  * An intelligent Billboard Component designed to represent "Logic Actors" in the editor.
  * This icon will automatically hide itself if the Owning Actor's component count 

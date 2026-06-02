@@ -58,7 +58,7 @@ public:
 			CachedWorld = InWorld;
 		}
 	}
-	 
+
 	/**
 	 * Call during map changes or module shutdowns to ensure 
 	 * subsequent calls to Get() re-evaluate the context.

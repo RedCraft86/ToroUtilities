@@ -39,7 +39,7 @@ public:
 	{
 		return Get();
 	}
-	 
+
 	/** 
 	 * Returns the cached object if valid; otherwise, executes the Getter to refresh the cache.
 	 * @return The current or newly fetched object pointer.

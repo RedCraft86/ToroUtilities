@@ -166,7 +166,7 @@ struct TOROCORE_API FPointLightProperties final : public FBaseLightProperties
     virtual void FromLightComponent(const ULightComponent* Target) override;
     virtual void ToLightComponent(ULightComponent* Target) const override;
 };
-	 
+
 /**
  * Specialized properties for SpotLights, emitting light in a cone-shaped volume.
  */
@@ -215,7 +215,7 @@ struct TOROCORE_API FSpotLightProperties final : public FBaseLightProperties
 
     virtual void FromLightComponent(const ULightComponent* Target) override;
     virtual void ToLightComponent(ULightComponent* Target) const override;
-};	 
+};
 
 /**
  * Specialized properties for RectLights, emitting light from a rectangular surface.
@@ -343,7 +343,7 @@ public:
 	{
 		Properties.ToLightComponent(Target);
 	}
-	 
+
 	/** 
 	 * Extracts specialized spot-light properties from a Spot Light Component.
 	 * @param OutData The struct to receive the spot light property data (Output).
@@ -354,7 +354,7 @@ public:
 	{
 		OutData.FromLightComponent(Target);
 	}
-	 
+
 	/** 
 	 * Applies rect-light specific properties (Width, Height, Barn Doors, etc.) to a Rect Light Component.
 	 * @param Target The rect light component to update.
@@ -365,7 +365,7 @@ public:
 	{
 		Properties.ToLightComponent(Target);
 	}
-	 
+
 	/** 
 	 * Extracts specialized rect-light properties from a Rect Light Component.
 	 * @param OutData The struct to receive the rect light property data (Output).

@@ -11,7 +11,7 @@
 #include "ScopedTransaction.h"
 #include "Editor.h"
 #endif
-	 
+
 /**
  * A static utility class designed to convert dynamic, procedural, or complex component 
  * data into standalone Actors. 

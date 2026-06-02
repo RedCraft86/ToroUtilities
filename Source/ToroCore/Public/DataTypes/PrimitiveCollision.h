@@ -6,7 +6,7 @@
 #include "Engine/CollisionProfile.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PrimitiveCollision.generated.h"
-	 
+
 /**
  * A comprehensive wrapper for Unreal Engine collision settings.
  *
@@ -22,7 +22,7 @@ private:
 #if WITH_EDITOR
 	friend class FPrimitiveCollisionDetails;
 #endif
-	 
+
 	/** 
 	 * Determines if the component is enabled for queries (traces/overlaps) and/or physics simulation. 
 	 */

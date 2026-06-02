@@ -6,7 +6,7 @@
 #include "Interfaces/ICharacterView.h"
 #include "Interfaces/IObjectIdentity.h"
 #include "ToroCharacter.generated.h"
-	 
+
 /**
  * Base character class implementing IObjectIdentity and specialized view interfaces.
  * Features:

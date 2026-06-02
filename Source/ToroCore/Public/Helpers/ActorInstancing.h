@@ -3,7 +3,7 @@
 #pragma once
 
 #include "DataTypes/MeshProperties.h"
-	 
+
 /**
  * A utility class focused on actor-to-instance conversion and optimization.
  * 

@@ -48,7 +48,7 @@ protected:
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
 };
-	 
+
 /**
  * An extension of AInstancedStaticMeshActor that utilizes HISMs.
  * Recommended for meshes that require LOD (Level of Detail) support and 

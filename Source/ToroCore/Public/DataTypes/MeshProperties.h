@@ -5,7 +5,7 @@
 #include "Components/SplineMeshComponent.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "MeshProperties.generated.h"
-	 
+
 /**
  * A serializable data structure representing the state of a Static Mesh Component.
  * This struct facilitates the synchronization, storage, and replication of mesh data.
@@ -71,7 +71,7 @@ struct TOROCORE_API FStaticMeshProperties
 		return HashCombine(Hash, GetTypeHash(InMeshProperties.Materials));
 	}
 };
-	 
+
 /**
  * Specialized properties for Spline Mesh Components, extending the standard Static Mesh 
  * properties with spline-specific configuration such as the Forward Axis.

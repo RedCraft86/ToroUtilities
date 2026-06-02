@@ -4,7 +4,7 @@
 
 #include "CurveAnimBaseComponent.h"
 #include "CurveAnimVectorComponent.generated.h"
-	 
+
 /** 
  * Evaluates FVector curves (XYZ).
  */
