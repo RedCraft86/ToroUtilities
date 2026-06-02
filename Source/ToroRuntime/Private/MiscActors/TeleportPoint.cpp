@@ -1,6 +1,6 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
-#include "Miscellaneous/TeleportPoint.h"
+#include "MiscActors/TeleportPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "Actors/ToroCharacter.h"
 #include "Engine/World.h"

@@ -25,7 +25,7 @@
 #include "Actors/ToroActor.h"
 #include "Actors/ToroCharacter.h"
 #include "Actors/ToroVolume.h"
-#include "Miscellaneous/TeleportPoint.h"
+#include "MiscActors/TeleportPoint.h"
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
