@@ -44,4 +44,17 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
 		static void CallRemoteEvent(const UObject* ContextObject, const FName EventName);
+
+	/**
+	 * Retrieves the transform of the active camera.
+	 * 
+	 * In the Editor (non-PIE), this returns the transform of the active Level Viewport camera.
+	 * In Game (or PIE), this returns the transform from the Player Camera Manager for the specified player index.
+	 *
+	 * @param ContextObject  Object used to determine the world context (needed for runtime lookup).
+	 * @param PlayerIdx      The index of the player whose camera should be retrieved (Default is 0).
+	 * @return               The world-space transform of the active camera. Returns FTransform::Identity if no camera is found.
+	 */
+	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
+		static FTransform GetMainCameraTransform(const UObject* ContextObject, const int32 PlayerIdx = 0);
 };

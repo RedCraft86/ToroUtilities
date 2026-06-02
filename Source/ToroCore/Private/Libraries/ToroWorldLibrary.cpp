@@ -4,6 +4,11 @@
 #include "Engine/LevelScriptActor.h"
 #include "Kismet/GameplayStatics.h"
 #include "Helpers/WorldGetter.h"
+#include "Misc/App.h"
+#if WITH_EDITOR
+#include "Editor.h"
+#include "Subsystems/UnrealEditorSubsystem.h"
+#endif
 
 UWorld* UToroWorldLibrary::GetPossibleWorld(const UObject* Context)
 {
@@ -26,4 +31,27 @@ void UToroWorldLibrary::CallRemoteEvent(const UObject* ContextObject, const FNam
 			LSA->RemoteEvent(EventName);
 		}
 	}
+}
+
+FTransform UToroWorldLibrary::GetMainCameraTransform(const UObject* ContextObject, const int32 PlayerIdx)
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame())
+	{
+		if (UUnrealEditorSubsystem* UES = GEditor ? GEditor->GetEditorSubsystem<UUnrealEditorSubsystem>() : nullptr)
+		{
+			FVector Position;
+			FRotator Rotation;
+			UES->GetLevelViewportCameraInfo(Position, Rotation);
+			return FTransform(Rotation, Position, FVector::OneVector);
+		}
+	}
+	else
+#endif
+	if (const APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIdx))
+	{
+		return FTransform(PCM->GetCameraRotation(), PCM->GetCameraLocation(), FVector::OneVector);
+	}
+
+	return FTransform::Identity;
 }
