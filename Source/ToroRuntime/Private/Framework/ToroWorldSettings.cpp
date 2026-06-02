@@ -171,10 +171,9 @@ void AToroWorldSettings::UpdateLumenGIUsage()
 	}
 
 	FVector ViewLocation = FVector::ZeroVector;
-	if (const APlayerController* PC = GetWorld()->GetFirstPlayerController())
+	if (const APlayerCameraManager* CamManager = CameraManager.Get())
 	{
-		FRotator Unused;
-		PC->GetPlayerViewPoint(ViewLocation, Unused);
+		ViewLocation = CamManager->GetCameraLocation();
 	}
 
 	float HighestPriority = PostProcess->Priority;

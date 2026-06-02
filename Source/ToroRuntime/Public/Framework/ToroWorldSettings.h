@@ -5,6 +5,7 @@
 #include "Sound/SoundClass.h"
 #include "Helpers/WorldGetter.h"
 #include "DataTypes/CachedGetter.h"
+#include "ToroPlayerCameraManager.h"
 #include "GameFramework/WorldSettings.h"
 #include "Components/PostProcessComponent.h"
 #include "UserSettings/ToroGameUserSettings.h"
@@ -101,9 +102,15 @@ protected:
 
 	bool bUsesLumenGI;
 	float PostProcessTick;
+
 	TCachedGetter<UToroGameUserSettings> UserSettings {[]
 	{
 		return UToroGameUserSettings::Get();
+	}};
+
+	TCachedGetter<APlayerCameraManager> CameraManager {[this]
+	{
+		return AToroPlayerCameraManager::Get(this);
 	}};
 
 	void UpdatePostProcess();
