@@ -3,11 +3,21 @@
 #pragma once
 
 #include "Engine/Engine.h"
+#include "Sound/SoundClass.h"
+#include "UserSettingTypes.h"
 #include "GameFramework/GameUserSettings.h"
 #include "ToroGameUserSettings.generated.h"
 
 extern ENGINE_API float GAverageMS;
 extern ENGINE_API float GAverageFPS;
+
+UENUM(BlueprintInternalUseOnly)
+enum class EUserSettingApplyType : uint8
+{
+	Seamless,
+	Manual,
+	UIRefresh
+};
 
 UCLASS(Blueprintable, BlueprintType)
 class TORORUNTIME_API UToroGameUserSettings : public UGameUserSettings
@@ -27,24 +37,107 @@ public:
 	}
 
 	UFUNCTION(BlueprintPure, Category = Settings)
-	static float GetAverageMS()
-	{
-		return GAverageMS;
-	}
+		static float GetAverageMS() { return GAverageMS; }
 
 	UFUNCTION(BlueprintPure, Category = Settings)
-	static float GetAverageFPS()
-	{
-		//return ImageFidelityAPI::XeSS::UseXeFGFrameRate() ? GXeFGAverageFPS : GAverageFPS;
-		return GAverageFPS;
-	}
+		static float GetAverageFPS() { return GAverageFPS; }
 
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void AutoAdjustScalability();
 
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetShowFPS(const bool bShow);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		bool GetShowFPS() const;
+
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetSmoothCamera(const bool bSmooth);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		bool GetSmoothCamera() const;
+
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetSensitivityX(const float Value);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		float GetSensitivityX() const;
+
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetSensitivityY(const float Value);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		float GetSensitivityY() const;
+
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetBrightness(const uint8 Value);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		uint8 GetBrightness() const;
+
+	/* 0: off | 1: low | 2: medium | 3: high | 4: very high */
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetMotionBlurQuality(const uint8 Value);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		uint8 GetMotionBlurQuality() const;
+
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetLumenMode(const ELumenUsageMode Mode);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		ELumenUsageMode GetLumenMode() const;
+
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetImageFidelityMode(const EImageFidelityMode Mode);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		EImageFidelityMode GetImageFidelityMode() const;
+
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetSoundVolume(const USoundClass* InClass, const uint8 Value);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		uint8 GetSoundVolume(const USoundClass* InClass);
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSettingsAppliedDelegateBP, const UToroGameUserSettings*, Settings, const EUserSettingApplyType, Type);
+	UPROPERTY(BlueprintAssignable, DisplayName = "Settings Applied") 
+		FOnSettingsAppliedDelegateBP OnSettingsAppliedBP;
+
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSettingsAppliedDelegate, const UToroGameUserSettings*, const EUserSettingApplyType);
+	FOnSettingsAppliedDelegate OnSettingsApplied;
+
 	void InitializeSettings();
+	void SetAdjustedFullscreenMode(const EWindowMode::Type InMode);
+	virtual void ApplyNonResolutionSettings() override;
 
 protected:
 
+	void ApplyBrightness() const;
+	void ApplyMotionBlur() const;
+
+	void ApplyImageFidelity();
+
+	uint8& FindOrAddSoundVolume(const USoundClass* InClass);
+	void ApplySoundAdjustments();
+
+	void Broadcast(EUserSettingApplyType Type) const;
+	virtual void SetToDefaults() override;
+	virtual UWorld* GetWorld() const override;
+	virtual void PostInitProperties() override;
+
 	UPROPERTY(Config) bool bInitialized;
+
+	UPROPERTY(Config) bool bShowFPS;
+	UPROPERTY(Config) bool bSmoothCamera;
+	UPROPERTY(Config) float SensitivityX;
+	UPROPERTY(Config) float SensitivityY;
+
+	UPROPERTY(Config) uint8 Brightness;
+	UPROPERTY(Config) uint8 MotionBlur;
+	UPROPERTY(Config) ELumenUsageMode LumenMode;
+
+	UPROPERTY(Config) EImageFidelityMode ImageFidelity;
+
+	UPROPERTY(Config) TSet<FAudioChannelVolume> AudioVolumes;
 };
