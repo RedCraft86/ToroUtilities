@@ -119,15 +119,15 @@ void AToroWorldSettings::UpdatePostProcess()
 	if (FApp::IsGame())
 #endif
 	{
-		// TODO ELumenUsageMode LumenMode = UserSettings->GetLumenMode();
-		//
-		// Settings.bOverride_ReflectionMethod = true;
-		// Settings.ReflectionMethod = LumenReflectionAllowed(LumenMode) 
-		// 	? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
-		//
-		// Settings.bOverride_DynamicGlobalIlluminationMethod = true;
-		// Settings.DynamicGlobalIlluminationMethod = LumenLightingAllowed(LumenMode) 
-		// 	? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::ScreenSpace;
+		const ELumenUsageMode LumenMode = UserSettings->GetLumenMode();
+
+		PostProcessing.bOverride_ReflectionMethod = true;
+		PostProcessing.ReflectionMethod = LumenReflectionAllowed(LumenMode) 
+			? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
+
+		PostProcessing.bOverride_DynamicGlobalIlluminationMethod = true;
+		PostProcessing.DynamicGlobalIlluminationMethod = LumenLightingAllowed(LumenMode) 
+			? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::None;
 
 		if (UserSettings->GetGlobalIlluminationQuality() >= 4)
 		{
