@@ -53,7 +53,7 @@ private:
 		FSimpleCooldown UpdateInterval;
 
 	TArray<TWeakObjectPtr<class ALightProbeActor>> LightProbes;
-	TCachedGetter<UMaterialInstanceDynamic> LightProbeMID {[this] -> UMaterialInstanceDynamic* {
+	TCachedGetter<UMaterialInstanceDynamic> LightProbeMID {[this]() -> UMaterialInstanceDynamic* {
 		if (AToroWorldSettings* WS = GetOwner<AToroWorldSettings>(); WS && PostProcessMaterial)
 		{
 			return Cast<UMaterialInstanceDynamic>(WS->FindOrAddBlendable(PostProcessMaterial, true));
