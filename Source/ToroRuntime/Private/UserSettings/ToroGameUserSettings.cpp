@@ -12,6 +12,7 @@ void UToroGameUserSettings::AutoAdjustScalability()
 {
 	RunHardwareBenchmark();
 	ApplyHardwareBenchmarkResults();
+	ApplyMotionBlur(); // Reverse the PostProcessingQuality override
 	BroadcastUpdate(EUserSettingApplyType::UIRefresh);
 }
 
@@ -133,6 +134,11 @@ void UToroGameUserSettings::SetOverallScalabilityLevel(int32 Value)
 
 void UToroGameUserSettings::ApplyNonResolutionSettings()
 {
+	if (!ImageFidelityAPI::SupportsVSync())
+	{
+		SetVSyncEnabled(false);
+	}
+
 	Super::ApplyNonResolutionSettings();
 
 	ApplyBrightness();
@@ -186,7 +192,8 @@ void UToroGameUserSettings::ApplySoundAdjustments()
 		{
 			if (USoundClass* SoundClass = Adjuster.SoundClassObject)
 			{
-				WS->SetSoundVolume(SoundClass, static_cast<float>(FindOrAddSoundVolume(SoundClass)) / 100.0f);
+				const float RawVolume = static_cast<float>(FindOrAddSoundVolume(SoundClass)) / 100.0f;
+				WS->SetSoundVolume(SoundClass, FMath::Clamp(RawVolume, 0.5f, 2.0f));
 			}
 		}
 	}
