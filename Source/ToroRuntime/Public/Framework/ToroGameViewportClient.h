@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "UE5Coro.h"
 #include "Helpers/WorldGetter.h"
 #include "CommonGameViewportClient.h"
 #include "ToroGameViewportClient.generated.h"
@@ -24,4 +25,32 @@ public:
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? Cast<T>(World->GetGameViewport()) : nullptr;
 	}
+
+	UFUNCTION(BlueprintCallable, Category = ScreenFade, meta = (WorldContext = ContextObject))
+		static void ClearScreenFade(const UObject* ContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = ScreenFade, meta = (WorldContext = ContextObject))
+		static void SetScreenFade(const UObject* ContextObject, const FLinearColor Color, const bool bFadeSound);
+
+	UFUNCTION(BlueprintCallable, Category = ScreenFade, meta = (Latent, LatentInfo = LatentInfo, WorldContext = ContextObject))
+		static FVoidCoroutine StartScreenFade(FLatentActionInfo LatentInfo, const UObject* ContextObject, 
+			const FLinearColor Color, const float Duration, const bool bFadeSound);
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FFadeAudioDelegate, const float);
+	FFadeAudioDelegate OnAudioFade;
+
+	virtual void ClearScreenFade();
+	virtual void SetScreenFade(const FLinearColor& Color, const bool bFadeSound);
+	virtual UE5Coro::TCoroutine<> StartScreenFade(const FLinearColor& Color, const float Duration, const bool bFadeSound);
+
+protected:
+
+	float FadeTime;
+	bool bFadeAudio;
+	FLinearColor CurrentColor;
+	FLinearColor TargetColor;
+
+	void FadeAudio(const float Amount);
+	virtual void Tick(float DeltaTime) override;
+	virtual void PostRender(UCanvas* Canvas) override;
 };
