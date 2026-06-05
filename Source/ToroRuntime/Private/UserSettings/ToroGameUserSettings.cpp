@@ -12,7 +12,7 @@ void UToroGameUserSettings::AutoAdjustScalability()
 {
 	RunHardwareBenchmark();
 	ApplyHardwareBenchmarkResults();
-	RequestUIUpdate();
+	Broadcast(EUserSettingApplyType::UIRefresh);
 }
 
 void UToroGameUserSettings::SetShowFPS(const bool bShow)
@@ -127,6 +127,12 @@ void UToroGameUserSettings::SetAdjustedFullscreenMode(const EWindowMode::Type In
 #else
 	SetFullscreenMode(InMode);
 #endif
+}
+
+void UToroGameUserSettings::SetOverallScalabilityLevel(int32 Value)
+{
+	Super::SetOverallScalabilityLevel(Value);
+	Broadcast(EUserSettingApplyType::UIRefresh);
 }
 
 void UToroGameUserSettings::ApplyNonResolutionSettings()

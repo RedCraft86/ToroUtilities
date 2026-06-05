@@ -11,14 +11,26 @@
 extern ENGINE_API float GAverageMS;
 extern ENGINE_API float GAverageFPS;
 
+/**
+ * Defines the context in which settings are being applied.
+ */
 UENUM(BlueprintInternalUseOnly)
 enum class EUserSettingApplyType : uint8
 {
+	/** Settings applied instantly without waiting for apply (e.g., Show FPS). */
 	Seamless,
+
+	/** Settings requiring a manual trigger (e.g., Scalability changes). */
 	Manual,
+
+	/** Settings that require the UI to refresh its state to reflect changes (e.g., Image Fidelity). */
 	UIRefresh
 };
 
+/**
+ * Custom Game User Settings class for ToroUtilities. Handles persistence (via GConfig),
+ * audio volumes, rendering fidelity (DLSS/FSR/TSR), and gameplay preferences.
+ */
 UCLASS(Blueprintable, BlueprintType)
 class TORORUNTIME_API UToroGameUserSettings : public UGameUserSettings
 {
@@ -36,67 +48,85 @@ public:
 		return GEngine ? Cast<T>(GEngine->GetGameUserSettings()) : nullptr;
 	}
 
+	/** Returns the current average frame time in milliseconds. */
 	UFUNCTION(BlueprintPure, Category = Settings)
 		static float GetAverageMS() { return GAverageMS; }
 
+	/** Returns the current average frames per second. */
 	UFUNCTION(BlueprintPure, Category = Settings)
 		static float GetAverageFPS() { return GAverageFPS; }
 
+	/** Runs the built-in Unreal benchmark to auto-set scalability settings. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void AutoAdjustScalability();
 
+	/** Toggles the visibility of the on-screen FPS counter. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetShowFPS(const bool bShow);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		bool GetShowFPS() const;
 
+	/** Toggles camera smoothing/interpolation for cinematic feel. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetSmoothCamera(const bool bSmooth);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		bool GetSmoothCamera() const;
 
+	/** Sets the horizontal mouse/look sensitivity. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetSensitivityX(const float Value);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		float GetSensitivityX() const;
 
+	/** Sets the vertical mouse/look sensitivity. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetSensitivityY(const float Value);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		float GetSensitivityY() const;
 
+	/** Sets the global brightness/gamma offset (20-80). Default: 50 */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetBrightness(const uint8 Value);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		uint8 GetBrightness() const;
 
-	/* 0: off | 1: low | 2: medium | 3: high | 4: very high */
+	/** 
+	 * Sets the motion blur quality level. (Gets clamped if needed)
+	 * 0: Off | 1: Low | 2: Medium | 3: High | 4: Very High
+	 */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetMotionBlurQuality(const uint8 Value);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		uint8 GetMotionBlurQuality() const;
 
+	/** Configures how Lumen GI and Reflections are utilized. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetLumenMode(const ELumenUsageMode Mode);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		ELumenUsageMode GetLumenMode() const;
 
+	/** Sets the AA/Upscaling method (DLSS, FSR, TSR, etc.). */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetImageFidelityMode(const EImageFidelityMode Mode);
 
 	UFUNCTION(BlueprintPure, Category = Settings)
 		EImageFidelityMode GetImageFidelityMode() const;
 
+	/** 
+	 * Updates the volume for a specific SoundClass. 
+	 * Maps internally to the AudioVolumes TSet.
+	 */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetSoundVolume(const USoundClass* InClass, const uint8 Value);
 
+	/** Retrieves the stored volume for a specific SoundClass. Adds and returns default 100 if not found. */
 	UFUNCTION(BlueprintPure, Category = Settings)
 		uint8 GetSoundVolume(const USoundClass* InClass);
 
@@ -109,6 +139,7 @@ public:
 
 	void InitializeSettings();
 	void SetAdjustedFullscreenMode(const EWindowMode::Type InMode);
+	virtual void SetOverallScalabilityLevel(int32 Value) override;
 	virtual void ApplyNonResolutionSettings() override;
 
 protected:
