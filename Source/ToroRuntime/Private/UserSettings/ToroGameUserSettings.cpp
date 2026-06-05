@@ -120,15 +120,6 @@ void UToroGameUserSettings::InitializeSettings()
 	ApplySettings(false);
 }
 
-void UToroGameUserSettings::SetAdjustedFullscreenMode(const EWindowMode::Type InMode)
-{
-#if WITH_EDITOR
-	SetFullscreenMode(InMode == EWindowMode::Fullscreen ? InMode : EWindowMode::WindowedFullscreen);
-#else
-	SetFullscreenMode(InMode);
-#endif
-}
-
 void UToroGameUserSettings::SetOverallScalabilityLevel(int32 Value)
 {
 	Super::SetOverallScalabilityLevel(Value);

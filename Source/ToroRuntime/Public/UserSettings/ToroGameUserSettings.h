@@ -138,7 +138,6 @@ public:
 	FOnSettingsAppliedDelegate OnSettingsApplied;
 
 	void InitializeSettings();
-	void SetAdjustedFullscreenMode(const EWindowMode::Type InMode);
 	virtual void SetOverallScalabilityLevel(int32 Value) override;
 	virtual void ApplyNonResolutionSettings() override;
 
