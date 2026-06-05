@@ -12,13 +12,12 @@ void UToroGameUserSettings::AutoAdjustScalability()
 {
 	RunHardwareBenchmark();
 	ApplyHardwareBenchmarkResults();
-	Broadcast(EUserSettingApplyType::UIRefresh);
+	BroadcastUpdate(EUserSettingApplyType::UIRefresh);
 }
 
 void UToroGameUserSettings::SetShowFPS(const bool bShow)
 {
 	bShowFPS = bShow;
-	Broadcast(EUserSettingApplyType::Seamless);
 }
 
 bool UToroGameUserSettings::GetShowFPS() const
@@ -120,10 +119,16 @@ void UToroGameUserSettings::InitializeSettings()
 	ApplySettings(false);
 }
 
+void UToroGameUserSettings::BroadcastUpdate(EUserSettingApplyType Type) const
+{
+	OnSettingsApplied.Broadcast(this, Type);
+	OnSettingsAppliedBP.Broadcast(this, Type);
+}
+
 void UToroGameUserSettings::SetOverallScalabilityLevel(int32 Value)
 {
 	Super::SetOverallScalabilityLevel(Value);
-	Broadcast(EUserSettingApplyType::UIRefresh);
+	BroadcastUpdate(EUserSettingApplyType::UIRefresh);
 }
 
 void UToroGameUserSettings::ApplyNonResolutionSettings()
@@ -135,7 +140,7 @@ void UToroGameUserSettings::ApplyNonResolutionSettings()
 	ApplyImageFidelity();
 	ApplySoundAdjustments();
 
-	Broadcast(EUserSettingApplyType::Manual);
+	BroadcastUpdate(EUserSettingApplyType::Manual);
 }
 
 void UToroGameUserSettings::ApplyBrightness() const
@@ -161,7 +166,7 @@ void UToroGameUserSettings::ApplyImageFidelity()
 		SetVSyncEnabled(false);
 	}
 
-	Broadcast(EUserSettingApplyType::UIRefresh);
+	BroadcastUpdate(EUserSettingApplyType::UIRefresh);
 }
 
 uint8& UToroGameUserSettings::FindOrAddSoundVolume(const USoundClass* InClass)
@@ -185,12 +190,6 @@ void UToroGameUserSettings::ApplySoundAdjustments()
 			}
 		}
 	}
-}
-
-void UToroGameUserSettings::Broadcast(EUserSettingApplyType Type) const
-{
-	OnSettingsApplied.Broadcast(this, Type);
-	OnSettingsAppliedBP.Broadcast(this, Type);
 }
 
 void UToroGameUserSettings::SetToDefaults()

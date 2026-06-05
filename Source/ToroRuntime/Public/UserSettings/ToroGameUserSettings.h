@@ -138,6 +138,8 @@ public:
 	FOnSettingsAppliedDelegate OnSettingsApplied;
 
 	void InitializeSettings();
+	void BroadcastUpdate(EUserSettingApplyType Type) const;
+
 	virtual void SetOverallScalabilityLevel(int32 Value) override;
 	virtual void ApplyNonResolutionSettings() override;
 
@@ -151,7 +153,6 @@ protected:
 	uint8& FindOrAddSoundVolume(const USoundClass* InClass);
 	void ApplySoundAdjustments();
 
-	void Broadcast(EUserSettingApplyType Type) const;
 	virtual void SetToDefaults() override;
 	virtual UWorld* GetWorld() const override;
 	virtual void PostInitProperties() override;
