@@ -32,7 +32,7 @@ public:
 	 * @param ContextObject  The object used to determine the world to reload.
 	 * @param Options        Optional URL-style parameters to pass to the level on reload (e.g., "?game=MyGameMode").
 	 */
-	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject", AdvancedDisplay = "Options"))
+	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = ContextObject, AdvancedDisplay = "Options"))
 		static void ReloadLevel(const UObject* ContextObject, const FString& Options = TEXT(""));
 
 	/** 
@@ -42,7 +42,7 @@ public:
 	 * @param ContextObject  World context for locating the level.
 	 * @param EventName      The name of the Custom Event in the Level Blueprint marked as 'Remote'.
 	 */
-	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
+	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = ContextObject))
 		static void CallRemoteEvent(const UObject* ContextObject, const FName EventName);
 
 	/**
@@ -55,6 +55,6 @@ public:
 	 * @param PlayerIdx      The index of the player whose camera should be retrieved (Default is 0).
 	 * @return               The world-space transform of the active camera. Returns FTransform::Identity if no camera is found.
 	 */
-	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
+	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = ContextObject))
 		static FTransform GetMainCameraTransform(const UObject* ContextObject, const int32 PlayerIdx = 0);
 };
