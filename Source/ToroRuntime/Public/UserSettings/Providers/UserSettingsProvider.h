@@ -20,7 +20,7 @@ enum class EUserSettingImpact : uint8
 	/** Negligible impact (e.g., UI toggles). */
 	Low,
 
-	/** Moderate impact on GPU or CPU (e.g., Shadow Quality). */
+	/** Moderate impact on GPU or CPU (e.g., Anti-Aliasing Quality). */
 	Medium,
 
 	/** Significant impact on frame rates (e.g., Lumen or Ray Tracing). */
@@ -182,18 +182,18 @@ public:
 	{}
 
 	/** The default string to revert to. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option, meta = (GetOptions = "DefaultChoices"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option)
 		FString DefaultOption;
 
 	/** The collection of valid strings this setting can accept. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option, meta = (Multiline = true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option)
 		TArray<FString> DefaultChoices;
 
 	/** Tooltips associated with specific choices, mapped by the choice string. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option, meta = (GetOptions = "DefaultChoices"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option)
 		TMap<FString, FText> OptionTooltips;
 
-	virtual TArray<FString> GetOptions() const { return DefaultChoices; }
+	virtual const TArray<FString>& GetOptions() { return DefaultChoices; }
 
 	virtual FString GetValue() const { return FString(); }
 	virtual void SetValue(const FString& InValue) {}
