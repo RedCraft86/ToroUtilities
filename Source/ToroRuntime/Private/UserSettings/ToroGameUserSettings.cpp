@@ -163,7 +163,7 @@ void UToroGameUserSettings::SetImageFidelityMode(const EImageFidelityMode Mode)
 
 EImageFidelityMode UToroGameUserSettings::GetImageFidelityMode() const
 {
-	return ImageFidelity;
+	return ImageFidelityAPI::IsSupportedMode(ImageFidelity) ? ImageFidelity : EImageFidelityMode::None;
 }
 
 void UToroGameUserSettings::SetTSRScreenPercentage(const float Percentage)
@@ -248,32 +248,29 @@ void UToroGameUserSettings::ApplyMotionBlur() const
 
 void UToroGameUserSettings::ApplyImageFidelity()
 {
-	EAntiAliasingMethod AAMethod = AAM_None;
-	if (ImageFidelityAPI::IsSupportedMode(GetImageFidelityMode()))
+	EAntiAliasingMethod AAMethod;
+	switch (GetImageFidelityMode())
 	{
-		switch (GetImageFidelityMode())
-		{
-			case EImageFidelityMode::CMAA2:
-			case EImageFidelityMode::None:
-				AAMethod = AAM_None;
-				break;
+		case EImageFidelityMode::CMAA2:
+		case EImageFidelityMode::None:
+			AAMethod = AAM_None;
+			break;
 
-			case EImageFidelityMode::FXAA:
-				AAMethod = AAM_FXAA;
-				break;
+		case EImageFidelityMode::FXAA:
+			AAMethod = AAM_FXAA;
+			break;
 
-			case EImageFidelityMode::SMAA:
-				AAMethod = AAM_SMAA;
-				break;
+		case EImageFidelityMode::SMAA:
+			AAMethod = AAM_SMAA;
+			break;
 
-			case EImageFidelityMode::TAA:
-				AAMethod = AAM_TemporalAA;
-				break;
+		case EImageFidelityMode::TAA:
+			AAMethod = AAM_TemporalAA;
+			break;
 
-			default: 
-				AAMethod = AAM_TSR; // Catches TSR and other Upscalers
-				break;
-		}
+		default: 
+			AAMethod = AAM_TSR; // Catches TSR and other Upscalers
+			break;
 	}
 
 #if WITH_EDITOR
