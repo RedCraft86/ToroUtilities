@@ -132,7 +132,7 @@ UTexture2D* UToroTextureLibrary::ConvertRenderTargetToTexture(UTextureRenderTarg
 bool UToroTextureLibrary::SaveTextureDataToFile(const FGenericImageData& InData, const FString& FilePath)
 {
 	FString SavePath = FilePath;
-	if (!FPaths::GetExtension(FilePath).Equals(TEXT("png")))
+	if (FPaths::GetExtension(FilePath) != TEXT("png"))
 	{
 		SavePath.Append(TEXT(".png"));
 	}

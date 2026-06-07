@@ -151,8 +151,12 @@ struct TOROCORE_API FWrappedString final
 	FORCEINLINE FString& operator*() { return Value; }
 	FORCEINLINE const FString& operator*() const { return Value; }
 
-	FORCEINLINE bool operator==(const FWrappedString& Other) const { return Value.Equals(Other.Value); }
-	FORCEINLINE bool operator!=(const FWrappedString& Other) const { return !Value.Equals(Other.Value); }
+	FORCEINLINE bool operator==(const FWrappedString& Other) const { return Value == Other.Value; }
+	FORCEINLINE bool operator!=(const FWrappedString& Other) const { return Value != Other.Value; }
+	FORCEINLINE bool Equals(const FWrappedString& Other, const ESearchCase::Type SearchCase = ESearchCase::CaseSensitive) const
+	{
+		return Value.Equals(Other.Value, SearchCase);
+	}
 
 	FORCEINLINE friend uint32 GetTypeHash(const FWrappedString& InData)
 	{

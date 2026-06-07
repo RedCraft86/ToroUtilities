@@ -153,7 +153,7 @@ public:
 			FString Class;
 			*this << Class;
 		
-			if (Class.Equals(Obj->GetClass()->GetPathName()))
+			if (Class == Obj->GetClass()->GetPathName())
 			{
 				FToroSaveGameProxyArchive ProxyArchive(*this);
 

@@ -107,7 +107,7 @@ void FToroClassCustomization::HandleShowOnlyCategories() const
 	FEditorCategoryUtils::GetClassHideCategories(CustomizingClass, HideCategories);
 
 	// There must be a valid DefaultShowOnly entry OR there are HideCategories present with the first item being "*"
-	if (InvolvedParent != nullptr || (!HideCategories.IsEmpty() && HideCategories[0].Equals("*")))
+	if (InvolvedParent != nullptr || (!HideCategories.IsEmpty() && HideCategories[0] == TEXT("*")))
 	{
 		TSet<FString> AllowedCategories = DefaultShowOnlyCategories.FindRef(InvolvedParent);
 
