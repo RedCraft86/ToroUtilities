@@ -230,12 +230,20 @@ void UToroGameUserSettings::ApplyNonResolutionSettings()
 
 void UToroGameUserSettings::ApplyBrightness() const
 {
-	UToroConsoleLibrary::SetCVarFloat(TEXT("r.Color.Mid"), static_cast<float>(GetBrightness()) / 100.0f);
+	static IConsoleVariable* CVarCM = UToroConsoleLibrary::FindCVar(TEXT("r.Color.Mid"));
+	if (CVarCM)
+	{
+		CVarCM->Set(static_cast<float>(GetBrightness()) / 100.0f);
+	}
 }
 
 void UToroGameUserSettings::ApplyMotionBlur() const
 {
-	UToroConsoleLibrary::SetCVarInt(TEXT("r.MotionBlurQuality"), GetMotionBlurQuality());
+	static IConsoleVariable* CVarMBQ = UToroConsoleLibrary::FindCVar(TEXT("r.MotionBlurQuality"));
+	if (CVarMBQ)
+	{
+		CVarMBQ->Set(GetMotionBlurQuality());
+	}
 }
 
 void UToroGameUserSettings::ApplyImageFidelity()
