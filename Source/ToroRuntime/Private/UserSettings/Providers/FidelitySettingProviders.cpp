@@ -11,7 +11,7 @@ FToroUSP_FidelityMode::FToroUSP_FidelityMode()
 	bUpdateDynamically = true;
 
 	DefaultChoices = {};
-	DefaultOption = ImageFidelityAPI::FidelityNameMap[EImageFidelityMode::TAA].ToString();
+	DefaultOption = ImageFidelityAPI::ModeToNameMap[EImageFidelityMode::None].ToString();
 
 	OptionTooltips = {
 		{TEXT("None"),	INVTEXT("No anti-aliasing. Fastest, but edges may appear jagged.")},
@@ -35,9 +35,9 @@ const TArray<FString>& FToroUSP_FidelityMode::GetOptions()
 
 	for (const EImageFidelityMode Mode : TEnumRange<EImageFidelityMode>())
 	{
-		if (ImageFidelityAPI::IsSupportedFidelityMode(Mode))
+		if (ImageFidelityAPI::IsSupportedMode(Mode))
 		{
-			DefaultChoices.Add(ImageFidelityAPI::FidelityNameMap[Mode].ToString());
+			DefaultChoices.Add(ImageFidelityAPI::ModeToNameMap[Mode].ToString());
 		}
 	}
 
@@ -46,19 +46,12 @@ const TArray<FString>& FToroUSP_FidelityMode::GetOptions()
 
 FString FToroUSP_FidelityMode::GetValue() const
 {
-	FString ValueStr = ImageFidelityAPI::FidelityNameMap[UserSettings->GetImageFidelityMode()].ToString();
-	if (!DefaultChoices.Contains(ValueStr))
-	{
-		// Previously supported but unsupported now so default to None
-		ValueStr = ImageFidelityAPI::FidelityNameMap[EImageFidelityMode::None].ToString();
-	}
-
-	return ValueStr;
+	return ImageFidelityAPI::ModeToNameMap[UserSettings->GetImageFidelityMode()].ToString();
 }
 
 void FToroUSP_FidelityMode::SetValue(const FString& InValue)
 {
-	const EImageFidelityMode* ValuePtr = ImageFidelityAPI::FidelityNameMap.FindKey(FName(*InValue));
+	const EImageFidelityMode* ValuePtr = ImageFidelityAPI::ModeToNameMap.FindKey(FName(*InValue));
 	UserSettings->SetImageFidelityMode(ValuePtr ? *ValuePtr : EImageFidelityMode::None);
 }
 

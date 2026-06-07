@@ -2,6 +2,7 @@
 
 #include "UserSettings/ToroGameUserSettings.h"
 #include "UserSettings/ImageFidelityAPI.h"
+#include "Libraries/ToroConsoleLibrary.h"
 #include "Framework/ToroWorldSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "Helpers/WorldGetter.h"
