@@ -63,6 +63,8 @@ FToroUSP_FrameRateVSync::FToroUSP_FrameRateVSync()
 	DisplayName = INVTEXT("V-Sync");
 	Description = INVTEXT("Synchronize the Frame Rate with the monitor's Refresh Rate. Implicitly sets a Frame Rate cap.\nDisabled with Frame Generation.");
 	Performance = EUserSettingImpact::Varies;
+	bUpdateDynamically = true;
+
 	DefaultOption = true;
 }
 
