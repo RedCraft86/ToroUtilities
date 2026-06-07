@@ -56,6 +56,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = Settings)
 		static float GetAverageFPS() { return GAverageFPS; }
 
+	/** 
+	 * Returns a list of supported window resolutions for common aspect ratios with a minimum limit. 
+	 * Common Ratios = 16:9, 16:10, 4:3, 21:9, 32:9
+	 * Minimum Resolution = 1280x720
+	 */
+	UFUNCTION(BlueprintPure, Category = Settings)
+		static const TArray<FIntPoint>& GetSupportedResolutions();
+
 	/** Runs the built-in Unreal benchmark to auto-set scalability settings. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void AutoAdjustScalability();

@@ -6,7 +6,75 @@
 #include "Kismet/GameplayStatics.h"
 #include "Helpers/WorldGetter.h"
 #include "Sound/SoundMix.h"
+#include "Algo/Unique.h"
 #include "Misc/App.h"
+
+const TArray<FIntPoint>& UToroGameUserSettings::GetSupportedResolutions()
+{
+	static TArray<FIntPoint> SupportedRes;
+	if (!SupportedRes.IsEmpty())
+	{
+		return SupportedRes;
+	}
+
+	const UToroGameUserSettings* UserSettings = Get();
+	if (!UserSettings)
+	{
+		return SupportedRes;
+	}
+
+	static const FIntPoint DesktopResolution(UserSettings->GetDesktopResolution());
+	static const FIntPoint MinResolution(1280, 720);
+
+	static constexpr struct { int32 Num, Den; } CommonRatios[] = {
+		{ 16, 9  }, 
+		{ 16, 10 }, 
+		{ 4,  3  }, 
+		{ 21, 9  }, 
+		{ 32, 9  }
+	};
+
+	// Provides lowest -> highest
+	if (!UKismetSystemLibrary::GetSupportedFullscreenResolutions(SupportedRes))
+	{
+		SupportedRes = { DesktopResolution };
+	}
+
+	// Strip duplicates from different refresh rates with same dimensions
+	SupportedRes.SetNum(Algo::Unique(SupportedRes));
+
+	SupportedRes.RemoveAll([](const FIntPoint& Resolution)
+	{
+		// Always allow desktop resolution
+		if (Resolution == DesktopResolution)
+		{
+			return false;
+		}
+
+		// Filter out lower than minimum resolutions
+		if (Resolution.X < MinResolution.X || Resolution.Y < MinResolution.Y)
+		{
+			return true;
+		}
+
+		// Check if it's a common ratio
+		for (const auto& [Num, Den] : CommonRatios)
+		{
+			// Use cross multiplication as IsNearlyEqual can result in precision issues
+			if (Resolution.X * Den == Resolution.Y * Num)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	});
+
+	// Flips to highest -> lowest
+	Algo::Reverse(SupportedRes);
+
+	return SupportedRes;
+}
 
 void UToroGameUserSettings::AutoAdjustScalability()
 {
