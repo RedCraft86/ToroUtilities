@@ -157,7 +157,7 @@ ELumenUsageMode UToroGameUserSettings::GetLumenMode() const
 
 void UToroGameUserSettings::SetImageFidelityMode(const EImageFidelityMode Mode)
 {
-	ImageFidelity = ImageFidelityAPI::IsSupportedFidelityMode(Mode) ? Mode : EImageFidelityMode::None;
+	ImageFidelity = ImageFidelityAPI::IsSupportedMode(Mode) ? Mode : EImageFidelityMode::None;
 	ApplyImageFidelity();
 }
 
@@ -248,12 +248,51 @@ void UToroGameUserSettings::ApplyMotionBlur() const
 
 void UToroGameUserSettings::ApplyImageFidelity()
 {
-	ImageFidelityAPI::SetFidelityMode(ImageFidelity);
+	EAntiAliasingMethod AAMethod = AAM_None;
+	if (ImageFidelityAPI::IsSupportedMode(GetImageFidelityMode()))
+	{
+		switch (GetImageFidelityMode())
+		{
+			case EImageFidelityMode::CMAA2:
+			case EImageFidelityMode::None:
+				AAMethod = AAM_None;
+				break;
+
+			case EImageFidelityMode::FXAA:
+				AAMethod = AAM_FXAA;
+				break;
+
+			case EImageFidelityMode::SMAA:
+				AAMethod = AAM_SMAA;
+				break;
+
+			case EImageFidelityMode::TAA:
+				AAMethod = AAM_TemporalAA;
+				break;
+
+			default: 
+				AAMethod = AAM_TSR; // Catches TSR and other Upscalers
+				break;
+		}
+	}
+
+#if WITH_EDITOR
+	if (!FApp::IsGame())
+	{
+		AAMethod = AAM_TemporalAA;
+	}
+#endif
+
+	static IConsoleVariable* CVarAAM = UToroConsoleLibrary::FindCVar(TEXT("r.AntiAliasingMethod"));
+	if (CVarAAM)
+	{
+		CVarAAM->Set(AAMethod);
+	}
 
 	ApplyTSRSettings();
-	// ApplyDLSS(false); TODO
-	// ApplyXeSS(false);
-	// ApplyFSR();
+	ApplyFSRSettings();
+	ApplyXeSSSettings();
+	ApplyDLSSSettings();
 
 	if (!ImageFidelityAPI::SupportsVSync())
 	{
@@ -265,11 +304,50 @@ void UToroGameUserSettings::ApplyImageFidelity()
 
 void UToroGameUserSettings::ApplyTSRSettings() const
 {
+#if WITH_EDITOR
+	const bool bEnabled = FApp::IsGame() && GetImageFidelityMode() == EImageFidelityMode::TSR;
+#else
+	const bool bEnabled = GetImageFidelityMode() == EImageFidelityMode::TSR;
+#endif
+
 	static IConsoleVariable* CVarSP = UToroConsoleLibrary::FindCVar(TEXT("r.ScreenPercentage"));
 	if (CVarSP)
 	{
-		CVarSP->Set(GetImageFidelityMode() == EImageFidelityMode::TSR ? GetTSRScreenPercentage() : 100.0f);
+		CVarSP->Set(bEnabled ? GetTSRScreenPercentage() : 100.0f);
 	}
+}
+
+void UToroGameUserSettings::ApplyFSRSettings() const
+{
+#if WITH_EDITOR
+	const bool bEnabled = FApp::IsGame() && GetImageFidelityMode() == EImageFidelityMode::FSR;
+#else
+	const bool bEnabled = GetImageFidelityMode() == EImageFidelityMode::FSR;
+#endif
+
+	// TODO FSR
+}
+
+void UToroGameUserSettings::ApplyXeSSSettings() const
+{
+#if WITH_EDITOR
+	const bool bEnabled = FApp::IsGame() && GetImageFidelityMode() == EImageFidelityMode::XeSS;
+#else
+	const bool bEnabled = GetImageFidelityMode() == EImageFidelityMode::XeSS;
+#endif
+
+	// TODO XeSS
+}
+
+void UToroGameUserSettings::ApplyDLSSSettings() const
+{
+#if WITH_EDITOR
+	const bool bEnabled = FApp::IsGame() && GetImageFidelityMode() == EImageFidelityMode::DLSS;
+#else
+	const bool bEnabled = GetImageFidelityMode() == EImageFidelityMode::DLSS;
+#endif
+
+	// TODO DLSS
 }
 
 uint8& UToroGameUserSettings::FindOrAddSoundVolume(const USoundClass* InClass)

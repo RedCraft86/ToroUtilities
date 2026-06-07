@@ -165,6 +165,9 @@ protected:
 
 	void ApplyImageFidelity();
 	void ApplyTSRSettings() const;
+	void ApplyFSRSettings() const;
+	void ApplyXeSSSettings() const;
+	void ApplyDLSSSettings() const;
 
 	uint8& FindOrAddSoundVolume(const USoundClass* InClass);
 	void ApplySoundAdjustments();
