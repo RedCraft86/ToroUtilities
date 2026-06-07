@@ -19,26 +19,65 @@
 namespace ImageFidelityAPI
 {
 	inline const TMap<EImageFidelityMode, FName> FidelityNameMap = {
-		{EImageFidelityMode::None, TEXT("None")},
-		{EImageFidelityMode::FXAA, TEXT("FXAA")},
-		{EImageFidelityMode::SMAA, TEXT("SMAA")},
-		{EImageFidelityMode::TAA,  TEXT("TAA") },
-		{EImageFidelityMode::TSR,  TEXT("TSR") },
-		// {EImageFidelityMode::FSR,  TEXT("FSR") },
-		// {EImageFidelityMode::XeSS, TEXT("XeSS")},
-		// {EImageFidelityMode::DLSS, TEXT("DLSS")}
+		{ EImageFidelityMode::None,	TEXT("None")	},
+		{ EImageFidelityMode::FXAA,	TEXT("FXAA")	},
+		{ EImageFidelityMode::SMAA,	TEXT("SMAA")	},
+		{ EImageFidelityMode::CMAA2,	TEXT("CMAA2")	},
+		{ EImageFidelityMode::TAA,	TEXT("TAA")		},
+		{ EImageFidelityMode::TSR,	TEXT("TSR")		},
+		{ EImageFidelityMode::FSR,	TEXT("FSR")		},
+		{ EImageFidelityMode::XeSS,	TEXT("XeSS")	},
+		{ EImageFidelityMode::DLSS,	TEXT("DLSS")	}
 	};
-
-	inline void SetFidelityMode(const EImageFidelityMode InMode)
-	{
-		UToroConsoleLibrary::SetCVarInt(TEXT("r.AntiAliasingMethod"), ImageFidelityToAA(InMode));
-	}
 
 	inline bool SupportsVSync()
 	{
 		// return !UStreamlineLibraryDLSSG::IsDLSSGSupported() 
 		// 	|| UStreamlineLibraryDLSSG::GetDLSSGMode() == EStreamlineDLSSGMode::Off;
 		return true;
+	}
+
+	inline bool IsSupportedFidelityMode(const EImageFidelityMode InMode)
+	{
+		return InMode == EImageFidelityMode::None
+			|| InMode == EImageFidelityMode::FXAA
+			|| InMode == EImageFidelityMode::SMAA
+			|| InMode == EImageFidelityMode::TAA
+			|| InMode == EImageFidelityMode::TSR;
+		// TODO: Add upscalers
+	}
+
+	inline void SetFidelityMode(const EImageFidelityMode InMode)
+	{
+		EAntiAliasingMethod AAMode;
+		switch (InMode)
+		{
+			case EImageFidelityMode::CMAA2:
+			case EImageFidelityMode::None:
+				AAMode = AAM_None;
+				break;
+
+			case EImageFidelityMode::FXAA:
+				AAMode = AAM_FXAA;
+				break;
+
+			case EImageFidelityMode::SMAA:
+				AAMode = AAM_SMAA;
+				break;
+
+			case EImageFidelityMode::TAA:
+				AAMode = AAM_TemporalAA;
+				break;
+
+			default: AAMode = AAM_TSR; // Catches TSR and other Upscalers
+		}
+
+		UToroConsoleLibrary::SetCVarInt(TEXT("r.AntiAliasingMethod"), AAMode);
+	}
+
+	inline void SetScreenPercentage(const float Percentage)
+	{
+		UToroConsoleLibrary::SetCVarFloat(TEXT("r.ScreenPercentage"), FMath::Clamp(Percentage, 0.0f, 100.0f));
 	}
 
 	namespace FSR

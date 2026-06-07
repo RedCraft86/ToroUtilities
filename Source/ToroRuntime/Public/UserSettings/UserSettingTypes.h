@@ -41,43 +41,35 @@ enum class EImageFidelityMode : uint8
 {
 	/** No Anti-Aliasing or Upscaling (Raw output). */
 	None,
-	 
+
 	/** Fast Approximate Anti-Aliasing. Low cost, slight blurring. */
 	FXAA,
-	 
+
 	/** Subpixel Morphological Anti-Aliasing. Better edges than FXAA. */
 	SMAA,
-	 
+
+	/** Conservative Morphological Anti-Aliasing 2. Better than FXAA but may or may not be better than TAA. */
+	CMAA2,
+
 	/** Temporal Anti-Aliasing. Standard UE4/UE5 temporal solution. */
 	TAA,
-	 
+
 	/** Temporal Super-Resolution. Epic's high-quality AA + Upscaler. */
 	TSR,
-	 
+
 	/** AMD FidelityFX Super Resolution 4. Hardware-agnostic upscaler. */
-	// FSR, // TODO
-	 
+	FSR,
+
 	/** Intel XeSS Super Resolution. AI-based upscaler. */
-	// XeSS, // TODO
-	 
+	XeSS,
+
 	/** NVIDIA Deep Learning Super Sampling. AI-based upscaler (Requires RTX). */
-	// DLSS, // TODO
-	 
+	DLSS,
+
 	/** Helper value for counting and range-based loops. */
 	MAX UMETA(Hidden)
 };
 ENUM_RANGE_BY_COUNT(EImageFidelityMode, EImageFidelityMode::MAX);
-inline EAntiAliasingMethod ImageFidelityToAA(const EImageFidelityMode InMode)
-{
-	switch (InMode)
-	{
-		case EImageFidelityMode::None:	return AAM_None;
-		case EImageFidelityMode::FXAA:	return AAM_FXAA;
-		case EImageFidelityMode::SMAA:	return AAM_SMAA;
-		case EImageFidelityMode::TAA:	return AAM_TemporalAA;
-		default: return AAM_TSR; // Catches TSR and every other upscaler
-	}
-}
 
 /**
  * Represents a specific audio channel (SoundClass) and its current volume level.

@@ -157,7 +157,7 @@ ELumenUsageMode UToroGameUserSettings::GetLumenMode() const
 
 void UToroGameUserSettings::SetImageFidelityMode(const EImageFidelityMode Mode)
 {
-	ImageFidelity = Mode;
+	ImageFidelity = ImageFidelityAPI::IsSupportedFidelityMode(Mode) ? Mode : EImageFidelityMode::None;
 	ApplyImageFidelity();
 }
 
