@@ -127,6 +127,13 @@ public:
 	UFUNCTION(BlueprintPure, Category = Settings)
 		EImageFidelityMode GetImageFidelityMode() const;
 
+	/** Resolution (10% ~ 100%) that should be rendered to let TSR upscale. Defaulted to 100% if TSR is not used. */
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetTSRScreenPercentage(const float Percentage);
+
+	UFUNCTION(BlueprintPure, Category = Settings)
+		float GetTSRScreenPercentage() const;
+
 	/** 
 	 * Updates the volume for a specific SoundClass. 
 	 * Maps internally to the AudioVolumes TSet.
@@ -157,6 +164,7 @@ protected:
 	void ApplyMotionBlur() const;
 
 	void ApplyImageFidelity();
+	void ApplyTSRSettings() const;
 
 	uint8& FindOrAddSoundVolume(const USoundClass* InClass);
 	void ApplySoundAdjustments();
@@ -177,6 +185,7 @@ protected:
 	UPROPERTY(Config) ELumenUsageMode LumenMode;
 
 	UPROPERTY(Config) EImageFidelityMode ImageFidelity;
+	UPROPERTY(Config) float TSRScreenPercentage;
 
 	UPROPERTY(Config) TSet<FAudioChannelVolume> AudioVolumes;
 };

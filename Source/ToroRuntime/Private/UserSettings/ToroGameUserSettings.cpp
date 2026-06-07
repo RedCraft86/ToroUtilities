@@ -166,6 +166,17 @@ EImageFidelityMode UToroGameUserSettings::GetImageFidelityMode() const
 	return ImageFidelity;
 }
 
+void UToroGameUserSettings::SetTSRScreenPercentage(const float Percentage)
+{
+	TSRScreenPercentage = FMath::Clamp(Percentage, 10.0f, 100.0f);
+	ApplyTSRSettings();
+}
+
+float UToroGameUserSettings::GetTSRScreenPercentage() const
+{
+	return TSRScreenPercentage;
+}
+
 void UToroGameUserSettings::SetSoundVolume(const USoundClass* InClass, const uint8 Value)
 {
 	FindOrAddSoundVolume(InClass) = Value;
@@ -231,6 +242,7 @@ void UToroGameUserSettings::ApplyImageFidelity()
 {
 	ImageFidelityAPI::SetFidelityMode(ImageFidelity);
 
+	ApplyTSRSettings();
 	// ApplyDLSS(false); TODO
 	// ApplyXeSS(false);
 	// ApplyFSR();
@@ -241,6 +253,15 @@ void UToroGameUserSettings::ApplyImageFidelity()
 	}
 
 	BroadcastUpdate(EUserSettingApplyType::UIRefresh);
+}
+
+void UToroGameUserSettings::ApplyTSRSettings() const
+{
+	static IConsoleVariable* CVarSP = UToroConsoleLibrary::FindCVar(TEXT("r.ScreenPercentage"));
+	if (CVarSP)
+	{
+		CVarSP->Set(GetImageFidelityMode() == EImageFidelityMode::TSR ? GetTSRScreenPercentage() : 100.0f);
+	}
 }
 
 uint8& UToroGameUserSettings::FindOrAddSoundVolume(const USoundClass* InClass)

@@ -75,11 +75,6 @@ namespace ImageFidelityAPI
 		UToroConsoleLibrary::SetCVarInt(TEXT("r.AntiAliasingMethod"), AAMode);
 	}
 
-	inline void SetScreenPercentage(const float Percentage)
-	{
-		UToroConsoleLibrary::SetCVarFloat(TEXT("r.ScreenPercentage"), FMath::Clamp(Percentage, 0.0f, 100.0f));
-	}
-
 	namespace FSR
 	{
 		// inline const TMap<EFSRQualityMode, FName> ModeNameMap = {
