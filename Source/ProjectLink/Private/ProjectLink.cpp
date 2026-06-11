@@ -201,5 +201,5 @@ void FProjectLinkButton::ProcessConfigs(const FString& SrcPath, const FString& D
 }
 
 #undef LOCTEXT_NAMESPACE
-    
+
 IMPLEMENT_MODULE(FProjectLinkModule, ProjectLink)

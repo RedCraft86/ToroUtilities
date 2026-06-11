@@ -24,5 +24,5 @@ void FToroCoreModule::OnPreLoadMap(const FString& NewMap)
 }
 
 #undef LOCTEXT_NAMESPACE
-    
+
 IMPLEMENT_MODULE(FToroCoreModule, ToroCore)

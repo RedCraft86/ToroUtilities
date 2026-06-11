@@ -17,5 +17,5 @@ void FToroRuntimeModule::ShutdownModule()
 }
 
 #undef LOCTEXT_NAMESPACE
-    
+
 IMPLEMENT_MODULE(FToroRuntimeModule, ToroRuntime)
