@@ -2,9 +2,8 @@
 
 #pragma once
 
-#include "CommonUserWidget.h"
+#include "ToroWidgetBase.h"
 #include "Components/Overlay.h"
-#include "CommonActivatableWidget.h"
 #include "Widgets/CommonActivatableWidgetContainer.h"
 #include "ToroMasterWidget.generated.h"
 
@@ -14,7 +13,7 @@
  * global overlay layer (for Notifications, HUD elements, or Loading screens).
  */
 UCLASS(Abstract, Blueprintable, BlueprintType)
-class TORORUNTIME_API UToroMasterWidget : public UCommonActivatableWidget
+class TORORUNTIME_API UToroMasterWidget : public UToroUserWidget
 {
 	GENERATED_BODY()
 
