@@ -7,7 +7,7 @@
 #include "Misc/App.h"
 #endif
 
-void UWorldActionBase::SetWorldContext(const UObject* InContext)
+void UWorldActionBase::SetWorldContext(UObject* InContext)
 {
 	if (InContext && InContext != this)
 	{

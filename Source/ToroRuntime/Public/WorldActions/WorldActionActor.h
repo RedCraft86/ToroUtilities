@@ -26,7 +26,7 @@ public:
 
 	/** Executes all actions within the provided ActionList. */
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
-	void ExecuteActions() const
+	void ExecuteActions()
 	{
 		if (IsEnabled(this))
 		{

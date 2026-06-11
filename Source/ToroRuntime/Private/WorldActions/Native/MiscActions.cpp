@@ -57,7 +57,7 @@ void UWorldAction_GlobalEvent::OnExecute_Implementation()
 		AActor* InstigatorPtr = Instigator.Get();
 		if (!InstigatorPtr)
 		{
-			InstigatorPtr = Cast<AActor>(const_cast<UObject*>(WorldContext.Get()));
+			InstigatorPtr = Cast<AActor>(WorldContext.Get());
 		}
 
 		if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))

@@ -38,7 +38,7 @@ public:
 
 	/** Manually sets the object used for world context (e.g., to access GetWorld()). */
 	UFUNCTION(BlueprintCallable, Category = WorldAction, meta = (DefaultToSelf = "InContext"))
-		void SetWorldContext(const UObject* InContext);
+		void SetWorldContext(UObject* InContext);
 
 	/** 
 	 * Entry point for the action. Handles 'RunOnce' and 'Delay' logic automatically.
@@ -81,7 +81,7 @@ protected:
 
 	bool bHasRan;
 	FTimerHandle DelayTimer;
-	TWeakObjectPtr<const UObject> WorldContext;
+	TWeakObjectPtr<UObject> WorldContext;
 
 	virtual UWorld* GetWorld() const override;
 

@@ -2,7 +2,7 @@
 
 #include "WorldActions/WorldActionList.h"
 
-void FWorldActionList::Execute(const UObject* WorldContext) const
+void FWorldActionList::Execute(UObject* WorldContext) const
 {
 	ForEachAction([WorldContext](UWorldActionBase* Action) {
 		Action->SetWorldContext(WorldContext);
@@ -10,7 +10,7 @@ void FWorldActionList::Execute(const UObject* WorldContext) const
 	});
 }
 
-void FWorldActionList::Initialize(const UObject* WorldContext) const
+void FWorldActionList::Initialize(UObject* WorldContext) const
 {
 	ForEachAction([WorldContext](UWorldActionBase* Action) {
 		Action->SetWorldContext(WorldContext);

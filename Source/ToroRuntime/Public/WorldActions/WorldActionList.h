@@ -30,10 +30,10 @@ public:
 	FWorldActionList() {}
 
 	/** Runs the 'Execute' logic for every valid action in the list. */
-	void Execute(const UObject* WorldContext) const;
+	void Execute(UObject* WorldContext) const;
 
 	/** Pre-initializes all actions in the list. Useful for setting up cached references before execution. */
-	void Initialize(const UObject* WorldContext) const;
+	void Initialize(UObject* WorldContext) const;
 
 	/** Helper for iterating through actions with a custom lambda function. */
 	void ForEachAction(const TFunction<void(UWorldActionBase*)>& Func) const;
@@ -54,14 +54,14 @@ public:
 
 	/** Executes all actions within the provided ActionList. */
 	UFUNCTION(BlueprintCallable, Category = WorldActions, meta = (DefaultToSelf = "ContextObject"))
-	static void ExecuteActions(const FWorldActionList& ActionList, const UObject* ContextObject)
+	static void ExecuteActions(UObject* ContextObject, const FWorldActionList& ActionList)
 	{
 		ActionList.Execute(ContextObject);
 	}
 
 	/** Initializes all actions within the provided ActionList. */
 	UFUNCTION(BlueprintCallable, Category = WorldActions, meta = (DefaultToSelf = "ContextObject"))
-	static void InitializeActions(const FWorldActionList& ActionList, const UObject* ContextObject)
+	static void InitializeActions(UObject* ContextObject, const FWorldActionList& ActionList)
 	{
 		ActionList.Initialize(ContextObject);
 	}
