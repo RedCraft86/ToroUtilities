@@ -32,7 +32,7 @@ public:
 	{
 		if (!AssetName.IsEmpty())
 		{
-			const_cast<UToroAssetFactory*>(this)->AssetName = FPaths::MakeValidFileName(AssetName);
+			AssetName = FPaths::MakeValidFileName(AssetName);
 			if (AssetName.Len() > 2)
 			{
 				return TEXT("New") + AssetName;
@@ -51,5 +51,5 @@ public:
 
 protected:
 
-	FString AssetName;
+	mutable FString AssetName;
 };
