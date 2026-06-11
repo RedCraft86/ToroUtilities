@@ -1,10 +1,8 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Procedural/SplineBarrier.h"
-#include "Materials/Material.h"
-#if WITH_EDITOR
 #include "UObject/ConstructorHelpers.h"
-#endif
+#include "Materials/Material.h"
 
 ASplineBarrier::ASplineBarrier()
 {
@@ -30,23 +28,24 @@ ASplineBarrier::ASplineBarrier()
 	bIsEditorOnlyActor = false;
 	bRealtimeConstruction = true;
 
-#if WITH_EDITOR
-	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshFinder(
-		TEXT("/ToroUtilities/Procedural/SM_Barrier.SM_Barrier"));
-	if (MeshFinder.Succeeded())
+	if (!IsRunningCommandlet() && !IsRunningDedicatedServer())
 	{
-		WallMesh = MeshFinder.Object;
-		WallMeshes->SetStaticMesh(WallMesh);
+		static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshFinder(
+		   TEXT("/ToroUtilities/Procedural/SM_Barrier.SM_Barrier"));
+		if (MeshFinder.Succeeded())
+		{
+			WallMesh = MeshFinder.Object;
+			WallMeshes->SetStaticMesh(WallMesh);
+		}
+
+		static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(
+			TEXT("/ToroUtilities/Procedural/M_Wireframe.M_Wireframe"));
+		if (MaterialFinder.Succeeded())
+		{
+			OverlayMaterial = MaterialFinder.Object;
+			WallMeshes->SetOverlayMaterial(OverlayMaterial);
+		}
 	}
-	
-	const ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(
-		TEXT("/ToroUtilities/Procedural/M_Wireframe.M_Wireframe"));
-	if (MaterialFinder.Succeeded())
-	{
-		OverlayMaterial = MaterialFinder.Object;
-		WallMeshes->SetOverlayMaterial(OverlayMaterial);
-	}
-#endif
 
 	SetHidden(true);
 }

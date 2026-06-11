@@ -3,11 +3,9 @@
 #include "LightProbes/LightProbeManager.h"
 #include "LightProbes/LightProbeActor.h"
 #include "Libraries/ToroWorldLibrary.h"
+#include "UObject/ConstructorHelpers.h"
 #include "ToroRuntime.h"
 #include "EngineUtils.h"
-#if WITH_EDITOR
-#include "UObject/ConstructorHelpers.h"
-#endif
 
 #define COLOR_PARAM_NAME(Idx) *FString::Printf(TEXT("Color_%d"), Idx + 1)
 #define POSITION_PARAM_NAME(Idx) *FString::Printf(TEXT("Position_%d"), Idx + 1)
@@ -20,11 +18,14 @@ ULightProbeManager::ULightProbeManager(): MaxProbeCount(16)
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
 #if WITH_EDITOR
 	bTickInEditor = true;
-
-	const ConstructorHelpers::FObjectFinder<UMaterialInterface> PPMFinder(
-		TEXT("/ToroUtilities/LightProbes/PPM_LightProbe_16x.PPM_LightProbe_16x"));
-	if (PPMFinder.Succeeded()) PostProcessMaterial = PPMFinder.Object;
 #endif
+
+	if (!IsRunningCommandlet() && !IsRunningDedicatedServer())
+	{
+		static ConstructorHelpers::FObjectFinder<UMaterialInterface> PPMFinder(
+		   TEXT("/ToroUtilities/LightProbes/PPM_LightProbe_16x.PPM_LightProbe_16x"));
+		if (PPMFinder.Succeeded()) PostProcessMaterial = PPMFinder.Object;
+	}
 }
 
 void ULightProbeManager::UpdateProbes()
