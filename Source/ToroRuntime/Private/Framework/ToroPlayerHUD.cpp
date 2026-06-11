@@ -2,6 +2,7 @@
 
 #include "Framework/ToroPlayerHUD.h"
 #include "Blueprint/UserWidget.h"
+#include "ToroUtilitiesSettings.h"
 #include "ToroRuntime.h"
 
 AToroPlayerHUD::AToroPlayerHUD()
@@ -21,9 +22,10 @@ AToroPlayerHUD::AToroPlayerHUD()
 void AToroPlayerHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	if (MasterWidgetClass)
+	const UToroUtilitiesSettings* Settings = UToroUtilitiesSettings::Get();
+	if (Settings && Settings->MasterWidgetClass.LoadSynchronous())
 	{
-		MasterWidget = CreateWidget<UToroMasterWidget>(GetWorld(), MasterWidgetClass);
+		MasterWidget = CreateWidget<UToroMasterWidget>(GetWorld(), Settings->MasterWidgetClass.Get());
 		if (MasterWidget)
 		{
 			MasterWidget->AddToViewport();
@@ -35,6 +37,6 @@ void AToroPlayerHUD::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogToroRuntime, Warning, TEXT("MasterWidgetClass is not provided."))
+		UE_LOG(LogToroRuntime, Warning, TEXT("MasterWidgetClass is not provided (Project Settings)."))
 	}
 }
