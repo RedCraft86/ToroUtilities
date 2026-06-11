@@ -26,6 +26,11 @@
 			"LoadingPhase": "PostEngineInit"
 		},
 		{
+			"Name": "ToroCommonUI",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
 			"Name": "ToroRuntime",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
