@@ -32,7 +32,6 @@ struct TOROCORE_API FLightDrawDistance final
 
 	FLightDrawDistance(): bUseDrawDistance(true), MaxDistance(5000.0f), FadeRange(1000.0f) {}
 
-    void DetermineUsage() { bUseDrawDistance = MaxDistance > UE_SMALL_NUMBER || FadeRange > UE_SMALL_NUMBER; }
 	float GetMaxDistance() const { return bUseDrawDistance ? FMath::Max(0.0f, MaxDistance) : 0.0f; }
     float GetFadeRange() const { return bUseDrawDistance ? FMath::Max(0.0f, FadeRange) : 0.0f; }
 

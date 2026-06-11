@@ -11,7 +11,7 @@ void FLightDrawDistance::FromLightComponent(const ULightComponent* Target)
 	{
 		MaxDistance	= Target->MaxDrawDistance;
 		FadeRange	= Target->MaxDistanceFadeRange;
-		DetermineUsage();
+		bUseDrawDistance = MaxDistance > UE_SMALL_NUMBER || FadeRange > UE_SMALL_NUMBER;
 	}
 }
 
@@ -19,7 +19,6 @@ void FLightDrawDistance::ToLightComponent(ULightComponent* Target) const
 {
 	if (Target)
 	{
-		const_cast<FLightDrawDistance*>(this)->DetermineUsage();
 		Target->SetMaxDrawDistance(GetMaxDistance());
 		Target->SetMaxDistanceFadeRange(GetFadeRange());
 	}
