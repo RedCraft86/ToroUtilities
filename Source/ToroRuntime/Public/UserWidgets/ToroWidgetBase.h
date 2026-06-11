@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "UE5Coro.h"
 #include "CommonUserWidget.h"
 #include "CommonActivatableWidget.h"
 #include "ToroWidgetBase.generated.h"
@@ -20,9 +21,21 @@ public:
 
 	UToroUserWidget(const FObjectInitializer& ObjectInit);
 
+	UFUNCTION(BlueprintCallable, Category = UserWidget, DisplayName = "Fade Out & Remove From Parent")
+		void FadeOutAndRemoveFromParent();
+
+	virtual void NativeConstruct() override;
 #if WITH_EDITOR 
 	virtual const FText GetPaletteCategory() override;
 #endif // WITH_EDITOR
+
+protected:
+
+	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidgetAnimOptional))
+		TObjectPtr<UWidgetAnimation> FadeAnim;
+
+	UPROPERTY(EditAnywhere, Category = Activation)
+		bool bFadeInOnConstruct;
 };
 
 /**
@@ -37,7 +50,19 @@ public:
 
 	UToroActivatableWidget(const FObjectInitializer& ObjectInit);
 
+	UFUNCTION(BlueprintCallable, Category = UserWidget, DisplayName = "Fade Out & Remove From Parent")
+		void FadeOutAndRemoveFromParent();
+
+	virtual void NativeConstruct() override;
 #if WITH_EDITOR 
 	virtual const FText GetPaletteCategory() override;
 #endif // WITH_EDITOR
+
+protected:
+
+	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidgetAnimOptional))
+		TObjectPtr<UWidgetAnimation> FadeAnim;
+
+	UPROPERTY(EditAnywhere, Category = Activation)
+		bool bFadeInOnConstruct;
 };
