@@ -30,3 +30,49 @@ void UToroMasterWidget::PopFromStack(TSubclassOf<UCommonActivatableWidget> Widge
 		}
 	}
 }
+
+void UToroMasterWidget::PushClassToOverlay(TSubclassOf<UCommonUserWidget> WidgetClass) const
+{
+	if (MasterOverlay && WidgetClass)
+	{
+		// Uses const cast here. Dirty but fine as it doesn't actually mutate this and only uses it for outer.
+		PushInstanceToOverlay(CreateWidget<UCommonUserWidget>(const_cast<UToroMasterWidget*>(this), WidgetClass));
+	}
+}
+
+void UToroMasterWidget::PopClassFromOverlay(TSubclassOf<UCommonUserWidget> WidgetClass, const bool bFromEnd) const
+{
+	if (MasterOverlay && WidgetClass)
+	{
+		TArray<UWidget*> OverlayWidgets = MasterOverlay->GetAllChildren();
+		if (bFromEnd)
+		{
+			Algo::Reverse(OverlayWidgets);
+		}
+
+		for (UWidget* Widget : OverlayWidgets)
+		{
+			if (Widget->IsA(WidgetClass))
+			{
+				PopInstanceFromOverlay(Cast<UCommonUserWidget>(Widget));
+				return;
+			}
+		}
+	}
+}
+
+void UToroMasterWidget::PushInstanceToOverlay(UCommonUserWidget* Widget) const
+{
+	if (MasterOverlay && Widget)
+	{
+		MasterOverlay->AddChild(Widget);
+	}
+}
+
+void UToroMasterWidget::PopInstanceFromOverlay(UCommonUserWidget* Widget) const
+{
+	if (MasterOverlay && Widget)
+	{
+		MasterOverlay->RemoveChild(Widget);
+	}
+}
