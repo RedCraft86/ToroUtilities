@@ -71,8 +71,11 @@ public:
 	 * @return A configured UToroUserDialog instance, ready to be pushed to the screen.
 	 */
 	UFUNCTION(BlueprintCallable, Category = UserWidget)
-		static UToroUserDialog* CreateUserDialog(const UObject* ContextObject, const FText& Title, const FText& Message, 
-			const TArray<FToroUserDialogEntry>& Buttons, const TEnumAsByte<EOrientation> ButtonLayout = Orient_Horizontal);
+		static UToroUserDialog* CreateUserDialog(const UObject* ContextObject, 
+			const FText& Title, const FText& Message, 
+			const TArray<FToroUserDialogEntry>& Buttons, 
+			const TEnumAsByte<EOrientation> ButtonLayout = Orient_Horizontal, 
+			const bool bPauseGame = true);
 
 	/** 
 	 * Adds this dialog to the Master Widget's overlay, making it visible and focused.
@@ -111,6 +114,7 @@ protected:
 
 	bool bActive;
 	float AutoSelectTime;
+	TWeakObjectPtr<APlayerController> PlayerController;
 	TWeakObjectPtr<UCommonLabeledButton> AutoSelectButton;
 	TMap<TObjectPtr<UCommonLabeledButton>, FToroUserDialogEntry> ButtonToEntry;
 	TObjectPtr<UToroMasterWidget> MasterWidget;
@@ -118,7 +122,7 @@ protected:
 	void OnButtonClicked(UCommonLabeledButton* Button);
 
 	void ConstructDialog(UToroMasterWidget* Master, const FText& TitleText, const FText& MessageText, 
-		const TArray<FToroUserDialogEntry>& Entries, const TEnumAsByte<EOrientation> Layout);
+		const TArray<FToroUserDialogEntry>& Entries, const TEnumAsByte<EOrientation> Layout, const bool bPauseGame);
 
 	virtual void SynchronizeProperties() override;
 	virtual UWidget* NativeGetDesiredFocusTarget() const override;

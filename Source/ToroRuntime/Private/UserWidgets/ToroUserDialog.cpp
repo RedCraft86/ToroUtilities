@@ -1,6 +1,7 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "UserWidgets/ToroUserDialog.h"
+#include "Framework/ToroPlayerController.h"
 #include "Animation/WidgetAnimation.h"
 #include "Framework/ToroPlayerHUD.h"
 #include "Components/OverlaySlot.h"
@@ -20,8 +21,8 @@ UToroUserDialog::UToroUserDialog(const FObjectInitializer& ObjectInit)
 	bAutoActivate = true;
 }
 
-UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject, const FText& Title, 
-	const FText& Message, const TArray<FToroUserDialogEntry>& Buttons, const TEnumAsByte<EOrientation> ButtonLayout)
+UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject, const FText& Title, const FText& Message, 
+	const TArray<FToroUserDialogEntry>& Buttons, const TEnumAsByte<EOrientation> ButtonLayout, const bool bPauseGame)
 {
 	const UToroUtilitiesSettings* Settings = UToroUtilitiesSettings::Get();
 	if (Settings && Settings->UserDialogClass.LoadSynchronous())
@@ -30,7 +31,7 @@ UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject,
 		UToroMasterWidget* MasterWidget = HUD ? HUD->GetMasterWidget() : nullptr;
 		if (UToroUserDialog* Dialog = CreateWidget<UToroUserDialog>(MasterWidget, Settings->UserDialogClass.Get()))
 		{
-			Dialog->ConstructDialog(MasterWidget, Title, Message, Buttons, ButtonLayout);
+			Dialog->ConstructDialog(MasterWidget, Title, Message, Buttons, ButtonLayout, bPauseGame);
 			return Dialog;
 		}
 
@@ -51,14 +52,23 @@ void UToroUserDialog::PushUserDialog()
 		Slot->SetPadding(FMargin(0.0f));
 		Slot->SetHorizontalAlignment(HAlign_Fill);
 		Slot->SetVerticalAlignment(VAlign_Fill);
+		ActivateWidget();
+		bActive = true;
+
+		if (PlayerController.IsValid() && !PlayerController->IsPaused())
+		{
+			PlayerController->SetPause(true);
+		}
+		else
+		{
+			// If game is already pause, we do not want to mess it up by unpausing after this dialog
+			PlayerController.Reset();
+		}
 	}
 	else
 	{
 		UE_LOG(LogToroRuntime, Error, TEXT("Failed to push user dialoge to an overlay slot."));
 	}
-
-	ActivateWidget();
-	bActive = true;
 }
 
 void UToroUserDialog::OnButtonClicked(UCommonLabeledButton* Button)
@@ -67,7 +77,12 @@ void UToroUserDialog::OnButtonClicked(UCommonLabeledButton* Button)
 	{
 		return;
 	}
+
 	bActive = false;
+	if (PlayerController.IsValid())
+	{
+		PlayerController->SetPause(false);
+	}
 
 	const FToroUserDialogEntry& Entry = ButtonToEntry[Button];
 	OnResultSelected.Broadcast(Entry.Identifier);
@@ -77,13 +92,18 @@ void UToroUserDialog::OnButtonClicked(UCommonLabeledButton* Button)
 	FadeOutAndRemoveFromParent();
 }
 
-void UToroUserDialog::ConstructDialog(UToroMasterWidget* Master, const FText& TitleText, 
-	const FText& MessageText, const TArray<FToroUserDialogEntry>& Entries, const TEnumAsByte<EOrientation> Layout)
+void UToroUserDialog::ConstructDialog(UToroMasterWidget* Master, const FText& TitleText, const FText& MessageText, 
+	const TArray<FToroUserDialogEntry>& Entries, const TEnumAsByte<EOrientation> Layout, const bool bPauseGame)
 {
 	MasterWidget = Master;
 	TitleLabel->SetText(TitleText);
 	MessageLabel->SetText(MessageText);
 	ButtonContainer->SetOrientation(Layout);
+
+	if (bPauseGame)
+	{
+		PlayerController = AToroPlayerController::Get(Master);
+	}
 
 	for (const FToroUserDialogEntry& Entry : Entries)
 	{
