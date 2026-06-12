@@ -47,9 +47,10 @@ public:
 	 * and are typically used for persistent HUD elements.
 	 * 
 	 * @param WidgetClass The CommonUserWidget class to instantiate.
+	 * @return The overlay slot the widget was pushed to.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = HUD)
-		void PushClassToOverlay(TSubclassOf<UCommonUserWidget> WidgetClass) const;
+		UOverlaySlot* PushClassToOverlay(TSubclassOf<UCommonUserWidget> WidgetClass) const;
 
 	/** 
 	 * Removes instances of the specified widget class from the Overlay.
@@ -63,9 +64,10 @@ public:
 	/** 
 	 * Adds an existing widget instance directly to the Overlay layer.
 	 * @param Widget The widget object to add to the overlay container.
+	 * @return The overlay slot the widget was pushed to.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = HUD)
-		void PushInstanceToOverlay(UCommonUserWidget* Widget) const;
+		UOverlaySlot* PushInstanceToOverlay(UCommonUserWidget* Widget) const;
 
 	/** 
 	 * Removes a specific widget instance from the Overlay layer.

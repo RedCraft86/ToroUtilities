@@ -1,6 +1,7 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "UserWidgets/ToroMasterWidget.h"
+#include "Components/OverlaySlot.h"
 
 UToroMasterWidget::UToroMasterWidget(const FObjectInitializer& ObjectInit)
 	: Super(ObjectInit)
@@ -31,13 +32,15 @@ void UToroMasterWidget::PopFromStack(TSubclassOf<UCommonActivatableWidget> Widge
 	}
 }
 
-void UToroMasterWidget::PushClassToOverlay(TSubclassOf<UCommonUserWidget> WidgetClass) const
+UOverlaySlot* UToroMasterWidget::PushClassToOverlay(TSubclassOf<UCommonUserWidget> WidgetClass) const
 {
 	if (MasterOverlay && WidgetClass)
 	{
 		// Uses const cast here. Dirty but fine as it doesn't actually mutate this and only uses it for outer.
-		PushInstanceToOverlay(CreateWidget<UCommonUserWidget>(const_cast<UToroMasterWidget*>(this), WidgetClass));
+		return PushInstanceToOverlay(CreateWidget<UCommonUserWidget>(const_cast<UToroMasterWidget*>(this), WidgetClass));
 	}
+
+	return nullptr;
 }
 
 void UToroMasterWidget::PopClassFromOverlay(TSubclassOf<UCommonUserWidget> WidgetClass, const bool bFromEnd) const
@@ -61,12 +64,14 @@ void UToroMasterWidget::PopClassFromOverlay(TSubclassOf<UCommonUserWidget> Widge
 	}
 }
 
-void UToroMasterWidget::PushInstanceToOverlay(UCommonUserWidget* Widget) const
+UOverlaySlot* UToroMasterWidget::PushInstanceToOverlay(UCommonUserWidget* Widget) const
 {
 	if (MasterOverlay && Widget)
 	{
-		MasterOverlay->AddChild(Widget);
+		return Cast<UOverlaySlot>(MasterOverlay->AddChild(Widget));
 	}
+
+	return nullptr;
 }
 
 void UToroMasterWidget::PopInstanceFromOverlay(UCommonUserWidget* Widget) const
