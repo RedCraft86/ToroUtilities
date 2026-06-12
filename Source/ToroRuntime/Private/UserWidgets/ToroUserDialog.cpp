@@ -55,14 +55,14 @@ void UToroUserDialog::PushUserDialog()
 		ActivateWidget();
 		bActive = true;
 
-		if (PlayerController.IsValid() && !PlayerController->IsPaused())
+		if (PauserController.IsValid() && !PauserController->IsPaused())
 		{
-			PlayerController->SetPause(true);
+			PauserController->SetPause(true);
 		}
 		else
 		{
 			// If game is already pause, we do not want to mess it up by unpausing after this dialog
-			PlayerController.Reset();
+			PauserController.Reset();
 		}
 	}
 	else
@@ -79,9 +79,9 @@ void UToroUserDialog::OnButtonClicked(UCommonLabeledButton* Button)
 	}
 
 	bActive = false;
-	if (PlayerController.IsValid())
+	if (PauserController.IsValid())
 	{
-		PlayerController->SetPause(false);
+		PauserController->SetPause(false);
 	}
 
 	const FToroUserDialogEntry& Entry = ButtonToEntry[Button];
@@ -102,7 +102,7 @@ void UToroUserDialog::ConstructDialog(UToroMasterWidget* Master, const FText& Ti
 
 	if (bPauseGame)
 	{
-		PlayerController = AToroPlayerController::Get(Master);
+		PauserController = AToroPlayerController::Get(Master);
 	}
 
 	for (const FToroUserDialogEntry& Entry : Entries)

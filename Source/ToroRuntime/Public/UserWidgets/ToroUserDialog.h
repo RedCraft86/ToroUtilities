@@ -114,7 +114,7 @@ protected:
 
 	bool bActive;
 	float AutoSelectTime;
-	TWeakObjectPtr<APlayerController> PlayerController;
+	TWeakObjectPtr<APlayerController> PauserController;
 	TWeakObjectPtr<UCommonLabeledButton> AutoSelectButton;
 	TMap<TObjectPtr<UCommonLabeledButton>, FToroUserDialogEntry> ButtonToEntry;
 	TObjectPtr<UToroMasterWidget> MasterWidget;
