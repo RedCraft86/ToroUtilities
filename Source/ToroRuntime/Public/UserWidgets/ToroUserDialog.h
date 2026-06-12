@@ -112,7 +112,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Appearance, meta = (ClampMin = 0.0f))
 		float EntryPadding;
 
-	bool bActive;
 	float AutoSelectTime;
 	TWeakObjectPtr<APlayerController> PauserController;
 	TWeakObjectPtr<UCommonLabeledButton> AutoSelectButton;

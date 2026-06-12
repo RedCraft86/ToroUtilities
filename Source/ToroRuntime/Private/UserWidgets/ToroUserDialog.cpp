@@ -15,10 +15,16 @@ FText FToroUserDialogEntry::GetDisplayText() const
 }
 
 UToroUserDialog::UToroUserDialog(const FObjectInitializer& ObjectInit)
-	: Super(ObjectInit), EntryPadding(2.0f), bActive(false), AutoSelectTime(0.0f)
+	: Super(ObjectInit), EntryPadding(2.0f), AutoSelectTime(0.0f)
 {
 	bIsModal = true;
-	bAutoActivate = true;
+	bAutoActivate = false;
+
+	bSetVisibilityOnActivated = true;
+	ActivatedVisibility = ESlateVisibility::Visible;
+
+	bSetVisibilityOnDeactivated = true;
+	DeactivatedVisibility = ESlateVisibility::HitTestInvisible;
 }
 
 UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject, const FText& Title, const FText& Message, 
@@ -53,7 +59,6 @@ void UToroUserDialog::PushUserDialog()
 		Slot->SetHorizontalAlignment(HAlign_Fill);
 		Slot->SetVerticalAlignment(VAlign_Fill);
 		ActivateWidget();
-		bActive = true;
 
 		if (PauserController.IsValid() && !PauserController->IsPaused())
 		{
@@ -73,12 +78,11 @@ void UToroUserDialog::PushUserDialog()
 
 void UToroUserDialog::OnButtonClicked(UCommonLabeledButton* Button)
 {
-	if (!bActive)
+	if (!IsActivated())
 	{
 		return;
 	}
 
-	bActive = false;
 	if (PauserController.IsValid())
 	{
 		PauserController->SetPause(false);
@@ -88,7 +92,7 @@ void UToroUserDialog::OnButtonClicked(UCommonLabeledButton* Button)
 	OnResultSelected.Broadcast(Entry.Identifier);
 	OnResultSelectedBP.Broadcast(Entry.Identifier);
 
-	SetVisibility(ESlateVisibility::HitTestInvisible);
+	DeactivateWidget();
 	FadeOutAndRemoveFromParent();
 }
 
@@ -103,6 +107,10 @@ void UToroUserDialog::ConstructDialog(UToroMasterWidget* Master, const FText& Ti
 	if (bPauseGame)
 	{
 		PauserController = AToroPlayerController::Get(Master);
+	}
+	else
+	{
+		PauserController.Reset();
 	}
 
 	for (const FToroUserDialogEntry& Entry : Entries)
@@ -163,7 +171,7 @@ TOptional<FUIInputConfig> UToroUserDialog::GetDesiredInputConfig() const
 void UToroUserDialog::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if (bActive && AutoSelectButton.IsValid() && AutoSelectTime > 0.0f)
+	if (IsActivated() && AutoSelectButton.IsValid() && AutoSelectTime > 0.0f)
 	{
 		if (FToroUserDialogEntry* Entry = ButtonToEntry.Find(AutoSelectButton.Get()))
 		{
