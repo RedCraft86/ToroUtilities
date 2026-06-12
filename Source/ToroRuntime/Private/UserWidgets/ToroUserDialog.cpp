@@ -3,11 +3,21 @@
 #include "UserWidgets/ToroUserDialog.h"
 #include "Animation/WidgetAnimation.h"
 #include "Framework/ToroPlayerHUD.h"
+#include "Components/OverlaySlot.h"
 #include "ToroUtilitiesSettings.h"
+#include "ToroRuntime.h"
+
+FText FToroUserDialogEntry::GetDisplayText() const
+{
+	const FText BaseText = DisplayText.IsEmptyOrWhitespace() ? FText::FromName(Identifier) : DisplayText;
+	return (SelectTime > 0) ? FText::Format(INVTEXT("{0} ({1})"), BaseText, SelectTime) : BaseText;
+}
 
 UToroUserDialog::UToroUserDialog(const FObjectInitializer& ObjectInit)
-	: Super(ObjectInit), EntryPadding(2.0f)
+	: Super(ObjectInit), EntryPadding(2.0f), bActive(false), AutoSelectTime(0.0f)
 {
+	bIsModal = true;
+	bAutoActivate = true;
 }
 
 UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject, const FText& Title, 
@@ -23,10 +33,12 @@ UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject,
 			Dialog->ConstructDialog(MasterWidget, Title, Message, Buttons, ButtonLayout);
 			return Dialog;
 		}
+
+		UE_LOG(LogToroRuntime, Error, TEXT("Failed to create user dialog as Master Widget could not be obtained."));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to create user dialog as class isn't provided."));
+		UE_LOG(LogToroRuntime, Error, TEXT("Failed to create user dialog as class isn't provided."));
 	}
 
 	return nullptr;
@@ -34,17 +46,34 @@ UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject,
 
 void UToroUserDialog::PushUserDialog()
 {
-	MasterWidget->PushInstanceToOverlay(this);
+	if (UOverlaySlot* Slot = MasterWidget->PushInstanceToOverlay(this))
+	{
+		Slot->SetPadding(FMargin(0.0f));
+		Slot->SetHorizontalAlignment(HAlign_Fill);
+		Slot->SetVerticalAlignment(VAlign_Fill);
+	}
+	else
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("Failed to push user dialoge to an overlay slot."));
+	}
+
+	ActivateWidget();
+	bActive = true;
 }
 
 void UToroUserDialog::OnButtonClicked(UCommonLabeledButton* Button)
 {
-	if (const FName* Tag = ButtonToIdentifier.Find(Button))
+	if (!bActive)
 	{
-		OnResultSelected.Broadcast(*Tag);
-		OnResultSelectedBP.Broadcast(*Tag);
+		return;
 	}
+	bActive = false;
 
+	const FToroUserDialogEntry& Entry = ButtonToEntry[Button];
+	OnResultSelected.Broadcast(Entry.Identifier);
+	OnResultSelectedBP.Broadcast(Entry.Identifier);
+
+	SetVisibility(ESlateVisibility::HitTestInvisible);
 	FadeOutAndRemoveFromParent();
 }
 
@@ -63,14 +92,73 @@ void UToroUserDialog::ConstructDialog(UToroMasterWidget* Master, const FText& Ti
 			continue;
 		}
 
-		if (UCommonLabeledButton* Button = WidgetTree->ConstructWidget<UCommonLabeledButton>(
-			UCommonLabeledButton::StaticClass(), FName(Entry.Identifier.ToString() + TEXT("_Button"))))
+		if (UCommonLabeledButton* Button = WidgetTree->ConstructWidget<UCommonLabeledButton>(UCommonLabeledButton::StaticClass()))
 		{
 			Button->SetPadding(FMargin(EntryPadding));
 			Button->SetLabelContentText(Entry.GetDisplayText());
 			Button->OnClicked().AddUObject(this, &UToroUserDialog::OnButtonClicked, Button);
-			ButtonToIdentifier.Add(Button, Entry.Identifier);
+			ButtonToEntry.Add(Button, Entry);
 			ButtonContainer->AddChild(Button);
+
+			if (!AutoSelectButton.IsValid() && Entry.SelectTime > 0)
+			{
+				AutoSelectButton = Button;
+				AutoSelectTime = Entry.SelectTime;
+			}
+		}
+	}
+}
+
+void UToroUserDialog::SynchronizeProperties()
+{
+	Super::SynchronizeProperties();
+	if (Background)
+	{
+		Background->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+UWidget* UToroUserDialog::NativeGetDesiredFocusTarget() const
+{
+	// If we have an auto-select button, focus that first.
+	if (AutoSelectButton.IsValid())
+	{
+		return AutoSelectButton.Get();
+	}
+
+	// Fallback: Focus the very first button in the container
+	if (ButtonContainer && ButtonContainer->GetChildrenCount() > 0)
+	{
+		return ButtonContainer->GetChildAt(0);
+	}
+
+	return Super::NativeGetDesiredFocusTarget();
+}
+
+TOptional<FUIInputConfig> UToroUserDialog::GetDesiredInputConfig() const
+{
+	return FUIInputConfig(ECommonInputMode::Menu, EMouseCaptureMode::CapturePermanently);
+}
+
+void UToroUserDialog::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	if (bActive && AutoSelectButton.IsValid() && AutoSelectTime > 0.0f)
+	{
+		if (FToroUserDialogEntry* Entry = ButtonToEntry.Find(AutoSelectButton.Get()))
+		{
+			AutoSelectTime -= InDeltaTime;
+			const uint8 TimeAsInt = FMath::Max(0, FMath::CeilToInt32(AutoSelectTime));
+			if (Entry->SelectTime != TimeAsInt)
+			{
+				Entry->SelectTime = TimeAsInt;
+				AutoSelectButton->SetLabelContentText(Entry->GetDisplayText());
+
+				if (TimeAsInt == 0)
+				{
+					OnButtonClicked(AutoSelectButton.Get());
+				}
+			}
 		}
 	}
 }

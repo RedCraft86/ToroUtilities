@@ -22,26 +22,27 @@ struct TORORUNTIME_API FToroUserDialogEntry final
 public:
 
 	/** The machine-readable name returned when this button is clicked (e.g., "Confirm", "Cancel"). */
-	UPROPERTY(EditAnywhere, Category = Entry)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Entry)
 		FName Identifier;
 
 	/** The localized text displayed on the button face. */
-	UPROPERTY(EditAnywhere, Category = Entry)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Entry)
 		FText DisplayText;
 
+	/** Delay in seconds in which this button will be auto selected. Set to 0 to disable. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Entry)
+		uint8 SelectTime;
+
 	FToroUserDialogEntry()
-		: Identifier(NAME_None), DisplayText(FText::GetEmpty())
+		: Identifier(NAME_None), DisplayText(FText::GetEmpty()), SelectTime(0)
 	{}
 
-	FToroUserDialogEntry(const FName& InIdentifier, const FText& InDisplayText)
-		: Identifier(InIdentifier), DisplayText(InDisplayText)
+	FToroUserDialogEntry(const FName& InIdentifier, const FText& InDisplayText, const uint8 InSelectTime = 0)
+		: Identifier(InIdentifier), DisplayText(InDisplayText), SelectTime(InSelectTime)
 	{}
 
+	FText GetDisplayText() const;
 	FORCEINLINE bool IsValidEntry() const { return !Identifier.IsNone(); }
-	FORCEINLINE FText GetDisplayText() const
-	{
-		return DisplayText.IsEmptyOrWhitespace() ? FText::FromName(Identifier) : DisplayText;
-	}
 };
 
 /**
@@ -49,7 +50,7 @@ public:
  * Supports dynamic button generation and custom layouts (Horizontal/Vertical).
  */
 UCLASS(Abstract, Blueprintable, BlueprintType)
-class TORORUNTIME_API UToroUserDialog final : public UToroUserWidget
+class TORORUNTIME_API UToroUserDialog final : public UToroActivatableWidget
 {
 	GENERATED_BODY()
 
@@ -60,6 +61,7 @@ public:
 	/** 
 	 * Factory method to instantiate a new User Dialog.
 	 * Ideal setup would be: Create -> Bind Events -> Push
+	 * If automatic selection is involved, only the first button with it is considered.
 	 * 
 	 * @param ContextObject   The world context for spawning the widget.
 	 * @param Title           The header text for the dialog.
@@ -70,7 +72,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = UserWidget)
 		static UToroUserDialog* CreateUserDialog(const UObject* ContextObject, const FText& Title, const FText& Message, 
-			const TArray<FToroUserDialogEntry>& Buttons, const TEnumAsByte<EOrientation> ButtonLayout);
+			const TArray<FToroUserDialogEntry>& Buttons, const TEnumAsByte<EOrientation> ButtonLayout = Orient_Horizontal);
 
 	/** 
 	 * Adds this dialog to the Master Widget's overlay, making it visible and focused.
@@ -86,6 +88,10 @@ public:
 	FDialogResultDelegate OnResultSelected;
 
 protected:
+
+	/** Shield to prevent mouse clicking through. REQUIREMENT: Ideally a Border or Image named 'Background'. */
+	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+		TObjectPtr<UWidget> Background;
 
 	/** Label for the dialog header. REQUIREMENT: A TextBlock named 'TitleLabel'. */
 	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
@@ -103,14 +109,19 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Appearance, meta = (ClampMin = 0.0f))
 		float EntryPadding;
 
-	UPROPERTY(Transient)
-		TObjectPtr<UToroMasterWidget> MasterWidget;
-
-	UPROPERTY(Transient)
-		TMap<UCommonLabeledButton*, FName> ButtonToIdentifier;
+	bool bActive;
+	float AutoSelectTime;
+	TWeakObjectPtr<UCommonLabeledButton> AutoSelectButton;
+	TMap<TObjectPtr<UCommonLabeledButton>, FToroUserDialogEntry> ButtonToEntry;
+	TObjectPtr<UToroMasterWidget> MasterWidget;
 
 	void OnButtonClicked(UCommonLabeledButton* Button);
 
 	void ConstructDialog(UToroMasterWidget* Master, const FText& TitleText, const FText& MessageText, 
 		const TArray<FToroUserDialogEntry>& Entries, const TEnumAsByte<EOrientation> Layout);
+
+	virtual void SynchronizeProperties() override;
+	virtual UWidget* NativeGetDesiredFocusTarget() const override;
+	virtual TOptional<FUIInputConfig> GetDesiredInputConfig() const override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };
