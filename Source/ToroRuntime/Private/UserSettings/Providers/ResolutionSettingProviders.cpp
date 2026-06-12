@@ -79,10 +79,7 @@ void FToroUSP_ResolutionValue::SetValue(const FString& InValue)
 	FIntPoint Resolution;
 	EWindowMode::Type WindowMode;
 	SplitOption(InValue, Resolution, WindowMode);
-	UserSettings->SetScreenResolution(Resolution);
-	UserSettings->SetFullscreenMode(WindowMode);
-	UserSettings->ApplyResolutionSettings(false);
-	// TODO confirmation
+	UserSettings->SetResolutionAndFullscreen(Resolution, WindowMode);
 }
 
 FString FToroUSP_ResolutionValue::BuildOption(const FIntPoint& Resolution, EWindowMode::Type WindowMode)

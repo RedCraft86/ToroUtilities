@@ -68,6 +68,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void AutoAdjustScalability();
 
+	/** 
+	 * Sets and applies the Resolution and Fullscreen Mode.
+	 * Additionally, it also shows a confirmation dialog when possible.
+	 */
+	UFUNCTION(BlueprintCallable, Category = Settings)
+		void SetResolutionAndFullscreen(const FIntPoint& Resolution, const EWindowMode::Type WindowMode);
+
 	/** Toggles the visibility of the on-screen FPS counter. */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetShowFPS(const bool bShow);

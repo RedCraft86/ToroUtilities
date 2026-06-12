@@ -4,11 +4,13 @@
 #include "UserSettings/ImageFidelityAPI.h"
 #include "Libraries/ToroConsoleLibrary.h"
 #include "Framework/ToroWorldSettings.h"
+#include "UserWidgets/ToroUserDialog.h"
 #include "Kismet/GameplayStatics.h"
 #include "Helpers/WorldGetter.h"
 #include "Sound/SoundMix.h"
 #include "Algo/Unique.h"
 #include "Misc/App.h"
+#include "ToroRuntime.h"
 
 const TArray<FIntPoint>& UToroGameUserSettings::GetSupportedResolutions()
 {
@@ -83,6 +85,47 @@ void UToroGameUserSettings::AutoAdjustScalability()
 	ApplyHardwareBenchmarkResults();
 	ApplyMotionBlur(); // Reverse the PostProcessingQuality override
 	BroadcastUpdate(EUserSettingApplyType::UIRefresh);
+}
+
+void UToroGameUserSettings::SetResolutionAndFullscreen(const FIntPoint& Resolution, const EWindowMode::Type WindowMode)
+{
+	SetFullscreenMode(WindowMode);
+	SetScreenResolution(Resolution);
+	ApplyResolutionSettings(false);
+
+	static const FName RevertKey(TEXT("REVERT"));
+	static const FName AcceptKey(TEXT("ACCEPT"));
+	static const TArray DialogButtons {
+		FToroUserDialogEntry(RevertKey, INVTEXT("Revert"), 5),
+		FToroUserDialogEntry(AcceptKey, INVTEXT("Accept"))
+	};
+
+	if (UToroUserDialog* Dialog = UToroUserDialog::CreateUserDialog(GetWorld(), INVTEXT("Accept Changes?"), 
+		INVTEXT("If \"Accept\" is not clicked, resolution will be reverted in 5 seconds."), DialogButtons))
+	{
+		Dialog->OnResultSelected.AddLambda([WeakThis = TWeakObjectPtr(this)](const FName Option)
+		{
+			if (WeakThis.IsValid())
+			{
+				if (Option == AcceptKey)
+				{
+					WeakThis->ConfirmVideoMode();
+				}
+				else
+				{
+					WeakThis->RevertVideoMode();
+				}
+
+				WeakThis->ApplyResolutionSettings(false);
+			}
+		});
+
+		Dialog->PushUserDialog();
+	}
+	else
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("Failed to confirm, resolution settings not accepted nor reverted."));
+	}
 }
 
 void UToroGameUserSettings::SetShowFPS(const bool bShow)
