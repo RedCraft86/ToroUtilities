@@ -13,8 +13,8 @@
  * An actor representing a single lighting influence point.
  * Collected by ULightProbeManager to contribute to the global lighting buffer.
  */
-UCLASS(NotBlueprintable, BlueprintType, meta = (HideCategories = "*", ShowCategories = "Settings Rendering Actor"))
-class TORORUNTIME_API ALightProbeActor final : public AActor
+UCLASS(MinimalAPI, NotBlueprintable, BlueprintType, meta = (HideCategories = "*", ShowCategories = "Settings Rendering Actor"))
+class ALightProbeActor final : public AActor
 {
 	GENERATED_BODY()
 
@@ -28,14 +28,14 @@ public:
 	 * @param PosParam Output: XYZ = World Position, A = Effective Radius.
 	 * @param Camera The current view location for distance-based calculations.
 	 */
-	void GetProbeData(FLinearColor& ColorParam, FLinearColor& PosParam, const FVector& Camera) const;
+	TORORUNTIME_API void GetProbeData(FLinearColor& ColorParam, FLinearColor& PosParam, const FVector& Camera) const;
 
 	/**
 	 * Determines if this probe should contribute to the scene based on distance and engine state.
 	 * @param Camera The current camera transform.
 	 * @param bHasLumenGI True if Lumen Global Illumination is currently active.
 	 */
-	bool IsRelevantProbe(const FTransform& Camera, const bool bHasLumenGI) const;
+	TORORUNTIME_API bool IsRelevantProbe(const FTransform& Camera, const bool bHasLumenGI) const;
 
 private:
 
