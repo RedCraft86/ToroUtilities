@@ -72,7 +72,6 @@ void FToroClassCustomization::HandleCategoryRenames()
 		From.TrimStartAndEndInline();
 		To.TrimStartAndEndInline();
 
-		UE_LOG(LogTemp, Warning, TEXT("Rename Category: %s -> %s"), *From, *To);
 		SetCategoryDisplayName(*From, FText::FromString(To));
 	}
 }

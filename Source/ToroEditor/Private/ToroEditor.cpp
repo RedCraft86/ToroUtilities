@@ -22,10 +22,11 @@
 #include "DetailsPanel/ToroClassCustomization.h"
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
 #include "DetailsPanel/PropertyMetadataDetails.h"
+#include "DetailsPanel/ToroWorldSettingsDetails.h"
 
 #include "Actors/ToroActor.h"
-#include "Actors/ToroCharacter.h"
 #include "Actors/ToroVolume.h"
+#include "Actors/ToroCharacter.h"
 #include "MiscActors/TeleportPoint.h"
 #include "LightProbes/LightProbeActor.h"
 
@@ -66,8 +67,9 @@ void FToroEditorModule::StartupModule()
 	FDetailsCustomizationRegistry::Register<AToroVolume, FToroClassCustomization>();
 	FDetailsCustomizationRegistry::Register<AToroCharacter, FToroClassCustomization>();
 	FDetailsCustomizationRegistry::Register<ATeleportPoint, FToroClassCustomization>();
-
 	FDetailsCustomizationRegistry::Register<ALightProbeActor, FToroClassCustomization>();
+
+	FDetailsCustomizationRegistry::Register<AToroWorldSettings, FToroWorldSettingsDetails>();
 
 	if (FBlueprintEditorModule* BPEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>(TEXT("Kismet")))
 	{

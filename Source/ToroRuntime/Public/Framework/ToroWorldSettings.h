@@ -14,8 +14,7 @@ class UGlobalPostProcess;
  * Custom World Settings for the ToroUtilities framework. Manages global post-processing,
  * dynamic blendables (MIDs), light probe system, and global audio volume overrides.
  */
-UCLASS(NotPlaceable, Blueprintable, BlueprintType, PrioritizeCategories = (PostProcessing, LightProbes), 
-	HideCategories = (Cooking, Lightmass, VR, PrecomputedVisibility, Broadphase, Network, Nanite, Bookmark, Networking))
+UCLASS(NotPlaceable, Blueprintable, BlueprintType, meta = (RenameCategories = "PostProcessVolume=Post Processing"))
 class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
 {
 	GENERATED_BODY()

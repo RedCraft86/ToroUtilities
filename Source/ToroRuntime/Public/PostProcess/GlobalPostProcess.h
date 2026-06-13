@@ -13,8 +13,7 @@
  * 
  * This is only supposed to be attached to the UToroWorldSettings.
  */
-UCLASS(MinimalAPI, NotBlueprintable, BlueprintType, PrioritizeCategories = (PostProcessVolume), 
-	HideCategories = (Tags, AssetUserData, Replication, ComponentReplication, Activation, Variable))
+UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)
 class UGlobalPostProcess final : public UPostProcessComponent
 {
 	GENERATED_BODY()
@@ -102,10 +101,11 @@ private:
 		const bool bSuper = Super::CanEditChange(InProperty);
 		if (bSuper && InProperty)
 		{
-			return InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, BlendWeight)
-				|| InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, Priority)
-				|| InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bUnbound)
-				|| InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bEnabled);
+			return InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, Priority)
+				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, BlendRadius)
+				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, BlendWeight)
+				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bUnbound)
+				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bEnabled);
 		}
 		return bSuper;
 	}

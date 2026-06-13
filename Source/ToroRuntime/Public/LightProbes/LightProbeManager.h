@@ -15,8 +15,7 @@
  * 
  * This is only supposed to be attached to the UToroWorldSettings.
  */
-UCLASS(MinimalAPI, NotBlueprintable, BlueprintType, PrioritizeCategories = (LightProbes), 
-	HideCategories = (Tags, AssetUserData, Replication, ComponentReplication, Activation, Variable))
+UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)
 class ULightProbeManager final : public UActorComponent
 {
 	GENERATED_BODY()
