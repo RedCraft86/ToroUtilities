@@ -9,8 +9,8 @@
 /**
  * A simple actor that holds FWorldActionList for generic and simple usage.
  */
-UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API AWorldActionActor final : public AToroActor
+UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)
+class AWorldActionActor final : public AToroActor
 {
 	GENERATED_BODY()
 
@@ -26,7 +26,7 @@ public:
 
 	/** Executes all actions within the provided ActionList. */
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
-	void ExecuteActions()
+	TORORUNTIME_API void ExecuteActions()
 	{
 		if (IsEnabled(this))
 		{
@@ -34,7 +34,10 @@ public:
 		}
 	}
 
-	const FWorldActionList& GetActionList() const { return Actions; }
+	TORORUNTIME_API const FWorldActionList& GetActionList() const
+	{
+		return Actions;
+	}
 
 protected:
 
