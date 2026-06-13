@@ -19,6 +19,14 @@
 
 class TOROEDITOR_API FToroClassCustomization : public IDetailCustomization
 {
+public:
+
+	static inline TSet<FString> DefaultShowCategories{
+		TEXT("Transform"), TEXT("TransformCommon")
+	};
+
+	static TMap<UClass*, TSet<FString>> DefaultShowOnlyCategories;
+
 protected:
 
 	bool bCustomizeTemplate = false;
@@ -27,19 +35,8 @@ protected:
 
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
 
-	void HideCategory(const FName Category) const;
-
 private:
 
-	virtual void CustomizeDetails(const TSharedPtr<IDetailLayoutBuilder>& DetailBuilder) override;
-
 	void HandleShowOnlyCategories() const;
-
-public:
-
-	static inline TSet<FString> AlwaysShowCategories{
-		TEXT("Transform"), TEXT("TransformCommon")
-	};
-
-	static TMap<UClass*, TSet<FString>> DefaultShowOnlyCategories;
+	virtual void CustomizeDetails(const TSharedPtr<IDetailLayoutBuilder>& DetailBuilder) override;
 };
