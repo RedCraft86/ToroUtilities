@@ -53,11 +53,11 @@ UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject,
 
 void UToroUserDialog::PushUserDialog()
 {
-	if (UOverlaySlot* Slot = MasterWidget->PushInstanceToOverlay(this))
+	if (UOverlaySlot* OverlaySlot = MasterWidget->PushInstanceToOverlay(this))
 	{
-		Slot->SetPadding(FMargin(0.0f));
-		Slot->SetHorizontalAlignment(HAlign_Fill);
-		Slot->SetVerticalAlignment(VAlign_Fill);
+		OverlaySlot->SetPadding(FMargin(0.0f));
+		OverlaySlot->SetHorizontalAlignment(HAlign_Fill);
+		OverlaySlot->SetVerticalAlignment(VAlign_Fill);
 		ActivateWidget();
 
 		if (PauserController.IsValid() && !PauserController->IsPaused())
