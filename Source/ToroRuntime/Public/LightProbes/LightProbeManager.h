@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "Helpers/WorldGetter.h"
+#include "DataTypes/CachedGetter.h"
+#include "DataTypes/SimpleCooldown.h"
 #include "Components/ActorComponent.h"
 #include "Framework/ToroWorldSettings.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -14,9 +15,9 @@
  * 
  * This is only supposed to be attached to the UToroWorldSettings.
  */
-UCLASS(NotBlueprintable, BlueprintType, PrioritizeCategories = (LightProbes), 
+UCLASS(MinimalAPI, NotBlueprintable, BlueprintType, PrioritizeCategories = (LightProbes), 
 	HideCategories = (Tags, AssetUserData, Replication, ComponentReplication, Activation, Variable))
-class TORORUNTIME_API ULightProbeManager final : public UActorComponent
+class ULightProbeManager final : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -24,10 +25,9 @@ public:
 
 	ULightProbeManager();
 
-	[[nodiscard]] static ULightProbeManager* Get(const UObject* ContextObject)
+	TORORUNTIME_API [[nodiscard]] static ULightProbeManager* Get(const UObject* ContextObject)
 	{
-		const UWorld* World = FWorldGetter::Get(ContextObject);
-		const AToroWorldSettings* WS = IsValid(World) ? Cast<AToroWorldSettings>(World->GetWorldSettings()) : nullptr;
+		const AToroWorldSettings* WS = AToroWorldSettings::Get(ContextObject);
 		return IsValid(WS) ? WS->GetLightProbeManager() : nullptr;
 	}
 
@@ -36,7 +36,7 @@ public:
 	 * Bypasses the standard UpdateInterval cooldown.
 	 */
 	UFUNCTION(BlueprintCallable, Category = LightProbes)
-		void ForceRecollection() { UpdateInterval.ForceReady(); }
+		TORORUNTIME_API void ForceRecollection() { UpdateInterval.ForceReady(); }
 
 private:
 
@@ -53,16 +53,13 @@ private:
 		FSimpleCooldown UpdateInterval;
 
 	TArray<TWeakObjectPtr<class ALightProbeActor>> LightProbes;
-	TCachedGetter<UMaterialInstanceDynamic> LightProbeMID {[this]() -> UMaterialInstanceDynamic* {
-		if (AToroWorldSettings* WS = GetOwner<AToroWorldSettings>(); WS && PostProcessMaterial)
-		{
-			return Cast<UMaterialInstanceDynamic>(WS->FindOrAddBlendable(PostProcessMaterial, true));
-		}
-		return nullptr;
+	TCachedGetter<UMaterialInstanceDynamic> LightProbeMID {[this]() {
+		return CreateLightProbeMID();
 	}};
 
 	void UpdateProbes();
 	void CollectProbes();
+	UMaterialInstanceDynamic* CreateLightProbeMID() const;
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 };

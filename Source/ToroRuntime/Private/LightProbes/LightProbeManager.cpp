@@ -2,10 +2,11 @@
 
 #include "LightProbes/LightProbeManager.h"
 #include "LightProbes/LightProbeActor.h"
+#include "PostProcess/GlobalPostProcess.h"
 #include "Libraries/ToroWorldLibrary.h"
 #include "UObject/ConstructorHelpers.h"
-#include "ToroRuntime.h"
 #include "EngineUtils.h"
+#include "ToroRuntime.h"
 
 #define COLOR_PARAM_NAME(Idx) *FString::Printf(TEXT("Color_%d"), Idx + 1)
 #define POSITION_PARAM_NAME(Idx) *FString::Printf(TEXT("Position_%d"), Idx + 1)
@@ -56,7 +57,10 @@ void ULightProbeManager::CollectProbes()
 {
 	LightProbes.Empty();
 	const FTransform Camera = UToroWorldLibrary::GetMainCameraTransform(this);
-	const bool bHasLumenGI = GetOwner<AToroWorldSettings>()->IsUsingLumenGI();
+
+	const UGlobalPostProcess* PP = UGlobalPostProcess::Get(this);
+	const bool bHasLumenGI = PP && PP->IsUsingLumenGI();
+
 	for (ALightProbeActor* Probe : TActorRange<ALightProbeActor>(GetWorld()))
 	{
 		if (Probe && Probe->IsRelevantProbe(Camera, bHasLumenGI))
@@ -64,6 +68,17 @@ void ULightProbeManager::CollectProbes()
 			LightProbes.AddUnique(Probe);
 		}
 	}
+}
+
+UMaterialInstanceDynamic* ULightProbeManager::CreateLightProbeMID() const
+{
+	UGlobalPostProcess* PP = UGlobalPostProcess::Get(this);
+	if (PP && PostProcessMaterial)
+	{
+		return Cast<UMaterialInstanceDynamic>(PP->FindOrAddBlendable(PostProcessMaterial, true));
+	}
+
+	return nullptr;
 }
 
 void ULightProbeManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
