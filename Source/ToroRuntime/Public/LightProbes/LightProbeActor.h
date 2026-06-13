@@ -13,7 +13,8 @@
  * An actor representing a single lighting influence point.
  * Collected by ULightProbeManager to contribute to the global lighting buffer.
  */
-UCLASS(NotBlueprintable, BlueprintType, PrioritizeCategories = (Settings), HideCategories = (HLOD, Replication, Collision, Physics, Networking, Input, WorldPartition, LevelInstance, Cooking))
+UCLASS(NotBlueprintable, BlueprintType, PrioritizeCategories = (Settings), 
+	HideCategories = (HLOD, Replication, Collision, Physics, Networking, Input, WorldPartition, LevelInstance, Cooking))
 class TORORUNTIME_API ALightProbeActor final : public AActor
 {
 	GENERATED_BODY()
