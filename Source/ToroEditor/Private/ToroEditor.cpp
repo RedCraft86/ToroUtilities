@@ -27,6 +27,7 @@
 #include "Actors/ToroCharacter.h"
 #include "Actors/ToroVolume.h"
 #include "MiscActors/TeleportPoint.h"
+#include "LightProbes/LightProbeActor.h"
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
@@ -65,6 +66,8 @@ void FToroEditorModule::StartupModule()
 	FDetailsCustomizationRegistry::Register<AToroVolume, FToroClassCustomization>();
 	FDetailsCustomizationRegistry::Register<AToroCharacter, FToroClassCustomization>();
 	FDetailsCustomizationRegistry::Register<ATeleportPoint, FToroClassCustomization>();
+
+	FDetailsCustomizationRegistry::Register<ALightProbeActor, FToroClassCustomization>();
 
 	if (FBlueprintEditorModule* BPEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>(TEXT("Kismet")))
 	{
