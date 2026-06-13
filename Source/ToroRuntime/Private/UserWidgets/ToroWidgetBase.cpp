@@ -26,8 +26,6 @@ UE5Coro::TCoroutine<> FadeOutRemoveWidget(TWeakObjectPtr<UUserWidget> Widget, UW
 	{
 		Widget->RemoveFromParent();
 	}
-
-	co_return;
 }
 
 UToroUserWidget::UToroUserWidget(const FObjectInitializer& ObjectInit)
