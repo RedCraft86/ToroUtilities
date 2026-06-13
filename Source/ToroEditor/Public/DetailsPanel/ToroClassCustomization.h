@@ -17,6 +17,16 @@
 #define GET_CLASS_PROPERTY_VAR_NS(Member, VarName) \
 	GET_CLASS_PROPERTY_VAR(CLASS_NAME, Member, VarName)
 
+struct FToroCategoryInfo
+{
+	FText DisplayName;
+	ECategoryPriority::Type Priority;
+
+	FToroCategoryInfo()
+		: DisplayName(FText::GetEmpty()), Priority(ECategoryPriority::Default)
+	{}
+};
+
 class TOROEDITOR_API FToroClassCustomization : public IDetailCustomization
 {
 public:
@@ -33,10 +43,21 @@ protected:
 	UClass* CustomizingClass = nullptr;
 	TWeakPtr<IDetailLayoutBuilder> WeakBuilder;
 
+	TArray<FString> ClassShowCategories;
+	TArray<FString> ClassHideCategories;
+	TArray<FString> ClassPrioritizeCategories;
+	TMap<FName, FToroCategoryInfo> CategoryMap;
+
+	IDetailCategoryBuilder& FindOrAddCategory(const FName CategoryName) const;
+	IDetailCategoryBuilder& SetCategoryDisplayName(const FName CategoryName, const FText& DisplayName);
+	IDetailCategoryBuilder& SetCategoryPriority(const FName CategoryName, const ECategoryPriority::Type Priority);
+
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
 
 private:
 
+	void HandleCategoryRenames();
+	void HandleCategoryPriority();
 	void HandleShowOnlyCategories() const;
 	virtual void CustomizeDetails(const TSharedPtr<IDetailLayoutBuilder>& DetailBuilder) override;
 };

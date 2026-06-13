@@ -30,7 +30,66 @@ TMap<UClass*, TSet<FString>> FToroClassCustomization::DefaultShowOnlyCategories 
 	}
 };
 
+IDetailCategoryBuilder& FToroClassCustomization::FindOrAddCategory(const FName CategoryName) const
+{
+	if (const FToroCategoryInfo* Info = CategoryMap.Find(CategoryName))
+	{
+		return WeakBuilder.Pin()->EditCategory(CategoryName, Info->DisplayName, Info->Priority);
+	}
+	return WeakBuilder.Pin()->EditCategory(CategoryName);
+}
+
+IDetailCategoryBuilder& FToroClassCustomization::SetCategoryDisplayName(const FName CategoryName, const FText& DisplayName)
+{
+	CategoryMap.FindOrAdd(CategoryName).DisplayName = DisplayName;
+	return FindOrAddCategory(CategoryName);
+}
+
+IDetailCategoryBuilder& FToroClassCustomization::SetCategoryPriority(const FName CategoryName, const ECategoryPriority::Type Priority)
+{
+	CategoryMap.FindOrAdd(CategoryName).Priority = Priority;
+	return FindOrAddCategory(CategoryName);
+}
+
 void FToroClassCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) {}
+
+void FToroClassCustomization::HandleCategoryRenames()
+{
+	if (!WeakBuilder.IsValid())
+	{
+		return;
+	}
+
+	static const FName NAME_RenameCategories("RenameCategories");
+	const FString& MetaValue = CustomizingClass->GetMetaData(NAME_RenameCategories);
+
+	TArray<FString> Renames;
+	MetaValue.ParseIntoArray(Renames, TEXT(","));
+	for (const FString& Rename : Renames)
+	{
+		FString From, To;
+		Rename.Split(TEXT("="), &From, &To, ESearchCase::IgnoreCase);
+		From.TrimStartAndEndInline();
+		To.TrimStartAndEndInline();
+
+		UE_LOG(LogTemp, Warning, TEXT("Rename Category: %s -> %s"), *From, *To);
+		SetCategoryDisplayName(*From, FText::FromString(To));
+	}
+}
+
+void FToroClassCustomization::HandleCategoryPriority()
+{
+	if (!WeakBuilder.IsValid())
+	{
+		return;
+	}
+
+	if (ClassPrioritizeCategories.IsEmpty())
+	{
+		SetCategoryPriority(TEXT("Settings"), ECategoryPriority::Important);
+		SetCategoryPriority(TEXT("Tools"), ECategoryPriority::Important);
+	}
+}
 
 void FToroClassCustomization::HandleShowOnlyCategories() const
 {
@@ -120,15 +179,13 @@ void FToroClassCustomization::CustomizeDetails(const TSharedPtr<IDetailLayoutBui
 		return;
 	}
 
-	HandleShowOnlyCategories();
+	FEditorCategoryUtils::GetClassHideCategories(CustomizingClass, ClassHideCategories);
+	FEditorCategoryUtils::GetClassShowCategories(CustomizingClass, ClassShowCategories);
+	CustomizingClass->GetPrioritizeCategories(ClassPrioritizeCategories);
 
-	// Always prioritize Settings and Tools unless metadata specified
-	static const FName NAME_PrioritizeCategories("PrioritizeCategories");
-	if (!CustomizingClass->HasMetaData(NAME_PrioritizeCategories))
-	{
-		DetailBuilder->EditCategory(TEXT("Settings"), FText::GetEmpty(), ECategoryPriority::Important);
-		DetailBuilder->EditCategory(TEXT("Tools"), FText::GetEmpty(), ECategoryPriority::Important);
-	}
+	HandleShowOnlyCategories();
+	HandleCategoryPriority();
+	HandleCategoryRenames();
 
 	IDetailCustomization::CustomizeDetails(DetailBuilder);
 }
