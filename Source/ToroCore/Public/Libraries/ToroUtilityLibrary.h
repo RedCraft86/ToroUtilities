@@ -23,13 +23,6 @@ public:
 		static bool IsInGame();
 
 	/** 
-	 * Manually triggers the Garbage Collector.
-	 * @warning This is a heavy operation and should be used sparingly, typically during loading screens.
-	 */
-	UFUNCTION(BlueprintCallable, Category = World)
-		static void ForceGarbageCollection();
-
-	/** 
 	 * Retrieves the number of packages currently being loaded asynchronously.
 	 * Useful for creating custom progress bars or waiting for background asset loading.
 	 */

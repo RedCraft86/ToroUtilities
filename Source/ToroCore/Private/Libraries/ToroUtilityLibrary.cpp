@@ -14,14 +14,6 @@ bool UToroUtilityLibrary::IsInGame()
 #endif
 }
 
-void UToroUtilityLibrary::ForceGarbageCollection()
-{
-	if (GEngine)
-	{
-		GEngine->ForceGarbageCollection(IsInGame());
-	}
-}
-
 int32 UToroUtilityLibrary::GetNumLoadingAsyncPkgs()
 {
 	return GetNumAsyncPackages();
