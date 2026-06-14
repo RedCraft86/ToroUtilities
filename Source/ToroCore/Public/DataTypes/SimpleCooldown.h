@@ -88,7 +88,7 @@ public:
 	 * @return           True if the cooldown has expired this frame, triggering the interval; 
 	 *                   False otherwise. If true, the internal timer is reset to Interval.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "SimpleCooldown")
+	UFUNCTION(BlueprintCallable, Category = SimpleCooldown)
 	static bool TickCooldown(UPARAM(ref) FSimpleCooldown& InCooldown, const float DeltaTime)
 	{
 		return InCooldown.TickCooldown(DeltaTime);
@@ -99,7 +99,7 @@ public:
 	 * returns true and triggers the gated logic. 
 	 * @param InCooldown The simple cooldown struct to modify.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "SimpleCooldown")
+	UFUNCTION(BlueprintCallable, Category = SimpleCooldown)
 	static void ForceCooldownReady(UPARAM(ref) FSimpleCooldown& InCooldown)
 	{
 		InCooldown.ForceReady();
@@ -110,7 +110,7 @@ public:
 	 * will have to wait the whole interval before it returns true.
 	 * @param InCooldown The simple cooldown struct to modify.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "SimpleCooldown")
+	UFUNCTION(BlueprintCallable, Category = SimpleCooldown)
 	static void ResetCooldown(UPARAM(ref) FSimpleCooldown& InCooldown)
 	{
 		InCooldown.ResetTime();
