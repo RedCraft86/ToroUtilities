@@ -170,6 +170,20 @@ void UGlobalPostProcess::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	}
 }
 
+FPostProcessVolumeProperties UGlobalPostProcess::GetProperties() const
+{
+	FPostProcessVolumeProperties Ret;
+	Ret.BlendRadius = 100.0f;
+	Ret.BlendWeight = 1.0f;
+	Ret.Priority = -1.0f;
+	Ret.bIsUnbound = true;
+	Ret.bIsEnabled = true;
+	Ret.Size = DBL_MAX;
+	Ret.Settings = &Settings;
+	Ret.VolumeGuid = VolumeGuid;
+	return Ret;
+}
+
 void UGlobalPostProcess::OnRegister()
 {
 	USceneComponent::OnRegister();
@@ -203,3 +217,19 @@ void UGlobalPostProcess::PostInitProperties()
 	}
 #endif
 }
+
+#if WITH_EDITOR
+bool UGlobalPostProcess::CanEditChange(const FProperty* InProperty) const
+{
+	const bool bSuper = Super::CanEditChange(InProperty);
+	if (bSuper && InProperty)
+	{
+		return InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, Priority)
+			&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, BlendRadius)
+			&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, BlendWeight)
+			&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bUnbound)
+			&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bEnabled);
+	}
+	return bSuper;
+}
+#endif

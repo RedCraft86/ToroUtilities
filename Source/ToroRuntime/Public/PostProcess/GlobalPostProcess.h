@@ -74,19 +74,7 @@ private:
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
-	virtual FPostProcessVolumeProperties GetProperties() const override
-	{
-		FPostProcessVolumeProperties Ret;
-		Ret.BlendRadius = 100.0f;
-		Ret.BlendWeight = 1.0f;
-		Ret.Priority = -1.0f;
-		Ret.bIsUnbound = true;
-		Ret.bIsEnabled = true;
-		Ret.Size = DBL_MAX;
-		Ret.Settings = &Settings;
-		Ret.VolumeGuid = VolumeGuid;
-		return Ret;
-	}
+	virtual FPostProcessVolumeProperties GetProperties() const override;
 
 	// Replica of UPostProcessComponent as they were not exported there
 	virtual void OnRegister() override;
@@ -109,5 +97,7 @@ private:
 		}
 		return bSuper;
 	}
+#if WITH_EDITOR	
+	virtual bool CanEditChange(const FProperty* InProperty) const override;
 #endif
 };
