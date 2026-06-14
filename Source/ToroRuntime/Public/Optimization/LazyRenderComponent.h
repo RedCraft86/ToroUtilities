@@ -12,8 +12,8 @@
  * Concept: The Actor remains invisible/unrendered unless one or more systems (Requesters) 
  * explicitly ask for it to be rendered. This is highly effective for localized rendering systems.
  */
-UCLASS(NotBlueprintable, DisplayName = "Lazy Renderer", ClassGroup = (Optimization), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API ULazyRenderComponent final : public UToroActorComponent
+UCLASS(MinimalAPI, NotBlueprintable, ClassGroup = (Optimization), meta = (BlueprintSpawnableComponent))
+class ULazyRenderComponent final : public UToroActorComponent
 {
 	GENERATED_BODY()
 
@@ -26,14 +26,14 @@ public:
 	 * @param InRequester The object requesting the render state.
 	 */
 	UFUNCTION(BlueprintCallable, Category = ReferenceCulling)
-		void AddRequest(const UObject* InRequester) { Requests.AddRequest(InRequester); }
+		TORORUNTIME_API void AddRequest(const UObject* InRequester);
 
 	/** 
 	 * Unregisters a requester. If no requesters remain, the Actor's rendering is disabled.
 	 * @param InRequester The object releasing its request.
 	 */
 	UFUNCTION(BlueprintCallable, Category = ReferenceCulling)
-		void RemoveRequest(const UObject* InRequester) { Requests.RemoveRequest(InRequester); }
+		TORORUNTIME_API void RemoveRequest(const UObject* InRequester);
 
 protected:
 

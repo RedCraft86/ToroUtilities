@@ -13,6 +13,16 @@ ULazyRenderComponent::ULazyRenderComponent(): bNullChecks(true)
 	PrimaryComponentTick.TickInterval = 1.0f;
 }
 
+void ULazyRenderComponent::AddRequest(const UObject* InRequester)
+{
+	Requests.AddRequest(InRequester);
+}
+
+void ULazyRenderComponent::RemoveRequest(const UObject* InRequester)
+{
+	Requests.RemoveRequest(InRequester);
+}
+
 void ULazyRenderComponent::OnRequestChanged(const bool bState) const
 {
 	if (AActor* Owner = GetOwner())
