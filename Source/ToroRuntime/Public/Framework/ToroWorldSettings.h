@@ -7,6 +7,7 @@
 #include "GameFramework/WorldSettings.h"
 #include "ToroWorldSettings.generated.h"
 
+class UWorldMusicManager;
 class ULightProbeManager;
 class UGlobalPostProcess;
 
@@ -19,6 +20,9 @@ class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
 {
 	GENERATED_BODY()
 
+#if WITH_EDITOR
+	friend class FToroWorldSettingsDetails;
+#endif
 public:
 
 	AToroWorldSettings();
@@ -38,6 +42,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Audio)
 		void SetSoundVolume(USoundClass* InSoundClass, float InVolume) const;
 
+	UWorldMusicManager* GetWorldMusicManager() const { return WorldMusic; }
 	UGlobalPostProcess* GetGlobalPostProcess() const { return PostProcess; }
 	ULightProbeManager* GetLightProbeManager() const { return LightProbes; }
 
@@ -45,6 +50,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UWorldMusicManager> WorldMusic;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UGlobalPostProcess> PostProcess;

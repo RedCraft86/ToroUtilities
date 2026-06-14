@@ -1,6 +1,7 @@
 // Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
 
 #include "Framework/ToroWorldSettings.h"
+#include "WorldMusic/WorldMusicManager.h"
 #include "PostProcess/GlobalPostProcess.h"
 #include "LightProbes/LightProbeManager.h"
 #include "Sound/AudioSettings.h"
@@ -16,6 +17,12 @@ AToroWorldSettings::AToroWorldSettings()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
+
+	WorldMusic = CreateDefaultSubobject<UWorldMusicManager>(TEXT("WorldMusicManager"));
+#if WITH_EDITORONLY_DATA
+	WorldMusic->bVisualizeComponent = false;
+#endif
+	WorldMusic->SetupAttachment(SceneRoot);
 
 	PostProcess = CreateDefaultSubobject<UGlobalPostProcess>(TEXT("GlobalPostProcess"));
 	PostProcess->SetupAttachment(SceneRoot);
