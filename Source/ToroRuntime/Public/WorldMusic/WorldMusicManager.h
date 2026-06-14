@@ -9,9 +9,9 @@
 #include "WorldMusicManager.generated.h"
 
 /**
- * Manager component responsible for global music playing
- * 
- * This is only supposed to be attached to the UToroWorldSettings.
+ * A specialized Audio Component that manages the global background music state.
+ * Supports MetaSound parameter injection, fading via transitions, and 
+ * volume "dipping" triggered by gameplay events.
  */
 UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)
 class UWorldMusicManager final : public UAudioComponent
@@ -28,49 +28,69 @@ public:
 		return IsValid(WS) ? WS->GetWorldMusicManager() : nullptr;
 	}
 
+	/** 
+	 * Transitions the current music to a new MetaSound source.
+	 * Fades out current track in half transition time and fades in new track in half transition time.
+	 * If this is the first track, fades in with full transition time.
+	 * @param NewSource The MetaSound asset to play.
+	 */
 	UFUNCTION(BlueprintCallable, Category = WorldMusic)
 		TORORUNTIME_API void ChangeMusic(UMetaSoundSource* NewSource);
 
+	/** 
+	 * Adds a request to "dip" (lower) the music volume and apply low-pass filters.
+	 * Music remains dipped as long as at least one valid requester exists in the set.
+	 * @param InRequester The object requesting the dip (e.g., a Dialogue System or UI).
+	 */
 	UFUNCTION(BlueprintCallable, Category = WorldMusic)
 		TORORUNTIME_API void AddDipRequest(const UObject* InRequester);
 
+	/** 
+	 * Removes a dip request. If no requesters remain, music returns to full volume.
+	 * @param InRequester The object that originally made the request.
+	 */
 	UFUNCTION(BlueprintCallable, Category = WorldMusic)
 		TORORUNTIME_API void RemoveDipRequest(const UObject* InRequester);
 
 private:
 
+	/** The default theme to play initially. */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic")
 		TObjectPtr<UMetaSoundSource> DefaultTheme;
 
+	/** Duration in seconds for fading between music tracks. */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic")
 		float TransitionTime;
 
 	/** 
 	 * If true, periodically scans the request list for stale/null pointers.
-	 * Recommended for systems where requesters might be destroyed without calling RemoveDipRequest.
+	 * Prevents music from being stuck in a dipped state if a requester is destroyed.
 	 */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic|Dipping")
 		bool bDipNullChecks;
 
+	/** The volume multiplier to apply when music is in a 'Dipped' state. */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic|Dipping", meta = (ClampMin = 0.1f))
 		float DippedVolume;
 
+	/** The low-pass filter frequency (Hz) to apply when dipped (simulates muffling). */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic|Dipping", meta = (ClampMin = 0.0f))
 		float DippedLowPassFilter;
 
-	// default params to apply when changing themes
+	/** Default boolean parameters to push to the MetaSound instance on theme change. */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic|Parameters", DisplayName = "Default Booleans")
 		TMap<FName, bool> DefaultBoolParams;
 
-	// default params to apply when changing themes
+	/** Default integer parameters to push to the MetaSound instance on theme change. */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic|Parameters", DisplayName = "Default Parameters Integers")
 		TMap<FName, int32> DefaultInt32Params;
 
-	// default params to apply when changing themes
+	/** Default float parameters to push to the MetaSound instance on theme change. */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic|Parameters", DisplayName = "Default Parameters Floats")
 		TMap<FName, float> DefaultFloatParams;
 
 #if WITH_EDITORONLY_DATA
+	/** Pull Boolean, Integer, and Float parameters from the current Default Theme. */
 	UPROPERTY(EditAnywhere, Category = "WorldMusic", AdvancedDisplay, DuplicateTransient, TextExportTransient)
 		bool bRefreshParameters = true;
 #endif

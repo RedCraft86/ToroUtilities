@@ -12,8 +12,8 @@ class ULightProbeManager;
 class UGlobalPostProcess;
 
 /**
- * Custom World Settings for the ToroUtilities framework. Manages global post-processing,
- * dynamic blendables (MIDs), light probe system, and global audio volume overrides.
+ * Custom World Settings actor for the ToroUtilities framework.
+ * Automatically spawns and manages the lifecycles of the Music, Post-Process, and Light Probe managers.
  */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType, meta = (RenameCategories = "PostProcessVolume=Post Processing"))
 class TORORUNTIME_API AToroWorldSettings : public AWorldSettings

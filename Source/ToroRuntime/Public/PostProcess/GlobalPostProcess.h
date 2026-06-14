@@ -8,10 +8,8 @@
 #include "GlobalPostProcess.generated.h"
 
 /**
- * Manager component responsible for global post-processing effects and 
- * User-Settings feature such as Lumen GI and Reflections usage.
- * 
- * This is only supposed to be attached to the UToroWorldSettings.
+ * A customized Post Process Component that stays active across the entire world (Unbound).
+ * Used to centralize global effects and provide a unified API for blendable materials.
  */
 UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)
 class UGlobalPostProcess final : public UPostProcessComponent
@@ -29,31 +27,32 @@ public:
 	}
 
 	/** 
-	 * Returns if Lumen Global Illumination is currently active.
-	 * See bAdvancedLumenCheck for details on how this check is performed.
+	 * Returns true if Lumen Global Illumination is effectively active in the renderer.
+	 * Considers scalability, project settings, and active volumes.
 	 */
 	UFUNCTION(BlueprintPure, Category = PostProcess)
 		TORORUNTIME_API bool IsUsingLumenGI() const { return bUsesLumenGI; }
 
 	/** 
-	 * Searches the current active blendable stack for a specific material.
-	 * @param InMaterial The material interface to search for.
-	 * @return The material if found in the stack (static or dynamic), otherwise nullptr.
+	 * Checks if a specific material (or an instance of it) is currently in the blendable stack.
+	 * @param InMaterial The material asset to search for.
+	 * @return The material found in the stack, or nullptr.
 	 */
 	UFUNCTION(BlueprintPure, Category = PostProcess)
 		TORORUNTIME_API UMaterialInterface* FindBlendable(const UMaterialInterface* InMaterial) const;
 
 	/** 
-	 * Ensures a material is present in the global post-process stack.
-	 * @param InMaterial The base material to add.
-	 * @param bDynamic If true, creates a Material Instance Dynamic (MID) for runtime parameter modification.
-	 * @return The resulting material interface (Asset or MID).
+	 * Ensures a material is in the post-process stack. If it doesn't exist, it is added.
+	 * If it already exists, its weight is set back to 1.
+	 * @param InMaterial The material asset to add.
+	 * @param bDynamic If true, ensures the stack contains a Material Instance Dynamic (MID).
+	 * @return The active Material Interface (Asset or MID).
 	 */
 	UFUNCTION(BlueprintCallable, Category = PostProcess)
 		TORORUNTIME_API UMaterialInterface* FindOrAddBlendable(UMaterialInterface* InMaterial, const bool bDynamic);
 
 	/** 
-	 * Removes a material from the post-process stack and tracking map.
+	 * Removes a specific material (or an instance of it) from the global blendable stack.
 	 * @param InMaterial The material to remove.
 	 */
 	UFUNCTION(BlueprintCallable, Category = PostProcess)
@@ -62,8 +61,8 @@ public:
 private:
 
 	/** 
-	 * If false, it will check compatibility, scalability settings, and global state to determine Lumen-GI usage.
-	 * If true, it will additionally go through every post-processing volume in the world to find the exact state. 
+	 * If true, the Lumen check will perform a deep scan of all volumes in the world.
+	 * If false, it relies on global engine state and component-level settings.
 	 */
 	UPROPERTY(EditAnywhere, Category = PostProcessVolume)
 		bool bAdvancedLumenCheck;
@@ -76,28 +75,14 @@ private:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 	virtual FPostProcessVolumeProperties GetProperties() const override;
 
-	// Replica of UPostProcessComponent as they were not exported there
+	// Overrides to maintain parity with UPostProcessComponent internal logic
 	virtual void OnRegister() override;
 	virtual void OnUnregister() override;
 	virtual void Serialize(FArchive& Ar) override;
 	virtual void PostInitProperties() override;
-	// ~Replica of UPostProcessComponent
 
-#if WITH_EDITOR
-	virtual bool CanEditChange(const FProperty* InProperty) const override
-	{
-		const bool bSuper = Super::CanEditChange(InProperty);
-		if (bSuper && InProperty)
-		{
-			return InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, Priority)
-				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, BlendRadius)
-				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, BlendWeight)
-				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bUnbound)
-				&& InProperty->GetFName() != GET_MEMBER_NAME_CHECKED(UGlobalPostProcess, bEnabled);
-		}
-		return bSuper;
-	}
 #if WITH_EDITOR	
+	/** Prevents manual editing of standard PP properties that are managed internally. */
 	virtual bool CanEditChange(const FProperty* InProperty) const override;
 #endif
 };

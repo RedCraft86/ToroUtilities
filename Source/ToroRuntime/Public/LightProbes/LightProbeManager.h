@@ -10,10 +10,8 @@
 #include "LightProbeManager.generated.h"
 
 /**
- * Manager component responsible for tracking light probe actors and updating 
- * global post-process material parameters for custom lighting effects.
- * 
- * This is only supposed to be attached to the UToroWorldSettings.
+ * Manages the collection and buffering of Post-Process based light probe actors in the scene.
+ * Syncs probe data to a Material Instance Dynamic for use in global lighting materials.
  */
 UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)
 class ULightProbeManager final : public UActorComponent
@@ -31,23 +29,23 @@ public:
 	}
 
 	/** 
-	 * Forces the manager to search for LightProbeActors and update the shader buffer immediately. 
-	 * Bypasses the standard UpdateInterval cooldown.
+	 * Forces an immediate scan and update of light probe data. 
+	 * Useful after level streaming or dynamic actor spawning.
 	 */
 	UFUNCTION(BlueprintCallable, Category = LightProbes)
 		TORORUNTIME_API void ForceRecollection() { UpdateInterval.ForceReady(); }
 
 private:
 
-	/** The material used for the lighting post-process pass. */
+	/** The master material used for the lighting pass that receives probe data. */
 	UPROPERTY(EditAnywhere, Category = LightProbes)
 		TObjectPtr<UMaterialInterface> PostProcessMaterial;
 
-	/** Maximum number of light probes supported by the shader buffer (Clamped 16-32). */
+	/** Maximum allowed light probes. Clamped to 16-32 to match shader buffer limits. */
 	UPROPERTY(EditAnywhere, Category = LightProbes, meta = (ClampMin = 16, UIMin = 16, ClampMax = 32, UIMax = 32))
 		uint8 MaxProbeCount;
 
-	/** Cooldown interval between light probe data refreshes to optimize performance. */
+	/** Refresh interval to avoid costly collection logic every frame. */
 	UPROPERTY(EditAnywhere, Category = LightProbes, meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		FSimpleCooldown UpdateInterval;
 
