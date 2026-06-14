@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "DataTypes/RequesterSet.h"
 #include "Components/ToroComponents.h"
 #include "LazyRenderComponent.generated.h"
 
@@ -21,31 +22,32 @@ public:
 	ULazyRenderComponent();
 
 	/** 
-	 * If true, periodically scans the request list for stale/null pointers.
-	 * Recommended for systems where requesters might be destroyed without calling RemoveRequest.
-	 */
-	UPROPERTY(EditAnywhere, Category = Settings)
-		bool bNullChecks;
-
-	/** 
-	 * Registers a requester. If this is the first requester, the Actor's rendering is enabled.
+	 * Registers a requester. If there are any requestors, the Actor's rendering is enabled.
 	 * @param InRequester The object requesting the render state.
 	 */
 	UFUNCTION(BlueprintCallable, Category = ReferenceCulling)
-		void AddRequest(const UObject* InRequester);
+		void AddRequest(const UObject* InRequester) { Requests.AddRequest(InRequester); }
 
 	/** 
 	 * Unregisters a requester. If no requesters remain, the Actor's rendering is disabled.
 	 * @param InRequester The object releasing its request.
 	 */
 	UFUNCTION(BlueprintCallable, Category = ReferenceCulling)
-		void RemoveRequest(const UObject* InRequester);
+		void RemoveRequest(const UObject* InRequester) { Requests.RemoveRequest(InRequester); }
 
 protected:
 
-	TSet<TWeakObjectPtr<const UObject>> Requests;
+	/** 
+	 * If true, periodically scans the request list for stale/null pointers.
+	 * Recommended for cases where requesters might be destroyed without calling RemoveRequest.
+	 */
+	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bNullChecks;
 
-	void UpdateRenderState();
+	FRequesterSet Requests;
+
+	void OnRequestChanged(const bool bState) const;
+
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 };

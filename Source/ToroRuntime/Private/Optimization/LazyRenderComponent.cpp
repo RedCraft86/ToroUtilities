@@ -4,56 +4,32 @@
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 
-ULazyRenderComponent::ULazyRenderComponent(): bNullChecks(false)
+ULazyRenderComponent::ULazyRenderComponent(): bNullChecks(true)
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.bStartWithTickEnabled = false;
 	PrimaryComponentTick.bTickEvenWhenPaused = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
 	PrimaryComponentTick.TickInterval = 1.0f;
 }
 
-void ULazyRenderComponent::AddRequest(const UObject* InRequester)
+void ULazyRenderComponent::OnRequestChanged(const bool bState) const
 {
-	if (InRequester && !Requests.Contains(InRequester))
-	{
-		Requests.Add(InRequester);
-		UpdateRenderState();
-	}
-}
-
-void ULazyRenderComponent::RemoveRequest(const UObject* InRequester)
-{
-	if (InRequester && Requests.Remove(InRequester) > 0)
-	{
-		UpdateRenderState();
-	}
-}
-
-void ULazyRenderComponent::UpdateRenderState()
-{
-	for (auto It = Requests.CreateIterator(); It; ++It)
-	{
-		if (!It->IsValid()) It.RemoveCurrent();
-	}
-
 	if (AActor* Owner = GetOwner())
 	{
-		Owner->SetActorHiddenInGame(Requests.IsEmpty());
+		Owner->SetActorHiddenInGame(!bState);
 	}
 }
 
 void ULazyRenderComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	Requests.OnRequestChanged.AddUObject(this, &ULazyRenderComponent::OnRequestChanged);
 	SetComponentTickEnabled(bNullChecks);
 }
 
 void ULazyRenderComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
-	if (bNullChecks)
-	{
-		UpdateRenderState();
-	}
+	Requests.CleanupNulls();
 }
