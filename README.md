@@ -1,5 +1,5 @@
 ﻿## ToroUtilities
-A collection of general utilities and classes for use across my games.
+A collection of general utilities and classes for use across my games.  
 "SP" indicates this is targeted for singleplayer games and not designed with replication in mind.
 
 ## Installation / Usage
