@@ -1,5 +1,7 @@
-// This file is under MIT unlike the rest of the project.
-// Rob is possible thanks to: http://bloglitb.blogspot.com/2011/12/access-to-private-members-safer.html
+// Copyright (C) 2026 RedCraft86. Licensed under the MIT License.
+// See <https://opensource.org/license/mit> for the full details of the MIT License.
+
+// Credits: Rob is possible thanks to: http://bloglitb.blogspot.com/2011/12/access-to-private-members-safer.html
 
 #pragma once
 

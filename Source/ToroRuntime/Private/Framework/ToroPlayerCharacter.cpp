@@ -1,4 +1,5 @@
-// Copyright (C) RedCraft86 2026. Licensed under LGPL-3.0 (See LICENSE file for details).
+// Copyright (C) 2026 RedCraft86. Licensed under the GNU Lesser General Public License v3.0 (LGPL-3.0).
+// See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "Framework/ToroPlayerCharacter.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
