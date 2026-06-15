@@ -1,5 +1,6 @@
 ﻿## ToroUtilities
 A collection of general utilities and classes for use across my games.
+"SP" indicates this is targeted for singleplayer games and not designed with replication in mind.
 
 ## Installation / Usage
 1) Switch to the branch you want to download. Main branch is always the latest version.
