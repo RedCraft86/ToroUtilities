@@ -1,4 +1,4 @@
-// Copyright (C) 2026 RedCraft86. Licensed under the MIT License.
+// Copyright (C) 2026 Tayzar Linn. Licensed under the MIT License.
 // See <https://opensource.org/license/mit> for the full details of the MIT License.
 
 // Credits: Rob is possible thanks to: http://bloglitb.blogspot.com/2011/12/access-to-private-members-safer.html
