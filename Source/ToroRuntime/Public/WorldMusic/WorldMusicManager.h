@@ -92,7 +92,7 @@ private:
 
 #if WITH_EDITORONLY_DATA
 	/** Pull Boolean, Integer, and Float parameters from the current Default Theme. */
-	UPROPERTY(EditAnywhere, Category = "WorldMusic", AdvancedDisplay, DuplicateTransient, TextExportTransient)
+	UPROPERTY(EditAnywhere, Category = "WorldMusic|Parameters", DuplicateTransient, TextExportTransient, meta = (DisplayPriority = -1))
 		bool bRefreshParameters = true;
 #endif
 
