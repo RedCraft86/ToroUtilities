@@ -5,9 +5,7 @@
 #include "Libraries/ToroOodleLibrary.h"
 #include "SaveGame/ToroSaveArchive.h"
 #include "Misc/FileHelper.h"
-#include "ToroGlobals.h"
-
-#if ALLOW_PACKAGED_FEATURES
+#if !WITH_EDITOR
 #include "Libraries/ToroWindowsLibrary.h"
 #endif
 
@@ -34,7 +32,7 @@ EToroSaveLoadStatus HandleError(const EToroSaveLoadStatus Status, const FName& S
 		default: StatusName = TEXT("Unknown Error"); break;
 	}
 
-#if ALLOW_PACKAGED_FEATURES
+#if !WITH_EDITOR
 	UToroWindowsLibrary::OpenDialogue(TEXT("Save File Error!"), 
 		FString::Printf(TEXT("Save: %s\nStatus: %s"), *SaveName, *StatusName), 
 		EWindowsDialogueType::Ok, EWindowsDialogueIcon::Error

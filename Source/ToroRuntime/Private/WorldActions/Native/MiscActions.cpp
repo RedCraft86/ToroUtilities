@@ -7,7 +7,6 @@
 #include "ToroRuntimeSubsystem.h"
 #include "LevelSequencePlayer.h"
 #include "Helpers/LatentInfo.h"
-#include "ToroGlobals.h"
 
 void UWorldAction_LevelStreaming::OnExecute_Implementation()
 {

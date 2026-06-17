@@ -2,7 +2,6 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "ToroRuntimeSubsystem.h"
-#include "ToroGlobals.h"
 #include "ToroRuntime.h"
 
 void UToroRuntimeSubsystem::AddGlobalMetadata(const FGameplayTag Key, const FInstancedStruct& Value)
