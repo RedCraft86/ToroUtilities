@@ -98,8 +98,8 @@ public:
 
 private:
 
-	/** The metadata key/tag to add/update (filtered to the 'Flag' category). */
-	UPROPERTY(EditAnywhere, Category = Action, meta = (Categories = "Flag"))
+	/** The metadata key/tag to add/update. */
+	UPROPERTY(EditAnywhere, Category = Action)
 		FGameplayTag Key;
 
 	/** 
@@ -129,8 +129,8 @@ public:
 
 private:
 
-	/** The event channel/tag to invoke (filtered to the 'Event' category). */
-	UPROPERTY(EditAnywhere, Category = Action, meta = (Categories = "Event"))
+	/** The event channel/tag to invoke. */
+	UPROPERTY(EditAnywhere, Category = Action)
 		FGameplayTag Key;
 
 	/** Optional actor that triggered the event. If unset, the action uses the current WorldContext. */

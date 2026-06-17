@@ -6,7 +6,7 @@
 
 void UToroRuntimeSubsystem::AddGlobalMetadata(const FGameplayTag Key, const FInstancedStruct& Value)
 {
-	if (ToroGameplayTags::Flag::IsValidTag(Key))
+	if (Key.IsValid())
 	{
 		Metadata.Add(Key, Value);
 	}
@@ -18,7 +18,7 @@ void UToroRuntimeSubsystem::AddGlobalMetadata(const FGameplayTag Key, const FIns
 
 void UToroRuntimeSubsystem::RemoveGlobalMetadata(const FGameplayTag Key)
 {
-	if (ToroGameplayTags::Flag::IsValidTag(Key))
+	if (Key.IsValid())
 	{
 		Metadata.Remove(Key);
 	}
@@ -30,7 +30,7 @@ void UToroRuntimeSubsystem::RemoveGlobalMetadata(const FGameplayTag Key)
 
 bool UToroRuntimeSubsystem::HasGlobalMetadata(const FGameplayTag Key) const
 {
-	return ToroGameplayTags::Flag::IsValidTag(Key) && Metadata.Contains(Key);
+	return Key.IsValid() && Metadata.Contains(Key);
 }
 
 const FInstancedStruct& UToroRuntimeSubsystem::GetGlobalMetadata(const FGameplayTag Key) const
@@ -80,11 +80,11 @@ void UToroRuntimeSubsystem::RemoveGlobalEvent(const FGameplayTag Key)
 
 FGlobalEventMultiDelegate* UToroRuntimeSubsystem::GetEventDelegate(const FGameplayTag& Key)
 {
-	if (ToroGameplayTags::Event::IsValidTag(Key))
+	if (Key.IsValid())
 	{
 		return &Events.FindOrAdd(Key);
 	}
 
-	UE_LOG(LogToroRuntime, Warning, TEXT("Failed to get event because id '%s' is invalid"), *Key.ToString());
+	UE_LOG(LogToroRuntime, Warning, TEXT("Failed to get event because key '%s' is invalid"), *Key.ToString());
 	return nullptr;
 }

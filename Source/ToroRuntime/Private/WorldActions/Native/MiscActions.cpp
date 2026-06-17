@@ -41,28 +41,22 @@ void UWorldAction_RemoteEvent::OnExecute_Implementation()
 
 void UWorldAction_GlobalMetadata::OnExecute_Implementation()
 {
-	if (ToroGameplayTags::Flag::IsValidTag(Key))
+	if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
 	{
-		if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
-		{
-			Subsystem->AddGlobalMetadata(Key, Value);
-		}
+		Subsystem->AddGlobalMetadata(Key, Value);
 	}
 }
 
 void UWorldAction_GlobalEvent::OnExecute_Implementation()
 {
-	if (ToroGameplayTags::Event::IsValidTag(Key))
+	AActor* InstigatorPtr = Instigator.Get();
+	if (!InstigatorPtr)
 	{
-		AActor* InstigatorPtr = Instigator.Get();
-		if (!InstigatorPtr)
-		{
-			InstigatorPtr = Cast<AActor>(WorldContext.Get());
-		}
+		InstigatorPtr = Cast<AActor>(WorldContext.Get());
+	}
 
-		if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
-		{
-			Subsystem->InvokeGlobalEvent(Key, Payload, InstigatorPtr);
-		}
+	if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
+	{
+		Subsystem->InvokeGlobalEvent(Key, Payload, InstigatorPtr);
 	}
 }
