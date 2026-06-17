@@ -31,7 +31,8 @@ public class ToroRuntime : ModuleRules
                 "CommonUI",
                 "ToroCommonUI",
                 "ToroCore",
-                "UE5Coro"
+                "UE5Coro",
+                "Flow"
             ]
         );
 

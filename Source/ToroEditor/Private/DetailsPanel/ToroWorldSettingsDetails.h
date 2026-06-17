@@ -16,6 +16,7 @@ class FToroWorldSettingsDetails final : public FToroClassCustomization
 			TEXT("PostProcessVolume"),
 			TEXT("LightProbes"),
 			TEXT("WorldMusic"),
+			TEXT("RootFlow"),
 			TEXT("GameMode"),
 			TEXT("World"),
 			TEXT("Physics"),
@@ -64,11 +65,34 @@ class FToroWorldSettingsDetails final : public FToroClassCustomization
 		};
 		for (const FName& PropertyName : HiddenPostProcessProperties)
 		{
-			TSharedPtr<IPropertyHandle> ChildProp = PostProcess->GetChildHandle(PropertyName);
+			const TSharedPtr<IPropertyHandle> ChildProp = PostProcess->GetChildHandle(PropertyName);
 			if (ChildProp.IsValid())
 			{
 				DetailBuilder.HideProperty(ChildProp);
 			}
+		}
+
+		GET_CLASS_PROPERTY_VAR_NS(GameFlow, GameFlow)
+
+		// Hide properties from flow component
+		static const TArray<FName> HiddenFlowProperties = {
+			TEXT("RootFlowMode"),
+			TEXT("bAllowMultipleInstances")
+		};
+		for (const FName& PropertyName : HiddenFlowProperties)
+		{
+			const TSharedPtr<IPropertyHandle> ChildProp = GameFlow->GetChildHandle(PropertyName);
+			if (ChildProp.IsValid())
+			{
+				DetailBuilder.HideProperty(ChildProp);
+			}
+		}
+
+		// Move Identity property to root flow
+		const TSharedPtr<IPropertyHandle> IDProp = GameFlow->GetChildHandle(TEXT("IdentityTags"));
+		if (IDProp.IsValid())
+		{
+			FindOrAddCategory(TEXT("RootFlow")).AddProperty(IDProp).IsEnabled(false);
 		}
 	}
 };

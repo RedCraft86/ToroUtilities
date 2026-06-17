@@ -5,9 +5,13 @@
 #include "WorldMusic/WorldMusicManager.h"
 #include "PostProcess/GlobalPostProcess.h"
 #include "LightProbes/LightProbeManager.h"
+#include "NativeGameplayTags.h"
 #include "Sound/AudioSettings.h"
 #include "Sound/SoundMix.h"
+#include "FlowComponent.h"
 #include "AudioDevice.h"
+
+UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_GameFlowIdentity, "Flow.Component.GameFlow")
 
 AToroWorldSettings::AToroWorldSettings()
 {
@@ -29,6 +33,10 @@ AToroWorldSettings::AToroWorldSettings()
 	PostProcess->SetupAttachment(SceneRoot);
 
 	LightProbes = CreateDefaultSubobject<ULightProbeManager>(TEXT("LightProbeManager"));
+
+	GameFlow = CreateDefaultSubobject<UFlowComponent>(TEXT("GameFlowManager"));
+	GameFlow->IdentityTags.AddTagFast(TAG_GameFlowIdentity.GetTag());
+	GameFlow->bAllowMultipleInstances = false;
 
 	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
 

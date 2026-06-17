@@ -11,10 +11,11 @@
 class UWorldMusicManager;
 class ULightProbeManager;
 class UGlobalPostProcess;
+class UFlowComponent;
 
 /**
  * Custom World Settings actor for the ToroUtilities framework.
- * Automatically spawns and manages the lifecycles of the Music, Post-Process, and Light Probe managers.
+ * Holds global Music, Post-Process, Light Probe, and Game Flow managers.
  */
 UCLASS(NotPlaceable, Blueprintable, BlueprintType, meta = (RenameCategories = "PostProcessVolume=Post Processing"))
 class TORORUNTIME_API AToroWorldSettings : public AWorldSettings
@@ -46,6 +47,7 @@ public:
 	UWorldMusicManager* GetWorldMusicManager() const { return WorldMusic; }
 	UGlobalPostProcess* GetGlobalPostProcess() const { return PostProcess; }
 	ULightProbeManager* GetLightProbeManager() const { return LightProbes; }
+	UFlowComponent* GetGameFlowManager() const { return GameFlow; }
 
 protected:
 
@@ -60,6 +62,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<ULightProbeManager> LightProbes;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UFlowComponent> GameFlow;
 
 #if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;
