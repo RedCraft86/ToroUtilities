@@ -17,6 +17,9 @@ public class ProjectLink : ModuleRules
                 "Slate",
                 "SlateCore",
                 "DeveloperSettings",
+                "PropertyEditor",
+                "JsonUtilities",
+                "Json",
                 "ToroEditor"
             ]
         );

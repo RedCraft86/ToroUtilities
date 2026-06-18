@@ -13,6 +13,7 @@ class FProjectLinkModule final : public IModuleInterface
 public:
 
     static inline const class UProjectLinkSettings* Settings = nullptr;
+    static FString PickFileOrDir(const FString& StartDir, const FString& Title, const FString& FileTypes);
 
 private:
 
@@ -26,7 +27,7 @@ public:
 
     FProjectLinkButton()
         : FToroToolbarButton(TEXT("ProjectLink"), INVTEXT("Project Link"), 
-            INVTEXT("Creates symlinks and copies specified configs to a target project"))
+            INVTEXT("Creates symlinks, copies specified base configs, and uproject plugins to a target project"))
     {
         MenuHook = TEXT("LevelEditor.LevelEditorToolBar.ModesToolBar");
         SectionName = TEXT("File");
@@ -41,6 +42,7 @@ private:
 
     virtual void Execute() override;
 
-    static void ProcessSymlinks(const FString& SrcPath, const FString& DestPath);
-    static void ProcessConfigs(const FString& SrcPath, const FString& DestPath);
+    static void ProcessSymlinks(const FString& SrcDir, const FString& DestDir);
+    static void ProcessConfigs(const FString& SrcDir, const FString& DestDir);
+    static void ProcessPlugins(const FString& SrcFile, const FString& DestFile);
 };
