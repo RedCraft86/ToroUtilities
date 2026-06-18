@@ -34,7 +34,7 @@ public:
 	 * @param Options        Optional URL-style parameters to pass to the level on reload (e.g., "?game=MyGameMode").
 	 */
 	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = ContextObject, AdvancedDisplay = "Options"))
-		static void ReloadLevel(const UObject* ContextObject, const FString& Options = TEXT(""));
+		static void ReloadLevel(const UObject* ContextObject, const FString& Options = FString());
 
 	/** 
 	 * Triggers a Remote Event defined in the Level Blueprint.
