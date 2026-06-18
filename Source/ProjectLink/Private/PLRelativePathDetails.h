@@ -9,7 +9,7 @@
 #include "ProjectLink.h"
 
 #define STRUCT_NAME FPLRelativePath
-class FRelativePathDetails final : public FToroStructCustomization
+class FPLRelativePathDetails final : public FToroStructCustomization
 {
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle, IDetailChildrenBuilder& StructBuilder,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override

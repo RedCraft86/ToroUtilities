@@ -10,7 +10,7 @@
 #include "Serialization/JsonSerializer.h"
 #include "HAL/PlatformFileManager.h"
 #include "DesktopPlatformModule.h"
-#include "RelativePathDetails.h"
+#include "PLRelativePathDetails.h"
 #include "JsonObjectWrapper.h"
 #include "IDesktopPlatform.h"
 #include "Misc/FileHelper.h"
@@ -70,7 +70,7 @@ void FProjectLinkModule::StartupModule()
 		FToolbarButtonRegistry::AddButton<FProjectLinkButton>();
 	}
 
-	FDetailsCustomizationRegistry::Register<FPLRelativePath, FRelativePathDetails>();
+	FDetailsCustomizationRegistry::Register<FPLRelativePath, FPLRelativePathDetails>();
 }
 
 void FProjectLinkButton::Execute()
