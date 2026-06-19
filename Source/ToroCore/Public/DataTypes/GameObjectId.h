@@ -70,6 +70,13 @@ struct TOROCORE_API FGameObjectId final
 		return Group != Other.Group || Guid != Other.Guid;
 	}
 
+	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FGameObjectId& InObjectID)
+	{
+		FStructuredArchive::FRecord Record = Slot.EnterRecord();
+		Record << SA_VALUE(TEXT("Group"), InObjectID.Group);
+		Record << SA_VALUE(TEXT("Guid"), InObjectID.Guid);
+	}
+
 	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FGameObjectId& InObjectID)
 	{
 		Ar << InObjectID.Group;
