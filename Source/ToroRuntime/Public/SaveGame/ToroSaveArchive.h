@@ -88,7 +88,7 @@ public:
 			FToroSaveGameProxyArchive ProxyArchive(*this);
 
 			ISavableObject::NotifyPreSave(Obj);
-			Obj->Serialize(ProxyArchive);
+			Obj->SerializeScriptProperties(ProxyArchive);
 			ISavableObject::NotifyPostSave(Obj);
 		}
 
@@ -159,7 +159,7 @@ public:
 				FToroSaveGameProxyArchive ProxyArchive(*this);
 
 				ISavableObject::NotifyPreLoad(Obj);
-				Obj->Serialize(ProxyArchive);
+				Obj->SerializeScriptProperties(ProxyArchive);
 				ISavableObject::NotifyPostLoad(Obj);
 			}
 			else
