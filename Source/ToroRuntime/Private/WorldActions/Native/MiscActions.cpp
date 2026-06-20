@@ -4,7 +4,6 @@
 #include "WorldActions/Native/MiscActions.h"
 #include "Libraries/ToroWorldLibrary.h"
 #include "Kismet/GameplayStatics.h"
-#include "ToroRuntimeSubsystem.h"
 #include "LevelSequencePlayer.h"
 #include "Helpers/LatentInfo.h"
 
@@ -37,26 +36,4 @@ void UWorldAction_LevelSequence::OnExecute_Implementation()
 void UWorldAction_RemoteEvent::OnExecute_Implementation()
 {
 	UToroWorldLibrary::CallRemoteEvent(this, EventName);
-}
-
-void UWorldAction_GlobalMetadata::OnExecute_Implementation()
-{
-	if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
-	{
-		Subsystem->AddGlobalMetadata(Key, Value);
-	}
-}
-
-void UWorldAction_GlobalEvent::OnExecute_Implementation()
-{
-	AActor* InstigatorPtr = Instigator.Get();
-	if (!InstigatorPtr)
-	{
-		InstigatorPtr = Cast<AActor>(WorldContext.Get());
-	}
-
-	if (UToroRuntimeSubsystem* Subsystem = UToroRuntimeSubsystem::Get(this))
-	{
-		Subsystem->InvokeGlobalEvent(Key, Payload, InstigatorPtr);
-	}
 }
