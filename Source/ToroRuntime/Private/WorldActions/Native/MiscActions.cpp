@@ -31,8 +31,24 @@ void UWorldAction_LevelSequence::OnExecute_Implementation()
 	const ALevelSequenceActor* ActorPtr = Sequence.LoadSynchronous();
 	if (ULevelSequencePlayer* SequencePlayer = ActorPtr ? ActorPtr->GetSequencePlayer() : nullptr)
 	{
-		SequencePlayer->RewindForReplay();
-		SequencePlayer->Play();
+		if (bReverse)
+		{
+			if (bRestart)
+			{
+				SequencePlayer->GoToEndAndStop();
+			}
+
+			SequencePlayer->Play();
+		}
+		else
+		{
+			if (bRestart)
+			{
+				SequencePlayer->RewindForReplay();
+			}
+
+			SequencePlayer->Play();
+		}
 	}
 }
 

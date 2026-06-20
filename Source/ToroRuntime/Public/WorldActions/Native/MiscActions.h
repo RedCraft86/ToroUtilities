@@ -39,7 +39,10 @@ private:
 	virtual void OnExecute_Implementation() override;
 };
 
-/** Triggers a Level Sequence (Cinematic) within the world. */
+/** 
+ * Triggers a Level Sequence (Cinematic) within the world. 
+ * Allows adjusting how the sequence is played out.
+ */
 UCLASS(NotBlueprintable, DisplayName = "[Misc] Level Sequence")
 class TORORUNTIME_API UWorldAction_LevelSequence final : public UWorldActionBase
 {
@@ -51,9 +54,23 @@ public:
 
 private:
 
-	/** The specific LevelSequenceActor in the world that should begin playing. */
+	/** 
+	 * The specific LevelSequenceActor in the world that should begin playing. 
+	 */
 	UPROPERTY(EditAnywhere, Category = Action)
 		TSoftObjectPtr<ALevelSequenceActor> Sequence;
+
+	/** 
+	 * The sequence will go reverse from its current playback position. 
+	 */
+	UPROPERTY(EditAnywhere, Category = Action)
+		bool bReverse;
+
+	/** 
+	 * The sequence will rewind back to the start (to the end if reversing) before playing. 
+	 */
+	UPROPERTY(EditAnywhere, Category = Action)
+		bool bRestart;
 
 	virtual void OnExecute_Implementation() override;
 };
