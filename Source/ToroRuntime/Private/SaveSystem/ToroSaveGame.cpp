@@ -70,6 +70,7 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 	TStrongObjectPtr<UToroSaveGame> KeepAlive(this);
 
 	CurrentOperation = EToroSaveOperation::Saving;
+	const FString FilePath(GetSavePath(Slot));
 
 	TArray<uint8> UncompressedData;
 	{
@@ -94,25 +95,28 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 		}
 	}
 
-	TArray<uint8> CompressedData;
-	if (!UToroOodleLibrary::OodleCompress(UncompressedData, CompressedData))
-	{
-		CurrentOperation = EToroSaveOperation::None;
-		co_return HandleError(EToroSaveLoadStatus::CompressFailed, SaveName);
-	}
-
 	co_await UE5Coro::Async::MoveToTask();
 
-	const bool bFileSaveResult = FFileHelper::SaveArrayToFile(CompressedData, *GetSavePath(Slot));
+	EToroSaveLoadStatus FileWriteResult = EToroSaveLoadStatus::Succeeded;
+
+	TArray<uint8> CompressedData;
+	if (UToroOodleLibrary::OodleCompress(UncompressedData, CompressedData))
+	{
+		if (!FFileHelper::SaveArrayToFile(MoveTemp(CompressedData), *FilePath))
+		{
+			FileWriteResult = EToroSaveLoadStatus::FileWriteFailed;
+		}
+	}
+	else
+	{
+		FileWriteResult = EToroSaveLoadStatus::CompressFailed;
+	}
 
 	co_await UE5Coro::Async::MoveToGameThread();
 
 	CurrentOperation = EToroSaveOperation::None;
-	co_return HandleError(bFileSaveResult 
-		? EToroSaveLoadStatus::Succeeded 
-		: EToroSaveLoadStatus::FileWriteFailed, 
-		SaveName
-	);
+	co_return HandleError(FileWriteResult, SaveName);
+}
 }
 
 UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8 Slot)
@@ -126,25 +130,32 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 	TStrongObjectPtr<UToroSaveGame> KeepAlive(this);
 
 	CurrentOperation = EToroSaveOperation::Loading;
+	const FString FilePath(GetSavePath(Slot));
 
 	co_await UE5Coro::Async::MoveToTask();
 
+	EToroSaveLoadStatus FileReadResult = EToroSaveLoadStatus::Succeeded;
+
 	TArray<uint8> CompressedData;
-	const bool bFileReadResult = FFileHelper::LoadFileToArray(CompressedData, *GetSavePath(Slot));
+	TArray<uint8> UncompressedData;
+	if (FFileHelper::LoadFileToArray(CompressedData, *FilePath))
+	{
+		if (!UToroOodleLibrary::OodleDecompress(CompressedData, UncompressedData))
+		{
+			FileReadResult = EToroSaveLoadStatus::DecompressFailed;
+		}
+	}
+	else
+	{
+		FileReadResult = EToroSaveLoadStatus::FileReadFailed;
+	}
 
 	co_await UE5Coro::Async::MoveToGameThread();
 
-	if (!bFileReadResult)
+	if (FileReadResult != EToroSaveLoadStatus::Succeeded)
 	{
 		CurrentOperation = EToroSaveOperation::None;
-		co_return HandleError(EToroSaveLoadStatus::FileReadFailed, SaveName);
-	}
-
-	TArray<uint8> UncompressedData;
-	if (!UToroOodleLibrary::OodleDecompress(CompressedData, UncompressedData))
-	{
-		CurrentOperation = EToroSaveOperation::None;
-		co_return HandleError(EToroSaveLoadStatus::DecompressFailed, SaveName);
+		co_return HandleError(FileReadResult, SaveName);
 	}
 
 	bool bSerializeError = false;
