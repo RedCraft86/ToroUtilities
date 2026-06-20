@@ -91,5 +91,5 @@ protected:
 	 * Core extension point for serialization in subclasses. Pure Virtual, must override.
 	 * @param Record The structured archive root record.
 	 */
-	virtual void SerializeData(FStructuredArchive::FRecord& Record) PURE_VIRTUAL(UToroSaveGame::SerializeData,)
+	virtual void SerializeData(FStructuredArchive::FRecord& Record);
 };

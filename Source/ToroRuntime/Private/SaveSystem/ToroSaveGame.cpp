@@ -103,11 +103,6 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 		FStructuredArchive Ar(Formatter);
 
 		FStructuredArchive::FRecord RootRecord = Ar.Open().EnterRecord();
-		if (bSerializeSelf)
-		{
-			SerializeScriptProperties(RootRecord.EnterField(*SaveName.ToString()));
-		}
-
 		SerializeData(RootRecord);
 		Ar.Close();
 
@@ -187,11 +182,6 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 		FStructuredArchive Ar(Formatter);
 
 		FStructuredArchive::FRecord RootRecord = Ar.Open().EnterRecord();
-		if (bSerializeSelf)
-		{
-			SerializeScriptProperties(RootRecord.EnterField(*SaveName.ToString()));
-		}
-
 		SerializeData(RootRecord);
 		Ar.Close();
 
@@ -212,4 +202,12 @@ UWorld* UToroSaveGame::GetWorld() const
 #else
 	return FWorldGetter::Get(this);
 #endif
+}
+
+void UToroSaveGame::SerializeData(FStructuredArchive::FRecord& Record)
+{
+	if (bSerializeSelf)
+	{
+		SerializeScriptProperties(Record.EnterField(*SaveName.ToString()));
+	}
 }
