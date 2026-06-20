@@ -41,9 +41,6 @@ class TORORUNTIME_API UToroSaveGame : public UObject
 
 	friend struct FScopedSaveOperation;
 
-	/** Name of This Object if bSerializeSelf is enabled. */
-	static inline const FArchiveFieldName SelfFieldName = TEXT("Metadata");
-
 public:
 
 	UToroSaveGame()
