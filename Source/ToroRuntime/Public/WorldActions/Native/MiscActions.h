@@ -110,9 +110,7 @@ class TORORUNTIME_API UWorldAction_AsyncMessage final : public UWorldActionBase
 
 public:
 
-	UWorldAction_AsyncMessage()
-		: MessageId(NAME_None) 
-	{}
+	UWorldAction_AsyncMessage() {}
 
 private:
 
