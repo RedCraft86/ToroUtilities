@@ -35,10 +35,11 @@ enum class EToroSaveLoadStatus : uint8
  * Uses Oodle Compression and asynchronous file IO for large data.
  */
 UCLASS(Abstract, NotBlueprintable, BlueprintType)
-class TORORUNTIME_API UToroSaveGame : public USaveGame
+class TORORUNTIME_API UToroSaveGame : public UObject
 {
 	GENERATED_BODY()
 
+	/** Name of This Object if bSerializeSelf is enabled. */
 	static inline const FArchiveFieldName SelfFieldName = TEXT("Metadata");
 
 public:
