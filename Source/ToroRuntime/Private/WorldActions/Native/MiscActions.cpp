@@ -3,8 +3,11 @@
 
 #include "WorldActions/Native/MiscActions.h"
 #include "Libraries/ToroWorldLibrary.h"
+#include "AsyncGameplayMessageSystem.h"
+#include "AsyncMessageWorldSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "LevelSequencePlayer.h"
+#include "Helpers/WorldGetter.h"
 #include "Helpers/LatentInfo.h"
 
 void UWorldAction_LevelStreaming::OnExecute_Implementation()
@@ -36,4 +39,17 @@ void UWorldAction_LevelSequence::OnExecute_Implementation()
 void UWorldAction_RemoteEvent::OnExecute_Implementation()
 {
 	UToroWorldLibrary::CallRemoteEvent(this, EventName);
+}
+
+void UWorldAction_AsyncMessage::OnExecute_Implementation()
+{
+	if (MessageId.IsValid())
+	{
+		const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem::
+			GetSharedMessageSystem<FAsyncGameplayMessageSystem>(FWorldGetter::Get(WorldContext.Get()));
+		if (System.IsValid())
+		{
+			System->QueueMessageForBroadcast(MessageId, Payload);
+		}
+	}
 }

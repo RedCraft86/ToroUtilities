@@ -26,6 +26,7 @@ public class ToroRuntime : ModuleRules
                 "AudioExtensions",
                 "DeveloperSettings",
                 "ProceduralMeshComponent",
+                "AsyncMessageSystem",
                 "MetasoundFrontend",
                 "MetasoundEngine",
                 "CommonUI",

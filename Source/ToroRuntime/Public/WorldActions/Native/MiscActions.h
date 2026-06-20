@@ -3,8 +3,8 @@
 
 #pragma once
 
+#include "AsyncMessageId.h"
 #include "LevelSequenceActor.h"
-#include "GameplayTagContainer.h"
 #include "StructUtils/InstancedStruct.h"
 #include "WorldActions/WorldActionBase.h"
 #include "MiscActions.generated.h"
@@ -78,6 +78,39 @@ private:
 	/** The case-sensitive name of the Custom Event to trigger in the Level Blueprint. */
 	UPROPERTY(EditAnywhere, Category = Action)
 		FName EventName;
+
+	virtual void OnExecute_Implementation() override;
+};
+
+/** 
+ * Broadcasts a message via the AsyncMessageSystem to all bound listeners.
+ * Used for triggering events like UI updates, achievement unlocks, or world state changes.
+ */
+UCLASS(NotBlueprintable, DisplayName = "[Misc] Async Message")
+class TORORUNTIME_API UWorldAction_AsyncMessage final : public UWorldActionBase
+{
+	GENERATED_BODY()
+
+public:
+
+	UWorldAction_AsyncMessage()
+		: MessageId(NAME_None) 
+	{}
+
+private:
+
+	/** 
+	 * The unique identifier/channel for this message. 
+	 */
+	UPROPERTY(EditAnywhere, Category = Action)
+		FAsyncMessageId MessageId;
+
+	/** 
+	 * Flexible data payload. 
+	 * In the Editor, you can select any USTRUCT type to send with this message.
+	 */
+	UPROPERTY(EditAnywhere, Category = Action)
+		FInstancedStruct Payload;
 
 	virtual void OnExecute_Implementation() override;
 };
