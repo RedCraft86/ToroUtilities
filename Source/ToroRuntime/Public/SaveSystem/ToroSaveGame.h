@@ -39,6 +39,8 @@ class TORORUNTIME_API UToroSaveGame : public UObject
 {
 	GENERATED_BODY()
 
+	friend struct FScopedSaveOperation;
+
 	/** Name of This Object if bSerializeSelf is enabled. */
 	static inline const FArchiveFieldName SelfFieldName = TEXT("Metadata");
 
@@ -92,5 +94,5 @@ protected:
 	 * Core extension point for serialization in subclasses. Pure Virtual, must override.
 	 * @param Record The structured archive root record.
 	 */
-	virtual void SerializeData(FStructuredArchive::FRecord& Record) PURE_VIRTUAL(UToroSaveGame::SerializeData,);
+	virtual void SerializeData(FStructuredArchive::FRecord& Record) PURE_VIRTUAL(UToroSaveGame::SerializeData,)
 };

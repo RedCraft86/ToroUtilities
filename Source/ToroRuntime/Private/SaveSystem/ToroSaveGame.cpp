@@ -16,6 +16,27 @@
 #include "Libraries/ToroWindowsLibrary.h"
 #endif
 
+/** 
+ * Simple struct to pin the object (prevent GC) and mark operation status
+ * Automatically unpinned and unmarked once out of scope
+ */
+struct FScopedSaveOperation
+{
+	TStrongObjectPtr<UToroSaveGame> SaveObject;
+
+	FScopedSaveOperation(UToroSaveGame* InObject, const EToroSaveOperation Operation)
+		: SaveObject(InObject)
+	{
+		InObject->CurrentOperation = Operation;
+	}
+
+	~FScopedSaveOperation()
+	{
+		SaveObject->CurrentOperation = EToroSaveOperation::None;
+		SaveObject.Reset();
+	}
+};
+
 EToroSaveLoadStatus HandleError(const EToroSaveLoadStatus Status, const FName& SaveName)
 {
 	if (SaveName.IsNone())
@@ -71,10 +92,7 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 		co_return EToroSaveLoadStatus::Waiting;
 	}
 
-	// Pin this object for the duration of the operation
-	TStrongObjectPtr<UToroSaveGame> KeepAlive(this);
-
-	CurrentOperation = EToroSaveOperation::Saving;
+	FScopedSaveOperation SaveOperation(this, EToroSaveOperation::Saving);
 	const FString FilePath(GetSavePath(Slot));
 
 	TArray<uint8> UncompressedData;
@@ -95,7 +113,6 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 
 		if (ProxyAr.IsError() || Writer.IsError())
 		{
-			CurrentOperation = EToroSaveOperation::None;
 			co_return HandleError(EToroSaveLoadStatus::SerializeFailed, SaveName);
 		}
 	}
@@ -119,7 +136,6 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 
 	co_await UE5Coro::Async::MoveToGameThread();
 
-	CurrentOperation = EToroSaveOperation::None;
 	co_return HandleError(FileWriteResult, SaveName);
 }
 
@@ -135,10 +151,7 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 		co_return EToroSaveLoadStatus::Waiting;
 	}
 
-	// Pin this object for the duration of the operation
-	TStrongObjectPtr<UToroSaveGame> KeepAlive(this);
-
-	CurrentOperation = EToroSaveOperation::Loading;
+	FScopedSaveOperation SaveOperation(this, EToroSaveOperation::Loading);
 	const FString FilePath(GetSavePath(Slot));
 
 	co_await UE5Coro::Async::MoveToTask();
@@ -163,7 +176,6 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 
 	if (FileReadResult != EToroSaveLoadStatus::Succeeded)
 	{
-		CurrentOperation = EToroSaveOperation::None;
 		co_return HandleError(FileReadResult, SaveName);
 	}
 
@@ -186,7 +198,6 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 		bSerializeError = ProxyAr.IsError() || Reader.IsError();
 	}
 
-	CurrentOperation = EToroSaveOperation::None;
 	co_return HandleError(bSerializeError
 		? EToroSaveLoadStatus::SerializeFailed 
 		: EToroSaveLoadStatus::Succeeded, 
