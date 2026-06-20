@@ -3,7 +3,7 @@
 
 #include "SaveSystem/ToroSaveManager.h"
 
-UToroSaveGame* UToroSaveManager::GetSaveObject(const TSubclassOf<UToroSaveGame> Class)
+UToroSaveGame* UToroSaveManager::GetOrCreateSaveObject(const TSubclassOf<UToroSaveGame> Class)
 {
 	if (!Class)
 	{

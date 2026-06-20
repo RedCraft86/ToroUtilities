@@ -35,18 +35,18 @@ public:
 	 * @return The cached or newly created save object instance or null if Class is null.
 	 */
 	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (DetermineOutputType = Class))
-		UToroSaveGame* GetSaveObject(UPARAM(meta = (AllowAbstract = false)) const TSubclassOf<UToroSaveGame> Class);
+		UToroSaveGame* GetOrCreateSaveObject(UPARAM(meta=(AllowAbstract=false)) const TSubclassOf<UToroSaveGame> Class);
 
 	/**
-	 * Get or create a save object instance if no instance exist.
+	 * Get an existing save object instance or create a new instance if none exist.
 	 * @tparam T The class type, which must derive from UToroSaveGame.
 	 * @return The instance of T, or nullptr if the system fails to create/find the object.
 	 */
 	template<typename T>
-	T* GetSaveObject()
+	T* GetOrCreateSaveObject()
 	{
 		static_assert(TIsDerivedFrom<T, UToroSaveGame>::Value, TEXT("T must derive from UToroSaveGame"));
-		return Cast<T>(GetSaveObject(T::StaticClass()));
+		return Cast<T>(GetOrCreateSaveObject(T::StaticClass()));
 	}
 
 private:
