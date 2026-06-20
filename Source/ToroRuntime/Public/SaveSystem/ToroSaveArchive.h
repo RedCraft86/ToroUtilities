@@ -14,7 +14,6 @@
  * - Automatically filters for properties marked with the 'SaveGame' UPROPERTY flag.
  * - Disables Delta Serialization (ArNoDelta = true) to ensure full property snapshots.
  * - Intercepts UObject pointers and serializes them as string-based FSoftObjectPaths.
- * - Handles automatic loading/resolving of SoftObjectPaths during deserialization.
  */
 template<bool bIsLoading>
 struct TORORUNTIME_API FToroSaveGameProxyArchive : FObjectAndNameAsStringProxyArchive
