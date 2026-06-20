@@ -26,6 +26,7 @@ public class ToroEditor : ModuleRules
                 "ContentBrowserData",
                 "AssetDefinition",
                 "DeveloperSettings",
+                "AsyncMessageSystem",
                 "EditorSubsystem",
                 "ToroRuntime",
                 "ToroCore"

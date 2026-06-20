@@ -14,6 +14,7 @@
 #include "ComponentVis/FEdShapeVisualizer.h"
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 
+#include "DetailsPanel/AsyncMessageIdDetails.h"
 #include "DetailsPanel/GameObjectIdDetails.h"
 #include "DetailsPanel/PrimitiveCollisionDetails.h"
 #include "DetailsPanel/SimpleCooldownDetails.h"
@@ -47,6 +48,8 @@ void FToroEditorModule::StartupModule()
     FToolbarButtonRegistry::Register();
 
 	FComponentVisualizerRegistry::Register<UEdShapeComponent, FEdShapeVisualizer>();
+
+	FDetailsCustomizationRegistry::Register<FAsyncMessageId, FAsyncMessageIdDetails>();
 
 	FDetailsCustomizationRegistry::Register<FGameObjectId, FGameObjectIdDetails>();
 	FDetailsCustomizationRegistry::Register<FPrimitiveCollision, FPrimitiveCollisionDetails>();
