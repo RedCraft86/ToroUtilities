@@ -24,6 +24,9 @@ public:
 	template<typename T = AToroPlayerHUD>
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
+		static_assert(TIsDerivedFrom<T, AToroPlayerHUD>::Value, 
+			TEXT("T must derive from AToroPlayerHUD"));
+
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		const APlayerController* PC = IsValid(World) ? World->GetFirstPlayerController() : nullptr;
 		return IsValid(PC) ? PC->GetHUD<T>() : nullptr;

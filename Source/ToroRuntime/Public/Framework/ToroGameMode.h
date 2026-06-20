@@ -22,6 +22,9 @@ public:
 	template<typename T = AToroGameMode>
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
+		static_assert(TIsDerivedFrom<T, AToroGameMode>::Value, 
+			TEXT("T must derive from AToroGameMode"));
+
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? World->GetAuthGameMode<T>() : nullptr;
 	}

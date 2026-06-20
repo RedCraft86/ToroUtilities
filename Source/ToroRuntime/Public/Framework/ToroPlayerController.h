@@ -23,6 +23,9 @@ public:
 	template<typename T = AToroPlayerController>
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
+		static_assert(TIsDerivedFrom<T, AToroPlayerController>::Value, 
+			TEXT("T must derive from AToroPlayerController"));
+
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? World->GetFirstPlayerController<T>() : nullptr;
 	}

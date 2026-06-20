@@ -45,7 +45,9 @@ public:
 	template<typename T>
 	T* GetOrCreateSaveObject()
 	{
-		static_assert(TIsDerivedFrom<T, UToroSaveGame>::Value, TEXT("T must derive from UToroSaveGame"));
+		static_assert(TIsDerivedFrom<T, UToroSaveGame>::Value, 
+			TEXT("T must derive from UToroSaveGame"));
+
 		return Cast<T>(GetOrCreateSaveObject(T::StaticClass()));
 	}
 

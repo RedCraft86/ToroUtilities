@@ -32,6 +32,9 @@ public:
 	template<typename T = AToroWorldSettings>
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
+		static_assert(TIsDerivedFrom<T, AToroWorldSettings>::Value, 
+			TEXT("T must derive from AToroWorldSettings"));
+
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? Cast<T>(World->GetWorldSettings()) : nullptr;
 	}

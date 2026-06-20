@@ -24,6 +24,9 @@ public:
 	template<typename T = UToroGameInstance>
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
+		static_assert(TIsDerivedFrom<T, UToroGameInstance>::Value, 
+			TEXT("T must derive from UToroGameInstance"));
+
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? World->GetGameInstance<T>() : nullptr;
 	}
