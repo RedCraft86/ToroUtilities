@@ -23,7 +23,9 @@ class FInlineCurveDetails final : public FToroStructCustomization
 			}
 		}
 
-		StructBuilder.AddProperty(Curve.ToSharedRef()).DisplayName(StructHandle->GetPropertyDisplayName());
+		StructBuilder.AddProperty(Curve.ToSharedRef())
+			.DisplayName(StructHandle->GetPropertyDisplayName())
+			.ToolTip(StructHandle->GetToolTipText());
 	}
 };
 #undef STRUCT_NAME

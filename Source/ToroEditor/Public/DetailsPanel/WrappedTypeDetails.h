@@ -23,7 +23,9 @@ class FWrappedTypeDetails final : public FToroStructCustomization
 			}
 		}
 
-		StructBuilder.AddProperty(Value.ToSharedRef()).DisplayName(StructHandle->GetPropertyDisplayName());
+		StructBuilder.AddProperty(Value.ToSharedRef())
+			.DisplayName(StructHandle->GetPropertyDisplayName())
+			.ToolTip(StructHandle->GetToolTipText());
 	}
 };
 #undef STRUCT_NAME
