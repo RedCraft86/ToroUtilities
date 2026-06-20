@@ -52,18 +52,23 @@ public:
 	virtual FString GetSavePath(const uint8 Slot) const;
 
 	/** 
-	 * Serializes data, compresses it with Oodle, and asynchronously writes to disk.
+	 * Serializes data, then asynchronously compresses it with Oodle and writes to disk.
 	 * @note Uses TStrongObjectPtr internally to prevent GC during the async task.
-	 * @param Slot If >0, save path will be "/SaveGames/Slot_0X/SaveName.sar"
-	 * @return A coroutine resolving to the final operation status.
+	 * @param Slot If >0, save path will be "/SaveGames/Slot_XX/SaveName.sar"
+	 * @param OutStatus The result status of the save operation, whether it succeeded or errored
 	 */
+	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (Latent, LatentInfo = LatentInfo))
+		FVoidCoroutine SaveObject(FLatentActionInfo LatentInfo, EToroSaveLoadStatus& OutStatus, const uint8 Slot);
 	virtual UE5Coro::TCoroutine<EToroSaveLoadStatus> SaveToFile(const uint8 Slot);
 
 	/** 
-	 * Asynchronously reads a file from disk, decompresses it, and serializes the data.
-	 * @param Slot If >0, save path will be "/SaveGames/Slot_0X/SaveName.sar"
-	 * @return A coroutine resolving to the final operation status.
+	 * Asynchronously reads a file from disk and decompresses it, then serializes the data.
+	 * @note Uses TStrongObjectPtr internally to prevent GC during the async task.
+	 * @param Slot If >0, save path will be "/SaveGames/Slot_XX/SaveName.sar"
+	 * @param OutStatus The result status of the save operation, whether it succeeded or errored
 	 */
+	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (Latent, LatentInfo = LatentInfo))
+		FVoidCoroutine LoadObject(FLatentActionInfo LatentInfo, EToroSaveLoadStatus& OutStatus, const uint8 Slot);
 	virtual UE5Coro::TCoroutine<EToroSaveLoadStatus> LoadFromFile(const uint8 Slot);
 
 	virtual UWorld* GetWorld() const override;

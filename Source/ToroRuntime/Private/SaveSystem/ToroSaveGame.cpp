@@ -59,6 +59,11 @@ FString UToroSaveGame::GetSavePath(const uint8 Slot) const
 	return FPaths::ProjectSavedDir() / SlotPath / SaveName.ToString() + TEXT(".sar");
 }
 
+FVoidCoroutine UToroSaveGame::SaveObject(FLatentActionInfo LatentInfo, EToroSaveLoadStatus& OutStatus, const uint8 Slot)
+{
+	OutStatus = co_await SaveToFile(Slot);
+}
+
 UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 Slot)
 {
 	if (CurrentOperation != EToroSaveOperation::None)
@@ -117,6 +122,10 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 	CurrentOperation = EToroSaveOperation::None;
 	co_return HandleError(FileWriteResult, SaveName);
 }
+
+FVoidCoroutine UToroSaveGame::LoadObject(FLatentActionInfo LatentInfo, EToroSaveLoadStatus& OutStatus, const uint8 Slot)
+{
+	OutStatus = co_await LoadFromFile(Slot);
 }
 
 UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8 Slot)
