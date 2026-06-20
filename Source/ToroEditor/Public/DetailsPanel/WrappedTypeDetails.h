@@ -15,11 +15,14 @@ class FWrappedTypeDetails final : public FToroStructCustomization
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
 		GET_STRUCT_PROPERTY_VAR_NS(Value, Value);
-		if (const TMap<FName, FString>* Metadata = StructHandle->GetInstanceMetaDataMap())
-		{
-			for (const TPair<FName, FString>& Pair : *Metadata)
+		if (const FProperty* StructProperty = StructHandle->GetProperty())
+		{ 
+			if (const TMap<FName, FString>* MetadataMap = StructProperty->GetMetaDataMap())
 			{
-				Value->SetInstanceMetaData(Pair.Key, Pair.Value);
+				for (const TPair<FName, FString>& Metadata : *MetadataMap)
+				{
+					Value->SetInstanceMetaData(Metadata.Key, Metadata.Value);
+				}
 			}
 		}
 

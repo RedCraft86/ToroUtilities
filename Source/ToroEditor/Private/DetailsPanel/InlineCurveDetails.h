@@ -15,11 +15,14 @@ class FInlineCurveDetails final : public FToroStructCustomization
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
 		GET_STRUCT_PROPERTY_VAR_NS(Curve, Curve);
-		if (const TMap<FName, FString>* Metadata = StructHandle->GetInstanceMetaDataMap())
-		{
-			for (const TPair<FName, FString>& Pair : *Metadata)
+		if (const FProperty* StructProperty = StructHandle->GetProperty())
+		{ 
+			if (const TMap<FName, FString>* MetadataMap = StructProperty->GetMetaDataMap())
 			{
-				Curve->SetInstanceMetaData(Pair.Key, Pair.Value);
+				for (const TPair<FName, FString>& Metadata : *MetadataMap)
+				{
+					Curve->SetInstanceMetaData(Metadata.Key, Metadata.Value);
+				}
 			}
 		}
 

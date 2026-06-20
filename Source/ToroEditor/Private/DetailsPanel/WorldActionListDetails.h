@@ -15,11 +15,14 @@ class FWorldActionListDetails final : public FToroStructCustomization
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
 		GET_STRUCT_PROPERTY_VAR_NS(Actions, Actions);
-		if (const TMap<FName, FString>* Metadata = StructHandle->GetInstanceMetaDataMap())
-		{
-			for (const TPair<FName, FString>& Pair : *Metadata)
+		if (const FProperty* StructProperty = StructHandle->GetProperty())
+		{ 
+			if (const TMap<FName, FString>* MetadataMap = StructProperty->GetMetaDataMap())
 			{
-				Actions->SetInstanceMetaData(Pair.Key, Pair.Value);
+				for (const TPair<FName, FString>& Metadata : *MetadataMap)
+				{
+					Actions->SetInstanceMetaData(Metadata.Key, Metadata.Value);
+				}
 			}
 		}
 

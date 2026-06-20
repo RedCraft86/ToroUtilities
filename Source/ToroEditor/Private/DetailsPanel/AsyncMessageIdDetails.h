@@ -16,11 +16,20 @@ class FAsyncMessageIdDetails final : public FToroStructCustomization
 	{
 		const TSharedPtr<IPropertyHandle> Property = StructHandle->GetChildHandle(TEXT("InternalMessageTag"));
 		Property->MarkHiddenByCustomization();
-		if (Property.IsValid())
-		{
-			StructBuilder.AddProperty(Property.ToSharedRef())
-				.DisplayName(StructHandle->GetPropertyDisplayName())
-				.ToolTip(StructHandle->GetToolTipText());
+
+		if (const FProperty* StructProperty = StructHandle->GetProperty())
+		{ 
+			if (const TMap<FName, FString>* MetadataMap = StructProperty->GetMetaDataMap())
+			{
+				for (const TPair<FName, FString>& Metadata : *MetadataMap)
+				{
+					Property->SetInstanceMetaData(Metadata.Key, Metadata.Value);
+				}
+			}
 		}
+
+		StructBuilder.AddProperty(Property.ToSharedRef())
+			.DisplayName(StructHandle->GetPropertyDisplayName())
+			.ToolTip(StructHandle->GetToolTipText());
 	}
 };
