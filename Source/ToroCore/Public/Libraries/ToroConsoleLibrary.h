@@ -90,8 +90,8 @@ public:
 	[[nodiscard]] static IConsoleVariable* FindCVar(const FString& InName);
 
 	/** The minimum priority flag used when setting CVar values. */
-	static inline EConsoleVariableFlags MinPriority = ECVF_SetByScalability;
+	static constexpr EConsoleVariableFlags MinPriority = ECVF_SetByScalability;
 
 	/** The maximum priority flag used when setting CVar values. */
-	static inline EConsoleVariableFlags MaxPriority = ECVF_SetByConsole;
+	static constexpr EConsoleVariableFlags MaxPriority = ECVF_SetByConsole;
 };
