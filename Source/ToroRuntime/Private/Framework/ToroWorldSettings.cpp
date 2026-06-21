@@ -37,6 +37,7 @@ AToroWorldSettings::AToroWorldSettings()
 	GameFlow = CreateDefaultSubobject<UFlowComponent>(TEXT("GameFlowManager"));
 	GameFlow->IdentityTags.AddTagFast(TAG_GameFlowIdentity.GetTag());
 	GameFlow->bAllowMultipleInstances = false;
+	GameFlow->bAutoStartRootFlow = false;
 
 	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
 
