@@ -24,7 +24,7 @@ public:
 	UWorldMusicManager();
 
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject, DisplayName = "Get World Music Manager"))
-	TORORUNTIME_API [[nodiscard]] static UWorldMusicManager* Get(const UObject* ContextObject)
+	static TORORUNTIME_API UWorldMusicManager* Get(const UObject* ContextObject)
 	{
 		const AToroWorldSettings* WS = AToroWorldSettings::Get(ContextObject);
 		return IsValid(WS) ? WS->GetWorldMusicManager() : nullptr;

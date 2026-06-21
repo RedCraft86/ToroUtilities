@@ -22,7 +22,7 @@ public:
 	UGlobalPostProcess();
 
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject, DisplayName = "Get Global Post Process"))
-	TORORUNTIME_API [[nodiscard]] static UGlobalPostProcess* Get(const UObject* ContextObject)
+	static TORORUNTIME_API UGlobalPostProcess* Get(const UObject* ContextObject)
 	{
 		const AToroWorldSettings* WS = AToroWorldSettings::Get(ContextObject);
 		return IsValid(WS) ? WS->GetGlobalPostProcess() : nullptr;

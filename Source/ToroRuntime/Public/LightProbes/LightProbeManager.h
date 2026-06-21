@@ -24,7 +24,7 @@ public:
 	ULightProbeManager();
 
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject, DisplayName = "Get Light Probe Manager"))
-	TORORUNTIME_API [[nodiscard]] static ULightProbeManager* Get(const UObject* ContextObject)
+	static TORORUNTIME_API ULightProbeManager* Get(const UObject* ContextObject)
 	{
 		const AToroWorldSettings* WS = AToroWorldSettings::Get(ContextObject);
 		return IsValid(WS) ? WS->GetLightProbeManager() : nullptr;
