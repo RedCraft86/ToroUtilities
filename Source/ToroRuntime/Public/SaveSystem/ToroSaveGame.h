@@ -31,8 +31,9 @@ enum class EToroSaveLoadStatus : uint8
 
 /**
  * Abstract base class for the ToroUtilities Save System.
- * Subclasses should implement SerializeData to define what gets saved.
- * Uses Oodle Compression and asynchronous file IO for large data.
+ * Override SerializeData to define what gets saved; Otherwise, serializes SaveGame properties in itself.
+ * Use Pre/Post SerializeData events in Blueprints where SerializeData cannot be overridden.
+ * @note Uses Oodle Compression and asynchronous file IO for large data.
  */
 UCLASS(Abstract, NotBlueprintable, BlueprintType)
 class TORORUNTIME_API UToroSaveGame : public UObject
@@ -70,6 +71,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine LoadObject(FLatentActionInfo LatentInfo, EToroSaveLoadStatus& OutStatus, const uint8 Slot);
 	virtual UE5Coro::TCoroutine<EToroSaveLoadStatus> LoadFromFile(const uint8 Slot);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void PreSerializeData(const bool bIsLoading);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void PostSerializeData(const bool bIsLoading);
 
 	virtual UWorld* GetWorld() const override;
 

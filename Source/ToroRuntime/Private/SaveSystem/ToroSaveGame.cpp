@@ -103,7 +103,11 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 		FStructuredArchive Ar(Formatter);
 
 		FStructuredArchive::FRecord RootRecord = Ar.Open().EnterRecord();
+
+		PreSerializeData(false);
 		SerializeData(RootRecord);
+		PostSerializeData(false);
+
 		Ar.Close();
 
 		if (ProxyAr.IsError() || Writer.IsError())
@@ -182,7 +186,11 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 		FStructuredArchive Ar(Formatter);
 
 		FStructuredArchive::FRecord RootRecord = Ar.Open().EnterRecord();
+
+		PreSerializeData(true);
 		SerializeData(RootRecord);
+		PostSerializeData(true);
+
 		Ar.Close();
 
 		bSerializeError = ProxyAr.IsError() || Reader.IsError();
