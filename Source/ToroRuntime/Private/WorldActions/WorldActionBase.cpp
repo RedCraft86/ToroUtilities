@@ -58,3 +58,18 @@ UWorld* UWorldActionBase::GetWorld() const
 	return FWorldGetter::Get(WorldContext.Get());
 #endif
 }
+
+void UTickableWorldActionBase::BeginDestroy()
+{
+	SetTickableTickType(ETickableTickType::Never);
+	Super::BeginDestroy();
+}
+
+void UTickableWorldActionBase::PostInitProperties()
+{
+	Super::PostInitProperties();
+	if (!IsTemplate())
+	{
+		SetTickableTickType(ETickableTickType::Conditional);
+	}
+}

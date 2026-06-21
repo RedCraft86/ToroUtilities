@@ -107,7 +107,8 @@ class TORORUNTIME_API UTickableWorldActionBase : public UWorldActionBase, public
 public:
 
 	UTickableWorldActionBase()
-		: bCanTick(true), bTickWhenPaused(false)
+		: FTickableGameObject(ETickableTickType::Never) // Never tick before init
+		, bCanTick(true), bTickWhenPaused(false)
 	{}
 
 	/** Enables or disables the ticking behavior for this specific action instance. */
@@ -139,10 +140,17 @@ protected:
 		bool bTickInEditor = false;
 #endif
 
+	virtual void BeginDestroy() override;
+	virtual void PostInitProperties() override;
+
 	virtual void Tick(float DeltaTime) override { OnTick(DeltaTime); }
-	virtual bool IsTickable() const override { return bCanTick && !IsTemplate(); }
+	virtual bool IsTickable() const override { return bCanTick && !IsTemplate() && !HasAnyFlags(RF_BeginDestroyed); }
 	virtual bool IsTickableWhenPaused() const override { return bTickWhenPaused; }
-	virtual TStatId GetStatId() const override { return GetStatID(); }
+	virtual TStatId GetStatId() const override
+	{
+		RETURN_QUICK_DECLARE_CYCLE_STAT(TickableWorldAction, STATGROUP_Tickables);
+	}
+
 #if WITH_EDITOR
 	virtual bool IsTickableInEditor() const override { return bTickInEditor; }
 #endif
