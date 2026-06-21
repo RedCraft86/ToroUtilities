@@ -15,6 +15,17 @@ AToroPlayerCameraManager::AToroPlayerCameraManager()
 	SetCanBeDamaged(false);
 }
 
+void AToroPlayerCameraManager::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Ensure each map starts on a black screen for any deferred loading
+	SetManualCameraFade(1.0f, FLinearColor::Black, true);
+
+	// Fixes MotionBlur and AA issues when camera is moved while paused
+	GetWorld()->bIsCameraMoveableWhenPaused = true;
+}
+
 void AToroPlayerCameraManager::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);

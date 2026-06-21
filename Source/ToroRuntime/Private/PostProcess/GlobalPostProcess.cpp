@@ -119,9 +119,6 @@ void UGlobalPostProcess::SyncUserSettings(const UToroGameUserSettings* UserSetti
 void UGlobalPostProcess::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	// Fixes MotionBlur and AA issues when camera is moved while paused
-	GetWorld()->bIsCameraMoveableWhenPaused = true;
 
 	if (UToroGameUserSettings* UserSettings = UToroGameUserSettings::Get())
 	{
