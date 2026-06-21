@@ -206,8 +206,5 @@ UWorld* UToroSaveGame::GetWorld() const
 
 void UToroSaveGame::SerializeData(FStructuredArchive::FRecord& Record)
 {
-	if (bSerializeSelf)
-	{
-		SerializeScriptProperties(Record.EnterField(*SaveName.ToString()));
-	}
+	SerializeScriptProperties(Record.EnterField(*SaveName.ToString()));
 }

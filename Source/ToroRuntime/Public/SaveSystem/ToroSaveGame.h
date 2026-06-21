@@ -44,7 +44,7 @@ class TORORUNTIME_API UToroSaveGame : public UObject
 public:
 
 	UToroSaveGame()
-		: SaveName(NAME_None) 
+		: SaveName(NAME_None), CurrentOperation(EToroSaveOperation::None)
 	{}
 
 	const FName& GetSaveName() const { return SaveName; }
@@ -78,10 +78,6 @@ protected:
 	/** The name of the save file (e.g., "GameData", "PersistentData"). */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SaveObject)
 		FName SaveName;
-
-	/** Serialize the save object itself. Useful if there's any metadata properties. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SaveObject)
-		bool bSerializeSelf;
 
 	/** The current runtime state. Updated automatically during Save/Load. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SaveObject)
