@@ -55,4 +55,6 @@ private:
 
 	UPROPERTY(Transient)
 		TMap<TSubclassOf<UToroSaveGame>, TObjectPtr<UToroSaveGame>> SaveObjects;
+
+	virtual void Deinitialize() override;
 };

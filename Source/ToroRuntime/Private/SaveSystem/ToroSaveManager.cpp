@@ -20,3 +20,17 @@ UToroSaveGame* UToroSaveManager::GetOrCreateSaveObject(const TSubclassOf<UToroSa
 	SaveObjects.Add(Class, NewSaveObj);
 	return NewSaveObj;
 }
+
+void UToroSaveManager::Deinitialize()
+{
+	for (auto It = SaveObjects.CreateIterator(); It; ++It)
+	{
+		if (It.Value())
+		{
+			It.Value()->MarkAsGarbage();
+		}
+		It.RemoveCurrent();
+	}
+
+	Super::Deinitialize();
+}
