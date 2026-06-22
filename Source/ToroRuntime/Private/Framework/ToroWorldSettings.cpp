@@ -5,6 +5,8 @@
 #include "WorldMusic/WorldMusicManager.h"
 #include "PostProcess/GlobalPostProcess.h"
 #include "LightProbes/LightProbeManager.h"
+#include "Framework/ToroGameInstance.h"
+#include "GameFramework/PlayerState.h"
 #include "NativeGameplayTags.h"
 #include "Sound/AudioSettings.h"
 #include "Sound/SoundMix.h"
@@ -18,7 +20,7 @@ AToroWorldSettings::AToroWorldSettings()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bTickEvenWhenPaused = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
-	PrimaryActorTick.TickGroup = TG_DuringPhysics;
+	PrimaryActorTick.TickGroup = TG_PrePhysics;
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
@@ -53,6 +55,36 @@ void AToroWorldSettings::SetSoundVolume(USoundClass* InSoundClass, float InVolum
 			AudioDevice->SetSoundMixClassOverride(DefaultBaseSoundMix, InSoundClass, InVolume, 1.0f, 0.0f, true);
 		}
 	}
+}
+
+void AToroWorldSettings::BeginPlay()
+{
+	Super::BeginPlay();
+	GameInstance = GetGameInstance<UToroGameInstance>();
+	if (GameInstance.IsValid())
+	{
+		GameInstance->OnWorldBeginPlay(GetWorld());
+	}
+}
+
+void AToroWorldSettings::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GameInstance.IsValid())
+	{
+		GameInstance->OnWorldTick(GetWorld(), DeltaTime, 
+			IsValid(GetPauserPlayerState()));
+	}
+}
+
+void AToroWorldSettings::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (GameInstance.IsValid())
+	{
+		GameInstance->OnWorldEndPlay(GetWorld());
+	}
+
+	Super::EndPlay(EndPlayReason);
 }
 
 #if WITH_EDITOR

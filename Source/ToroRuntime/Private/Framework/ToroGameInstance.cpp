@@ -55,9 +55,9 @@ void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 	WorldBeginPlay();
 }
 
-void UToroGameInstance::OnWorldTick(UWorld* InWorld, const float DeltaTime)
+void UToroGameInstance::OnWorldTick(UWorld* InWorld, const float DeltaTime, const bool bGamePaused)
 {
-	WorldTick(DeltaTime);
+	WorldTick(DeltaTime, bGamePaused);
 }
 
 void UToroGameInstance::OnWorldEndPlay(const TWeakObjectPtr<UWorld> InWorld)

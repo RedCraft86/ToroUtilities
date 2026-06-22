@@ -2,7 +2,6 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "Framework/ToroGameMode.h"
-#include "Framework/ToroGameInstance.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroPlayerState.h"
@@ -12,8 +11,8 @@
 AToroGameMode::AToroGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.bStartWithTickEnabled = true;
-	PrimaryActorTick.TickGroup = TG_PrePhysics;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 
 	GameStateClass = AToroGameState::StaticClass();
 	PlayerControllerClass = AToroPlayerController::StaticClass();
@@ -27,24 +26,4 @@ AToroGameMode::AToroGameMode()
 	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
 
 	SetCanBeDamaged(false);
-}
-
-void AToroGameMode::BeginPlay()
-{
-	Super::BeginPlay();
-	FWorldGetter::SetWorld(GetWorld());
-	GameInstance = GetGameInstance<UToroGameInstance>();
-	if (GameInstance.IsValid())
-	{
-		GameInstance->OnWorldBeginPlay(GetWorld());
-	}
-}
-
-void AToroGameMode::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	if (GameInstance.IsValid())
-	{
-		GameInstance->OnWorldTick(GetWorld(), DeltaTime);
-	}
 }

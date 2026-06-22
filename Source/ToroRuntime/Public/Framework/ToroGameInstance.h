@@ -15,7 +15,7 @@ class TORORUNTIME_API UToroGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
-	friend class AToroGameMode;
+	friend class AToroWorldSettings;
 
 public:
 
@@ -44,7 +44,7 @@ public:
 
 	/** Event triggered every frame from the world's tick, provided by the active WorldSettings. */
 	UFUNCTION(BlueprintImplementableEvent)
-		void WorldTick(const float DeltaTime);
+		void WorldTick(const float DeltaTime, const bool bGamePaused);
 
 	/** Event triggered when a WorldSettings has called its EndPlay event. */
 	UFUNCTION(BlueprintImplementableEvent)
@@ -57,7 +57,7 @@ protected:
 
 	virtual void ClearInstanceLock();
 	virtual void OnWorldBeginPlay(UWorld* InWorld);
-	virtual void OnWorldTick(UWorld* InWorld, const float DeltaTime);
+	virtual void OnWorldTick(UWorld* InWorld, const float DeltaTime, const bool bGamePaused);
 	virtual void OnWorldEndPlay(const TWeakObjectPtr<UWorld> InWorld);
 
 	virtual void Init() override;

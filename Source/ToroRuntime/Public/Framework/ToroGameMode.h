@@ -33,11 +33,4 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
-
-	/** Cached reference to the global game instance. */
-	UPROPERTY(Transient, BlueprintReadOnly, Category = GameMode)
-		TWeakObjectPtr<class UToroGameInstance> GameInstance;
-
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 };

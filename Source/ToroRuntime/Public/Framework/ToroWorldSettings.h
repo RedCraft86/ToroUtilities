@@ -69,6 +69,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UFlowComponent> GameFlow;
 
+	UPROPERTY(Transient, BlueprintReadOnly, Category = WorldSettings)
+		TWeakObjectPtr<class UToroGameInstance> GameInstance;
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 #if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
