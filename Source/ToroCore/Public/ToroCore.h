@@ -13,6 +13,4 @@ private:
 
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
-
-    static void OnPreLoadMap(const FString& NewMap);
 };

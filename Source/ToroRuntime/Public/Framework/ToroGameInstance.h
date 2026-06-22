@@ -38,13 +38,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Instance)
 		void RestartGame();
 
-	/** Event triggered when a level (World) has finished its BeginPlay phase. */
+	/** Event triggered when a WorldSettings has called its BeginPlay event. */
 	UFUNCTION(BlueprintImplementableEvent)
 		void WorldBeginPlay();
 
-	/** Event triggered every frame from the world's tick, provided by the active GameMode. */
+	/** Event triggered every frame from the world's tick, provided by the active WorldSettings. */
 	UFUNCTION(BlueprintImplementableEvent)
 		void WorldTick(const float DeltaTime);
+
+	/** Event triggered when a WorldSettings has called its EndPlay event. */
+	UFUNCTION(BlueprintImplementableEvent)
+		void WorldEndPlay();
 
 protected:
 
@@ -54,6 +58,7 @@ protected:
 	virtual void ClearInstanceLock();
 	virtual void OnWorldBeginPlay(UWorld* InWorld);
 	virtual void OnWorldTick(UWorld* InWorld, const float DeltaTime);
+	virtual void OnWorldEndPlay(const TWeakObjectPtr<UWorld> InWorld);
 
 	virtual void Init() override;
 	virtual void Shutdown() override;

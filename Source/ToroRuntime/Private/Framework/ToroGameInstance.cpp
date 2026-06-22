@@ -51,12 +51,19 @@ void UToroGameInstance::ClearInstanceLock()
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
+	FWorldGetter::SetWorld(InWorld);
 	WorldBeginPlay();
 }
 
 void UToroGameInstance::OnWorldTick(UWorld* InWorld, const float DeltaTime)
 {
 	WorldTick(DeltaTime);
+}
+
+void UToroGameInstance::OnWorldEndPlay(const TWeakObjectPtr<UWorld> InWorld)
+{
+	FWorldGetter::Reset();
+	WorldEndPlay();
 }
 
 void UToroGameInstance::Init()
@@ -91,5 +98,6 @@ void UToroGameInstance::Init()
 void UToroGameInstance::Shutdown()
 {
 	ClearInstanceLock();
+	FWorldGetter::Reset();
 	Super::Shutdown();
 }
