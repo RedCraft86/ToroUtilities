@@ -25,7 +25,7 @@ public:
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
 		static_assert(TIsDerivedFrom<T, AToroPlayerCharacter>::Value, 
-			TEXT("T must derive from AToroPlayerCharacter"));
+			"T must derive from AToroPlayerCharacter");
 
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		const APlayerController* PC = IsValid(World) ? World->GetFirstPlayerController() : nullptr;

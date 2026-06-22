@@ -25,7 +25,7 @@ public:
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
 		static_assert(TIsDerivedFrom<T, AToroPlayerCameraManager>::Value, 
-			TEXT("T must derive from AToroPlayerCameraManager"));
+			"T must derive from AToroPlayerCameraManager");
 
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		const APlayerController* PC = IsValid(World) ? World->GetFirstPlayerController() : nullptr;

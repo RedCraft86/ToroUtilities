@@ -24,7 +24,7 @@ public:
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
 		static_assert(TIsDerivedFrom<T, UToroGameViewportClient>::Value, 
-			TEXT("T must derive from UToroGameViewportClient"));
+			"T must derive from UToroGameViewportClient");
 
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? Cast<T>(World->GetGameViewport()) : nullptr;

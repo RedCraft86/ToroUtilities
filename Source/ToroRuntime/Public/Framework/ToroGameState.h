@@ -23,7 +23,7 @@ public:
 	[[nodiscard]] static T* Get(const UObject* ContextObject)
 	{
 		static_assert(TIsDerivedFrom<T, AToroGameState>::Value, 
-			TEXT("T must derive from AToroGameState"));
+			"T must derive from AToroGameState");
 
 		const UWorld* World = FWorldGetter::Get(ContextObject);
 		return IsValid(World) ? World->GetGameState<T>() : nullptr;
