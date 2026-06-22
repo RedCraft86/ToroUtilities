@@ -56,5 +56,7 @@ private:
 	UPROPERTY(Transient)
 		TMap<TSubclassOf<UToroSaveGame>, TObjectPtr<UToroSaveGame>> SaveObjects;
 
+	void WorldCleanup(UWorld* World, bool bSessionEnded, bool bCleanupResources);
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 };
