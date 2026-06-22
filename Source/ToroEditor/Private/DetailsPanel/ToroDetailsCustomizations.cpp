@@ -108,25 +108,19 @@ void FToroClassCustomization::HandleShowOnlyCategories() const
 		}
 	}
 
-	TArray<FString> HideCategories;
-	FEditorCategoryUtils::GetClassHideCategories(CustomizingClass, HideCategories);
-
 	// There must be a valid DefaultShowOnly entry OR there are HideCategories present with the first item being "*"
-	if (InvolvedParent != nullptr || (!HideCategories.IsEmpty() && HideCategories[0] == TEXT("*")))
+	if (InvolvedParent != nullptr || (!ClassHideCategories.IsEmpty() && ClassHideCategories[0] == TEXT("*")))
 	{
 		TSet<FString> AllowedCategories = DefaultShowCategories;
 		AllowedCategories.Append(DefaultShowOnlyCategories.FindRef(InvolvedParent));
-
-		TArray<FString> ShowCategories;
-		FEditorCategoryUtils::GetClassShowCategories(CustomizingClass, ShowCategories);
-		AllowedCategories.Append(ShowCategories);
+		AllowedCategories.Append(ClassShowCategories);
 
 		TArray<FName> CategoriesToHide;
 		WeakBuilder.Pin()->GetCategoryNames(CategoriesToHide);
-		CategoriesToHide.RemoveAll([&HideCategories, &AllowedCategories](const FName& Element)
+		CategoriesToHide.RemoveAll([this, &AllowedCategories](const FName& Element)
 		{
 			const FString Category = Element.ToString();
-			for (const FString& HideCat : HideCategories)
+			for (const FString& HideCat : ClassHideCategories)
 			{
 				if (Category.StartsWith(HideCat))
 				{
