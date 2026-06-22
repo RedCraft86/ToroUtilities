@@ -104,7 +104,7 @@ public:
 					if (!Line.Split(TEXT("="), &Key, &Value))
 					{
 						Key = Line;
-						Value = FString();
+						Value.Empty();
 					}
 
 					Section->AddEntry(Key, Value);

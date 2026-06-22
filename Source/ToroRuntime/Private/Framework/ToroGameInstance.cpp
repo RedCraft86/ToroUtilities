@@ -45,7 +45,7 @@ void UToroGameInstance::ClearInstanceLock()
 	if (!LockPath.IsEmpty())
 	{
 		IFileManager::Get().Delete(*LockPath, false, false, true);
-		LockPath = FString();
+		LockPath.Empty();
 	}
 }
 
