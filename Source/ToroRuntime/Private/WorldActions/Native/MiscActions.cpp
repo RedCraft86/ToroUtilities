@@ -2,13 +2,16 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "WorldActions/Native/MiscActions.h"
+#include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroWorldLibrary.h"
 #include "AsyncGameplayMessageSystem.h"
 #include "AsyncMessageWorldSubsystem.h"
 #include "Kismet/GameplayStatics.h"
+#include "Asset/FlowAssetParams.h"
 #include "LevelSequencePlayer.h"
 #include "Helpers/WorldGetter.h"
 #include "Helpers/LatentInfo.h"
+#include "FlowSubsystem.h"
 
 void UWorldAction_LevelStreaming::OnExecute_Implementation()
 {
@@ -67,5 +70,20 @@ void UWorldAction_AsyncMessage::OnExecute_Implementation()
 		{
 			System->QueueMessageForBroadcast(MessageId, Payload);
 		}
+	}
+}
+
+void UWorldAction_RootFlow::OnExecute_Implementation()
+{
+	if (!FlowAsset)
+	{
+		return;
+	}
+
+	const UGameInstance* GI = UToroGameInstance::Get<UToroGameInstance>(WorldContext.Get());
+	if (UFlowSubsystem* Subsystem = GI ? GI->GetSubsystem<UFlowSubsystem>() : nullptr)
+	{
+		Subsystem->StartRootFlow(WorldContext.IsValid() ? WorldContext.Get() : this, 
+			FlowAsset, FlowParams.ResolveFlowAssetParams(), false);
 	}
 }

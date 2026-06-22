@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "FlowAsset.h"
 #include "AsyncMessageId.h"
 #include "LevelSequenceActor.h"
 #include "StructUtils/InstancedStruct.h"
@@ -126,6 +127,36 @@ private:
 	 */
 	UPROPERTY(EditAnywhere, Category = Action)
 		FInstancedStruct Payload;
+
+	virtual void OnExecute_Implementation() override;
+};
+
+/** 
+ * Starts a root flow that can be used for various gameplay elements such as dialogues.
+ * The owner of the flow is set to the world context object of this action or this action itself if null.
+ */
+UCLASS(NotBlueprintable, DisplayName = "[Misc] Root Flow")
+class TORORUNTIME_API UWorldAction_RootFlow final : public UWorldActionBase
+{
+	GENERATED_BODY()
+
+public:
+
+	UWorldAction_RootFlow() {}
+
+private:
+
+	/** 
+	 * Asset to be instantiated as "Root Flow". 
+	 */ 
+	UPROPERTY(EditAnywhere, Category = Action)
+		TObjectPtr<UFlowAsset> FlowAsset;
+
+	/** 
+	 * Flow Asset Params to use as the data pin value supplier for the Root Flow.
+	 */
+	UPROPERTY(EditAnywhere, Category = Action)
+		FFlowAssetParamsPtr FlowParams;
 
 	virtual void OnExecute_Implementation() override;
 };
