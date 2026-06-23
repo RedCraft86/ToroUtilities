@@ -6,7 +6,7 @@
 #include "Animation/WidgetAnimation.h"
 #include "Framework/ToroPlayerHUD.h"
 #include "Components/OverlaySlot.h"
-#include "ToroUtilitiesSettings.h"
+#include "ToroSettings.h"
 #include "ToroRuntime.h"
 
 FText FToroUserDialogEntry::GetDisplayText() const
@@ -31,7 +31,7 @@ UToroUserDialog::UToroUserDialog(const FObjectInitializer& ObjectInit)
 UToroUserDialog* UToroUserDialog::CreateUserDialog(const UObject* ContextObject, const FText& Title, const FText& Message, 
 	const TArray<FToroUserDialogEntry>& Buttons, const TEnumAsByte<EOrientation> ButtonLayout, const bool bPauseGame)
 {
-	const UToroUtilitiesSettings* Settings = UToroUtilitiesSettings::Get();
+	const UToroSettings* Settings = UToroSettings::Get();
 	if (Settings && Settings->UserDialogClass.LoadSynchronous())
 	{
 		AToroPlayerHUD* HUD = AToroPlayerHUD::Get(ContextObject);

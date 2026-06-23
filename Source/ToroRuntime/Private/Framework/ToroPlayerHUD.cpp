@@ -3,7 +3,7 @@
 
 #include "Framework/ToroPlayerHUD.h"
 #include "Blueprint/UserWidget.h"
-#include "ToroUtilitiesSettings.h"
+#include "ToroSettings.h"
 #include "ToroRuntime.h"
 
 AToroPlayerHUD::AToroPlayerHUD()
@@ -23,7 +23,7 @@ AToroPlayerHUD::AToroPlayerHUD()
 void AToroPlayerHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	const UToroUtilitiesSettings* Settings = UToroUtilitiesSettings::Get();
+	const UToroSettings* Settings = UToroSettings::Get();
 	if (Settings && Settings->MasterWidgetClass.LoadSynchronous())
 	{
 		MasterWidget = CreateWidget<UToroMasterWidget>(GetWorld(), Settings->MasterWidgetClass.Get());

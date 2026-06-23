@@ -5,20 +5,20 @@
 
 #include "UObject/SoftObjectPtr.h"
 #include "Engine/DeveloperSettings.h"
-#include "ToroUtilitiesSettings.generated.h"
+#include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "ToroUtilities")
-class TORORUNTIME_API UToroUtilitiesSettings final : public UDeveloperSettings
+class TORORUNTIME_API UToroSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroUtilitiesSettings();
+	UToroSettings();
 
-	[[nodiscard]] static const UToroUtilitiesSettings* Get()
+	[[nodiscard]] static const UToroSettings* Get()
 	{
-		return GetDefault<UToroUtilitiesSettings>();
+		return GetDefault<UToroSettings>();
 	}
 
 	/** The Master Widget class to spawn for the Player HUD. */
