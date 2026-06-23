@@ -24,6 +24,7 @@
 #include "DetailsPanel/ToroClassCustomization.h"
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
 #include "DetailsPanel/PropertyMetadataDetails.h"
+#include "DetailsPanel/ToroDatabaseDetails.h"
 #include "DetailsPanel/ToroWorldSettingsDetails.h"
 
 #include "Actors/ToroActor.h"
@@ -54,6 +55,7 @@ void FToroEditorModule::StartupModule()
 	FDetailsCustomizationRegistry::Register<FGameObjectId, FGameObjectIdDetails>();
 	FDetailsCustomizationRegistry::Register<FPrimitiveCollision, FPrimitiveCollisionDetails>();
 	FDetailsCustomizationRegistry::Register<FSimpleCooldown, FSimpleCooldownDetails>();
+	FDetailsCustomizationRegistry::Register<FToroDatabaseKey, FToroDatabaseKeyDetails>();
 	FDetailsCustomizationRegistry::Register<FWorldActionList, FWorldActionListDetails>();
 
 	FDetailsCustomizationRegistry::Register<FInlineFloatCurve, FInlineCurveDetails>();
@@ -73,6 +75,7 @@ void FToroEditorModule::StartupModule()
 	FDetailsCustomizationRegistry::Register<ATeleportPoint, FToroClassCustomization>();
 	FDetailsCustomizationRegistry::Register<ALightProbeActor, FToroClassCustomization>();
 
+	FDetailsCustomizationRegistry::Register<UToroDatabase, FToroDatabaseDetails>();
 	FDetailsCustomizationRegistry::Register<AToroWorldSettings, FToroWorldSettingsDetails>();
 
 	if (FBlueprintEditorModule* BPEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>(TEXT("Kismet")))

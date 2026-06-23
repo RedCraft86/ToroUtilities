@@ -24,6 +24,7 @@ public class ToroEditor : ModuleRules
                 "PropertyEditor",
                 "ContentBrowser",
                 "ContentBrowserData",
+                "GameplayTagsEditor",
                 "AssetDefinition",
                 "DeveloperSettings",
                 "AsyncMessageSystem",
