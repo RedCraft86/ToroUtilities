@@ -23,6 +23,7 @@ public class ToroRuntime : ModuleRules
                 "MovieScene",
                 "LevelSequence",
                 "GameplayTags",
+                "EngineSettings",
                 "AudioExtensions",
                 "DeveloperSettings",
                 "ProceduralMeshComponent",

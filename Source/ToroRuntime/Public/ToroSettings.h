@@ -4,6 +4,7 @@
 #pragma once
 
 #include "UObject/SoftObjectPtr.h"
+#include "DataAssets/ToroDatabase.h"
 #include "Engine/DeveloperSettings.h"
 #include "ToroSettings.generated.h"
 
@@ -16,16 +17,67 @@ public:
 
 	UToroSettings();
 
+	UFUNCTION(BlueprintPure, Category = Game, DisplayName = "Get ToroUtilities Settings")
 	[[nodiscard]] static const UToroSettings* Get()
 	{
 		return GetDefault<UToroSettings>();
 	}
 
-	/** The Master Widget class to spawn for the Player HUD. */
+	/**
+	 * If the game is a Demo, name of the demo to be appended on the version string.
+	 */
+	UPROPERTY(Config, EditAnywhere, Category = Game)
+		FName DemoName;
+
+	/** 
+	 * The Master Widget class to spawn for the Player HUD. 
+	 */
 	UPROPERTY(Config, EditAnywhere, Category = UserWidgets)
 		TSoftClassPtr<class UToroMasterWidget> MasterWidgetClass;
 
-	/** The User Dialog Widget class to use when creating user confirmation dialogs. */
+	/** 
+	 * The User Dialog Widget class to use when creating user confirmation dialogs. 
+	 */
 	UPROPERTY(Config, EditAnywhere, Category = UserWidgets)
 		TSoftClassPtr<class UToroUserDialog> UserDialogClass;
+
+	/**
+	 * Global list for the game's database assets. Use GetDatabase<UType>() to obtain one.
+	 */
+	UPROPERTY(Config, EditAnywhere, Category = Game)
+		TSet<TSoftObjectPtr<UToroDatabase>> Databases;
+
+	/**
+	 * Gets the game version in format 
+	 * <pre>
+	 *     {version}-{build type} | {demo name}
+	 * </pre>
+	 * For example: 
+	 * <pre>
+	 *     1.0.0-SHIPPING | Exploration Demo
+	 * </pre>
+	 * @return Formatted game version string.
+	 */
+	UFUNCTION(BlueprintPure, Category = Game)
+		FString GetVersionString() const;
+
+	/**
+	 * Finds the database asset of the specified class in the global list.
+	 * @param Class Database to look for in the global list.
+	 * @return Database asset or nullptr if not found.
+	 */
+	UFUNCTION(BlueprintPure, Category = Game, meta = (DeterminesOutputType = Class))
+		UToroDatabase* GetDatabase(UPARAM(meta=(AllowAbstract=false)) const TSubclassOf<UToroDatabase> Class) const;
+
+	/**
+	 * Finds the database asset of the specified class in the global list.
+	 * @tparam T Database class to look for. Must derive from UToroDatabase.
+	 * @return Database asset or nullptr if not found.
+	 */
+	template<typename T>
+	T* GetDatabase() const
+	{
+		static_assert(TIsDerivedFrom<T, UToroDatabase>::IsDerived, "T must derive from UToroDatabase");
+		return Cast<T>(GetDatabase(T::StaticClass()));
+	}
 };
