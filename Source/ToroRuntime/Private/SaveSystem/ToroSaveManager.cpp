@@ -21,23 +21,6 @@ UToroSaveGame* UToroSaveManager::GetOrCreateSaveObject(const TSubclassOf<UToroSa
 	return NewSaveObj;
 }
 
-void UToroSaveManager::WorldCleanup(UWorld* World, bool bSessionEnded, bool bCleanupResources)
-{
-	for (auto It = SaveObjects.CreateIterator(); It; ++It)
-	{
-		if (It.Value() && It.Value()->bSaveOnMapDestruction)
-		{
-			It.Value()->SaveToFile(0);
-		}
-	}
-}
-
-void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
-{
-	Super::Initialize(Collection);
-	FWorldDelegates::OnWorldCleanup.AddUObject(this, &UToroSaveManager::WorldCleanup);
-}
-
 void UToroSaveManager::Deinitialize()
 {
 	for (auto It = SaveObjects.CreateIterator(); It; ++It)

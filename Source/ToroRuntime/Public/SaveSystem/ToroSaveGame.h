@@ -46,7 +46,7 @@ class TORORUNTIME_API UToroSaveGame : public UObject
 public:
 
 	UToroSaveGame()
-		: SaveName(NAME_None), bSaveOnMapDestruction(false), CurrentOperation(EToroSaveOperation::None)
+		: SaveName(NAME_None), CurrentOperation(EToroSaveOperation::None)
 	{}
 
 	const FName& GetSaveName() const { return SaveName; }
@@ -86,13 +86,6 @@ protected:
 	/** The name of the save file (e.g., "GameData", "PersistentData"). */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SaveObject)
 		FName SaveName;
-
-	/** 
-	 * Automatically save this object if the currently level is getting destroyed due to shutdown or transition.
-	 * SaveObject must be instantiated through the SaveManager for this to work. The save will take place on slot 0.
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SaveObject)
-		bool bSaveOnMapDestruction;
 
 	/** The current runtime state. Updated automatically during Save/Load. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SaveObject)
