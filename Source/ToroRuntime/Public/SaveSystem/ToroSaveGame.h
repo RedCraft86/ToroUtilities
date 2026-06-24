@@ -91,6 +91,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SaveObject)
 		EToroSaveOperation CurrentOperation;
 
+	DECLARE_DELEGATE_TwoParams(FOnSaveGameOperation, UToroSaveGame*, const EToroSaveOperation);
+	FOnSaveGameOperation OnOperation;
+
 	/** 
 	 * Core extension point for serialization in subclasses. Pure Virtual, must override.
 	 * @param Record The structured archive root record.

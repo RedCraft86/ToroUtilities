@@ -51,10 +51,20 @@ public:
 		return Cast<T>(GetOrCreateSaveObject(T::StaticClass()));
 	}
 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSaveOperationDelegateBP, 
+		UToroSaveGame*, SaveObject, const EToroSaveOperation, Operation);
+	UPROPERTY(BlueprintAssignable, Category = SaveSystem, DisplayName = "On Save Operation")
+	FOnSaveOperationDelegateBP OnSaveOperationBP;
+
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSaveOperationDelegate, UToroSaveGame*, const EToroSaveOperation);
+	FOnSaveOperationDelegate OnSaveOperation;
+
 private:
 
 	UPROPERTY(Transient)
 		TMap<TSubclassOf<UToroSaveGame>, TObjectPtr<UToroSaveGame>> SaveObjects;
+
+	void SaveOperation(UToroSaveGame* Object, const EToroSaveOperation Operation) const;
 
 	virtual void Deinitialize() override;
 };

@@ -17,8 +17,15 @@ UToroSaveGame* UToroSaveManager::GetOrCreateSaveObject(const TSubclassOf<UToroSa
 	}
 
 	UToroSaveGame* NewSaveObj = NewObject<UToroSaveGame>(this, Class);
+	NewSaveObj->OnOperation.BindUObject(this, &UToroSaveManager::SaveOperation);
 	SaveObjects.Add(Class, NewSaveObj);
 	return NewSaveObj;
+}
+
+void UToroSaveManager::SaveOperation(UToroSaveGame* Object, const EToroSaveOperation Operation) const
+{
+	OnSaveOperation.Broadcast(Object, Operation);
+	OnSaveOperationBP.Broadcast(Object, Operation);
 }
 
 void UToroSaveManager::Deinitialize()

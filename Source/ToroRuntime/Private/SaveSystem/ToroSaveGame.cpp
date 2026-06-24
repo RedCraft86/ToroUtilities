@@ -95,6 +95,8 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 	FScopedSaveOperation SaveOperation(this, EToroSaveOperation::Saving);
 	const FString FilePath(GetSavePath(Slot));
 
+	OnOperation.ExecuteIfBound(this, CurrentOperation);
+
 	TArray<uint8> UncompressedData;
 	{
 		FMemoryWriter Writer(UncompressedData, true);
@@ -135,6 +137,8 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::SaveToFile(const uint8 S
 
 	co_await UE5Coro::Async::MoveToGameThread();
 
+	OnOperation.ExecuteIfBound(this, EToroSaveOperation::None);
+
 	co_return HandleError(FileWriteResult, SaveName);
 }
 
@@ -152,6 +156,8 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 
 	FScopedSaveOperation SaveOperation(this, EToroSaveOperation::Loading);
 	const FString FilePath(GetSavePath(Slot));
+
+	OnOperation.ExecuteIfBound(this, CurrentOperation);
 
 	co_await UE5Coro::Async::MoveToTask();
 
@@ -195,6 +201,8 @@ UE5Coro::TCoroutine<EToroSaveLoadStatus> UToroSaveGame::LoadFromFile(const uint8
 
 		bSerializeError = ProxyAr.IsError() || Reader.IsError();
 	}
+
+	OnOperation.ExecuteIfBound(this, EToroSaveOperation::None);
 
 	co_return HandleError(bSerializeError
 		? EToroSaveLoadStatus::SerializeFailed 
