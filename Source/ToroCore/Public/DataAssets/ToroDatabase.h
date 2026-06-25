@@ -185,12 +185,11 @@ protected:
 
 	/**
 	 * Specialized constructor for child classes to define their data and tag constraints.
-	 * @param ObjectInit Standard object initializer.
 	 * @param TagType The root GameplayTag that all keys in this database must descend from.
 	 * @param StructType The base struct type all entries in this database must inherit from.
 	 */
-	UToroDatabase(const FObjectInitializer& ObjectInit, const FGameplayTag& TagType, const UScriptStruct* StructType)
-		: Super(ObjectInit), RootTag(TagType), RootStruct(StructType)
+	UToroDatabase(const FGameplayTag& TagType, const UScriptStruct* StructType)
+		: RootTag(TagType), RootStruct(StructType)
 	{
 		ensureAlwaysMsgf(StructType && StructType->IsChildOf<FToroDatabaseEntry>(), 
 			TEXT("StructType (%s) must derive from FToroDatabaseEntry"), *GetNameSafe(StructType));
