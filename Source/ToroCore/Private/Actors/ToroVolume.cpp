@@ -46,7 +46,7 @@ void AToroVolume::BroadcastStateChanged()
 
 void AToroVolume::EnableStateChanged(const bool bState)
 {
-	SetActorHiddenInGame(!bState);
+	SetActorEnableCollision(bState);
 	SetActorTickEnabled(PrimaryActorTick.bStartWithTickEnabled && bState);
 }
 
