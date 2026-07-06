@@ -32,6 +32,40 @@ public:
 		return IsValid(PC) ? Cast<T>(PC->PlayerCameraManager) : nullptr;
 	}
 
+	/**
+	 * Checks if an actor is in view by running frustum checks and line trace occlusion checks
+	 * @param Target Actor to test.
+	 * @param BoxScale Size of the actor's bounding box. (Must be >= 0.2f)
+	 * @param MaxSamples Num of random points within the bounding box that should be traced. (If 0, only origin point)
+	 * @return True if the actor is in view.
+	 */
+	UFUNCTION(BlueprintPure, Category = PlayerCamera)
+		bool IsActorSeen(AActor* Target, const float BoxScale = 0.8f, const uint8 MaxSamples = 16) const;
+
+	/**
+	 * Does a single line trace from the camera, making sure to ignore core actors such as the view target and self.
+	 * @param HitResult The resulting hits.
+	 * @param Target End of trace point.
+	 * @param TraceChannel Channel to trace on.
+	 * @param ModifyParams Any additional modifications for CollisionQueryParam.
+	 * @return True if a hit occured.
+	 */
+	bool LineTraceSingleFromView(FHitResult& HitResult, const FVector& Target, 
+		const ECollisionChannel TraceChannel = ECC_Visibility, 
+		const TFunction<void(FCollisionQueryParams&)>& ModifyParams = nullptr) const;
+
+	/**
+	 * Does a multi line trace from the camera, making sure to ignore core actors such as the view target and self.
+	 * @param HitResults The resulting hits.
+	 * @param Target End of trace point.
+	 * @param TraceChannel Channel to trace on.
+	 * @param ModifyParams Any additional modifications for CollisionQueryParam.
+	 * @return True if a hit occured.
+	 */
+	bool LineTraceMultiFromView(TArray<FHitResult>& HitResults, const FVector& Target, 
+		const ECollisionChannel TraceChannel = ECC_Visibility, 
+		const TFunction<void(FCollisionQueryParams&)>& ModifyParams = nullptr) const;
+
 protected:
 
 	virtual void BeginPlay() override;
