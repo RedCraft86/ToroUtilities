@@ -54,6 +54,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = WorldMusic)
 		TORORUNTIME_API void RemoveDipRequest(const UObject* InRequester);
 
+	/** 
+	 * Removes all dip requests and returns music to full volume.
+	 */
+	UFUNCTION(BlueprintCallable, Category = WorldMusic)
+		TORORUNTIME_API void ClearDipRequests();
+
 private:
 
 	/** The default theme to play initially. */

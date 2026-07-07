@@ -58,6 +58,11 @@ void UWorldMusicManager::RemoveDipRequest(const UObject* InRequester)
 	DipRequests.RemoveRequest(InRequester);
 }
 
+void UWorldMusicManager::ClearDipRequests()
+{
+	DipRequests.ClearRequests();
+}
+
 void UWorldMusicManager::ResetSoundParams()
 {
 	ResetParameters();
