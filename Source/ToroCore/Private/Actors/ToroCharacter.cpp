@@ -2,11 +2,14 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "Actors/ToroCharacter.h"
+#include "Components/CapsuleComponent.h"
 
 AToroCharacter::AToroCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	BaseEyeHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere();
 
 	bEnableAutoLODGeneration = false; // Include Actor in HLOD option
 
