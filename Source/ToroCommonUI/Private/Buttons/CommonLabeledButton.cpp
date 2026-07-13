@@ -37,6 +37,9 @@ UCommonLabeledButton::UCommonLabeledButton(const FObjectInitializer& ObjectInit)
 	PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	ForegroundColor = FLinearColor::Black;
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
+
+	SetStyle(LoadClass<UCommonButtonStyle>(nullptr, TEXT("/ToroUtilities/Widgets/BS_UserDialog.BS_UserDialog_C")));
+	SetLabelStyle(LoadClass<UCommonTextStyle>(nullptr, TEXT("/ToroUtilities/Widgets/TS_LabeledButton.TS_LabeledButton_C")));
 }
 
 void UCommonLabeledButton::SetLabelContentText(const FText InText)

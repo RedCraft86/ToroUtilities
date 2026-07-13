@@ -61,7 +61,7 @@ public:
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidgetAnimOptional))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidgetAnimOptional))
 		TObjectPtr<UWidgetAnimation> FadeAnim;
 
 	UPROPERTY(EditAnywhere, Category = Activation)

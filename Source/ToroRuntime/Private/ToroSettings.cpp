@@ -9,6 +9,9 @@ UToroSettings::UToroSettings()
 {
 	CategoryName = TEXT("Project");
 	SectionName = TEXT("ToroUtilities");
+
+	MasterWidgetClass = FSoftClassPath(TEXT("/ToroUtilities/Widgets/WBP_MasterWidget.WBP_MasterWidget_C"));
+	UserDialogClass = FSoftClassPath(TEXT("/ToroUtilities/Widgets/WBP_UserDialog.WBP_UserDialog_C"));
 }
 
 FString UToroSettings::GetVersionString() const

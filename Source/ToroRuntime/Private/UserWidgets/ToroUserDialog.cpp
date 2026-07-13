@@ -123,6 +123,7 @@ void UToroUserDialog::ConstructDialog(UToroMasterWidget* Master, const FText& Ti
 
 		if (UCommonLabeledButton* Button = WidgetTree->ConstructWidget<UCommonLabeledButton>(UCommonLabeledButton::StaticClass()))
 		{
+			Button->SetStyle(ButtonStyle);
 			Button->SetPadding(FMargin(EntryPadding));
 			Button->SetLabelContentText(Entry.GetDisplayText());
 			Button->OnClicked().AddUObject(this, &UToroUserDialog::OnButtonClicked, Button);
