@@ -31,10 +31,10 @@ bool AToroCharacter::SetControlRotation(const FRotator& Rotation, const bool bIn
 
 void AToroCharacter::Teleport(const FVector& Location, const FRotator& Rotation)
 {
-	SetActorLocation(Location, false, nullptr, ETeleportType::TeleportPhysics);
+	SetActorLocation(Location, false, nullptr, ETeleportType::ResetPhysics);
 	if (!SetControlRotation(Rotation, false))
 	{
-		SetActorRotation(FRotator(Rotation.Pitch, Rotation.Yaw, 0.0f), ETeleportType::TeleportPhysics);
+		SetActorRotation(FRotator(Rotation.Pitch, Rotation.Yaw, 0.0f), ETeleportType::ResetPhysics);
 	}
 }
 
