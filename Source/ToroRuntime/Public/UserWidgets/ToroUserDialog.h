@@ -113,10 +113,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Appearance, meta = (ClampMin = 0.0f))
 		float EntryPadding;
 
-	/** Style of the generated buttons. */
-	UPROPERTY(EditAnywhere, Category = Appearance)
-		TSubclassOf<UCommonButtonStyle> ButtonStyle;
-
 	float AutoSelectTime;
 	TWeakObjectPtr<APlayerController> PauserController;
 	TWeakObjectPtr<UCommonLabeledButton> AutoSelectButton;

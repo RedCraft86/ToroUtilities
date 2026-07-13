@@ -38,8 +38,13 @@ UCommonLabeledButton::UCommonLabeledButton(const FObjectInitializer& ObjectInit)
 	ForegroundColor = FLinearColor::Black;
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
-	SetStyle(LoadClass<UCommonButtonStyle>(nullptr, TEXT("/ToroUtilities/Widgets/BS_UserDialog.BS_UserDialog_C")));
-	SetLabelStyle(LoadClass<UCommonTextStyle>(nullptr, TEXT("/ToroUtilities/Widgets/TS_LabeledButton.TS_LabeledButton_C")));
+	SetStyle(LoadClass<UCommonButtonStyle>(nullptr, 
+		TEXT("/ToroUtilities/Widgets/Styles/Style_ToroButton_01.Style_ToroButton_01_C")
+	));
+
+	SetLabelStyle(LoadClass<UCommonTextStyle>(nullptr, 
+		TEXT("/ToroUtilities/Widgets/Styles/Style_ToroText_01.Style_ToroText_01_C")
+	));
 }
 
 void UCommonLabeledButton::SetLabelContentText(const FText InText)
@@ -203,21 +208,26 @@ void UCommonLabeledButton::SynchronizeProperties()
 	{
 		ButtonLabel->SetText(LabelText);
 		ButtonLabel->SetColorAndOpacity(LabelColor);
-		ButtonLabel->SetStyle(LabelStyle);
+		if (LabelStyle)
+		{
+			ButtonLabel->SetStyle(LabelStyle);
+		}
+		else
+		{
+			ButtonLabel->SetFont(LabelFont);
+			ButtonLabel->SetStrikeBrush(LabelStrikeBrush);
+			ButtonLabel->SetShadowOffset(LabelShadowOffset);
+			ButtonLabel->SetShadowColorAndOpacity(LabelShadowColor);
+			ButtonLabel->SetTextTransformPolicy(LabelTransformPolicy);
+			ButtonLabel->SetJustification(LabelJustification);
 
-		ButtonLabel->SetFont(LabelFont);
-		ButtonLabel->SetStrikeBrush(LabelStrikeBrush);
-		ButtonLabel->SetShadowOffset(LabelShadowOffset);
-		ButtonLabel->SetShadowColorAndOpacity(LabelShadowColor);
-		ButtonLabel->SetTextTransformPolicy(LabelTransformPolicy);
-		ButtonLabel->SetJustification(LabelJustification);
+			ButtonLabel->SetAutoWrapText(bLabelAutoWrapText);
+			ButtonLabel->SetWrapTextAt(LabelWrapTextAt);
+			ButtonLabel->SetWrappingPolicy(LabelWrappingPolicy);
 
-		ButtonLabel->SetAutoWrapText(bLabelAutoWrapText);
-		ButtonLabel->SetWrapTextAt(LabelWrapTextAt);
-		ButtonLabel->SetWrappingPolicy(LabelWrappingPolicy);
-
-		ButtonLabel->SetScrollingEnabled(false);
-		ButtonLabel->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+			ButtonLabel->SetScrollingEnabled(false);
+			ButtonLabel->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		}
 
 		if (UButtonSlot* ButtonSlot = Cast<UButtonSlot>(ButtonLabel->Slot))
 		{
