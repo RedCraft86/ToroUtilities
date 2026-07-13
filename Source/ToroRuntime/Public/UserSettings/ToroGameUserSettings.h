@@ -104,6 +104,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Settings)
 		float GetSensitivityY() const;
 
+	UFUNCTION(BlueprintPure, Category = Settings)
+		FVector2D GetSensitivityXY() const { return FVector2D(GetSensitivityX(), GetSensitivityY()); }
+
 	/** Sets the global brightness/gamma offset (20-80). Default: 50 */
 	UFUNCTION(BlueprintCallable, Category = Settings)
 		void SetBrightness(const uint8 Value);
