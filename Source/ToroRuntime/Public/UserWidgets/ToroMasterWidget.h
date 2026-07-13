@@ -83,10 +83,10 @@ public:
 protected:
 
 	/** The primary menu stack. Requires a 'CommonActivatableWidgetStack' named 'MasterStack' in the Blueprint. */
-	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UCommonActivatableWidgetStack> MasterStack;
 
 	/** Persistent UI layer. Requires an 'Overlay' named 'MasterOverlay' in the Blueprint. */
-	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UOverlay> MasterOverlay;
 };

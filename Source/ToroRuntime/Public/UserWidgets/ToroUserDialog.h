@@ -94,19 +94,19 @@ public:
 protected:
 
 	/** Shield to prevent mouse clicking through. REQUIREMENT: Ideally a Border or Image named 'Background'. */
-	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UWidget> Background;
 
 	/** Label for the dialog header. REQUIREMENT: A TextBlock named 'TitleLabel'. */
-	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UTextBlock> TitleLabel;
 
 	/** Label for the dialog body. REQUIREMENT: A TextBlock named 'MessageLabel'. */
-	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UTextBlock> MessageLabel;
 
 	/** Container for dynamic buttons. REQUIREMENT: A StackBox named 'ButtonContainer'. */
-	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UStackBox> ButtonContainer;
 
 	/** Spacing between generated buttons. */
