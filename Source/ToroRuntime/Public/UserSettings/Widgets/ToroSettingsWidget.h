@@ -12,6 +12,29 @@ class UCommonTextBlock;
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_SettingRowHover)
 
+USTRUCT(BlueprintInternalUseOnly)
+struct TORORUNTIME_API FSettingRowDescriptor final
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = Setting)
+		FText DisplayName;
+
+	UPROPERTY(EditAnywhere, Category = Setting)
+		FText Description;
+
+	UPROPERTY(EditAnywhere, Category = Setting)
+		FText Performance;
+
+	FSettingRowDescriptor()
+		: DisplayName(FText::GetEmpty()), Description(FText::GetEmpty()), Performance(FText::GetEmpty())
+	{}
+
+	FSettingRowDescriptor(const FText& InDisplayName, const FText& InDescription, const FText& InPerformance)
+		: DisplayName(InDisplayName), Description(InDescription), Performance(InPerformance)
+	{}
+};
+
 UCLASS(Abstract, Blueprintable, BlueprintType)
 class TORORUNTIME_API UToroSettingsWidget final : public UCommonActivatableWidget
 {

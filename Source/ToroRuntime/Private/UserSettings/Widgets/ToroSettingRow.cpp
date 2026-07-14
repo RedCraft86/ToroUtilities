@@ -62,14 +62,25 @@ void UToroSettingRowBase::SynchronizeProperties()
 void UToroSettingRowBase::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
-	const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem
-		::GetSharedMessageSystem<FAsyncGameplayMessageSystem>(GetWorld());
-	if (System.IsValid())
+	if (const FUserSettingsProviderBase* ProviderPtr = Provider.GetPtr())
 	{
-		System->QueueMessageForBroadcast(
-			FAsyncMessageId(TAG_SettingRowHover.GetTag()), 
-			static_cast<FInstancedStruct>(Provider)
-		);
+		const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem
+		   ::GetSharedMessageSystem<FAsyncGameplayMessageSystem>(GetWorld());
+		if (System.IsValid())
+		{
+			System->QueueMessageForBroadcast(
+				FAsyncMessageId(TAG_SettingRowHover.GetTag()), 
+				FInstancedStruct::Make<FSettingRowDescriptor>(
+					ProviderPtr->DisplayName, 
+					ProviderPtr->Description, 
+					ProviderPtr->GetPerformanceLabel()
+				)
+			);
+		}
+	}
+	else
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("Setting Row %s has no valid provider."), *GetName())
 	}
 }
 
@@ -194,6 +205,12 @@ void UToroSettingRow_Swapper::OnLeftButtonClicked()
 		{
 			ProviderPtr->SetValue(Current - 1);
 			UpdateSettingRow();
+
+			RightButton->SetIsEnabled(true);
+			if (Current == 0)
+			{
+				LeftButton->SetIsEnabled(false);
+			}
 		}
 	}
 	else
@@ -207,10 +224,17 @@ void UToroSettingRow_Swapper::OnRightButtonClicked()
 	if (FUserSettingsProvider_IntSwap* ProviderPtr = Provider.GetMutablePtr<FUserSettingsProvider_IntSwap>())
 	{
 		const uint8 Current = ProviderPtr->GetValue();
-		if (Current < ProviderPtr->OptionNames.Num() - 1)
+		const uint8 MaxIndex = ProviderPtr->OptionNames.Num() - 1;
+		if (Current < MaxIndex)
 		{
 			ProviderPtr->SetValue(Current + 1);
 			UpdateSettingRow();
+
+			LeftButton->SetIsEnabled(true);
+			if (Current == MaxIndex)
+			{
+				RightButton->SetIsEnabled(false);
+			}
 		}
 	}
 	else

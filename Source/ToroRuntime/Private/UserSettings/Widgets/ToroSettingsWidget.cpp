@@ -16,11 +16,11 @@ UToroSettingsWidget::UToroSettingsWidget(const FObjectInitializer& ObjectInit): 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void UToroSettingsWidget::OnRowHovered(const FAsyncMessage& Message)
 {
-	if (const FUserSettingsProviderBase* Provider = Message.GetPayloadData<FUserSettingsProviderBase>())
+	if (const FSettingRowDescriptor* Descriptor = Message.GetPayloadData<const FSettingRowDescriptor>())
 	{
-		SettingLabel->SetText(Provider->DisplayName);
-		SettingDesc->SetText(Provider->Description);
-		SettingCost->SetText(Provider->GetPerformanceLabel());
+		SettingLabel->SetText(Descriptor->DisplayName);
+		SettingDesc->SetText(Descriptor->Description);
+		SettingCost->SetText(Descriptor->Performance);
 	}
 }
 
