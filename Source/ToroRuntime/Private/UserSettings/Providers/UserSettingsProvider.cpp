@@ -9,18 +9,6 @@ FUserSettingsProviderBase::FUserSettingsProviderBase()
 {
 }
 
-FText FUserSettingsProviderBase::GetFormattedTooltip() const
-{
-	FTextBuilder Builder;
-	Builder.AppendLine(Description);
-	if (Performance != EUserSettingImpact::None)
-	{
-		Builder.AppendLineFormat(INVTEXT("\nImpact: {0}"), GetPerformanceLabel());
-	}
-
-	return Builder.ToText();
-}
-
 const FText& FUserSettingsProviderBase::GetPerformanceLabel() const
 {
 	static const FText LABELS[] = {

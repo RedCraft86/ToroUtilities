@@ -61,7 +61,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Display)
 		bool bUpdateDynamically;
 
-	FText GetFormattedTooltip() const;
 	const FText& GetPerformanceLabel() const;
 	virtual bool ShouldBeEnabled() const { return true; }
 	virtual void ResetSetting() {}
@@ -205,10 +204,6 @@ public:
 	/** The collection of valid strings this setting can accept. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option)
 		TArray<FString> DefaultChoices;
-
-	/** Tooltips associated with specific choices, mapped by the choice string. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option)
-		TMap<FString, FText> OptionTooltips;
 
 	virtual const TArray<FString>& GetOptions() { return DefaultChoices; }
 

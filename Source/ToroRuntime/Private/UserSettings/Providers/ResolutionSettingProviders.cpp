@@ -64,9 +64,6 @@ const TArray<FString>& FToroUSP_ResolutionValue::GetOptions()
 		}
 	}
 
-	OptionTooltips.Add(BuildOption(DesktopRes, EWindowMode::Fullscreen), INVTEXT("Default Fullscreen"));
-	OptionTooltips.Add(BuildOption(DesktopRes, EWindowMode::WindowedFullscreen), INVTEXT("Default Borderless"));
-
 	return DefaultChoices;
 }
 
