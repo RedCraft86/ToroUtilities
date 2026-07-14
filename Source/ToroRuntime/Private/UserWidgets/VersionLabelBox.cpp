@@ -2,7 +2,9 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "UserWidgets/VersionLabelBox.h"
+#include "UObject/ConstructorHelpers.h"
 #include "GeneralProjectSettings.h"
+#include "Materials/Material.h"
 #include "ToroSettings.h"
 #include "Misc/App.h"
 
@@ -13,6 +15,13 @@ UVersionLabelBox::UVersionLabelBox()
 	Font.TypefaceFontName = TEXT("Regular");
 	Font.OutlineSettings.OutlineColor = FLinearColor::Black;
 	Font.OutlineSettings.OutlineSize = 2;
+
+	if (!IsRunningCommandlet() && !IsRunningDedicatedServer())
+	{
+		const ConstructorHelpers::FObjectFinder<UMaterial> FontMaterial(
+		   TEXT("/ToroUtilities/Widgets/Assets/UIM_Gradient.UIM_Gradient"));
+		if (FontMaterial.Succeeded()) Font.FontMaterial = FontMaterial.Object;
+	}
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 	Justification = ETextJustify::Left;

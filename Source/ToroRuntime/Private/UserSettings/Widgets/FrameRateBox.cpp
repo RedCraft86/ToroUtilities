@@ -2,6 +2,8 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "UserSettings/Widgets/FrameRateBox.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Materials/Material.h"
 #if WITH_EDITOR
 #include "Misc/App.h"
 #endif
@@ -12,6 +14,13 @@ UFrameRateBox::UFrameRateBox(): bInit(false), bShowingFPS(false)
 	Font.TypefaceFontName = TEXT("Regular");
 	Font.OutlineSettings.OutlineColor = FLinearColor::Black;
 	Font.OutlineSettings.OutlineSize = 2;
+
+	if (!IsRunningCommandlet() && !IsRunningDedicatedServer())
+	{
+		const ConstructorHelpers::FObjectFinder<UMaterial> FontMaterial(
+		   TEXT("/ToroUtilities/Widgets/Assets/UIM_Gradient.UIM_Gradient"));
+		if (FontMaterial.Succeeded()) Font.FontMaterial = FontMaterial.Object;
+	}
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 	Justification = ETextJustify::Right;
