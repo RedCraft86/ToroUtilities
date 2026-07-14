@@ -38,13 +38,15 @@ UCommonLabeledButton::UCommonLabeledButton(const FObjectInitializer& ObjectInit)
 	ForegroundColor = FLinearColor::Black;
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
-	SetStyle(LoadClass<UCommonButtonStyle>(nullptr, 
-		TEXT("/ToroUtilities/Widgets/Styles/Style_ToroButton_01.Style_ToroButton_01_C")
-	));
+	if (!IsRunningCommandlet() && !IsRunningDedicatedServer())
+	{	ConstructorHelpers::FClassFinder<UCommonButtonStyle> ButtonStyleFinder(
+			TEXT("/ToroUtilities/Widgets/Styles/Style_ToroButton_01.Style_ToroButton_01_C"));
+		if (ButtonStyleFinder.Succeeded()) SetStyle(ButtonStyleFinder.Class);
 
-	SetLabelStyle(LoadClass<UCommonTextStyle>(nullptr, 
-		TEXT("/ToroUtilities/Widgets/Styles/Style_ToroText_01.Style_ToroText_01_C")
-	));
+		ConstructorHelpers::FClassFinder<UCommonTextStyle> TextStyleFinder(
+			TEXT("/ToroUtilities/Widgets/Styles/Style_ToroText_01.Style_ToroText_01_C"));
+		if (TextStyleFinder.Succeeded()) SetLabelStyle(TextStyleFinder.Class);
+	}
 }
 
 void UCommonLabeledButton::SetLabelContentText(const FText InText)
