@@ -10,7 +10,7 @@
 class UCommonTextBlock;
 class UCommonButtonBase;
 
-UCLASS(Abstract, NotBlueprintable, BlueprintType)
+UCLASS(Abstract, NotBlueprintable, BlueprintType, PrioritizeCategories = (Setting))
 class TORORUNTIME_API UToroSettingRowBase : public UCommonUserWidget
 {
 	GENERATED_BODY()

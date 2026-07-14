@@ -84,10 +84,6 @@ FToroUSP_MiscSoundVol::FToroUSP_MiscSoundVol()
 	MaxValue = 200.0f;
 	NumDecimals = 0;
 	DefaultOption = 100.0f;
-
-#if WITH_EDITOR
-	Channel = LoadObject<USoundClass>(nullptr, TEXT("/ToroUtilities/SoundClasses/SC_Master.SC_Master"));
-#endif
 }
 
 float FToroUSP_MiscSoundVol::GetValue() const
