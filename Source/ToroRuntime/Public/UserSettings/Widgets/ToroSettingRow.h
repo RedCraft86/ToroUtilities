@@ -38,6 +38,7 @@ protected:
 
 	void OnResetClicked();
 	void OnSettingsApplied(const UToroGameUserSettings* Settings, const EUserSettingApplyType Type);
+	void CheckResettability() const;
 
 	virtual void UpdateSettingRow() {}
 

@@ -32,6 +32,7 @@ public:
 
 	virtual FString GetValue() const override;
 	virtual void SetValue(const FString& InValue) override;
+	virtual bool IsResettable() const override { return false; }
 
 private:
 

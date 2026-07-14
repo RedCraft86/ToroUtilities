@@ -63,7 +63,9 @@ public:
 
 	const FText& GetPerformanceLabel() const;
 	virtual bool ShouldBeEnabled() const { return true; }
+
 	virtual void ResetSetting() {}
+	virtual bool IsResettable() const { return false; }
 
 protected:
 #if WITH_EDITOR
@@ -99,6 +101,10 @@ public:
 	virtual void ResetSetting() override
 	{
 		SetValue(DefaultOption);
+	}
+	virtual bool IsResettable() const override
+	{
+		return GetValue() == DefaultOption;
 	}
 };
 
@@ -140,6 +146,10 @@ public:
 	{
 		SetValue(DefaultOption);
 	}
+	virtual bool IsResettable() const override
+	{
+		return FMath::IsNearlyEqual(GetValue(), DefaultOption);
+	}
 
 #if WITH_EDITOR
 protected:
@@ -175,6 +185,10 @@ public:
 	virtual void ResetSetting() override
 	{
 		SetValue(DefaultOption);
+	}
+	virtual bool IsResettable() const override
+	{
+		return GetValue() == DefaultOption;
 	}
 
 #if WITH_EDITOR
@@ -213,5 +227,9 @@ public:
 	virtual void ResetSetting() override
 	{
 		SetValue(DefaultOption);
+	}
+	virtual bool IsResettable() const override
+	{
+		return DefaultOption.Equals(GetValue());
 	}
 };

@@ -42,6 +42,20 @@ void UToroSettingRowBase::OnSettingsApplied(const UToroGameUserSettings* Setting
 	}
 }
 
+void UToroSettingRowBase::CheckResettability() const
+{
+	if (const FUserSettingsProviderBase* ProviderPtr = Provider.GetPtr())
+	{
+		RevertButton->SetIsEnabled(ProviderPtr->IsResettable());
+		RevertButton->SetVisibility(RevertButton->GetIsEnabled() 
+			? ESlateVisibility::Visible : ESlateVisibility::Hidden);
+	}
+	else
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("Setting Row %s has no valid provider."), *GetName())
+	}
+}
+
 void UToroSettingRowBase::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -110,6 +124,7 @@ void UToroSettingRow_Toggle::OnToggleClicked()
 
 		const float StartTime = bCurrent ? ToggleAnim->GetStartTime() : ToggleAnim->GetEndTime();
 		PlayAnimation(ToggleAnim, StartTime, 1, bCurrent ? EUMGSequencePlayMode::Forward : EUMGSequencePlayMode::Reverse);
+		CheckResettability();
 	}
 	else
 	{
@@ -126,6 +141,8 @@ void UToroSettingRow_Toggle::UpdateSettingRow()
 		{
 			AnimState->SetCurrentTime(ProviderPtr->GetValue() ? ToggleAnim->GetStartTime() : ToggleAnim->GetEndTime());
 		}
+
+		CheckResettability();
 	}
 	else
 	{
@@ -155,6 +172,7 @@ void UToroSettingRow_Slider::OnValueChanged(float InValue)
 	if (FUserSettingsProvider_Float* ProviderPtr = Provider.GetMutablePtr<FUserSettingsProvider_Float>())
 	{
 		ProviderPtr->SetValue(InValue);
+		CheckResettability();
 	}
 	else
 	{
@@ -177,6 +195,7 @@ void UToroSettingRow_Slider::UpdateSettingRow()
 		SpinSlider->SetMinFractionalDigits(ProviderPtr->NumDecimals);
 		SpinSlider->SetMaxFractionalDigits(ProviderPtr->NumDecimals);
 		SpinSlider->SetDelta(ProviderPtr->GetValueDelta());
+		CheckResettability();
 	}
 	else
 	{
@@ -204,13 +223,14 @@ void UToroSettingRow_Swapper::OnLeftButtonClicked()
 		if (Current > 0)
 		{
 			ProviderPtr->SetValue(Current - 1);
-			UpdateSettingRow();
 
 			RightButton->SetIsEnabled(true);
 			if (Current == 0)
 			{
 				LeftButton->SetIsEnabled(false);
 			}
+
+			UpdateSettingRow();
 		}
 	}
 	else
@@ -228,13 +248,14 @@ void UToroSettingRow_Swapper::OnRightButtonClicked()
 		if (Current < MaxIndex)
 		{
 			ProviderPtr->SetValue(Current + 1);
-			UpdateSettingRow();
 
 			LeftButton->SetIsEnabled(true);
 			if (Current == MaxIndex)
 			{
 				RightButton->SetIsEnabled(false);
 			}
+
+			UpdateSettingRow();
 		}
 	}
 	else
@@ -248,6 +269,7 @@ void UToroSettingRow_Swapper::UpdateSettingRow()
 	if (const FUserSettingsProvider_IntSwap* ProviderPtr = Provider.GetPtr<FUserSettingsProvider_IntSwap>())
 	{
 		OptionLabel->SetText(FText::FromString(ProviderPtr->OptionNames[ProviderPtr->GetValue()]));
+		CheckResettability();
 	}
 	else
 	{
@@ -278,6 +300,7 @@ void UToroSettingRow_Selector::OnValueSelected(FString SelectedItem, ESelectInfo
 	if (FUserSettingsProvider_String* ProviderPtr = Provider.GetMutablePtr<FUserSettingsProvider_String>())
 	{
 		ProviderPtr->SetValue(SelectedItem);
+		CheckResettability();
 	}
 	else
 	{
@@ -296,6 +319,7 @@ void UToroSettingRow_Selector::UpdateSettingRow()
 		}
 
 		SelectorBox->SetSelectedOption(ProviderPtr->GetValue());
+		CheckResettability();
 	}
 	else
 	{
