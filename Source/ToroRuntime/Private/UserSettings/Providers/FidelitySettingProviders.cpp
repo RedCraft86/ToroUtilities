@@ -62,6 +62,7 @@ FToroUSP_FidelityTSRPercent::FToroUSP_FidelityTSRPercent()
 {
 	DisplayName = INVTEXT("[TSR] Screen Percentage");
 	Description = INVTEXT("To render in lower resolution and upscale for better performance.");
+	Performance = EUserSettingImpact::Medium;
 	bUpdateDynamically = true;
 
 	MinValue = 10.0f;
@@ -77,4 +78,9 @@ float FToroUSP_FidelityTSRPercent::GetValue() const
 void FToroUSP_FidelityTSRPercent::SetValue(const float InValue)
 {
 	UserSettings->SetTSRScreenPercentage(InValue);
+}
+
+bool FToroUSP_FidelityTSRPercent::ShouldBeEnabled() const
+{
+	return UserSettings->GetImageFidelityMode() == EImageFidelityMode::TSR;
 }

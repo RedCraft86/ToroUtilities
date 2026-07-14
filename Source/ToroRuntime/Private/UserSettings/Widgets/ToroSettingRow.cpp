@@ -35,7 +35,13 @@ void UToroSettingRowBase::OnResetClicked()
 void UToroSettingRowBase::OnSettingsApplied(const UToroGameUserSettings* Settings, const EUserSettingApplyType Type)
 {
 	static TFrameValue<bool> bHasRanThisFrame(false);
-	if (!bHasRanThisFrame.IsSet() && (Provider.Get().bUpdateDynamically || Type == EUserSettingApplyType::UIRefresh))
+	if (bHasRanThisFrame.IsSet() || !Provider.IsValid())
+	{
+		return;
+	}
+
+	const FUserSettingsProviderBase& ProviderRef = Provider.Get();
+	if (ProviderRef.bUpdateDynamically || Type == EUserSettingApplyType::UIRefresh)
 	{
 		bHasRanThisFrame = true;
 		UpdateSettingRow();
@@ -49,6 +55,18 @@ void UToroSettingRowBase::CheckResettability() const
 		RevertButton->SetIsEnabled(ProviderPtr->IsResettable());
 		RevertButton->SetVisibility(RevertButton->GetIsEnabled() 
 			? ESlateVisibility::Visible : ESlateVisibility::Hidden);
+	}
+	else
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("Setting Row %s has no valid provider."), *GetName())
+	}
+}
+
+void UToroSettingRowBase::UpdateSettingRow()
+{
+	if (const FUserSettingsProviderBase* ProviderPtr = Provider.GetPtr())
+	{
+		SetVisibility(ProviderPtr->ShouldBeEnabled() ? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
 	}
 	else
 	{
@@ -134,6 +152,7 @@ void UToroSettingRow_Toggle::OnToggleClicked()
 
 void UToroSettingRow_Toggle::UpdateSettingRow()
 {
+	Super::UpdateSettingRow();
 	if (const FUserSettingsProvider_Bool* ProviderPtr = Provider.GetPtr<FUserSettingsProvider_Bool>())
 	{
 		StopAnimation(ToggleAnim);
@@ -187,6 +206,7 @@ void UToroSettingRow_Slider::OnValueCommitted(float InValue, ETextCommit::Type C
 
 void UToroSettingRow_Slider::UpdateSettingRow()
 {
+	Super::UpdateSettingRow();
 	if (const FUserSettingsProvider_Float* ProviderPtr = Provider.GetPtr<FUserSettingsProvider_Float>())
 	{
 		SpinSlider->SetValue(ProviderPtr->GetValue());
@@ -266,6 +286,7 @@ void UToroSettingRow_Swapper::OnRightButtonClicked()
 
 void UToroSettingRow_Swapper::UpdateSettingRow()
 {
+	Super::UpdateSettingRow();
 	if (const FUserSettingsProvider_IntSwap* ProviderPtr = Provider.GetPtr<FUserSettingsProvider_IntSwap>())
 	{
 		OptionLabel->SetText(FText::FromString(ProviderPtr->OptionNames[ProviderPtr->GetValue()]));
@@ -310,6 +331,7 @@ void UToroSettingRow_Selector::OnValueSelected(FString SelectedItem, ESelectInfo
 
 void UToroSettingRow_Selector::UpdateSettingRow()
 {
+	Super::UpdateSettingRow();
 	if (FUserSettingsProvider_String* ProviderPtr = Provider.GetMutablePtr<FUserSettingsProvider_String>())
 	{
 		SelectorBox->ClearOptions();

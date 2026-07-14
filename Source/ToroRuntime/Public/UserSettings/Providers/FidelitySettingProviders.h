@@ -32,4 +32,5 @@ public:
 
 	virtual float GetValue() const override;
 	virtual void SetValue(const float InValue) override;
+	virtual bool ShouldBeEnabled() const override;
 };
