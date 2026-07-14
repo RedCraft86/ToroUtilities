@@ -116,7 +116,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Label", DisplayName = "Text", meta = (MultiLine = true))
 		FText LabelText;
 
-	UPROPERTY(EditAnywhere, Category = "Label", DisplayName = "Text")
+	UPROPERTY(EditAnywhere, Category = "Label", DisplayName = "Text Color")
 		FLinearColor LabelColor;
 
 	UPROPERTY(EditAnywhere, Category = "Label", DisplayName = "Text Style")

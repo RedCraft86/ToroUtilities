@@ -22,6 +22,14 @@ UCommonLabeledButton::UCommonLabeledButton(const FObjectInitializer& ObjectInit)
 	{
 		static ConstructorHelpers::FObjectFinder<UFont> RobotoFinder(*UWidget::GetDefaultFontName());
 		if (RobotoFinder.Succeeded()) LabelFont = FSlateFontInfo(RobotoFinder.Object, 24, FName("Bold"));
+
+		ConstructorHelpers::FClassFinder<UCommonButtonStyle> ButtonStyleFinder(
+			TEXT("/ToroUtilities/Widgets/Styles/Style_ToroButton_01.Style_ToroButton_01_C"));
+		if (ButtonStyleFinder.Succeeded()) SetStyle(ButtonStyleFinder.Class);
+
+		ConstructorHelpers::FClassFinder<UCommonTextStyle> TextStyleFinder(
+			TEXT("/ToroUtilities/Widgets/Styles/Style_ToroText_01.Style_ToroText_01_C"));
+		if (TextStyleFinder.Succeeded()) SetLabelStyle(TextStyleFinder.Class);
 	}
 
 	LabelStrikeBrush.TintColor = FLinearColor::Black;
@@ -37,16 +45,6 @@ UCommonLabeledButton::UCommonLabeledButton(const FObjectInitializer& ObjectInit)
 	PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	ForegroundColor = FLinearColor::Black;
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
-
-	if (!IsRunningCommandlet() && !IsRunningDedicatedServer())
-	{	ConstructorHelpers::FClassFinder<UCommonButtonStyle> ButtonStyleFinder(
-			TEXT("/ToroUtilities/Widgets/Styles/Style_ToroButton_01.Style_ToroButton_01_C"));
-		if (ButtonStyleFinder.Succeeded()) SetStyle(ButtonStyleFinder.Class);
-
-		ConstructorHelpers::FClassFinder<UCommonTextStyle> TextStyleFinder(
-			TEXT("/ToroUtilities/Widgets/Styles/Style_ToroText_01.Style_ToroText_01_C"));
-		if (TextStyleFinder.Succeeded()) SetLabelStyle(TextStyleFinder.Class);
-	}
 }
 
 void UCommonLabeledButton::SetLabelContentText(const FText InText)
