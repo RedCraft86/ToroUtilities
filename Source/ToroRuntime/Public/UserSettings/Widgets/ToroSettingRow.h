@@ -61,15 +61,15 @@ public:
 
 protected:
 
-	/** Button for the toggle itself. REQUIREMENT: A CommonButton named 'ToggleButton'. */
+	/** Button for the toggle itself. REQUIREMENT: A Button named 'ToggleButton'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
-		TObjectPtr<UCommonButtonBase> ToggleButton;
+		TObjectPtr<class UButton> ToggleButton;
 
 	/** Animation for the toggle where Start = Off and End = On. REQUIREMENT: A WidgetAnimation named 'ToggleAnim'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ToggleAnim;
 
-	void OnToggleClicked();
+	UFUNCTION() void OnToggleClicked();
 
 	virtual void UpdateSettingRow() override;
 	virtual void NativeConstruct() override;

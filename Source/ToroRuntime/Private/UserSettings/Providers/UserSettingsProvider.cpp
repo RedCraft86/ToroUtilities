@@ -12,7 +12,7 @@ FUserSettingsProviderBase::FUserSettingsProviderBase()
 const FText& FUserSettingsProviderBase::GetPerformanceLabel() const
 {
 	static const FText LABELS[] = {
-		FText::GetEmpty(),
+		INVTEXT("N/A"),
 		INVTEXT("Low"),
 		INVTEXT("Medium"),
 		INVTEXT("High"),

@@ -6,11 +6,11 @@
 #include "AsyncGameplayMessageSystem.h"
 #include "AsyncMessageWorldSubsystem.h"
 #include "Animation/WidgetAnimation.h"
+#include "Components/ComboBoxString.h"
 #include "Components/SpinBox.h"
 #include "CommonButtonBase.h"
 #include "CommonTextBlock.h"
 #include "ToroRuntime.h"
-#include "Components/ComboBoxString.h"
 #if WITH_EDITOR
 #include "Editor/WidgetCompilerLog.h"
 #endif
@@ -153,7 +153,7 @@ void UToroSettingRow_Toggle::UpdateSettingRow()
 void UToroSettingRow_Toggle::NativeConstruct()
 {
 	Super::NativeConstruct();
-	ToggleButton->OnClicked().AddUObject(this, &UToroSettingRow_Toggle::OnToggleClicked);
+	ToggleButton->OnClicked.AddDynamic(this, &UToroSettingRow_Toggle::OnToggleClicked);
 }
 
 UToroSettingRow_Slider::UToroSettingRow_Slider(const FObjectInitializer& ObjectInit): Super(ObjectInit)

@@ -9,6 +9,7 @@
 #include "ToroSettingsWidget.generated.h"
 
 class UCommonTextBlock;
+class UCommonButtonBase;
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_SettingRowHover)
 
@@ -58,9 +59,20 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UCommonTextBlock> SettingCost;
 
+	/** Button to apply, save, and exit. REQUIREMENT: A CommonButton named 'ExitButton'. */
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+		TObjectPtr<UCommonButtonBase> ExitButton;
+
+	/** Button to automatically adjust scalability. REQUIREMENT: A CommonButton named 'AutoAdjustButton'. */
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+		TObjectPtr<UCommonButtonBase> AutoAdjustButton;
+
 	FAsyncMessageHandle HoverListenerHandle;
 
+	void OnExitClicked();
+	void OnAutoAdjustClicked();
 	void OnRowHovered(const struct FAsyncMessage& Message);
+
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 };

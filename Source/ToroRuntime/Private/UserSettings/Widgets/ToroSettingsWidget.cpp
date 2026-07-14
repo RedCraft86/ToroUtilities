@@ -5,12 +5,25 @@
 #include "UserSettings/Providers/UserSettingsProvider.h"
 #include "AsyncGameplayMessageSystem.h"
 #include "AsyncMessageWorldSubsystem.h"
+#include "CommonButtonBase.h"
 #include "CommonTextBlock.h"
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_SettingRowHover, "Event.SettingHover")
 
 UToroSettingsWidget::UToroSettingsWidget(const FObjectInitializer& ObjectInit): Super(ObjectInit)
 {
+}
+
+void UToroSettingsWidget::OnExitClicked()
+{
+	UToroGameUserSettings::Get()->ApplySettings(false);
+	DeactivateWidget();
+}
+
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void UToroSettingsWidget::OnAutoAdjustClicked()
+{
+	UToroGameUserSettings::Get()->AutoAdjustScalability();
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -26,6 +39,10 @@ void UToroSettingsWidget::OnRowHovered(const FAsyncMessage& Message)
 
 void UToroSettingsWidget::NativeConstruct()
 {
+	Super::NativeConstruct();
+	ExitButton->OnClicked().AddUObject(this, &UToroSettingsWidget::OnExitClicked);
+	AutoAdjustButton->OnClicked().AddUObject(this, &UToroSettingsWidget::OnAutoAdjustClicked);
+
 	const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem
 		::GetSharedMessageSystem<FAsyncGameplayMessageSystem>(GetWorld());
 	if (System.IsValid())
@@ -38,6 +55,7 @@ void UToroSettingsWidget::NativeConstruct()
 
 void UToroSettingsWidget::NativeDestruct()
 {
+	Super::NativeDestruct();
 	const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem
 		::GetSharedMessageSystem<FAsyncGameplayMessageSystem>(GetWorld());
 	if (System.IsValid())
