@@ -32,6 +32,10 @@ public:
 		return IsValid(PC) ? PC->GetHUD<T>() : nullptr;
 	}
 
+	/** Pushes the Settings Widget to the master stack. */
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = HUD)
+		void PushSettings() const;
+
 	/** Returns the master UI widget container. */
 	UFUNCTION(BlueprintPure, Category = HUD)
 		UToroMasterWidget* GetMasterWidget() { return MasterWidget; }

@@ -2,6 +2,7 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "Framework/ToroPlayerHUD.h"
+#include "UserSettings/Widgets/ToroSettingsWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "ToroSettings.h"
 #include "ToroRuntime.h"
@@ -20,11 +21,31 @@ AToroPlayerHUD::AToroPlayerHUD()
 	SetCanBeDamaged(false);
 }
 
+void AToroPlayerHUD::PushSettings() const
+{
+	if (MasterWidget)
+	{
+		const UToroSettings* Settings = UToroSettings::Get();
+		if (Settings->SettingsWidgetClass.LoadSynchronous())
+		{
+			MasterWidget->PushToStack(Settings->SettingsWidgetClass.Get());
+		}
+		else
+		{
+			UE_LOG(LogToroRuntime, Warning, TEXT("SettingsWidgetClass is not provided (Project Settings)."))
+		}
+	}
+	else
+	{
+		UE_LOG(LogToroRuntime, Warning, TEXT("MasterWidget was not created, failed to push Settings widget."))
+	}
+}
+
 void AToroPlayerHUD::BeginPlay()
 {
 	Super::BeginPlay();
 	const UToroSettings* Settings = UToroSettings::Get();
-	if (Settings && Settings->MasterWidgetClass.LoadSynchronous())
+	if (Settings->MasterWidgetClass.LoadSynchronous())
 	{
 		MasterWidget = CreateWidget<UToroMasterWidget>(GetWorld(), Settings->MasterWidgetClass.Get());
 		if (MasterWidget)

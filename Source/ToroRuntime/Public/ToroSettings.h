@@ -29,6 +29,12 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Game)
 		FName DemoName;
 
+	/**
+	 * Global list for the game's database assets. Use GetDatabase<UType>() to obtain one.
+	 */
+	UPROPERTY(Config, EditAnywhere, Category = Game)
+		TSet<TSoftObjectPtr<UToroDatabase>> Databases;
+
 	/** 
 	 * The Master Widget class to spawn for the Player HUD. 
 	 */
@@ -42,24 +48,10 @@ public:
 		TSoftClassPtr<class UToroUserDialog> UserDialogClass;
 
 	/**
-	 * Global list for the game's database assets. Use GetDatabase<UType>() to obtain one.
+	 * The Settings Widget class to use when creating a settings screen.
 	 */
-	UPROPERTY(Config, EditAnywhere, Category = Game)
-		TSet<TSoftObjectPtr<UToroDatabase>> Databases;
-
-	/**
-	 * Gets the game version in format 
-	 * <pre>
-	 *     {version}-{build type} | {demo name}
-	 * </pre>
-	 * For example: 
-	 * <pre>
-	 *     1.0.0-SHIPPING | Exploration Demo
-	 * </pre>
-	 * @return Formatted game version string.
-	 */
-	UFUNCTION(BlueprintPure, Category = Game)
-		FString GetVersionString() const;
+	UPROPERTY(Config, EditAnywhere, Category = UserWidgets)
+		TSoftClassPtr<class UToroSettingsWidget> SettingsWidgetClass;
 
 	/**
 	 * Finds the database asset of the specified class in the global list.

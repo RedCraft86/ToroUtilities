@@ -12,21 +12,7 @@ UToroSettings::UToroSettings()
 
 	MasterWidgetClass = FSoftClassPath(TEXT("/ToroUtilities/Widgets/WBP_MasterWidget.WBP_MasterWidget_C"));
 	UserDialogClass = FSoftClassPath(TEXT("/ToroUtilities/Widgets/WBP_UserDialog.WBP_UserDialog_C"));
-}
-
-FString UToroSettings::GetVersionString() const
-{
-	FString Result;
-	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
-	{
-		Result.Appendf(TEXT("Version: %s-%s"), *ProjectSettings->ProjectVersion,
-			*FString(LexToString(FApp::GetBuildConfiguration())).ToUpper());
-	}
-	if (!DemoName.IsNone())
-	{
-		Result.Appendf(TEXT(" | %s"), *DemoName.ToString());
-	}
-	return Result;
+	SettingsWidgetClass = FSoftClassPath(TEXT("/ToroUtilities/Widgets/WBP_SettingsWidget.WBP_SettingsWidget_C"));
 }
 
 UToroDatabase* UToroSettings::GetDatabase(const TSubclassOf<UToroDatabase> Class) const

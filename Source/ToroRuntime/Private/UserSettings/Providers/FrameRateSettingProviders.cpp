@@ -23,7 +23,7 @@ void FToroUSP_FrameRateShow::SetValue(const bool bInValue)
 
 FToroUSP_FrameRateLimit::FToroUSP_FrameRateLimit()
 {
-	DisplayName = INVTEXT("Frame Rate Limit");
+	DisplayName = INVTEXT("Frame Rate");
 	Description = INVTEXT("Cap/Uncap the maximum Frame Rate. May be overridden by V-Sync.");
 	Performance = EUserSettingImpact::Varies;
 

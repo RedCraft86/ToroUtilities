@@ -26,7 +26,7 @@ void FToroUSP_MiscBrightness::SetValue(const float InValue)
 
 FToroUSP_MiscMotionBlur::FToroUSP_MiscMotionBlur()
 {
-	DisplayName = INVTEXT("Motion Blur Quality");
+	DisplayName = INVTEXT("Motion Blur");
 	Description = INVTEXT("Off, or Quality of Motion Blur.");
 	Performance = EUserSettingImpact::Low;
 
@@ -53,7 +53,6 @@ void FToroUSP_MiscMotionBlur::SetValue(const uint8 InValue)
 FToroUSP_MiscLumenMode::FToroUSP_MiscLumenMode()
 {
 	DisplayName = INVTEXT("Lumen Mode");
-	Description = INVTEXT("Off, or to what extent Lumen should be enabled.");
 	Performance = EUserSettingImpact::High;
 
 	DefaultOption = 3;
@@ -63,6 +62,16 @@ FToroUSP_MiscLumenMode::FToroUSP_MiscLumenMode()
 		TEXT("Lighting Only"),
 		TEXT("Enabled")
 	};
+
+	FTextBuilder Builder;
+	{
+		Builder.AppendLine(INVTEXT("Off, or to what extent Lumen should be enabled.\n\n"));
+		Builder.AppendLine(INVTEXT("Disabled: Lumen will be completely turned off. Lighting will use probe based fake GI.\n"));
+		Builder.AppendLine(INVTEXT("Reflections Only: Lumen will only be enabled for the Reflection scene. Lighting will use probe based fake GI.\n"));
+		Builder.AppendLine(INVTEXT("Lighting Only: Lumen will only be enabled for Dynamic Global Illumination.\n"));
+		Builder.AppendLine(INVTEXT("Enabled: Lumen will be enabled for both Lighting and Reflections."));
+	}
+	Description = Builder.ToText();
 }
 
 uint8 FToroUSP_MiscLumenMode::GetValue() const
