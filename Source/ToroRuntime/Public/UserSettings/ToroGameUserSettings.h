@@ -104,8 +104,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Settings)
 		float GetSensitivityY() const;
 
+	/** Gets the final adjusted multiplier for the X and Y sensitivity values where 0.0 is remapped to 0.1 */
 	UFUNCTION(BlueprintPure, Category = Settings)
-		FVector2D GetSensitivityXY() const { return FVector2D(GetSensitivityX(), GetSensitivityY()); }
+		FVector2D GetSensitivityMultiplier() const;
 
 	/** Sets the global brightness/gamma offset (20-80). Default: 50 */
 	UFUNCTION(BlueprintCallable, Category = Settings)

@@ -23,7 +23,7 @@ void FToroUSP_CameraInterp::SetValue(const bool bInValue)
 FToroUSP_CameraSensX::FToroUSP_CameraSensX()
 {
 	DisplayName = INVTEXT("Horizontal Sensitivity");
-	Description = INVTEXT("Multiplier for sensitivity. Negative values will invert it. 0 should not be used.");
+	Description = INVTEXT("Multiplier for sensitivity. Negative values will invert it.\nRange: [-2, -0.1)U(0.1, 2]");
 
 	MinValue = -2.0f;
 	MaxValue = +2.0f;
@@ -43,7 +43,7 @@ void FToroUSP_CameraSensX::SetValue(const float InValue)
 FToroUSP_CameraSensY::FToroUSP_CameraSensY()
 {
 	DisplayName = INVTEXT("Vertical Sensitivity");
-	Description = INVTEXT("Multiplier for sensitivity. Negative values will invert it. 0 should not be used.");
+	Description = INVTEXT("Multiplier for sensitivity. Negative values will invert it.\nRange: [-2, -0.1)U(0.1, 2]");
 
 	MinValue = -2.0f;
 	MaxValue = +2.0f;

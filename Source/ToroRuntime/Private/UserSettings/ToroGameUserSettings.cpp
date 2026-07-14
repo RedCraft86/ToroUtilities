@@ -169,6 +169,14 @@ float UToroGameUserSettings::GetSensitivityY() const
 	return SensitivityY;
 }
 
+FVector2D UToroGameUserSettings::GetSensitivityMultiplier() const
+{
+	FVector2D Result(GetSensitivityX(), GetSensitivityY());
+	Result.X = Result.X < 0.0f ? FMath::Min(Result.X, -0.1f) : FMath::Max(Result.X, 0.1f);
+	Result.Y = Result.Y < 0.0f ? FMath::Min(Result.Y, -0.1f) : FMath::Max(Result.Y, 0.1f);
+	return Result;
+}
+
 void UToroGameUserSettings::SetBrightness(const uint8 Value)
 {
 	Brightness = FMath::Clamp<uint8>(Value, 20, 80);
