@@ -64,6 +64,7 @@ public:
 	FText GetFormattedTooltip() const;
 	const FText& GetPerformanceLabel() const;
 	virtual bool ShouldBeEnabled() const { return true; }
+	virtual void ResetSetting() {}
 
 protected:
 #if WITH_EDITOR
@@ -95,6 +96,11 @@ public:
 
 	virtual bool GetValue() const { return false; }
 	virtual void SetValue(const bool bInValue) {}
+
+	virtual void ResetSetting() override
+	{
+		SetValue(DefaultOption);
+	}
 };
 
 /**
@@ -131,6 +137,11 @@ public:
 	virtual float GetValue() const { return 0.0f; }
 	virtual void SetValue(const float InValue) {}
 
+	virtual void ResetSetting() override
+	{
+		SetValue(DefaultOption);
+	}
+
 #if WITH_EDITOR
 protected:
 	virtual void UpdateProvider() override;
@@ -161,6 +172,11 @@ public:
 
 	virtual uint8 GetValue() const { return 0; }
 	virtual void SetValue(const uint8 InValue) {}
+
+	virtual void ResetSetting() override
+	{
+		SetValue(DefaultOption);
+	}
 
 #if WITH_EDITOR
 protected:
@@ -198,4 +214,9 @@ public:
 
 	virtual FString GetValue() const { return FString(); }
 	virtual void SetValue(const FString& InValue) {}
+
+	virtual void ResetSetting() override
+	{
+		SetValue(DefaultOption);
+	}
 };
