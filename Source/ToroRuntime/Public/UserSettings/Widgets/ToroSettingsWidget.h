@@ -5,10 +5,10 @@
 
 #include "AsyncMessageHandle.h"
 #include "NativeGameplayTags.h"
-#include "CommonActivatableWidget.h"
+#include "UserWidgets/ToroWidgetBase.h"
 #include "ToroSettingsWidget.generated.h"
 
-class UCommonTextBlock;
+class UTextBlock;
 class UCommonButtonBase;
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_SettingRowHover)
@@ -37,7 +37,7 @@ struct TORORUNTIME_API FSettingRowDescriptor final
 };
 
 UCLASS(Abstract, Blueprintable, BlueprintType)
-class TORORUNTIME_API UToroSettingsWidget final : public UCommonActivatableWidget
+class TORORUNTIME_API UToroSettingsWidget final : public UToroActivatableWidget
 {
 	GENERATED_BODY()
 
@@ -49,15 +49,15 @@ protected:
 
 	/** Label for the setting info. REQUIREMENT: A CommonTextBlock named 'SettingLabel'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
-		TObjectPtr<UCommonTextBlock> SettingLabel;
+		TObjectPtr<UTextBlock> SettingLabel;
 
 	/** Description for the setting info. REQUIREMENT: A CommonTextBlock named 'SettingDesc'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
-		TObjectPtr<UCommonTextBlock> SettingDesc;
+		TObjectPtr<UTextBlock> SettingDesc;
 
 	/** Performance Cost for the setting info. REQUIREMENT: A CommonTextBlock named 'SettingCost'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
-		TObjectPtr<UCommonTextBlock> SettingCost;
+		TObjectPtr<UTextBlock> SettingCost;
 
 	/** Button to apply, save, and exit. REQUIREMENT: A CommonButton named 'ExitButton'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))

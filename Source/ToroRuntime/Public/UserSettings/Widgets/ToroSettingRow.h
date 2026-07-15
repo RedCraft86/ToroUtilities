@@ -7,7 +7,7 @@
 #include "UserSettings/Providers/UserSettingsProvider.h"
 #include "ToroSettingRow.generated.h"
 
-class UCommonTextBlock;
+class UTextBlock;
 class UCommonButtonBase;
 
 UCLASS(Abstract, NotBlueprintable, BlueprintType, PrioritizeCategories = (Setting))
@@ -27,7 +27,7 @@ protected:
 
 	/** Label for the setting name. REQUIREMENT: A CommonTextBlock named 'SettingLabel'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
-		TObjectPtr<UCommonTextBlock> SettingLabel;
+		TObjectPtr<UTextBlock> SettingLabel;
 
 	/** Label for the setting name. REQUIREMENT: A CommonButton named 'RevertButton'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
@@ -118,7 +118,7 @@ protected:
 
 	/** Option label for the swapper. REQUIREMENT: A CommonTextBlock named 'OptionLabel'. */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
-		TObjectPtr<UCommonTextBlock> OptionLabel;
+		TObjectPtr<UTextBlock> OptionLabel;
 
 	void OnLeftButtonClicked();
 	void OnRightButtonClicked();

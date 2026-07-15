@@ -38,7 +38,7 @@ public:
 
 	/** Returns the master UI widget container. */
 	UFUNCTION(BlueprintPure, Category = HUD)
-		UToroMasterWidget* GetMasterWidget() { return MasterWidget; }
+		UToroMasterWidget* GetMasterWidget() const { return MasterWidget; }
 
 protected:
 

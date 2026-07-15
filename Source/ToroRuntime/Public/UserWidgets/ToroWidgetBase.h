@@ -32,6 +32,7 @@ public:
 
 protected:
 
+	/** Animation where Start = Faded Out & End = Faded In */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidgetAnimOptional))
 		TObjectPtr<UWidgetAnimation> FadeAnim;
 
@@ -61,6 +62,7 @@ public:
 
 protected:
 
+	/** Animation where Start = Faded Out & End = Faded In */
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidgetAnimOptional))
 		TObjectPtr<UWidgetAnimation> FadeAnim;
 
