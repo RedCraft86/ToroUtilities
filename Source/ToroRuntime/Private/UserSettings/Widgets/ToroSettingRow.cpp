@@ -3,8 +3,7 @@
 
 #include "UserSettings/Widgets/ToroSettingRow.h"
 #include "UserSettings/Widgets/ToroSettingsWidget.h"
-#include "AsyncGameplayMessageSystem.h"
-#include "AsyncMessageWorldSubsystem.h"
+#include "Buttons/CommonLabeledButton.h"
 #include "Animation/WidgetAnimation.h"
 #include "Components/ComboBoxString.h"
 #include "Components/SpinBox.h"
@@ -96,19 +95,11 @@ void UToroSettingRowBase::NativeOnMouseEnter(const FGeometry& InGeometry, const 
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	if (const FUserSettingsProviderBase* ProviderPtr = Provider.GetPtr())
 	{
-		const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem
-		   ::GetSharedMessageSystem<FAsyncGameplayMessageSystem>(GetWorld());
-		if (System.IsValid())
-		{
-			System->QueueMessageForBroadcast(
-				FAsyncMessageId(TAG_SettingRowHover.GetTag()), 
-				FInstancedStruct::Make<FSettingRowDescriptor>(
-					ProviderPtr->DisplayName, 
-					ProviderPtr->Description, 
-					ProviderPtr->GetPerformanceLabel()
-				)
-			);
-		}
+		OnRowHovered.ExecuteIfBound(FSettingRowDescriptor(
+			ProviderPtr->DisplayName, 
+			ProviderPtr->Description, 
+			ProviderPtr->GetPerformanceLabel()
+		));
 	}
 	else
 	{
@@ -128,6 +119,47 @@ void UToroSettingRowBase::ValidateCompiledDefaults(IWidgetCompilerLog& CompileLo
 }
 #endif
 
+UToroSettingRow_Button::UToroSettingRow_Button(const FObjectInitializer& ObjectInit): Super(ObjectInit)
+{
+	AllowedStruct = FUserSettingsProvider_Event::StaticStruct();
+}
+
+void UToroSettingRow_Button::OnExecClicked()
+{
+	if (FUserSettingsProvider_Event* ProviderPtr = Provider.GetMutablePtr<FUserSettingsProvider_Event>())
+	{
+		ProviderPtr->RunEvent();
+	}
+	else
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("Setting Row %s has no valid provider."), *GetName())
+	}
+}
+
+void UToroSettingRow_Button::UpdateSettingRow()
+{
+	Super::UpdateSettingRow();
+	CheckResettability();
+}
+
+void UToroSettingRow_Button::NativeConstruct()
+{
+	Super::NativeConstruct();
+	ExecButton->OnClicked().AddUObject(this, &UToroSettingRow_Button::OnExecClicked);
+}
+
+void UToroSettingRow_Button::SynchronizeProperties()
+{
+	Super::SynchronizeProperties();
+	if (ExecButton)
+	{
+		if (const FUserSettingsProvider_Event* ProviderPtr = Provider.GetMutablePtr<FUserSettingsProvider_Event>())
+		{
+			ExecButton->SetLabelContentText(ProviderPtr->ButtonLabel);
+		}
+	}
+}
+
 UToroSettingRow_Toggle::UToroSettingRow_Toggle(const FObjectInitializer& ObjectInit): Super(ObjectInit)
 {
 	AllowedStruct = FUserSettingsProvider_Bool::StaticStruct();
@@ -140,8 +172,16 @@ void UToroSettingRow_Toggle::OnToggleClicked()
 		const bool bCurrent = ProviderPtr->GetValue();
 		ProviderPtr->SetValue(!bCurrent);
 
-		const float StartTime = bCurrent ? ToggleAnim->GetStartTime() : ToggleAnim->GetEndTime();
-		PlayAnimation(ToggleAnim, StartTime, 1, bCurrent ? EUMGSequencePlayMode::Forward : EUMGSequencePlayMode::Reverse);
+		GetOrAddAnimationState(ToggleAnim);
+		if (bCurrent)
+		{
+			PlayAnimationForward(ToggleAnim);
+		}
+		else
+		{
+			PlayAnimationReverse(ToggleAnim);
+		}
+
 		CheckResettability();
 	}
 	else

@@ -8,6 +8,7 @@ FToroUSP_ResolutionScale::FToroUSP_ResolutionScale()
 {
 	DisplayName = INVTEXT("Resolution Scale");
 	Description = INVTEXT("Percentage of the selected resolution to actually render.");
+	Performance = EUserSettingImpact::Varies;
 	bUpdateDynamically = true;
 
 	MinValue = 10.0f;
@@ -63,6 +64,14 @@ const TArray<FString>& FToroUSP_ResolutionValue::GetOptions()
 			DefaultChoices.Add(BuildOption(Resolution, EWindowMode::Windowed));
 		}
 	}
+
+	// Add current resolution as well
+	DefaultChoices.AddUnique(BuildOption(
+		UserSettings->GetScreenResolution(), 
+		UserSettings->GetFullscreenMode())
+	);
+
+	DefaultChoices.Sort();
 
 	return DefaultChoices;
 }

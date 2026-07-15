@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Setting, meta = (ShowTreeView))
 		TInstancedStruct<FUserSettingsProviderBase> Provider;
 
+	DECLARE_DELEGATE_OneParam(FOnHovered, const struct FSettingRowDescriptor&)
+	FOnHovered OnRowHovered;
+
 protected:
 
 	/** Label for the setting name. REQUIREMENT: A CommonTextBlock named 'SettingLabel'. */
@@ -48,6 +51,28 @@ protected:
 #if WITH_EDITOR
 	virtual void ValidateCompiledDefaults(IWidgetCompilerLog& CompileLog) const override;
 #endif
+};
+
+UCLASS(Abstract, Blueprintable, BlueprintType)
+class TORORUNTIME_API UToroSettingRow_Button final : public UToroSettingRowBase
+{
+	GENERATED_BODY()
+
+public:
+
+	UToroSettingRow_Button(const FObjectInitializer& ObjectInit);
+
+protected:
+
+	/** Button for the toggle itself. REQUIREMENT: A CommonLabeledButton named 'ExecButton'. */
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
+		TObjectPtr<class UCommonLabeledButton> ExecButton;
+
+	void OnExecClicked();
+
+	virtual void UpdateSettingRow() override;
+	virtual void NativeConstruct() override;
+	virtual void SynchronizeProperties() override;
 };
 
 UCLASS(Abstract, Blueprintable, BlueprintType)

@@ -6,6 +6,18 @@
 #include "UserSettingsProvider.h"
 #include "ScalabilitySettingProviders.generated.h"
 
+USTRUCT(BlueprintType, DisplayName = "[Scalability] Automatic")
+struct TORORUNTIME_API FToroUSP_ScalabilityAuto : public FUserSettingsProvider_Event
+{
+	GENERATED_BODY()
+
+public:
+
+	FToroUSP_ScalabilityAuto();
+
+	virtual void RunEvent() override;
+};
+
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Scalability", meta = (Hidden))
 struct TORORUNTIME_API FToroUSP_ScalabilityBase : public FUserSettingsProvider_IntSwap
 {

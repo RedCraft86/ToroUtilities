@@ -3,6 +3,21 @@
 
 #include "UserSettings/Providers/ScalabilitySettingProviders.h"
 
+FToroUSP_ScalabilityAuto::FToroUSP_ScalabilityAuto()
+{
+	DisplayName = INVTEXT("Auto Scalability");
+	Description = INVTEXT("Automatically adjust the scalability values based on device benchmark.");
+	Performance = EUserSettingImpact::High;
+	bUpdateDynamically = false;
+
+	ButtonLabel = INVTEXT("Configure");
+}
+
+void FToroUSP_ScalabilityAuto::RunEvent()
+{
+	UToroGameUserSettings::Get()->AutoAdjustScalability();
+}
+
 FToroUSP_ScalabilityBase::FToroUSP_ScalabilityBase()
 {
 	Performance = EUserSettingImpact::Medium;

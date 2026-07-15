@@ -78,6 +78,26 @@ protected:
 };
 
 /**
+ * Provides a way to run some event for settings (e.g., Auto Scalability Detection)
+ */
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "Event Provider", meta = (Hidden))
+struct TORORUNTIME_API FUserSettingsProvider_Event : public FUserSettingsProviderBase
+{
+	GENERATED_BODY()
+
+public:
+
+	FUserSettingsProvider_Event() {}
+
+	/** Text to label the button text with. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Option)
+		FText ButtonLabel;
+
+	virtual void RunEvent() {}
+	virtual bool IsResettable() const override { return false; }
+};
+
+/**
  * Provides access to a boolean-based game setting (e.g., VSync, Show FPS Toggle).
  */
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Boolean Provider", meta = (Hidden))

@@ -11,8 +11,6 @@
 class UTextBlock;
 class UCommonButtonBase;
 
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_SettingRowHover)
-
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FSettingRowDescriptor final
 {
@@ -63,16 +61,10 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
 		TObjectPtr<UCommonButtonBase> ExitButton;
 
-	/** Button to automatically adjust scalability. REQUIREMENT: A CommonButton named 'AutoAdjustButton'. */
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (BindWidget))
-		TObjectPtr<UCommonButtonBase> AutoAdjustButton;
-
 	FAsyncMessageHandle HoverListenerHandle;
 
 	void OnExitClicked();
-	void OnAutoAdjustClicked();
-	void OnRowHovered(const struct FAsyncMessage& Message);
+	void OnRowHovered(const FSettingRowDescriptor& Info) const;
 
 	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
 };
