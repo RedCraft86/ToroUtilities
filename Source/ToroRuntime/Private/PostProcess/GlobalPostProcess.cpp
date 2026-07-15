@@ -127,6 +127,12 @@ void UGlobalPostProcess::BeginPlay()
 	}
 }
 
+void UGlobalPostProcess::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UToroGameUserSettings::Get()->OnSettingsApplied.RemoveAll(this);
+	Super::EndPlay(EndPlayReason);
+}
+
 void UGlobalPostProcess::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);

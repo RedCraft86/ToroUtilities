@@ -74,6 +74,7 @@ private:
 	void SyncUserSettings(const UToroGameUserSettings* UserSettings, const EUserSettingApplyType ApplyType);
 
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 	virtual FPostProcessVolumeProperties GetProperties() const override;
 
