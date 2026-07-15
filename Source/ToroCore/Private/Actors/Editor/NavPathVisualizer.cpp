@@ -2,6 +2,7 @@
 // See the LICENSE file in the project root, or <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 #include "Actors/Editor/NavPathVisualizer.h"
+#include "TimerManager.h"
 
 ANavPathVisualizer::ANavPathVisualizer()
 {
@@ -29,7 +30,10 @@ ANavPathVisualizer::ANavPathVisualizer()
 void ANavPathVisualizer::BeginPlay()
 {
 	Super::BeginPlay();
-	Destroy();
+	GetWorldTimerManager().SetTimerForNextTick([this]()
+	{
+		Destroy();
+	});
 }
 
 void ANavPathVisualizer::OnConstruction(const FTransform& Transform)
