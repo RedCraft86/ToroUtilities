@@ -28,6 +28,11 @@ void UToroSettingsWidget::OnRowHovered(const FSettingRowDescriptor& Info) const
 void UToroSettingsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	SettingCost->SetText(INVTEXT("N/A"));
+	SettingLabel->SetText(INVTEXT("None"));
+	SettingDesc->SetText(INVTEXT("Hover over a setting to view its description."));
+
 	ExitButton->OnClicked().AddUObject(this, &UToroSettingsWidget::OnExitClicked);
 
 	WidgetTree->ForEachWidget([&](UWidget* Widget)
