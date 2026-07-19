@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.0",
+	"VersionName": "4.0",
 	"FriendlyName": "ToroUtilities",
 	"Description": "Common plugin for RedCraft86's games",
 	"Category": "Other",
@@ -15,5 +15,35 @@
 	"IsExperimentalVersion": false,
 	"Installed": false,
 	"Modules": [
+	],
+	"Plugins": [
+		{
+			"Name": "CommonUI",
+			"Enabled": true
+		},
+		{
+			"Name": "Metasound",
+			"Enabled": true
+		},
+		{
+			"Name": "AsyncMessageSystem",
+			"Enabled": true
+		},
+		{
+			"Name": "ProceduralMeshComponent",
+			"Enabled": true
+		},
+		{
+			"Name": "EditorScriptingUtilities",
+			"Enabled": true
+		},
+		{
+			"Name": "UE5Coro",
+			"Enabled": true
+		},
+		{
+			"Name": "Flow",
+			"Enabled": true
+		}
 	]
 }
