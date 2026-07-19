@@ -1,5 +1,6 @@
 ﻿## ToroUtilities
 A collection of general utilities and classes for use across my games.
+"SP" indicates this is targeted for singleplayer games and not designed with replication in mind.
 
 ## Dependencies (Can be removed if needed)
 [**Enhanced Code Flow**](https://www.fab.com/listings/c7a13871-0671-45d5-971c-2f5b3d53d3c0)
