@@ -1,12 +1,12 @@
 // Copyright (C) 2026 Tayzar Linn. Licensed under LGPL-3.0, see project LICENSE file.
 
 #pragma	once
-#include "Kismet/BlueprintFunctionLibrary.h"
 
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "SimpleCooldown.generated.h"
 
 /**
- * Utility struct used to throttle logic within a tick function.
+ * A utility struct used to throttle logic within a tick function.
  * This allows specific blocks of code to execute at a lower frequency while 
  * allowing the parent ticker to tick every frame for higher frequency tasks.
  */
