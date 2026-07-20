@@ -15,7 +15,8 @@ public class ToroRuntime : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "ToroCore"
+                "ToroCore",
+                "GameplayTags"
             ]
         );
     }
