@@ -6,7 +6,7 @@
 #include "IExitable.generated.h"
 
 /**
- * General use interface to add an arbiratary "Exit" function to objects. (UObject Wrapper)
+ * General use interface to add an arbitrary "Exit" function to objects. (UObject Wrapper)
  */
 UINTERFACE()
 class UExitable : public UInterface
@@ -15,7 +15,7 @@ class UExitable : public UInterface
 };
 
 /**
- * General use interface to add an arbiratary "Exit" function to objects.
+ * General use interface to add an arbitrary "Exit" function to objects.
  */
 class TOROCORE_API IExitable
 {

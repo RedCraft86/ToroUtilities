@@ -7,7 +7,7 @@
 #include "IEnabledState.generated.h"
 
 /**
- * General use interface to add an arbiratary Enabled State functions to objects. (UObject Wrapper)
+ * General use interface to add an arbitrary Enabled State functions to objects. (UObject Wrapper)
  */
 UINTERFACE()
 class UEnabledState : public UInterface
@@ -16,7 +16,7 @@ class UEnabledState : public UInterface
 };
 
 /**
- * General use interface to add an arbiratary Enabled State functions to objects.
+ * General use interface to add an arbitrary Enabled State functions to objects.
  */
 class TOROCORE_API IEnabledState
 {

@@ -18,6 +18,9 @@ struct TOROCORE_API FPrimitiveCollision final
 	GENERATED_BODY()
 
 private:
+#if WITH_EDITOR
+	// TODO: friend class FPrimitiveCollisionDetails
+#endif
 
 	/** 
 	 * The name of the collision profile (preset) to use. 
