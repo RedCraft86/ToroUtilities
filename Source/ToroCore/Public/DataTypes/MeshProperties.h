@@ -175,7 +175,6 @@ public:
 		MeshProperties.ToMeshComponent(Target);
 	}
 
-	
 	/** 
 	 * Checks if the provided Spline Mesh properties contain a valid mesh asset.
 	 * @param MeshProperties The properties to check.
