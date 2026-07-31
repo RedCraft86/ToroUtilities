@@ -1,4 +1,4 @@
-// RobAccess.h is licensed under the MIT License and NOT LGPL-3.0 like the rest of the project.
+// RobAccess.h is licensed under the MIT License and NOT GNU Lesser General Public License v3.0 like the rest of the project.
 // See <https://opensource.org/license/mit> for the full details of the MIT License.
 
 // Credits: Rob is possible thanks to: http://bloglitb.blogspot.com/2011/12/access-to-private-members-safer.html
