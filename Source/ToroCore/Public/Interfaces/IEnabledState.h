@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "IEnabledState.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnableStateDelegateBP, const bool, bState);
+DECLARE_MULTICAST_DELEGATE_OneParam(FEnableStateDelegate, const bool);
+
 /**
  * General use interface to add an arbitrary Enabled State functions to objects. (UObject Wrapper)
  */
