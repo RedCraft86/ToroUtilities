@@ -15,18 +15,21 @@ bool UToroUtilityLibrary::IsInGame()
 FString UToroUtilityLibrary::GetProjectVersion()
 {
 	FString VersionStr;
-	if (GConfig->GetString(TEXT("/Script/EngineSettings.GeneralProjectSettings"),
-		TEXT("ProjectVersion"), VersionStr, GGameIni))
-	{
-		return VersionStr;
-	}
-
-	return TEXT("0.0.0");
+	GConfig->GetString(
+		TEXT("/Script/EngineSettings.GeneralProjectSettings"),
+		TEXT("ProjectVersion"), VersionStr, GGameIni
+	);
+	return VersionStr;
 }
 
 int32 UToroUtilityLibrary::GetNumLoadingAsyncPkgs()
 {
 	return GetNumAsyncPackages();
+}
+
+void UToroUtilityLibrary::GetChildClasses(TArray<UClass*>& OutClasses, const UClass* BaseClass, const bool bRecursive)
+{
+	GetDerivedClasses(BaseClass, OutClasses, bRecursive);
 }
 
 void UToroUtilityLibrary::CallLocalEvent(UObject* Target, const FName EventName)

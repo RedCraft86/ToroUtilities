@@ -37,6 +37,15 @@ public:
 		static int32 GetNumLoadingAsyncPkgs();
 
 	/**
+	 * Gets all derived classes from the provided base class.
+	 * @param OutClasses Classes inheriting BaseClass.
+	 * @param BaseClass Class whose children to look for.
+	 * @param bRecursive If true, child classes of child classes will be searched.
+	 */
+	UFUNCTION(BlueprintCallable, Category = World, DisplayName = "Get Derived Classes")
+		static void GetChildClasses(TArray<UClass*>& OutClasses, const UClass* BaseClass, const bool bRecursive);
+
+	/**
 	 * Calls a UFUNCTION by name on the specified object.
 	 * @warning Generally not recommended, use as last resort.
 	 * @param Target The object in which the function/event is located.
