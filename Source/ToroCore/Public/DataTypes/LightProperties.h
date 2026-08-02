@@ -10,7 +10,7 @@
 #include "LightProperties.generated.h"
 
 /**
- * Defines the culling and fading behavior for a light based on its distance from the camera.
+ * Parameters for culling and fading behavior for a light based on its distance from the camera.
  */
 USTRUCT(BlueprintType)
 struct TOROCORE_API FLightDrawDistance final

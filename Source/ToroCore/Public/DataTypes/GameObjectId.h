@@ -8,10 +8,6 @@
 /**
  * A semantically grouped unique identifier used to globally identify important game objects.
  * Uses a combination of FGameplayTag for grouping and FGuid for instance separation.
- * 
- * <b>Ideal for:</b>
- * - Character Tracking
- * - Save Systems
  */
 USTRUCT(BlueprintType)
 struct TOROCORE_API FGameObjectId final
