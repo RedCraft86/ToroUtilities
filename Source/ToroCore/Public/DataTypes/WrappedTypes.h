@@ -166,7 +166,6 @@ struct TOROCORE_API FWrappedString final
 	FWrappedString(): Value(FString()) {}
 	FWrappedString(const FString& InValue): Value(InValue) {}
 
-	FORCEINLINE operator FString&() { return Value; }
 	FORCEINLINE operator const FString&() const { return Value; }
 
 	FORCEINLINE bool operator>(const FWrappedString& Other) const { return Value > Other.Value; }
