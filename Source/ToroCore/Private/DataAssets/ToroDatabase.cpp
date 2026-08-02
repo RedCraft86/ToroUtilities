@@ -26,7 +26,7 @@ bool UToroDatabase::IsValidKey(const FGameplayTag& Key) const
 UToroDatabase::UToroDatabase(const FGameplayTag& TagType, const UScriptStruct* StructType)
 	: RootTag(TagType), RootStruct(StructType)
 {
-	ensureAlwaysMsgf(StructType && StructType->IsChildOf<FToroDatabaseEntry>(), 
+	ensureAlwaysMsgf(StructType && StructType->IsChildOf<FToroDatabaseEntry>(),
 		TEXT("StructType (%s) must derive from FToroDatabaseEntry"), *GetNameSafe(StructType));
 }
 
@@ -58,7 +58,7 @@ void UToroDatabase::ValidateData()
 		{
 			IssueKeys.Value.Add(Spacing + TEXT("[Struct Not Set] ") + Entry.Key.ToString());
 		}
-		else if (Entry.Value.GetScriptStruct() != RootStruct 
+		else if (Entry.Value.GetScriptStruct() != RootStruct
 			&& !Entry.Value.GetScriptStruct()->IsChildOf(RootStruct))
 		{
 			IssueKeys.Value.Add(Spacing + TEXT("[Incompatible Type] ") + Entry.Key.ToString());
@@ -99,7 +99,7 @@ void UToroDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChange
 			{
 				if (!Entry.Key.IsValid())
 				{
-					Entry.Key = RootTag;	
+					Entry.Key = RootTag;
 				}
 				if (!Entry.Value.IsValid())
 				{

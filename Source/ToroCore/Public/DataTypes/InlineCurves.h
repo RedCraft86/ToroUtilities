@@ -135,7 +135,7 @@ class TOROCORE_API UInlineCurveLibrary final : public UBlueprintFunctionLibrary
 
 public:
 
-	/** 
+	/**
 	 * Checks if the Float Curve has any valid data to evaluate (either an external asset or inline keys).
 	 * @param Target The inline float curve structure to check.
 	 */
@@ -145,7 +145,7 @@ public:
 		return Target.HasAnyData();
 	}
 
-	/** 
+	/**
 	 * Returns the external UCurveFloat asset assigned to this structure, if one exists.
 	 * @param Target The inline float curve structure.
 	 * @return The assigned UCurveFloat asset, or nullptr if only inline keys are used.
@@ -156,7 +156,7 @@ public:
 		return Target.GetCurveAsset();
 	}
 
-	/** 
+	/**
 	 * Evaluates the float curve at a specific point in time.
 	 * @param Target The inline float curve structure.
 	 * @param InTime The time coordinate at which to evaluate the curve.
@@ -168,7 +168,7 @@ public:
 		return Target.GetValue(InTime);
 	}
 
-	/** 
+	/**
 	 * Retrieves the minimum and maximum time values defined in the float curve.
 	 * @param Target The inline float curve structure.
 	 * @param Min The earliest time point in the curve (Output).
@@ -180,7 +180,7 @@ public:
 		Target.GetTimeRange(Min, Max);
 	}
 
-	/** 
+	/**
 	 * Retrieves the minimum and maximum float values found across the entire curve.
 	 * @param Target The inline float curve structure.
 	 * @param Min The lowest value found in the curve (Output).
@@ -192,7 +192,7 @@ public:
 		Target.GetValueRange(Min, Max);
 	}
 
-	/** 
+	/**
 	 * Checks if the Vector Curve has any valid data to evaluate.
 	 * @param Target The inline vector curve structure.
 	 */
@@ -202,7 +202,7 @@ public:
 		return Target.HasAnyData();
 	}
 
-	/** 
+	/**
 	 * Returns the external UCurveVector asset assigned to this structure, if one exists.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Curve Asset (Vector)")
@@ -211,7 +211,7 @@ public:
 		return Target.GetCurveAsset();
 	}
 
-	/** 
+	/**
 	 * Evaluates the vector curve at a specific point in time.
 	 * @param Target The inline vector curve structure.
 	 * @param InTime The time coordinate at which to evaluate.
@@ -223,7 +223,7 @@ public:
 		return Target.GetValue(InTime);
 	}
 
-	/** 
+	/**
 	 * Retrieves the time bounds for the vector curve.
 	 * @param Target The inline vector curve structure.
 	 * @param Min The earliest time point (Output).
@@ -235,7 +235,7 @@ public:
 		Target.GetTimeRange(Min, Max);
 	}
 
-	/** 
+	/**
 	 * Retrieves the component-wise value range for the vector curve.
 	 * @param Target The inline vector curve structure.
 	 * @param Min The vector containing the minimum values for X, Y, and Z (Output).
@@ -247,7 +247,7 @@ public:
 		Target.GetValueRange(Min, Max);
 	}
 
-	/** 
+	/**
 	 * Checks if the Color Curve has any valid data to evaluate.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Has Any Data (Color)")
@@ -256,7 +256,7 @@ public:
 		return Target.HasAnyData();
 	}
 
-	/** 
+	/**
 	 * Returns the external UCurveLinearColor asset assigned to this structure, if one exists.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Curve Asset (Color)")
@@ -265,7 +265,7 @@ public:
 		return Target.GetCurveAsset();
 	}
 
-	/** 
+	/**
 	 * Evaluates the color curve at a specific point in time.
 	 * @param Target The inline color curve structure.
 	 * @param InTime The time coordinate at which to evaluate.
@@ -277,7 +277,7 @@ public:
 		return Target.GetValue(InTime);
 	}
 
-	/** 
+	/**
 	 * Retrieves the time bounds for the color curve.
 	 * @param Target The inline color curve structure.
 	 * @param Min The earliest time point (Output).
@@ -289,7 +289,7 @@ public:
 		Target.GetTimeRange(Min, Max);
 	}
 
-	/** 
+	/**
 	 * Retrieves the component-wise value range for the color curve (RGBA).
 	 * @param Target The inline color curve structure.
 	 * @param Min The color containing the minimum R, G, B, and A values (Output).

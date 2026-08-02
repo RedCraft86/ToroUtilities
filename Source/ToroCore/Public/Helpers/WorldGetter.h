@@ -6,7 +6,7 @@
 
 /**
  * A static utility class for UWorld fetching and caching.
- * 
+ *
  * <b>Usage Example:</b>
  * <pre>
  *     UGameplayStatics::GetPlayerController(FWorldGetter::Get(OptionalContext), 0);
@@ -19,9 +19,9 @@ class TOROCORE_API FWorldGetter final
 public:
 
 	/**
-	 * If a valid World is already cached, it is returned immediately. Otherwise, it 
+	 * If a valid World is already cached, it is returned immediately. Otherwise, it
 	 * attempts to resolve the World via the provided Context object or GEngine globals.
-	 * @param Context (Optional) An object belonging to the desired world. Recommended to 
+	 * @param Context (Optional) An object belonging to the desired world. Recommended to
 	 *        always try and provide one as it is required for the first call per world.
 	 * @return A pointer to the current UWorld, or nullptr if no world could be resolved.
 	 */

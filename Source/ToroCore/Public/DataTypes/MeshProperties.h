@@ -16,39 +16,39 @@ struct TOROCORE_API FStaticMeshProperties
 {
 	GENERATED_BODY()
 
-	/** 
-	 * The Static Mesh asset to be applied to the component. 
+	/**
+	 * The Static Mesh asset to be applied to the component.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties)
 		TSoftObjectPtr<UStaticMesh> StaticMesh;
 
-	/** 
-	 * Array of materials used to override the default materials on the mesh. 
+	/**
+	 * Array of materials used to override the default materials on the mesh.
 	 * Elements correspond to the material slots of the Static Mesh.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties)
 		TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 
-	/** 
-	 * Optional overlay material applied to the entire mesh (e.g., for selection highlights or status effects). 
+	/**
+	 * Optional overlay material applied to the entire mesh (e.g., for selection highlights or status effects).
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties)
 		TSoftObjectPtr<UMaterialInterface> OverlayMaterial;
 
-	/** 
-	 * Whether the mesh should cast shadows. 
+	/**
+	 * Whether the mesh should cast shadows.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties)
 		bool bCastShadows;
 
-	/** 
-	 * If the Transform property should be applied during "ToMeshComponent" calls. 
+	/**
+	 * If the Transform property should be applied during "ToMeshComponent" calls.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties, meta = (InlineEditConditionToggle))
 		bool bUseTransform;
 
-	/** 
-	 * The relative transform (Location, Rotation, Scale) for the mesh. 
+	/**
+	 * The relative transform (Location, Rotation, Scale) for the mesh.
 	 * Only applied if bUseTransform is true.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties, meta = (EditCondition = "bUseTransform", AllowPreserveRatio = true))
@@ -87,8 +87,8 @@ struct TOROCORE_API FSplineMeshProperties final : public FStaticMeshProperties
 {
 	GENERATED_BODY()
 
-	/** 
-	 * The axis of the mesh that should be aligned along the spline direction. 
+	/**
+	 * The axis of the mesh that should be aligned along the spline direction.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties)
 		TEnumAsByte<ESplineMeshAxis::Type> ForwardAxis;
@@ -131,7 +131,7 @@ class TOROCORE_API UMeshPropertiesLibrary final : public UBlueprintFunctionLibra
 
 public:
 
-	/** 
+	/**
 	 * Checks if the provided Static Mesh properties contain a valid mesh asset.
 	 * @param MeshProperties The properties to check.
 	 * @return True if the StaticMesh pointer is not null.
@@ -142,7 +142,7 @@ public:
 		return MeshProperties.IsValid();
 	}
 
-	/** 
+	/**
 	 * Synchronizes the internal material array size with the number of slots on the assigned Static Mesh.
 	 * @param MeshProperties The properties to modify.
 	 */
@@ -152,7 +152,7 @@ public:
 		MeshProperties.FillEmptyMaterials();
 	}
 
-	/** 
+	/**
 	 * Populates a property struct using data from an existing Static Mesh Component.
 	 * @param OutData Properties extracted from the mesh.
 	 * @param Target The source component to read from.
@@ -164,7 +164,7 @@ public:
 		OutData.FromMeshComponent(Target, bIncludeTransform);
 	}
 
-	/** 
+	/**
 	 * Applies the data stored in a property struct to a Static Mesh Component.
 	 * @param Target The component to update.
 	 * @param MeshProperties The properties to use.
@@ -175,7 +175,7 @@ public:
 		MeshProperties.ToMeshComponent(Target);
 	}
 
-	/** 
+	/**
 	 * Checks if the provided Spline Mesh properties contain a valid mesh asset.
 	 * @param MeshProperties The properties to check.
 	 * @return True if the StaticMesh pointer is not null.
@@ -186,7 +186,7 @@ public:
 		return MeshProperties.IsValid();
 	}
 
-	/** 
+	/**
 	 * Synchronizes the internal material array size with the number of slots on the assigned Static Mesh.
 	 * @param MeshProperties The properties to modify.
 	 */
@@ -196,7 +196,7 @@ public:
 		MeshProperties.FillEmptyMaterials();
 	}
 
-	/** 
+	/**
 	 * Populates a property struct using data from an existing Spline Mesh Component.
 	 * @param OutData Properties extracted from the mesh.
 	 * @param Target The source component to read from.
@@ -208,7 +208,7 @@ public:
 		OutData.FromMeshComponent(Target, bIncludeTransform);
 	}
 
-	/** 
+	/**
 	 * Applies the data stored in a property struct to a Spline Mesh Component.
 	 * @param Target The component to update.
 	 * @param MeshProperties The properties to use.

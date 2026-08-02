@@ -20,7 +20,7 @@ public:
 
 	virtual void OnTransformChanged(FRHICommandListBase& RHICmdList) override;
 	virtual FPrimitiveViewRelevance GetViewRelevance(const FSceneView* View) const override;
-	virtual void GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily, 
+	virtual void GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily,
 		uint32 VisibilityMap, FMeshElementCollector& Collector) const override;
 
 	virtual uint32 GetMemoryFootprint(void) const override
@@ -35,7 +35,7 @@ public:
 	}
 
 private:
-	
+
 	FVector Origin;
 	const float ScreenSize;
 	const UTexture2D* Texture;
@@ -67,20 +67,24 @@ public:
 
 	UTintedBillboardComponent();
 
-	/** 
+	/**
 	 * Sets the tint color of the sprite and marks the render state as dirty.
 	 * @param InNewColor The new tint (Alpha is ignored if the material/proxy doesn't support it).
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Sprite")
 		virtual void SetSpriteColor(const FLinearColor InNewColor);
 
-	/** @return The current tint color of the sprite. */
+	/**
+	 * @return The current tint color of the sprite.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Sprite")
 		const FLinearColor& GetSpriteColor() const { return SpriteColor; }
 
 protected:
 
-	/** The color applied to the billboard texture. */
+	/**
+	 * The color applied to the billboard texture.
+	 */
 	UPROPERTY(EditAnywhere, Category = Sprite)
 		FLinearColor SpriteColor;
 

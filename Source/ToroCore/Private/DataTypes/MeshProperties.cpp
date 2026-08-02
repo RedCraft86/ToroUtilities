@@ -76,8 +76,8 @@ bool FStaticMeshProperties::ToMeshComponent(UStaticMeshComponent* Target) const
 
 bool FStaticMeshProperties::Equals(const FStaticMeshProperties& Other, const bool bCheckTransform) const
 {
-	if (StaticMesh != Other.StaticMesh 
-		|| bCastShadows != Other.bCastShadows 
+	if (StaticMesh != Other.StaticMesh
+		|| bCastShadows != Other.bCastShadows
 		|| OverlayMaterial != Other.OverlayMaterial
 		|| Materials.Num() != Other.Materials.Num())
 	{

@@ -6,7 +6,7 @@
 
 /**
  * A static utility class for creating FLatentActionInfo structs.
- * 
+ *
  * <b>Usage Example:</b>
  * <pre>
  *     FLatentActionInfo Info = FLatentMaker::Make(GET_MEMBER_NAME_CHECKED(UMyClass, AfterDelay), this);
@@ -15,10 +15,10 @@
  */
 class FLatentInfo
 {
-	static inline uint16 LatentId = 1000; 
+	static inline uint16 LatentId = 1000;
 
 public:
-	
+
 	/**
 	 * Creates a fully initialized FLatentActionInfo struct.
 	 * @param FuncName The name of the function to execute once the latent action completes.
@@ -33,8 +33,8 @@ public:
 	}
 
 	/**
-	 * Increments and returns the next available LinkID. 
-	 * Automatically wraps back to 1000 if the <c>UINT16_MAX</c> limit 
+	 * Increments and returns the next available LinkID.
+	 * Automatically wraps back to 1000 if the <c>UINT16_MAX</c> limit
 	 * is reached to maintain a consistent range of safe IDs that avoid potential collisions with BP code.
 	 * @return A unique unsigned 16-bit integer ID.
 	 * @note This method is not thread-safe. Latent actions should generally be initialized on the Game Thread.

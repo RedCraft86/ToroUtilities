@@ -7,7 +7,7 @@
 
 /**
  * A utility struct used to throttle logic within a tick function.
- * This allows specific blocks of code to execute at a lower frequency while 
+ * This allows specific blocks of code to execute at a lower frequency while
  * allowing the parent ticker to tick every frame for higher frequency tasks.
  */
 USTRUCT(BlueprintType)
@@ -15,11 +15,15 @@ struct TOROCORE_API FSimpleCooldown final
 {
 	GENERATED_BODY()
 
-	/** Duration in seconds between successful cooldowns. */
+	/**
+	 * Duration in seconds between successful cooldowns.
+	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Cooldown)
 		float Interval;
 
-	/** Remaining time in seconds until the cooldown finsishes. */
+	/**
+	 * Remaining time in seconds until the cooldown finsishes.
+	 */
 	UPROPERTY(VisibleInstanceOnly, Category = Cooldown)
 		float Cooldown;
 

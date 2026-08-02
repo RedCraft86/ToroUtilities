@@ -20,14 +20,14 @@ public:
 
 	AToroActor();
 
-	/** 
-	 * Event broadcasted to Blueprints when the Enabled state is toggled. 
+	/**
+	 * Event broadcasted to Blueprints when the Enabled state is toggled.
 	 */
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
 		FEnableStateDelegateBP OnEnableStateChangedBP;
 
-	/** 
-	 * Overridable Blueprint event for handling custom logic when enabled/disabled. 
+	/**
+	 * Overridable Blueprint event for handling custom logic when enabled/disabled.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
 		void EnableStateChangedBP(const bool bState);
@@ -40,33 +40,33 @@ public:
 
 protected:
 
-	/** 
-	 * Default Scene Root 
+	/**
+	 * Default Scene Root
 	 */
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
-	/** 
+	/**
 	 * Whether this actor is currently "Enabled" in the world.
 	 */
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -100));
 		bool bEnabled;
 
-	/** 
+	/**
 	 * Identifier for saves system and other systems that involves identification.
 	 */
 	UPROPERTY(EditAnywhere, Category = Settings, NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -100))
 		FGameObjectId UniqueId;
 
-	/** 
+	/**
 	 * If false, collision is disabled on BeginPlay and won't be enabled by the default enabled state implementation.
 	 */
 	UPROPERTY(EditAnywhere, Category = Actor)
 		bool bStartWithCollision;
 
 #if WITH_EDITORONLY_DATA
-	/** 
-	 * If true, the Tick function will run inside the Level Editor viewport. 
+	/**
+	 * If true, the Tick function will run inside the Level Editor viewport.
 	 */
 	UPROPERTY(EditDefaultsOnly, Category = Tick)
 		bool bTickInEditor = false;

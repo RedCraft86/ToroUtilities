@@ -20,8 +20,8 @@ struct TOROCORE_API FToroDatabaseKey final
 
 private:
 
-	/** 
-	 * The underlying GameplayTag representing this key. 
+	/**
+	 * The underlying GameplayTag representing this key.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Entry, meta = (AllowPrivateAccess = true))
 		FGameplayTag Tag;
@@ -88,7 +88,7 @@ public:
 	 */
 	UToroDatabase() {}
 
-	/** 
+	/**
 	 * Checks if a specific key exists within the database map.
 	 */
 	UFUNCTION(BlueprintPure, Category = Database)
@@ -102,7 +102,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = Database)
 		FInstancedStruct GetValue(const FGameplayTag& Key) const;
 
-	/** 
+	/**
 	 * Validates if a key is eligible for use in this database.
 	 * By default, requires the key to be a sub-tag of the RootTag.
 	 * <pre>
@@ -117,8 +117,8 @@ public:
 	 */
 	virtual bool IsValidKey(const FGameplayTag& Key) const;
 
-	/** 
-	 * @return Direct access to the internal map of all database entries. 
+	/**
+	 * @return Direct access to the internal map of all database entries.
 	 */
 	const TMap<FToroDatabaseKey, FInstancedStruct>& GetEntries() const { return Entries; }
 
@@ -131,7 +131,7 @@ public:
 	template<typename StructType>
 	const StructType* GetValue(const FGameplayTag& Key) const
 	{
-		static_assert(TIsDerivedFrom<StructType, FToroDatabaseEntry>::IsDerived, 
+		static_assert(TIsDerivedFrom<StructType, FToroDatabaseEntry>::IsDerived,
 			"StructType must derive from FToroDatabaseEntry and be a USTRUCT");
 
 		const UScriptStruct* OutType = TBaseStructure<StructType>::Get();
@@ -166,18 +166,18 @@ protected:
 	UToroDatabase(const FGameplayTag& TagType, const UScriptStruct* StructType);
 
 	/**
-	 * The required parent tag for all entries in this database (e.g., 'Quest', 'Ability'). 
+	 * The required parent tag for all entries in this database (e.g., 'Quest', 'Ability').
 	 */
 	UPROPERTY(VisibleAnywhere, Category = Asset, meta = (DisplayPriority = 0))
 		FGameplayTag RootTag;
 
-	/** 
-	 * The base ScriptStruct type that all entries in the 'Entries' map must conform to. 
+	/**
+	 * The base ScriptStruct type that all entries in the 'Entries' map must conform to.
 	 */
 	UPROPERTY(VisibleAnywhere, Category = Asset, meta = (DisplayPriority = 0))
 		TObjectPtr<const UScriptStruct> RootStruct;
 
-	/** 
+	/**
 	 * The core data map. Uses TInstancedStruct for polymorphism while maintaining the efficiency of a single TMap.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Data, TextExportTransient, meta = (ForceInlineRow))

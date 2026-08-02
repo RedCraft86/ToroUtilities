@@ -18,15 +18,15 @@ public:
 
 	AToroCharacter();
 
-	/** 
+	/**
 	 * Sets the rotation of the Controller (the 'view' rotation if on a player).
 	 * @return True if rotation was successfully applied to a valid controller.
 	 */
 	UFUNCTION(BlueprintCallable, Category = Pawn)
 		bool SetControlRotation(const FRotator& Rotation, const bool bApplyRoll = false) const;
 
-	/** 
-	 * Teleports the character and sets the rotation. Roll rotation is discarded. 
+	/**
+	 * Teleports the character and sets the rotation. Roll rotation is discarded.
 	 */
 	UFUNCTION(BlueprintCallable, Category = Character)
 		virtual void Teleport(const FVector& Location, const FRotator& Rotation);
@@ -49,15 +49,15 @@ public:
 
 protected:
 
-	/** 
+	/**
 	 * Identifier for saves system and other systems that involves identification.
 	 */
 	UPROPERTY(EditAnywhere, Category = Settings, NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -100))
 		FGameObjectId UniqueId;
 
 #if WITH_EDITORONLY_DATA
-	/** 
-	 * If true, the Tick function will run inside the Level Editor viewport. 
+	/**
+	 * If true, the Tick function will run inside the Level Editor viewport.
 	 */
 	UPROPERTY(EditDefaultsOnly, Category = Tick)
 		bool bTickInEditor = false;

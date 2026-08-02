@@ -22,7 +22,7 @@ public:
 	T* GetMeshComponent() const { return Cast<T>(GetStaticMeshComponent()); }
 
 #if WITH_EDITORONLY_DATA
-	/** 
+	/**
 	* The master list of transforms for all instances.
 	*/
 	UPROPERTY(Category = StaticMesh, EditAnywhere, meta = (MakeEditWidget, DisplayPriority = 1))
@@ -43,7 +43,7 @@ protected:
 
 /**
  * An extension of AInstancedStaticMeshActor that utilizes HISMs.
- * Recommended for meshes that require LOD (Level of Detail) support and 
+ * Recommended for meshes that require LOD (Level of Detail) support and
  * occlusion culling for high-density environments.
  */
 UCLASS(meta = (ChildCanTick = true))

@@ -5,7 +5,8 @@
 
 #pragma once
 
-/** <b>USAGE INFO</b>
+/**
+ * <b>USAGE INFO</b>
  * <pre>
  * Define var with ROB_DEFINE_VAR
  * Then, access with Obj->*RobAccess(class, var);

@@ -22,28 +22,28 @@ private:
 	// TODO: friend class FPrimitiveCollisionDetails
 #endif
 
-	/** 
-	 * The name of the collision profile (preset) to use. 
+	/**
+	 * The name of the collision profile (preset) to use.
 	 * If set to "Custom", the individual settings in this struct are used instead of a global preset.
 	 */
 	UPROPERTY(BlueprintReadWrite, Category = Collision, meta = (AllowPrivateAccess = true))
 		FName ProfileName;
 
-	/** 
-	 * Determines if the component is enabled for queries (traces/overlaps) and/or physics simulation. 
+	/**
+	 * Determines if the component is enabled for queries (traces/overlaps) and/or physics simulation.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision, meta = (AllowPrivateAccess = true))
 		TEnumAsByte<ECollisionEnabled::Type> CollisionEnabled;
 
-	/** 
-	 * The logical 'type' of this object (e.g., WorldStatic, Pawn, Projectile). 
+	/**
+	 * The logical 'type' of this object (e.g., WorldStatic, Pawn, Projectile).
 	 * Used as the filter key when other objects check their responses to this object.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision, meta = (AllowPrivateAccess = true)) 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision, meta = (AllowPrivateAccess = true))
 		TEnumAsByte<ECollisionChannel> ObjectType;
 
-	/** 
-	 * Map of collision channels to their specific responses (Ignore, Overlap, or Block). 
+	/**
+	 * Map of collision channels to their specific responses (Ignore, Overlap, or Block).
 	 * Only used when ProfileName is set to "Custom".
 	 */
 	UPROPERTY(BlueprintReadWrite, Category = Collision, meta = (AllowPrivateAccess = true))
@@ -106,15 +106,15 @@ public:
 
 	struct TOROCORE_API Utils final
 	{
-		/** 
-		 * Retrieves collision info for a named profile. 
+		/**
+		 * Retrieves collision info for a named profile.
 		 * @param ProfileName The name of the profile to search for.
 		 * @param OutData (Optional) Pointer to receive the template data if found.
 		 * @return True if the profile exists.
 		 */
 		static bool GetProfile(const FName& ProfileName, FCollisionResponseTemplate* OutData = nullptr);
 
-		/** 
+		/**
 		 * Iterates through all available collision channels.
 		 * @param Func The callback function to execute for each channel with params Channel, Index, Enum Object.
 		 * @param bIgnoreHidden If true, skip channels marked as hidden.
@@ -133,8 +133,8 @@ class TOROCORE_API UPrimitiveCollisionLibrary final : public UBlueprintFunctionL
 
 public:
 
-	/** 
-	 * Updates the collision profile name. Assigning a valid name (e.g., "Pawn", "BlockAll") 
+	/**
+	 * Updates the collision profile name. Assigning a valid name (e.g., "Pawn", "BlockAll")
 	 * will automatically update the object type and response map.
 	 * @param Collision The primitive collision to modify.
 	 * @param ProfileName The name of the project collision preset to apply.
@@ -145,9 +145,9 @@ public:
 		Collision.SetProfileName(ProfileName);
 	}
 
-	/** 
+	/**
 	 * @param Collision The primitive collision to read.
-	 * @return The currently assigned collision profile name (e.g., "Custom", "NoCollision"). 
+	 * @return The currently assigned collision profile name (e.g., "Custom", "NoCollision").
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Collision|PrimitiveCollision")
 	static FName GetCollisionProfileName(const FPrimitiveCollision& Collision)
@@ -155,7 +155,7 @@ public:
 		return Collision.GetProfileName();
 	}
 
-	/** 
+	/**
 	 * Updates the collision enabled state (Query, Physics, or both). Implicitly sets ProfileName to "Custom".
 	 * @param Collision The primitive collision to modify.
 	 * @param InEnabled The new enabled state.
@@ -166,9 +166,9 @@ public:
 		Collision.SetCollisionEnabled(InEnabled);
 	}
 
-	/** 
+	/**
 	 * @param Collision The primitive collision to read.
-	 * @return The current collision enabled state. 
+	 * @return The current collision enabled state.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Collision|PrimitiveCollision")
 	static ECollisionEnabled::Type GetCollisionEnabled(const FPrimitiveCollision& Collision)
@@ -176,7 +176,7 @@ public:
 		return Collision.GetCollisionEnabled();
 	}
 
-	/** 
+	/**
 	 * Sets the object type for this collision. Implicitly sets ProfileName to "Custom".
 	 * @param Collision The primitive collision to modify.
 	 * @param InObjectType Type to change to.
@@ -187,9 +187,9 @@ public:
 		Collision.SetObjectType(InObjectType);
 	}
 
-	/** 
+	/**
 	 * @param Collision The primitive collision to read.
-	 * @return The logical object type channel. 
+	 * @return The logical object type channel.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Collision|PrimitiveCollision")
 	static ECollisionChannel GetCollisionObjectType(const FPrimitiveCollision& Collision)
@@ -197,7 +197,7 @@ public:
 		return Collision.GetObjectType();
 	}
 
-	/** 
+	/**
 	 * Sets all collision channels to a specific response. Implicitly sets ProfileName to "Custom".
 	 * @param Collision The primitive collision to modify.
 	 * @param InResponse Response to use.
@@ -208,7 +208,7 @@ public:
 		Collision.SetAllResponses(InResponse);
 	}
 
-	/** 
+	/**
 	 * Sets the response for a specific collision channel. Implicitly sets ProfileName to "Custom".
 	 * @param Collision The primitive collision to modify.
 	 * @param InResponse Response to use.
@@ -219,8 +219,8 @@ public:
 		Collision.SetResponse(InChannel, InResponse);
 	}
 
-	/** 
-	 * Retrieves the response for a specific collision channel. 
+	/**
+	 * Retrieves the response for a specific collision channel.
 	 * @param Collision The primitive collision to read.
 	 * @param InChannel Channel to find.
 	 */
@@ -230,7 +230,7 @@ public:
 		return Collision.GetResponse(InChannel);
 	}
 
-	/** 
+	/**
 	 * Captures the current collision state of any Primitive Component into a serializable struct.
 	 * @param OutData The struct to receive the captured collision state.
 	 * @param Target The source component (e.g., StaticMesh, Capsule, Box).
@@ -241,7 +241,7 @@ public:
 		OutData.FromPrimitiveComponent(Target);
 	}
 
-	/** 
+	/**
 	 * Applies a collision configuration struct to a Primitive Component.
 	 * @param Target The component to update.
 	 * @param Collision The struct containing the collision settings to apply.

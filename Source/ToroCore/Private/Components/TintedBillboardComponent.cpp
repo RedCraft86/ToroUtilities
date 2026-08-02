@@ -46,8 +46,8 @@ FPrimitiveViewRelevance FTintedSpriteSceneProxy::GetViewRelevance(const FSceneVi
 {
 	bool bVisible = View->Family->EngineShowFlags.BillboardSprites;
 #if WITH_EDITOR
-	if (GIsEditor 
-		&& bVisible && SpriteCategoryIdx != INDEX_NONE 
+	if (GIsEditor
+		&& bVisible && SpriteCategoryIdx != INDEX_NONE
 		&& SpriteCategoryIdx < View->SpriteCategoryVisibility.Num())
 	{
 		bVisible = View->SpriteCategoryVisibility[SpriteCategoryIdx];
@@ -81,7 +81,7 @@ void FTintedSpriteSceneProxy::GetDynamicMeshElements(const TArray<const FSceneVi
 				if (bIsScreenSizeScaled && View->ViewMatrices.GetViewToClip().M[3][3] != 1.0f)
 				{
 					const float ZoomFactor = FMath::Min<float>(
-						View->ViewMatrices.GetViewToClip().M[0][0], 
+						View->ViewMatrices.GetViewToClip().M[0][0],
 						View->ViewMatrices.GetViewToClip().M[1][1]
 					);
 
@@ -112,19 +112,19 @@ void FTintedSpriteSceneProxy::GetDynamicMeshElements(const TArray<const FSceneVi
 #if WITH_EDITOR
 					if (View->bHasSelectedComponents && !IsIndividuallySelected())
 					{
-						SpriteColor += GEngine->GetSubduedSelectionOutlineColor() 
+						SpriteColor += GEngine->GetSubduedSelectionOutlineColor()
 							* GEngine->SelectionHighlightIntensityBillboards * 5;
 					}
-					else 
-#endif 
+					else
+#endif
 					if (IsSelected())
 					{
-						SpriteColor += GEngine->GetSelectedMaterialColor() 
+						SpriteColor += GEngine->GetSelectedMaterialColor()
 							* GEngine->SelectionHighlightIntensityBillboards * 5;
 					}
 					else if (IsHovered())
 					{
-						SpriteColor += GEngine->GetHoveredMaterialColor() 
+						SpriteColor += GEngine->GetHoveredMaterialColor()
 							* GEngine->SelectionHighlightIntensityBillboards * 5;
 					}
 				}
@@ -134,7 +134,7 @@ void FTintedSpriteSceneProxy::GetDynamicMeshElements(const TArray<const FSceneVi
 				}
 
 				SpriteColor.A = 1.0f;
-				Collector.GetPDI(ViewIndex)->DrawSprite(Origin, ViewedSizeX, ViewedSizeY, TextureResource, 
+				Collector.GetPDI(ViewIndex)->DrawSprite(Origin, ViewedSizeX, ViewedSizeY, TextureResource,
 					SpriteColor * Color, GetDepthPriorityGroup(View), U, UL, V, VL, SE_BLEND_Masked, OpacityMaskRefVal
 				);
 			}

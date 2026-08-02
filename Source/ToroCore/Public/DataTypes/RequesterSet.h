@@ -106,8 +106,8 @@ public:
 		}
 	}
 
-	/** 
-	 * Returns true if there is at least one valid requester in the set. 
+	/**
+	 * Returns true if there is at least one valid requester in the set.
 	 */
 	bool HasRequests() const
 	{
@@ -168,8 +168,8 @@ public:
 		InSet.ClearRequests();
 	}
 
-	/** 
-	 * Returns true if there is at least one valid requester in the set. 
+	/**
+	 * Returns true if there is at least one valid requester in the set.
 	 * @param InSet The requester set to check.
 	 */
 	UFUNCTION(BlueprintPure, Category = RequesterSet)
@@ -178,8 +178,8 @@ public:
 		return InSet.HasRequests();
 	}
 
-	/** 
-	 * Binds a single dynamic delegate to the set's update event. 
+	/**
+	 * Binds a single dynamic delegate to the set's update event.
 	 * @param InSet The requester set to bind to.
 	 */
 	UFUNCTION(BlueprintCallable, Category = RequesterSet)
@@ -191,8 +191,8 @@ public:
 		}
 	}
 
-	/** 
-	 * Unbinds a single dynamic delegate from the set's update event. 
+	/**
+	 * Unbinds a single dynamic delegate from the set's update event.
 	 * @param InSet The requester set to unbind from.
 	 */
 	UFUNCTION(BlueprintCallable, Category = RequesterSet)

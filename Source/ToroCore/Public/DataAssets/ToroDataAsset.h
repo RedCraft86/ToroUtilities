@@ -22,8 +22,8 @@ public:
 protected:
 
 #if WITH_EDITORONLY_DATA
-	/** 
-	 * A concatenated string of validation errors or warnings found during ValidateData(). 
+	/**
+	 * A concatenated string of validation errors or warnings found during ValidateData().
 	 * Displayed in the editor to assist designers in identifying data setup issues.
 	 */
 	UPROPERTY(Transient, VisibleAnywhere, Category = Asset, meta = (MultiLine = true, DisplayPriority = 999))
@@ -31,7 +31,7 @@ protected:
 #endif
 
 #if WITH_EDITOR
-	/** 
+	/**
 	 * Utility function called by the editor to validate data.
 	 * (This function is called by <c>PostLoad</c>, <c>PostInitProperties</c>, and <c>PostEditChangeProperty</c>)
 	 * @note Base implementation clears the existing Issues string.
@@ -39,8 +39,8 @@ protected:
 	UFUNCTION(CallInEditor, Category = Asset)
 		virtual void ValidateData() { Issues.Empty(); }
 
-	/** 
-	 * Appends a new validation message to the Issues list for display in the editor. 
+	/**
+	 * Appends a new validation message to the Issues list for display in the editor.
 	 */
 	void AppendIssue(const FString& IssueText);
 

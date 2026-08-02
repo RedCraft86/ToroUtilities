@@ -14,14 +14,20 @@ struct TOROCORE_API FGameObjectId final
 {
 	GENERATED_BODY()
 
-	/** An empty identity for internal uses. */
+	/**
+	 * An empty identity for internal uses.
+	 */
 	static const FGameObjectId EmptyId;
 
-	/** The category or group this object belongs to (e.g., <c>Interactive.Door</c> or <c>Character.SomeEnemy</c>). */
+	/**
+	 * The category or group this object belongs to (e.g., <c>Interactive.Door</c> or <c>Character.SomeEnemy</c>).
+	 */
 	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadWrite, Category = Identity)
 		FGameplayTag Group;
 
-	/** Separation for instances within the group (i.e. there may be multiple instances of <c>Interactive.Door</c>) */
+	/**
+	 * Separation for instances within the group (i.e. there may be multiple instances of <c>Interactive.Door</c>)
+	 */
 	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadWrite, Category = Identity, NonTransactional)
 		FGuid Guid;
 
@@ -29,10 +35,14 @@ struct TOROCORE_API FGameObjectId final
 	FGameObjectId(const FGameplayTag& InGroup): Group(InGroup), Guid(FGuid::NewGuid()) {}
 	FGameObjectId(const FGameplayTag& InGroup, const FGuid& InGuid): Group(InGroup), Guid(InGuid) {}
 
-	/** Gets an Object Identity from the specified target if IObjectIdentity is implemented. */
+	/**
+	 * Gets an Object Identity from the specified target if IObjectIdentity is implemented.
+	 */
 	static FGameObjectId Get(const UObject* Target);
 
-	/** Clears the group and invalidates the guid on this identifier. */
+	/**
+	 * Clears the group and invalidates the guid on this identifier.
+	 */
 	void Invalidate();
 
 	/**
@@ -41,13 +51,17 @@ struct TOROCORE_API FGameObjectId final
 	 */
 	void RegenerateGuid(const bool bOnlyIfInvalid = false);
 
-	/** Checks if Group and Guid are both valid in this identity. */
+	/**
+	 * Checks if Group and Guid are both valid in this identity.
+	 */
 	FORCEINLINE bool IsValid() const
 	{
 		return Group.IsValid() && Guid.IsValid();
 	}
 
-	/** This identity in string format as <c>GroupTag[Instance]</c> */
+	/**
+	 * This identity in string format as <c>GroupTag[Instance]</c>
+	 */
 	FString ToString() const
 	{
 		return FString::Printf(TEXT("%s[%s]"), *Group.ToString(), *Guid.ToString());

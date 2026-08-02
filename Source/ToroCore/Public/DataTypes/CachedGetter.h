@@ -7,7 +7,7 @@
 
 /**
  * A utility class for lazy loading/searching and caching of UObjects.
- * Uses a TFunction passed in via the constructor to fetch the object 
+ * Uses a TFunction passed in via the constructor to fetch the object
  * and stores in a TWeakObjectPtr to not interfere with the Garbage Collector.
  * @tparam T a type of UObject.
  */
@@ -31,13 +31,15 @@ public:
 		Cache.Reset();
 	}
 
-	/** Checks if the internal cache has a valid pointer. */
+	/**
+	 * Checks if the internal cache has a valid pointer.
+	 */
 	FORCEINLINE bool IsValid() const
 	{
 		return Cache.IsValid();
 	}
 
-	/** 
+	/**
 	 * Forces a call to the Getter and updates the cache, regardless of current cache state.
 	 * @return The newly fetched object pointer or null if unable to get.
 	 */
@@ -51,7 +53,7 @@ public:
 		return Cache.Get();
 	}
 
-	/** 
+	/**
 	 * Returns the cached object if valid; otherwise, executes the Getter to fill the cache.
 	 * @return The current, newly fetched object pointer, or null if unable to get.
 	 */
@@ -60,7 +62,9 @@ public:
 		return IsValid() ? Cache.Get() : Fetch();
 	}
 
-	/** Internally calls ::Get() */
+	/**
+	 * Internally calls ::Get()
+	 */
 	[[nodiscard]] T* operator->()
 	{
 		return Get();

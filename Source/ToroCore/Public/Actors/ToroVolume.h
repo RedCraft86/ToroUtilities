@@ -20,14 +20,14 @@ public:
 
 	AToroVolume();
 
-	/** 
-	 * Event broadcasted to Blueprints when the Enabled state is toggled. 
+	/**
+	 * Event broadcasted to Blueprints when the Enabled state is toggled.
 	 */
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
 		FEnableStateDelegateBP OnEnableStateChangedBP;
 
-	/** 
-	 * Overridable Blueprint event for handling custom logic when enabled/disabled. 
+	/**
+	 * Overridable Blueprint event for handling custom logic when enabled/disabled.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
 		void EnableStateChangedBP(const bool bState);
@@ -40,45 +40,45 @@ public:
 
 protected:
 
-	/** 
+	/**
 	 * Whether this actor is currently "Enabled" in the world.
 	 */
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -100));
 		bool bEnabled;
 
-	/** 
+	/**
 	 * Identifier for saves system and other systems that involves identification.
 	 */
 	UPROPERTY(EditAnywhere, Category = Settings, NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -100))
 		FGameObjectId UniqueId;
 
 #if WITH_EDITORONLY_DATA
-	/** 
-	 * If true, the Tick function will run inside the Level Editor viewport. 
+	/**
+	 * If true, the Tick function will run inside the Level Editor viewport.
 	 */
 	UPROPERTY(EditDefaultsOnly, Category = Tick)
 		bool bTickInEditor;
 
-	/** 
-	 * Toggle for the editor icon visibility. 
+	/**
+	 * Toggle for the editor icon visibility.
 	 */
 	UPROPERTY(EditAnywhere, Category = Actor)
 		bool bDisplayIcon;
 
-	/** 
-	 * If true, the volume will be drawn as a solid/shaded box in the editor. 
+	/**
+	 * If true, the volume will be drawn as a solid/shaded box in the editor.
 	 */
 	UPROPERTY(EditAnywhere, Category = "Actor|Volume", DisplayName = "Shaded")
 		bool bShadedVolume;
 
-	/** 
-	 * Enables custom color overrides for the volume wireframe. 
+	/**
+	 * Enables custom color overrides for the volume wireframe.
 	 */
 	UPROPERTY(EditAnywhere, Category = "Actor|Volume", DisplayName = "Colored", meta = (InlineEditConditionToggle))
 		bool bColoredVolume;
 
-	/** 
-	 * The color used for the volume bounds if bColoredVolume is true. 
+	/**
+	 * The color used for the volume bounds if bColoredVolume is true.
 	 */
 	UPROPERTY(EditAnywhere, Category = "Actor|Volume", DisplayName = "Color", meta = (EditCondition = "bColoredVolume", HideAlphaChannel = true))
 		FColor VolumeColor;

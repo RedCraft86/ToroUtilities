@@ -14,7 +14,7 @@ void FToroEditorModule::StartupModule()
 
 void FToroEditorModule::ShutdownModule()
 {
-    
+
 }
 
 FString FToroEditorModule::GetPluginDirectory()
@@ -24,5 +24,5 @@ FString FToroEditorModule::GetPluginDirectory()
 }
 
 #undef LOCTEXT_NAMESPACE
-    
+
 IMPLEMENT_MODULE(FToroEditorModule, ToroEditor)

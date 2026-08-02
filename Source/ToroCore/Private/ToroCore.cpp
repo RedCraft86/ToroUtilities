@@ -8,14 +8,14 @@ DEFINE_LOG_CATEGORY(LogToroCore);
 
 void FToroCoreModule::StartupModule()
 {
-    
+
 }
 
 void FToroCoreModule::ShutdownModule()
 {
-    
+
 }
 
 #undef LOCTEXT_NAMESPACE
-    
+
 IMPLEMENT_MODULE(FToroCoreModule, ToroCore)
