@@ -37,7 +37,7 @@ public:
 	 * @param Context The object to search the world from. (Can be optional if cache is set)
 	 * @return A pointer to the current possible UWorld, or nullptr if unable to find.
 	 */
-	UFUNCTION(BlueprintPure, Category = World, meta = (AdvancedDisplay = "Context", DefaultToSelf = "Context"))
+	UFUNCTION(BlueprintPure, Category = World, meta = (AdvancedDisplay = "Context", DefaultToSelf = Context))
 		static UWorld* GetPossibleWorld(const UObject* Context);
 
 	/**

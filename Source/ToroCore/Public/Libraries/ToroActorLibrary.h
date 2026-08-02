@@ -25,19 +25,19 @@ public:
 	 * @param bOnlyColliding If true, only components with collision enabled contribute to the box.
 	 * @param bChildActors If true, includes the bounding boxes of all child actors in the calculation.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Actor, meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Actor, meta = (DefaultToSelf = Target))
 		static void GetBoundingBoxVertices(TSet<FVector>& OutVerts, FVector& Origin, FVector& Extent, const AActor* Target,
 			const FVector Scale = FVector(1.0f), const bool bOnlyColliding = false, const bool bChildActors = true);
 
 	/**
 	 * Adds a unique Tag to the actor's Tags array.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Actor, DisplayName = "Add Tag", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Actor, DisplayName = "Add Tag", meta = (DefaultToSelf = Target))
 		static void AddActorTag(AActor* Target, const FName InTag);
 
 	/**
 	 * Removes a specific Tag from the actor's Tags array.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Actor, DisplayName = "Remove Tag", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Actor, DisplayName = "Remove Tag", meta = (DefaultToSelf = Target))
 		static void RemoveActorTag(AActor* Target, const FName InTag);
 };

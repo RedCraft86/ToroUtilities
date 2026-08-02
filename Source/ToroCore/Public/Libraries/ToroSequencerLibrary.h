@@ -41,7 +41,7 @@ public:
 	 * @param Target Level sequence to play.
 	 * @param PlayRate Speed at which playback occurs.
 	 */
-	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Play Sequence", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Play Sequence", meta = (DefaultToSelf = Target))
 		static void PlayLevelSequence(const ALevelSequenceActor* Target, const float PlayRate = 1.0f);
 
 	/**
@@ -49,7 +49,7 @@ public:
 	 * @param Target Level sequence to reverse.
 	 * @param PlayRate Speed at which playback occurs.
 	 */
-	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Reverse Sequence", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Reverse Sequence", meta = (DefaultToSelf = Target))
 		static void ReverseLevelSequence(const ALevelSequenceActor* Target, const float PlayRate = 1.0f);
 
 	/**
@@ -57,6 +57,6 @@ public:
 	 * @param Target Level sequence to stop.
 	 * @param StopType The way in which it should be stopped
 	 */
-	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Stop Sequence", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Stop Sequence", meta = (DefaultToSelf = Target))
 		static void StopLevelSequence(const ALevelSequenceActor* Target, const EToroSequenceStopType StopType);
 };

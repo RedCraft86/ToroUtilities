@@ -24,7 +24,7 @@ public:
 	 * @param Target Ambient sound to play.
 	 * @param StartTime Time of the sound to start playback at.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Play Sound", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Play Sound", meta = (DefaultToSelf = Target))
 		static void PlayAmbientSound(const AAmbientSound* Target, const float StartTime = 0.0f);
 
 	/**
@@ -32,7 +32,7 @@ public:
 	 * @param Target Ambient sound to stop.
 	 * @param Delay (Optional) Time to wait before stopping.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Stop Sound", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Stop Sound", meta = (DefaultToSelf = Target))
 		static void StopAmbientSound(const AAmbientSound* Target, const float Delay = 0.0f);
 
 	/**
@@ -43,7 +43,7 @@ public:
 	 * @param StartTime Time of the sound to start playback at.
 	 * @param FadeCurve Alpha curve to use when processing the fade.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade In Sound", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade In Sound", meta = (DefaultToSelf = Target))
 		static void FadeInAmbientSound(const AAmbientSound* Target, const float Duration = 1.0f, const float TargetLevel = 1.0f,
 			const float StartTime = 0.0f, const EAudioFaderCurve FadeCurve = EAudioFaderCurve::Linear);
 
@@ -54,7 +54,7 @@ public:
 	 * @param TargetLevel Volume adjustment to fade out to.
 	 * @param FadeCurve Alpha curve to use when processing the fade.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade Out Sound", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade Out Sound", meta = (DefaultToSelf = Target))
 		static void FadeOutAmbientSound(const AAmbientSound* Target, const float Duration = 1.0f,
 			const float TargetLevel = 0.0f, const EAudioFaderCurve FadeCurve = EAudioFaderCurve::Linear);
 };

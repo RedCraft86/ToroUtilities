@@ -51,6 +51,6 @@ public:
 	 * @param Target The object in which the function/event is located.
 	 * @param EventName The name of the function/event to execute.
 	 */
-	UFUNCTION(BlueprintCallable, Category = Object, meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Object, meta = (DefaultToSelf = Target))
 		static void CallLocalEvent(UObject* Target, const FName EventName);
 };
