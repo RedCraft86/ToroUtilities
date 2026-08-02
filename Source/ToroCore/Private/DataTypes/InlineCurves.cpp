@@ -91,7 +91,7 @@ FVector FInlineVectorCurve::GetValue(const float InTime) const
 void FInlineVectorCurve::GetTimeRange(float& Min, float& Max) const
 {
 	float Min1, Min2, Min3, Max1, Max2, Max3;
-	
+
 	GetRichCurveConst(Components::X)->GetTimeRange(Min1, Max1);
 	GetRichCurveConst(Components::Y)->GetTimeRange(Min2, Max2);
 	GetRichCurveConst(Components::Z)->GetTimeRange(Min3, Max3);
@@ -200,15 +200,20 @@ FLinearColor FInlineColorCurve::GetValue(const float InTime) const
 
 void FInlineColorCurve::GetTimeRange(float& Min, float& Max) const
 {
-	float Min1, Min2, Min3, Min4, Max1, Max2, Max3, Max4;
+	float MinR, MinG, MinB, MinA = 1.0f, MaxR, MaxG, MaxB, MaxA = 1.0f;
 
-	GetRichCurveConst(Components::R)->GetTimeRange(Min1, Max1);
-	GetRichCurveConst(Components::G)->GetTimeRange(Min2, Max2);
-	GetRichCurveConst(Components::B)->GetTimeRange(Min3, Max3);
-	GetRichCurveConst(Components::A)->GetTimeRange(Min4, Max4);
+	GetRichCurveConst(Components::R)->GetTimeRange(MinR, MaxR);
+	GetRichCurveConst(Components::G)->GetTimeRange(MinG, MaxG);
+	GetRichCurveConst(Components::B)->GetTimeRange(MinB, MaxB);
 
-	Min = FMath::Min3(Min1, Min2, FMath::Min(Min3, Min4));
-	Max = FMath::Max3(Max1, Max2, FMath::Max(Max3, Max4));
+	const FRichCurve* Alpha = GetRichCurveConst(Components::A);
+	if (Alpha->HasAnyData())
+	{
+		Alpha->GetValueRange(MinA, MaxA);
+	}
+
+	Min = FMath::Min3(MinR, MinG, FMath::Min(MinB, MinA));
+	Max = FMath::Max3(MaxR, MaxG, FMath::Max(MaxB, MaxA));
 }
 
 void FInlineColorCurve::GetTimeRange(double& Min, double& Max) const

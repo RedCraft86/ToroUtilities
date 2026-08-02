@@ -18,7 +18,7 @@ void FGameObjectId::Invalidate()
 
 void FGameObjectId::RegenerateGuid(const bool bOnlyIfInvalid)
 {
-	if (bOnlyIfInvalid || !Guid.IsValid())
+	if (!bOnlyIfInvalid || !Guid.IsValid())
 	{
 		Guid = FGuid::NewGuid();
 	}

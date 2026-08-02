@@ -13,7 +13,7 @@ bool FPrimitiveCollision::SetProfileName(const FName& InName)
 {
 	if (InName == ProfileName)
 	{
-		return false;
+		return true;
 	}
 
 	FCollisionResponseTemplate Template;
