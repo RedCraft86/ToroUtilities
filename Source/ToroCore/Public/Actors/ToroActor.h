@@ -49,7 +49,7 @@ protected:
 	/**
 	 * Whether this actor is currently "Enabled" in the world.
 	 */
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -100));
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -100))
 		bool bEnabled;
 
 	/**
