@@ -43,11 +43,6 @@ public:
 
 	FORCEINLINE void operator=(const FGameplayTag& Other) { Tag = Other; }
 
-	FORCEINLINE friend uint32 GetTypeHash(const FToroDatabaseKey& Key)
-	{
-		return GetTypeHash(Key.Tag);
-	}
-
 	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FToroDatabaseKey& Key)
 	{
 		return Ar << Key.Tag;
@@ -56,6 +51,11 @@ public:
 	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FToroDatabaseKey& Key)
 	{
 		Slot << Key.Tag;
+	}
+
+	FORCEINLINE friend uint32 GetTypeHash(const FToroDatabaseKey& Key)
+	{
+		return GetTypeHash(Key.Tag);
 	}
 };
 

@@ -63,15 +63,15 @@ struct TOROCORE_API FGameObjectId final
 		return Group != Other.Group || Guid != Other.Guid;
 	}
 
-	friend void operator<<(FStructuredArchive::FSlot Slot, FGameObjectId& ObjectId)
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FGameObjectId& ObjectId)
+	{
+		return Ar << ObjectId.Group << ObjectId.Guid;
+	}
+
+	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FGameObjectId& ObjectId)
 	{
 		FStructuredArchive::FRecord Record = Slot.EnterRecord();
 		Record << SA_VALUE(TEXT("Group"), ObjectId.Group) << SA_VALUE(TEXT("Guid"), ObjectId.Guid);
-	}
-
-	friend FArchive& operator<<(FArchive& Ar, FGameObjectId& ObjectId)
-	{
-		return Ar << ObjectId.Group << ObjectId.Guid;
 	}
 
 	FORCEINLINE friend uint32 GetTypeHash(const FGameObjectId& ObjectId)
