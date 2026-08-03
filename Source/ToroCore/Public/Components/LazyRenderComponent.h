@@ -26,7 +26,7 @@ public:
 	 * @param InRequester The object requesting the render state.
 	 */
 	UFUNCTION(BlueprintCallable, Category = LazyRendering, meta = (DefaultToSelf = Target))
-		static void AddRenderRequest(const AActor* Target, const UObject* InRequester);
+		static TOROCORE_API void AddRenderRequest(const AActor* Target, const UObject* InRequester);
 
 	/**
 	 * Looks for the lazy render component and removes a requester.
@@ -35,7 +35,7 @@ public:
 	 * @param InRequester The object that originally made the request.
 	 */
 	UFUNCTION(BlueprintCallable, Category = LazyRendering, meta = (DefaultToSelf = Target))
-		static void RemoveRenderRequest(const AActor* Target, const UObject* InRequester);
+		static TOROCORE_API void RemoveRenderRequest(const AActor* Target, const UObject* InRequester);
 
 	/**
 	 * Adds a requester to keep this Actor rendered.
