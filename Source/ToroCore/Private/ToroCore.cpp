@@ -16,6 +16,12 @@ void FToroCoreModule::ShutdownModule()
 
 }
 
+FString FToroCoreModule::GetPluginName()
+{
+    static FString Name = TEXT("ToroUtilities");
+    return Name;
+}
+
 #undef LOCTEXT_NAMESPACE
 
 IMPLEMENT_MODULE(FToroCoreModule, ToroCore)

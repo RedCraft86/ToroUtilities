@@ -19,7 +19,7 @@ void FToroEditorModule::ShutdownModule()
 
 FString FToroEditorModule::GetPluginDirectory()
 {
-	static FString Path = IPluginManager::Get().FindPlugin(FToroCoreModule::PLUGIN_NAME)->GetBaseDir();
+	static FString Path = IPluginManager::Get().FindPlugin(FToroCoreModule::GetPluginName())->GetBaseDir();
 	return Path;
 }
 
