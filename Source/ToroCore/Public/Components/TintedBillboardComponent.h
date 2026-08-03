@@ -9,7 +9,7 @@
 /**
  * A specialized Scene Proxy for rendering billboard sprites with a custom color tint.
  * This object lives on the Render Thread and handles the drawing logic for the sprite.
- * 
+ *
  * Mirrors FSpriteSceneProxy in Engine/Source/Runtime/Engine/Private/Components/BillboardComponent.cpp
  */
 class FTintedSpriteSceneProxy final : public FPrimitiveSceneProxy

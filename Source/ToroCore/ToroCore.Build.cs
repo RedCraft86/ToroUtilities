@@ -19,6 +19,7 @@ public class ToroCore : ModuleRules
                 "RenderCore",
                 "InputCore",
                 "ApplicationCore",
+                "ProceduralMeshComponent",
                 "GameplayTags",
                 "LevelSequence",
                 "MovieScene",

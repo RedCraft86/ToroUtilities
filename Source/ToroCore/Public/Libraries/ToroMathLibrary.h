@@ -53,8 +53,8 @@ public:
 	 * @param B The rotation to add.
 	 * @return The combined FRotator.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Math|Rotator", meta = (DisplayName = "rotator + rotator", 
-		CompactNodeTitle = "+", ScriptMethod = "Add", ScriptOperator = "+;+=", 
+	UFUNCTION(BlueprintPure, Category = "Math|Rotator", meta = (DisplayName = "rotator + rotator",
+		CompactNodeTitle = "+", ScriptMethod = "Add", ScriptOperator = "+;+=",
 		Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = true))
 		static FRotator Add_RotatorRotator(const FRotator A, const FRotator B);
 
