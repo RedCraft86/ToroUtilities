@@ -30,11 +30,21 @@ public:
 #endif
 
 #if WITH_EDITOR
+	/**
+	 * Syncs instances from the actor's <c>Instances</c> variable to the internal mesh component.
+	 */
 	void UpdateInstances() const;
+
+	/**
+	 * Copies instances from the internal mesh component to the actor's <c>Instances</c> variable.
+	 */
 	void CopyInstancesFromComponent();
 
 protected:
 
+	/**
+	 * Used to prevent <c>UpdateInstances</c> from running when <c>CopyInstancesFromComponent</c> is taking place.
+	 */
 	bool bLockInstances = false;
 
 	virtual void OnConstruction(const FTransform& Transform) override;

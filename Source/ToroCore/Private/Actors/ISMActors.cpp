@@ -60,11 +60,15 @@ void AInstancedStaticMeshActor::CopyInstancesFromComponent()
 void AInstancedStaticMeshActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	if (Instances.IsEmpty())
+	if (!bLockInstances)
 	{
-		Instances.Add(FTransform::Identity);
+		if (Instances.IsEmpty())
+		{
+			Instances.Add(FTransform::Identity);
+		}
+
+		UpdateInstances();
 	}
-	UpdateInstances();
 }
 #endif
 
