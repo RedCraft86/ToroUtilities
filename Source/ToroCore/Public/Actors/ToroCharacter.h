@@ -63,6 +63,8 @@ protected:
 		bool bTickInEditor = false;
 #endif
 
+	virtual void PostInitializeComponents() override;
+
 #if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual bool ShouldTickIfViewportsOnly() const override { return bTickInEditor; }

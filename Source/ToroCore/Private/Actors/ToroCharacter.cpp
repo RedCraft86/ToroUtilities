@@ -8,7 +8,6 @@ AToroCharacter::AToroCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	BaseEyeHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere();
 	bEnableAutoLODGeneration = false; // Exclude this actor from HLOD assuming it is gameplay specific
 	UniqueId.RegenerateGuid();
 
@@ -43,6 +42,12 @@ bool AToroCharacter::GetLookTarget_Implementation(FVector& Location) const
 FVector AToroCharacter::GetFocusPoint_Implementation() const
 {
 	return GetPawnViewLocation();
+}
+
+void AToroCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	BaseEyeHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere();
 }
 
 #if WITH_EDITOR
