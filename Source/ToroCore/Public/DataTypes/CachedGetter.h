@@ -23,9 +23,10 @@ public:
 
 	/**
 	 * Constructor requiring a valid getter function.
-	 * @param GetFunction The lambda used to populate the cache.
+	 * @param GetterFunc The function used to populate the cache.
 	 */
-	TCachedGetter(const TFunction<T*()>& GetFunction): Getter(GetFunction)
+	TCachedGetter(TFunction<T*()> GetterFunc)
+		: Getter(MoveTemp(GetterFunc))
 	{
 		static_assert(TIsDerivedFrom<T, UObject>::Value, "T must derive from UObject");
 		Cache.Reset();
@@ -65,7 +66,7 @@ public:
 	/**
 	 * Internally calls ::Get()
 	 */
-	[[nodiscard]] T* operator->()
+	T* operator->()
 	{
 		return Get();
 	}
