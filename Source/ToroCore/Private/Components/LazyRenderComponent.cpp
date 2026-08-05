@@ -3,19 +3,22 @@
 #include "Components/LazyRenderComponent.h"
 
 ULazyRenderComponent::ULazyRenderComponent()
+	: Requests(TAccumulatorSet<TWeakObjectPtr<const UObject>>::Create(
+		[](const TWeakObjectPtr<const UObject>& Object)
+		{
+			return Object.IsValid();
+		}
+	))
 {
-	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.bTickEvenWhenPaused = true;
-	PrimaryComponentTick.bStartWithTickEnabled = true;
-	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
-	PrimaryComponentTick.TickInterval = 1.0f;
+	PrimaryComponentTick.bCanEverTick = false;
+	Requests->OnChanged.AddUObject(this, &ULazyRenderComponent::OnRequestChanged);
 }
 
 void ULazyRenderComponent::AddRenderRequest(const AActor* Target, const UObject* InRequester)
 {
 	if (Target && InRequester)
 	{
-		if (ULazyRenderComponent* Component = Target->GetComponentByClass<ULazyRenderComponent>())
+		if (const ULazyRenderComponent* Component = Target->FindComponentByClass<ULazyRenderComponent>())
 		{
 			Component->AddRequest(InRequester);
 		}
@@ -26,39 +29,27 @@ void ULazyRenderComponent::RemoveRenderRequest(const AActor* Target, const UObje
 {
 	if (Target && InRequester)
 	{
-		if (ULazyRenderComponent* Component = Target->GetComponentByClass<ULazyRenderComponent>())
+		if (const ULazyRenderComponent* Component = Target->FindComponentByClass<ULazyRenderComponent>())
 		{
 			Component->RemoveRequest(InRequester);
 		}
 	}
 }
 
-void ULazyRenderComponent::AddRequest(const UObject* InRequester)
+void ULazyRenderComponent::AddRequest(const UObject* InRequester) const
 {
-	Requests.AddRequest(InRequester);
+	Requests->Add(InRequester);
 }
 
-void ULazyRenderComponent::RemoveRequest(const UObject* InRequester)
+void ULazyRenderComponent::RemoveRequest(const UObject* InRequester) const
 {
-	Requests.RemoveRequest(InRequester);
+	Requests->Remove(InRequester);
 }
 
-void ULazyRenderComponent::OnRequestChanged(const bool bState) const
+void ULazyRenderComponent::OnRequestChanged() const
 {
 	if (AActor* Owner = GetOwner())
 	{
-		Owner->SetActorHiddenInGame(!bState);
+		Owner->SetActorHiddenInGame(!Requests->IsEmpty());
 	}
-}
-
-void ULazyRenderComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	Requests.OnRequestChanged.AddUObject(this, &ULazyRenderComponent::OnRequestChanged);
-}
-
-void ULazyRenderComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
-{
-	Super::TickComponent(DeltaTime, TickType, TickFunc);
-	Requests.CleanupNulls();
 }

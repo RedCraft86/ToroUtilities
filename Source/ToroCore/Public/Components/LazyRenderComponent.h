@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/RequesterSet.h"
+#include "DataTypes/Accumulators.h"
 #include "Components/ActorComponent.h"
 #include "LazyRenderComponent.generated.h"
 
@@ -42,23 +42,20 @@ public:
 	 * Actor remains visible as long as at least one valid requester exists in the set.
 	 * @param InRequester The object requesting the render state.
 	 */
-	UFUNCTION(BlueprintCallable, Category = LazyRendering)
-		TOROCORE_API void AddRequest(const UObject* InRequester);
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = LazyRendering)
+		TOROCORE_API void AddRequest(const UObject* InRequester) const;
 
 	/**
 	 * Removes a requester to potentially stop rendering this actor.
 	 * If no requesters remain in the list, the actor will be hidden.
 	 * @param InRequester The object that originally made the request.
 	 */
-	UFUNCTION(BlueprintCallable, Category = LazyRendering)
-		TOROCORE_API void RemoveRequest(const UObject* InRequester);
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = LazyRendering)
+		TOROCORE_API void RemoveRequest(const UObject* InRequester) const;
 
 protected:
 
-	FRequesterSet Requests;
+	TSharedRef<TAccumulatorSet<TWeakObjectPtr<const UObject>>> Requests;
 
-	void OnRequestChanged(const bool bState) const;
-
-	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
+	void OnRequestChanged() const;
 };
