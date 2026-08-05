@@ -188,6 +188,10 @@ class TAccumulatorMap final : public TSharedFromThis<TAccumulatorMap<K, V>>
 	TMap<K, V> InnerMap;
 	TFunction<bool(const K&)> Validate;
 
+	/**
+	 * Internal constructor that takes a validator.
+	 * @param Validator A valid validator or null if one is not needed.
+	 */
 	TAccumulatorMap(TFunction<bool(const K&)> Validator)
 		: InnerMap(), Validate(MoveTemp(Validator))
 	{}
