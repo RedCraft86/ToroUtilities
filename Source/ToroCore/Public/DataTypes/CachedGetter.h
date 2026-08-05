@@ -64,7 +64,7 @@ public:
 	}
 
 	/**
-	 * Internally calls ::Get()
+	 * Internally calls <c>::Get()</c>.
 	 */
 	T* operator->()
 	{
