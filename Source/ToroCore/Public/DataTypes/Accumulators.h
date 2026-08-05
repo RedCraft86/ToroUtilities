@@ -3,7 +3,7 @@
 #pragma once
 
 #include "ToroCore.h"
-#include "Helpers/UObjectTraits.h"
+#include "Helpers/UObjectPtrTraits.h"
 
 template<typename T>
 class TAccumulatorSet final : public TSharedFromThis<TAccumulatorSet<T>>
