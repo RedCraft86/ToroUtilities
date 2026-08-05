@@ -4,7 +4,7 @@
 #include "Interfaces/IPluginManager.h"
 #include "ToroCore.h"
 
-DEFINE_LOG_CATEGORY(LogToroRuntime);
+DEFINE_LOG_CATEGORY(LogToroEditor);
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 

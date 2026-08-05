@@ -4,7 +4,7 @@
 
 #include "Modules/ModuleManager.h"
 
-TOROEDITOR_API DECLARE_LOG_CATEGORY_EXTERN(LogToroRuntime, All, All);
+TOROEDITOR_API DECLARE_LOG_CATEGORY_EXTERN(LogToroEditor, All, All);
 
 class FToroEditorModule final : public IModuleInterface
 {
