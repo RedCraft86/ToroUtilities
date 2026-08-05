@@ -4,17 +4,26 @@
 #include "Interfaces/IPluginManager.h"
 #include "ToroCore.h"
 
+#include "ToolbarButton/ToolbarButtonRegistry.h"
+
+#include "ComponentVis/ComponentVisualizerRegistry.h"
+
+#include "DetailsPanel/DetailsCustomizationRegistry.h"
+
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
 #define LOCTEXT_NAMESPACE "ToroEditor"
 
 void FToroEditorModule::StartupModule()
 {
+    FToolbarButtonRegistry::Register();
 }
 
 void FToroEditorModule::ShutdownModule()
 {
-
+	FToolbarButtonRegistry::UnregisterAll();
+	FComponentVisualizerRegistry::UnregisterAll();
+	FDetailsCustomizationRegistry::UnregisterAll();
 }
 
 FString FToroEditorModule::GetPluginDirectory()

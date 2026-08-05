@@ -16,6 +16,10 @@ public class ToroEditor : ModuleRules
                 "Slate",
                 "SlateCore",
                 "Projects",
+                "UnrealEd",
+                "ToolMenus",
+                "ContentBrowser",
+                "ContentBrowserData",
                 "ToroCore",
                 "ToroRuntime"
             ]
