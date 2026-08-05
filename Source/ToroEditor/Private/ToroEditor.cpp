@@ -5,6 +5,11 @@
 #include "Interfaces/IPluginManager.h"
 #include "ToroEditorStyle.h"
 
+#include "ToolbarButtons/RestartEditor.h"
+#include "ToolbarButtons/ActorLayout.h"
+#include "ToolbarButtons/ActorMerger.h"
+#include "ToolbarButtons/ActorInstancer.h"
+#include "ToolbarButtons/ActorSplitter.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 
 #include "ComponentVis/ComponentVisualizerRegistry.h"
@@ -19,6 +24,11 @@ void FToroEditorModule::StartupModule()
 {
     FToroEditorStyle::Register();
 
+	FToolbarButtonRegistry::AddButton<FRestartEditor>();
+	FToolbarButtonRegistry::AddButton<FActorLayout>();
+	FToolbarButtonRegistry::AddButton<FActorMerger>();
+	FToolbarButtonRegistry::AddButton<FActorInstancer>();
+	FToolbarButtonRegistry::AddButton<FActorSplitter>();
     FToolbarButtonRegistry::Register();
 }
 
