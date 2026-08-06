@@ -74,15 +74,17 @@ void FPropertyMetadataDetails::SetMetadata(const FName Key, const FString& Value
 
 void FPropertyMetadataDetails::ChangeMetadataKey(const FName OldKey, const FName NewKey) const
 {
-	if (HasMetadata(OldKey))
+	if (OldKey == NewKey || !HasMetadata(OldKey))
 	{
-		if (!NewKey.IsNone())
-		{
-			SetMetadata(NewKey, GetMetadata(OldKey));
-		}
-
-		RemoveMedata(OldKey);
+		return;
 	}
+
+	if (!NewKey.IsNone())
+	{
+		SetMetadata(NewKey, GetMetadata(OldKey));
+	}
+
+	RemoveMedata(OldKey);
 }
 
 void FPropertyMetadataDetails::AddNewMetadata() const
