@@ -20,9 +20,11 @@ public class ToroCore : ModuleRules
                 "InputCore",
                 "ApplicationCore",
                 "ProceduralMeshComponent",
+                "EngineSettings",
                 "GameplayTags",
                 "LevelSequence",
                 "MovieScene",
+                "CommonUI",
                 "UE5Coro"
             ]
         );
