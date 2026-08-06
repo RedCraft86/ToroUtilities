@@ -8,12 +8,12 @@
 #define CLASS_NAME UToroDatabase
 class FToroDatabaseDetails final : public FToroClassCustomization
 {
-	static inline const FName NAME_TagFilter = TEXT("TagFilter");
-	static inline const FName NAME_BaseStruct = TEXT("BaseStruct");
-
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
 		FToroClassCustomization::CustomizeDetails(DetailBuilder);
+
+		static const FName NAME_TagFilter = TEXT("TagFilter");
+		static const FName NAME_BaseStruct = TEXT("BaseStruct");
 
 		FString FilterTag = FString();
 		{
