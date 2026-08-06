@@ -17,7 +17,7 @@
         static inline TSharedPtr<StyleClass> INSTANCE = nullptr; \
 		static void Register() \
 		{ \
-			if (FSlateStyleRegistry::FindSlateStyle(GetName())) \
+			if (FSlateStyleRegistry::FindSlateStyle(TEXT(#StyleName))) \
 			{ \
 				UE_LOG(LogToroEditor, Warning, \
 					TEXT("Failed to register style '%s.' A style with that name already exist."), TEXT(#StyleName) \
