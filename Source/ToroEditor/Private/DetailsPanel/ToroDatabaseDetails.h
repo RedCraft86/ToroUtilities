@@ -41,9 +41,12 @@ class FToroDatabaseDetails final : public FToroClassCustomization
 		const TSharedRef<IPropertyHandle> Entries = GET_CLASS_PROPERTY(CLASS_NAME, Entries);
 		const TSharedPtr<IPropertyHandleMap> EntriesMap = Entries->AsMap();
 
-		EntriesMap->SetOnNumElementsChanged(FSimpleDelegate::CreateLambda([&DetailBuilder]()
+		EntriesMap->SetOnNumElementsChanged(FSimpleDelegate::CreateLambda([WeakBuilder = WeakBuilder]()
 		{
-			DetailBuilder.ForceRefreshDetails();
+			if (WeakBuilder.IsValid())
+			{
+				WeakBuilder.Pin()->ForceRefreshDetails();
+			}
 		}));
 
 		uint32 NumElements;
