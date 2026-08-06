@@ -169,27 +169,30 @@ void FActorLayout::LayoutActors()
 			return GetSize(A) > GetSize(B);
 		});
 
+		FVector Unused, MaxActorSize;
+		Actors[0]->GetActorBounds(false, Unused, MaxActorSize, true);
+		MaxActorSize *= 2.0f;
+
+		const FVector CellSize = MaxActorSize + FVector(GetOffsetX(), GetOffsetY(), 0);
+
 		int32 MultiX = 0, MultiY = 0;
 		for (AActor* Actor : Actors)
 		{
-			FVector Unused, ActorSize;
-			Actor->GetActorBounds(false, Unused, ActorSize, true);
-			ActorSize *= 2.0f;
-
-			Actor->SetActorLocation((ActorSize + FVector(GetOffsetX(), GetOffsetY(), 0)) * FVector(MultiX, MultiY, 0));
+			Actor->SetActorLocation(CellSize * FVector(MultiX, MultiY, 0));
 
 			FRotator Rotation = Actor->GetActorRotation();
 			Rotation.Yaw = GetYaw();
 			Actor->SetActorRotation(Rotation);
 
 			MultiY++;
-			if (MultiY > GetPerRow())
+			if (MultiY >= GetPerRow())
 			{
 				MultiX++;
 				MultiY = 0;
 			}
 		}
 	}
+
 }
 
 void FActorLayout::Execute()
