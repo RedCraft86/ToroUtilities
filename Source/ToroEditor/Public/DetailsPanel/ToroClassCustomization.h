@@ -26,7 +26,7 @@
  *
  * <b>Category Systems:</b>
  * - <c>GetAlwaysShowCategories()</c> will show the returned categories regardless of other modifications.
- * - <c>GetShowOnlyCategories()</c> will only show categories that are returned + provided in 
+ * - <c>GetShowOnlyCategories()</c> will only show categories that are returned + provided in
  * <c>GetAlwaysShowCategories()</c>, <c>ShowCategories</c>, <c>PrioritizeCategories</c>, and <c>RenameCategories</c>.\n
  * <c>HideCategories</c> can still be used to hide parts of the returned category as a class-level gate.
  * - <c>*</c> can be added to <c>HideCategories</c> and works the same way as <c>GetAlwaysShowCategories()</c>
@@ -63,7 +63,7 @@ protected:
 	virtual TArray<FString> GetAlwaysShowCategories();
 
 	/**
-	 * If provided, will only show categories that are returned + provided in 
+	 * If provided, will only show categories that are returned + provided in
 	 * <c>GetAlwaysShowCategories()</c>, <c>ShowCategories</c>, <c>PrioritizeCategories</c>, and <c>RenameCategories</c>.
 	 *
 	 * <c>HideCategories</c> can still be used to hide parts of the returned category as a class-level gate.
