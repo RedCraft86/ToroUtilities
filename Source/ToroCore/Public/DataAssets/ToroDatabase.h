@@ -8,8 +8,6 @@
 #include "StructUtils/InstancedStruct.h"
 #include "ToroDatabase.generated.h"
 
-// TODO: Details customizations
-
 /**
  * A struct to be used alongside UToroDatabase for data keys.
  */
