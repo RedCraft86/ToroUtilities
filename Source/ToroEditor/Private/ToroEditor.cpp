@@ -22,12 +22,8 @@
 #include "DetailsPanel/ToroDatabaseKeyDetails.h"
 #include "DetailsPanel/AsyncMessageIdDetails.h"
 #include "DetailsPanel/ToroDatabaseDetails.h"
-#include "DetailsPanel/ToroClassCustomization.h"
+#include "DetailsPanel/ToroActorBaseDetails.h"
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
-
-#include "Actors/ToroActor.h"
-#include "Actors/ToroVolume.h"
-#include "Actors/ToroCharacter.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -60,9 +56,9 @@ void FToroEditorModule::StartupModule()
 	FDetailsCustomizationRegistry::Register<FAsyncMessageId, FAsyncMessageIdDetails>();
 
 	FDetailsCustomizationRegistry::Register<UToroDatabase, FToroDatabaseDetails>();
-	FDetailsCustomizationRegistry::Register<AToroActor, FToroClassCustomization>();
-	FDetailsCustomizationRegistry::Register<AToroVolume, FToroClassCustomization>();
-	FDetailsCustomizationRegistry::Register<AToroCharacter, FToroClassCustomization>();
+	FDetailsCustomizationRegistry::Register<AToroActor, FToroActorCustomization>();
+	FDetailsCustomizationRegistry::Register<AToroVolume, FToroVolumeCustomization>();
+	FDetailsCustomizationRegistry::Register<AToroCharacter, FToroCharacterCustomization>();
 }
 
 void FToroEditorModule::ShutdownModule()
