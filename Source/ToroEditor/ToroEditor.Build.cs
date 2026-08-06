@@ -18,8 +18,12 @@ public class ToroEditor : ModuleRules
                 "Projects",
                 "UnrealEd",
                 "ToolMenus",
+                "GraphEditor",
+                "PropertyEditor",
+                "GameplayTagsEditor",
                 "ContentBrowser",
                 "ContentBrowserData",
+                "AsyncMessageSystem",
                 "ToroCore",
                 "ToroRuntime"
             ]

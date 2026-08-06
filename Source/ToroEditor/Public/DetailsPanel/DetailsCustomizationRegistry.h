@@ -25,11 +25,6 @@ public:
 	template<typename Type, typename Customization>
 	static void Register()
 	{
-		static_assert(
-		   (TModels<CStaticClassProvider, Type>::Value && TIsDerivedFrom<Customization, IDetailCustomization>::Value) ||
-		   (TModels<CStaticStructProvider, Type>::Value && TIsDerivedFrom<Customization, IPropertyTypeCustomization>::Value),
-		   "Must be a UClass with IDetailCustomization or UStruct with IPropertyTypeCustomization");
-
 		if (!ModulePtr)
 		{
 			ModulePtr = FModuleManager::LoadModulePtr<FPropertyEditorModule>(TEXT("PropertyEditor"));
@@ -42,10 +37,16 @@ public:
 
 		if constexpr (TModels<CStaticClassProvider, Type>::Value)
 		{
+			static_assert(TIsDerivedFrom<Customization, IDetailCustomization>::Value, 
+				"Customization must derive from IDetailCustomization");
+
 			RegisterClass<Type, Customization>(ModulePtr);
 		}
 		else if constexpr (TModels<CStaticStructProvider, Type>::Value)
 		{
+			static_assert(TIsDerivedFrom<Customization, IPropertyTypeCustomization>::Value, 
+				"Customization must derive from IPropertyTypeCustomization");
+
 			RegisterStruct<Type, Customization>(ModulePtr);
 		}
 	}

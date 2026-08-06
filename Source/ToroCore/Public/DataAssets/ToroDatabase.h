@@ -19,6 +19,9 @@ struct TOROCORE_API FToroDatabaseKey final
 	GENERATED_BODY()
 
 private:
+#if WITH_EDITOR
+	friend class FToroDatabaseKeyDetails;
+#endif
 
 	/**
 	 * The underlying GameplayTag representing this key.
@@ -81,6 +84,9 @@ class TOROCORE_API UToroDatabase : public UToroDataAsset
 {
 	GENERATED_BODY()
 
+#if WITH_EDITOR
+	friend class FToroDatabaseDetails;
+#endif
 public:
 
 	/**

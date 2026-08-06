@@ -40,8 +40,31 @@ void FToroClassCustomization::CustomizeDetails(const TSharedPtr<IDetailLayoutBui
 	IDetailCustomization::CustomizeDetails(DetailBuilder);
 }
 
+void FToroStructCustomization::ForwardMetadata(const TSharedPtr<IPropertyHandle>& Property) const
+{
+	if (WeakStructHandle.IsValid() && Property.IsValid())
+	{
+		if (const FProperty* StructProperty = WeakStructHandle.Pin()->GetProperty())
+		{ 
+			if (const TMap<FName, FString>* MetadataMap = StructProperty->GetMetaDataMap())
+			{
+				for (const TPair<FName, FString>& Metadata : *MetadataMap)
+				{
+					Property->SetInstanceMetaData(Metadata.Key, Metadata.Value);
+				}
+			}
+		}
+	}
+}
+
 void FToroStructCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle,
-	FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils) {}
+	FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils)
+{
+	WeakStructHandle = StructHandle;
+}
 
 void FToroStructCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle,
-	IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils) {}
+	IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils)
+{
+	WeakStructHandle = StructHandle;
+}

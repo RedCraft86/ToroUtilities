@@ -14,7 +14,20 @@
 
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 
+#include "DetailsPanel/WrappedTypeDetails.h"
+#include "DetailsPanel/InlineCurveDetails.h"
+#include "DetailsPanel/GameObjectIdDetails.h"
+#include "DetailsPanel/PrimitiveCollisionDetails.h"
+#include "DetailsPanel/SimpleCooldownDetails.h"
+#include "DetailsPanel/ToroDatabaseKeyDetails.h"
+#include "DetailsPanel/AsyncMessageIdDetails.h"
+#include "DetailsPanel/ToroDatabaseDetails.h"
+#include "DetailsPanel/ToroClassCustomization.h"
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
+
+#include "Actors/ToroActor.h"
+#include "Actors/ToroVolume.h"
+#include "Actors/ToroCharacter.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -30,6 +43,26 @@ void FToroEditorModule::StartupModule()
 	FToolbarButtonRegistry::AddButton<FActorInstancer>();
 	FToolbarButtonRegistry::AddButton<FActorSplitter>();
     FToolbarButtonRegistry::Register();
+
+	FDetailsCustomizationRegistry::Register<FWrappedBool, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedFloat, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedByte, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedInt32, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedInt64, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FWrappedString, FWrappedTypeDetails>();
+	FDetailsCustomizationRegistry::Register<FInlineFloatCurve, FInlineCurveDetails>();
+	FDetailsCustomizationRegistry::Register<FInlineVectorCurve, FInlineCurveDetails>();
+	FDetailsCustomizationRegistry::Register<FInlineColorCurve, FInlineCurveDetails>();
+	FDetailsCustomizationRegistry::Register<FGameObjectId, FGameObjectIdDetails>();
+	FDetailsCustomizationRegistry::Register<FPrimitiveCollision, FPrimitiveCollisionDetails>();
+	FDetailsCustomizationRegistry::Register<FSimpleCooldown, FSimpleCooldownDetails>();
+	FDetailsCustomizationRegistry::Register<FToroDatabaseKey, FToroDatabaseKeyDetails>();
+	FDetailsCustomizationRegistry::Register<FAsyncMessageId, FAsyncMessageIdDetails>();
+
+	FDetailsCustomizationRegistry::Register<UToroDatabase, FToroDatabaseDetails>();
+	FDetailsCustomizationRegistry::Register<AToroActor, FToroClassCustomization>();
+	FDetailsCustomizationRegistry::Register<AToroVolume, FToroClassCustomization>();
+	FDetailsCustomizationRegistry::Register<AToroCharacter, FToroClassCustomization>();
 }
 
 void FToroEditorModule::ShutdownModule()

@@ -24,6 +24,14 @@ class TOROEDITOR_API FToroStructCustomization : public IPropertyTypeCustomizatio
 {
 protected:
 
+	TWeakPtr<IPropertyHandle> WeakStructHandle;
+
+	/**
+	 * Forwards all metadata from the struct to some inner property.
+	 * @param Property Inner property to forward to.
+	 */
+	void ForwardMetadata(const TSharedPtr<IPropertyHandle>& Property) const;
+
 	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow, 
 		IPropertyTypeCustomizationUtils& CustomizationUtils) override;
 

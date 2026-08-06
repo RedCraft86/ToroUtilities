@@ -20,21 +20,21 @@
 #define GET_CLASS_PROPERTY_VAR_NS(Member, VarName) \
 	GET_CLASS_PROPERTY_VAR(CLASS_NAME, Member, VarName)
 
-struct FToroCategoryInfo
-{
-	FText DisplayName;
-	ECategoryPriority::Type Priority;
-
-	FToroCategoryInfo()
-		: DisplayName(FText::GetEmpty()), Priority(ECategoryPriority::Default)
-	{}
-};
-
 class TOROEDITOR_API FToroClassCustomization : public IDetailCustomization
 {
 public:
 
 protected:
+
+	struct FToroCategoryInfo
+	{
+		FText DisplayName;
+		ECategoryPriority::Type Priority;
+
+		FToroCategoryInfo()
+			: DisplayName(FText::GetEmpty()), Priority(ECategoryPriority::Default)
+		{}
+	};
 
 	bool bCustomizeTemplate = false;
 	UClass* CustomizingClass = nullptr;
