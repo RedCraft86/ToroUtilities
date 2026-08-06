@@ -22,14 +22,14 @@ public:
 	template<typename T>
 	static void AddButton()
 	{
-		static_assert(TIsDerivedFrom<T, FToroToolbarButton>::Value, 
+		static_assert(TIsDerivedFrom<T, FToroToolbarButton>::Value,
 			"T must derive from FToroToolbarButton");
 
 		const TSharedPtr<T> Button = MakeShared<T>();
 		if (Buttons.Contains(Button->GetName()))
 		{
-			UE_LOG(LogToroEditor, Warning, 
-				TEXT("Attempting to register multiple Toolbar Buttons with name '%s'"), 
+			UE_LOG(LogToroEditor, Warning,
+				TEXT("Attempting to register multiple Toolbar Buttons with name '%s'"),
 				*Button->GetName().ToString())
 			return;
 		}

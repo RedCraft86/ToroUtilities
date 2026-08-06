@@ -45,7 +45,7 @@ public:
 			if (UToolMenu* Menu = UToolMenus::Get()->ExtendMenu(MenuHook))
 			{
 				FToolMenuSection& Section = Menu->FindOrAddSection(SectionName);
-				Section.AddEntry(FToolMenuEntry::InitToolBarButton(Name, 
+				Section.AddEntry(FToolMenuEntry::InitToolBarButton(Name,
 					FExecuteAction::CreateRaw(this, &FToroToolbarButton::Execute),
 					Label, Tooltip, GetSlateIcon()));
 			}

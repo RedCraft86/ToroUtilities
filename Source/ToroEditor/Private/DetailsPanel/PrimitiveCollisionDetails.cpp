@@ -65,7 +65,7 @@ ECheckBoxState FPrimitiveCollisionDetails::HasCommonResponse(const ECollisionRes
 	return State;
 }
 
-void FPrimitiveCollisionDetails::SetAllResponses(ECheckBoxState CheckState, 
+void FPrimitiveCollisionDetails::SetAllResponses(ECheckBoxState CheckState,
 	const ECollisionResponse Response, const TSharedRef<IPropertyHandle> StructHandle) const
 {
 	if (StructPtr)
@@ -76,7 +76,7 @@ void FPrimitiveCollisionDetails::SetAllResponses(ECheckBoxState CheckState,
 	}
 }
 
-ECheckBoxState FPrimitiveCollisionDetails::HasResponse(const ECollisionChannel Channel, 
+ECheckBoxState FPrimitiveCollisionDetails::HasResponse(const ECollisionChannel Channel,
 	const ECollisionResponse ResponseToCheck) const
 {
 	if (StructPtr)

@@ -64,11 +64,11 @@
  *	}
  * };
  * </pre>
- * 
+ *
  * <b>Then in your module Startup/Shutdown:</b>
  * <pre>
  * FYourSlateStyle::Register();
- * 
+ *
  * FYourSlateStyle::Unregister();
  * </pre>
  */

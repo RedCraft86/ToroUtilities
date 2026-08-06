@@ -12,13 +12,13 @@ class FToroDatabaseKeyDetails final : public FToroStructCustomization
 {
 	static inline const FName NAME_TagFilter = TEXT("TagFilter");
 
-	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow, 
+	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow,
 		IPropertyTypeCustomizationUtils& CustomizationUtils) override
 	{
 		const FString FilterTag = StructHandle->GetMetaData(NAME_TagFilter);
 
 		GET_STRUCT_PROPERTY_VAR_NS(Tag, Tag);
-		HeaderRow.NameContent() 
+		HeaderRow.NameContent()
 		[
 			StructHandle->CreatePropertyNameWidget()
 		]

@@ -14,7 +14,7 @@ class FActorInstancer final : public FToroToolbarButton
 public:
 
 	FActorInstancer()
-		: FToroToolbarButton(TEXT("ActorInstancer"), INVTEXT("Actor Instancer"), 
+		: FToroToolbarButton(TEXT("ActorInstancer"), INVTEXT("Actor Instancer"),
 			INVTEXT("Collects mesh components from selected actors and convert common ones to instanced static meshes while baking the ones that cannot be instanced."))
 	{
 		MenuHook = TEXT("LevelEditor.LevelEditorToolBar.PlayToolBar");
@@ -42,18 +42,18 @@ private:
 				return;
 			}
 
-			const EAppReturnType::Type HISMRetType = 
+			const EAppReturnType::Type HISMRetType =
 				FMessageDialog::Open(EAppMsgCategory::Info, EAppMsgType::Type::YesNo,
 				INVTEXT("Whether to use Hierarchical Instanced Static Mesh over regular Instanced Static Mesh components."),
 				INVTEXT("Do you want to use HISMs instead of ISMs?"));
 
-			const EAppReturnType::Type SrcRetType = 
+			const EAppReturnType::Type SrcRetType =
 				FMessageDialog::Open(EAppMsgCategory::Warning, EAppMsgType::Type::YesNo,
 				INVTEXT("Whether to destroy source actors, otherwise they will be kept."),
 				INVTEXT("Do you want to destroy source actors?"));
 
-			FActorBaking::InstanceActors(Actors, 
-				HISMRetType == EAppReturnType::Yes, 
+			FActorBaking::InstanceActors(Actors,
+				HISMRetType == EAppReturnType::Yes,
 				SrcRetType == EAppReturnType::Yes
 			);
 		}

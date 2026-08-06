@@ -52,8 +52,8 @@ namespace ToroVisualizerHelpers
 		{
 			ScreenPos /= Canvas->GetDPIScale();
 			FCanvasTextItem TextItem = FCanvasTextItem(ScreenPos, Text, FSlateFontInfo(
-				Font ? Font : GEngine->GetSmallFont(), 
-				FontScale > 0 ? static_cast<float>(FontScale) : 12.0f, 
+				Font ? Font : GEngine->GetSmallFont(),
+				FontScale > 0 ? static_cast<float>(FontScale) : 12.0f,
 				NAME_None
 			), Color);
 

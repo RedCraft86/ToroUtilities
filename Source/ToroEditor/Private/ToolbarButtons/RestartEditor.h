@@ -11,7 +11,7 @@ class FRestartEditor final : public FToroToolbarButton
 public:
 
 	FRestartEditor()
-		: FToroToolbarButton(TEXT("RestartEditor"), INVTEXT("Restart Editor"), 
+		: FToroToolbarButton(TEXT("RestartEditor"), INVTEXT("Restart Editor"),
 			INVTEXT("Prompts to save and restarts the Unreal Editor"))
 	{
 		MenuHook = TEXT("LevelEditor.LevelEditorToolBar.ModesToolBar");

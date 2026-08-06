@@ -147,7 +147,7 @@ void FPropertyMetadataDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuil
 		.AutoWidth()
 		[
 			PropertyCustomizationHelpers::MakeAddButton(
-				FSimpleDelegate::CreateRaw(this, &FPropertyMetadataDetails::AddNewMetadata), 
+				FSimpleDelegate::CreateRaw(this, &FPropertyMetadataDetails::AddNewMetadata),
 				LOCTEXT("MetadataAddName", "Add Metadata")
 			)
 		]
@@ -167,7 +167,7 @@ void FPropertyMetadataDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuil
 				this, &FPropertyMetadataDetails::OnChangeMetaKey, Entry.DataKey
 			))
 		]
-		.ValueContent() 
+		.ValueContent()
 		[
 			SNew(SHorizontalBox)
 			+SHorizontalBox::Slot()
@@ -188,7 +188,7 @@ void FPropertyMetadataDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuil
 			.VAlign(VAlign_Fill)
 			[
 				PropertyCustomizationHelpers::MakeRemoveButton(
-					FSimpleDelegate::CreateRaw(this, &FPropertyMetadataDetails::RemoveMedata, Entry.DataKey), 
+					FSimpleDelegate::CreateRaw(this, &FPropertyMetadataDetails::RemoveMedata, Entry.DataKey),
 					LOCTEXT("MetadataRemoveName", "Remove Metadata"), true
 				)
 			]

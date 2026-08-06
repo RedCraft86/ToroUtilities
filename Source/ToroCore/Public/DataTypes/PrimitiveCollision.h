@@ -18,7 +18,7 @@ struct TOROCORE_API FPrimitiveCollision final
 	GENERATED_BODY()
 
 private:
-#if WITH_EDITOR 
+#if WITH_EDITOR
 	friend class FPrimitiveCollisionDetails;
 #endif
 

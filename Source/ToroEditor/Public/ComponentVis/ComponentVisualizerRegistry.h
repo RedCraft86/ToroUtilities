@@ -23,7 +23,7 @@ public:
 	template<typename Component, typename Visualizer>
 	static void Register()
 	{
-		static_assert(TIsDerivedFrom<Component, UActorComponent>::Value, 
+		static_assert(TIsDerivedFrom<Component, UActorComponent>::Value,
 			"Component must be a UClass derived from UActorComponent");
 
 		static_assert(TIsDerivedFrom<Visualizer, FComponentVisualizer>::Value,
@@ -34,7 +34,7 @@ public:
 			const FName CompName = Component::StaticClass()->GetFName();
 			if (ComponentNames.Contains(CompName))
 			{
-				UE_LOG(LogToroEditor, Warning, 
+				UE_LOG(LogToroEditor, Warning,
 					TEXT("Attempting to register multiple Component Visualizers for %s"), *CompName.ToString()
 				)
 				return;

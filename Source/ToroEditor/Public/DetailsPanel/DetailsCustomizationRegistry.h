@@ -37,14 +37,14 @@ public:
 
 		if constexpr (TModels<CStaticClassProvider, Type>::Value)
 		{
-			static_assert(TIsDerivedFrom<Customization, IDetailCustomization>::Value, 
+			static_assert(TIsDerivedFrom<Customization, IDetailCustomization>::Value,
 				"Customization must derive from IDetailCustomization");
 
 			RegisterClass<Type, Customization>(ModulePtr);
 		}
 		else if constexpr (TModels<CStaticStructProvider, Type>::Value)
 		{
-			static_assert(TIsDerivedFrom<Customization, IPropertyTypeCustomization>::Value, 
+			static_assert(TIsDerivedFrom<Customization, IPropertyTypeCustomization>::Value,
 				"Customization must derive from IPropertyTypeCustomization");
 
 			RegisterStruct<Type, Customization>(ModulePtr);
@@ -69,7 +69,7 @@ private:
 		const FName ClassName = Class::StaticClass()->GetFName();
 		if (ClassNames.Contains(ClassName))
 		{
-			UE_LOG(LogToroEditor, Warning, 
+			UE_LOG(LogToroEditor, Warning,
 				TEXT("Class Details Customizations for %s already exist!"), *ClassName.ToString()
 			)
 			return;
@@ -88,7 +88,7 @@ private:
 		const FName StructName = Struct::StaticStruct()->GetFName();
 		if (StructNames.Contains(StructName))
 		{
-			UE_LOG(LogToroEditor, Warning, 
+			UE_LOG(LogToroEditor, Warning,
 				TEXT("Struct Property Customizations for %s already exist!"), *StructName.ToString()
 			)
 			return;

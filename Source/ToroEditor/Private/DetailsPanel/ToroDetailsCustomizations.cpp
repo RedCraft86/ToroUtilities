@@ -45,7 +45,7 @@ void FToroStructCustomization::ForwardMetadata(const TSharedPtr<IPropertyHandle>
 	if (WeakStructHandle.IsValid() && Property.IsValid())
 	{
 		if (const FProperty* StructProperty = WeakStructHandle.Pin()->GetProperty())
-		{ 
+		{
 			if (const TMap<FName, FString>* MetadataMap = StructProperty->GetMetaDataMap())
 			{
 				for (const TPair<FName, FString>& Metadata : *MetadataMap)

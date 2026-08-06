@@ -10,7 +10,7 @@ class FActorLayout final : public FToroToolbarButton
 public:
 
 	FActorLayout()
-		: FToroToolbarButton(TEXT("ActorLayout"), INVTEXT("Actor Layout"), 
+		: FToroToolbarButton(TEXT("ActorLayout"), INVTEXT("Actor Layout"),
 			INVTEXT("Lays out actors in a grid form"))
 	{
 		MenuHook = TEXT("LevelEditor.LevelEditorToolBar.PlayToolBar");

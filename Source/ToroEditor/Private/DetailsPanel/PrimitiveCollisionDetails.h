@@ -44,9 +44,9 @@ private:
 	ECheckBoxState HasResponse(const ECollisionChannel Channel, const ECollisionResponse ResponseToCheck) const;
 	void SetResponse(ECheckBoxState CheckState, const ECollisionChannel Channel, const ECollisionResponse Response, const TSharedRef<IPropertyHandle> StructHandle) const;
 
-	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow, 
+	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow,
 		IPropertyTypeCustomizationUtils& CustomizationUtils) override;
 
-	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle, IDetailChildrenBuilder& ChildBuilder, 
+	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle, IDetailChildrenBuilder& ChildBuilder,
 		IPropertyTypeCustomizationUtils& CustomizationUtils) override;
 };

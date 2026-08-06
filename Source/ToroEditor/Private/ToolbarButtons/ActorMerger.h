@@ -13,7 +13,7 @@ class FActorMerger final : public FToroToolbarButton
 public:
 
 	FActorMerger()
-		: FToroToolbarButton(TEXT("ActorMerger"), INVTEXT("Actor Merge"), 
+		: FToroToolbarButton(TEXT("ActorMerger"), INVTEXT("Actor Merge"),
 			INVTEXT("Opens the Merge Actors window"))
 	{
 		MenuHook = TEXT("LevelEditor.LevelEditorToolBar.PlayToolBar");

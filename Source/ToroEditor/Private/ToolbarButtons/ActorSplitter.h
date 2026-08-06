@@ -14,7 +14,7 @@ class FActorSplitter final : public FToroToolbarButton
 public:
 
 	FActorSplitter()
-		: FToroToolbarButton(TEXT("ActorSplitter"), INVTEXT("Actor Split"), 
+		: FToroToolbarButton(TEXT("ActorSplitter"), INVTEXT("Actor Split"),
 			INVTEXT("Splits mesh components from selected actors into individual static mesh actors"))
 	{
 		MenuHook = TEXT("LevelEditor.LevelEditorToolBar.PlayToolBar");
@@ -42,7 +42,7 @@ private:
 				return;
 			}
 
-			const EAppReturnType::Type SrcRetType = 
+			const EAppReturnType::Type SrcRetType =
 				FMessageDialog::Open(EAppMsgCategory::Warning, EAppMsgType::Type::YesNo,
 				INVTEXT("Whether to destroy source actors, otherwise they will be kept."),
 				INVTEXT("Do you want to destroy source actors?"));
