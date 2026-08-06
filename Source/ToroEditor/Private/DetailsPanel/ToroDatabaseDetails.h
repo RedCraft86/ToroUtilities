@@ -13,6 +13,8 @@ class FToroDatabaseDetails final : public FToroClassCustomization
 
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
+		FToroClassCustomization::CustomizeDetails(DetailBuilder);
+
 		FString FilterTag = FString();
 		{
 			const TSharedRef<IPropertyHandle> RootTag = GET_CLASS_PROPERTY(CLASS_NAME, RootTag);

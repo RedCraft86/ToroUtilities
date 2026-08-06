@@ -101,6 +101,8 @@ void FPrimitiveCollisionDetails::SetResponse(ECheckBoxState CheckState, const EC
 void FPrimitiveCollisionDetails::CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle,
 	FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils)
 {
+	FToroStructCustomization::CustomizeHeader(StructHandle, HeaderRow, CustomizationUtils);
+
 	if (!GetStructPtr(StructHandle))
 	{
 		FSlateFontInfo MultipleSelectedFont = IDetailLayoutBuilder::GetDetailFont();
@@ -188,6 +190,8 @@ void FPrimitiveCollisionDetails::CustomizeHeader(TSharedRef<IPropertyHandle> Str
 void FPrimitiveCollisionDetails::CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle,
 	IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils)
 {
+	FToroStructCustomization::CustomizeChildren(StructHandle, ChildBuilder, CustomizationUtils);
+
 	if (!GetStructPtr(StructHandle))
 	{
 		return;

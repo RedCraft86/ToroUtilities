@@ -14,6 +14,8 @@ class FSimpleCooldownDetails final : public FToroStructCustomization
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle, IDetailChildrenBuilder& StructBuilder,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
+		FToroStructCustomization::CustomizeChildren(StructHandle, StructBuilder, StructCustomizationUtils);
+
 		IDetailGroup& StructGroup = StructBuilder.AddGroup(TEXT("Cooldown"), StructHandle->GetPropertyDisplayName());
 
 		GET_STRUCT_PROPERTY_VAR_NS(Interval, Interval)

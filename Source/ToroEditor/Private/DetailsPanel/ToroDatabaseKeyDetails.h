@@ -15,6 +15,8 @@ class FToroDatabaseKeyDetails final : public FToroStructCustomization
 	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow,
 		IPropertyTypeCustomizationUtils& CustomizationUtils) override
 	{
+		FToroStructCustomization::CustomizeHeader(StructHandle, HeaderRow, CustomizationUtils);
+
 		const FString FilterTag = StructHandle->GetMetaData(NAME_TagFilter);
 
 		GET_STRUCT_PROPERTY_VAR_NS(Tag, Tag);
