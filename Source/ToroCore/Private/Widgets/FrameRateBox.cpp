@@ -41,8 +41,8 @@ void UFrameRateBox::ClearActiveTimer()
 
 EActiveTimerReturnType UFrameRateBox::Update(double CurrentTime, float DeltaTime)
 {
-	if (UserSettings.Get() 
-		&& GetVisibility() != ESlateVisibility::Hidden 
+	if (UserSettings.Get()
+		&& GetVisibility() != ESlateVisibility::Hidden
 		&& GetVisibility() != ESlateVisibility::Collapsed)
 	{
 		const float FPSLimit = UserSettings->GetFrameRateLimit();
