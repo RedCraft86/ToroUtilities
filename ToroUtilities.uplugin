@@ -29,6 +29,11 @@
 			"Name": "ToroRuntime",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroSetup",
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "PostEngineInit"
 		}
 	],
 	"Plugins": [
