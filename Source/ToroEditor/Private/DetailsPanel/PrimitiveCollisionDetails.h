@@ -10,7 +10,9 @@ class FPrimitiveCollisionDetails final : public FToroStructCustomization
 {
 public:
 
-	FPrimitiveCollisionDetails(): StructPtr(nullptr) {}
+	FPrimitiveCollisionDetails()
+		: StructPtr(nullptr)
+	{}
 
 private:
 

@@ -10,7 +10,11 @@
 
 FPrimitiveCollision* FPrimitiveCollisionDetails::GetStructPtr(const TSharedRef<IPropertyHandle>& PropertyHandle)
 {
-	if (StructPtr) return StructPtr;
+	if (StructPtr)
+	{
+		return StructPtr;
+	}
+
 	TArray<void*> StructPointers;
 	PropertyHandle->AccessRawData(StructPointers);
 	if (StructPointers.Num() == 1)
@@ -18,6 +22,7 @@ FPrimitiveCollision* FPrimitiveCollisionDetails::GetStructPtr(const TSharedRef<I
 		StructPtr = static_cast<FPrimitiveCollision*>(StructPointers[0]);
 		return StructPtr;
 	}
+
 	return nullptr;
 }
 
