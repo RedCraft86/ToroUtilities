@@ -19,7 +19,7 @@ class FAsyncMessageIdDetails final : public FToroStructCustomization
 		MsgTag->MarkHiddenByCustomization();
 
 		static const FName META_Categories = TEXT("Categories");
-		const FString FilterTag = StructHandle->GetMetaData(META_Categories);
+		const FString FilterTag = StructHandle->GetMetaData(META_Categories).Replace(TEXT(" "), TEXT(""));
 
 		// Display inner property as the struct itself
 		HeaderRow.NameContent()

@@ -16,7 +16,7 @@ class FToroDatabaseKeyDetails final : public FToroStructCustomization
 		FToroStructCustomization::CustomizeHeader(StructHandle, HeaderRow, CustomizationUtils);
 
 		static const FName META_TagFilter = TEXT("TagFilter");
-		const FString FilterTag = StructHandle->GetMetaData(META_TagFilter);
+		const FString FilterTag = StructHandle->GetMetaData(META_TagFilter).Replace(TEXT(" "), TEXT(""));
 
 		GET_STRUCT_PROPERTY_VAR_NS(Tag, Tag);
 		HeaderRow.NameContent()
