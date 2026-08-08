@@ -12,8 +12,8 @@ class FToroDatabaseDetails final : public FToroClassCustomization
 	{
 		FToroClassCustomization::CustomizeDetails(DetailBuilder);
 
-		static const FName NAME_TagFilter = TEXT("TagFilter");
-		static const FName NAME_BaseStruct = TEXT("BaseStruct");
+		static const FName META_TagFilter = TEXT("TagFilter");
+		static const FName META_BaseStruct = TEXT("BaseStruct");
 
 		FString FilterTag = FString();
 		{
@@ -58,13 +58,13 @@ class FToroDatabaseDetails final : public FToroClassCustomization
 			{
 				if (!FilterStruct.IsEmpty())
 				{
-					Entry->SetInstanceMetaData(NAME_BaseStruct, FilterStruct);
+					Entry->SetInstanceMetaData(META_BaseStruct, FilterStruct);
 				}
 
 				const TSharedPtr<IPropertyHandle> Key = Entry->GetKeyHandle();				
 				if (Key && !FilterTag.IsEmpty())
 				{
-					Key->SetInstanceMetaData(NAME_TagFilter, FilterTag);
+					Key->SetInstanceMetaData(META_TagFilter, FilterTag);
 				}
 			}
 		}

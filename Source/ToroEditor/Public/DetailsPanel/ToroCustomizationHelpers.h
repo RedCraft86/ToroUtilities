@@ -6,10 +6,10 @@ namespace ToroCustomizationHelpers
 {
 	inline void GetRenameCategories(const UClass* Class, TMap<FString, FText>& Renames)
 	{
-		static const FName NAME_RenameCategories("RenameCategories");
+		static const FName META_RenameCategories("RenameCategories");
 
 		TArray<FString> MetaEntries;
-		Class->GetMetaData(NAME_RenameCategories).ParseIntoArray(MetaEntries, TEXT(","));
+		Class->GetMetaData(META_RenameCategories).ParseIntoArray(MetaEntries, TEXT(","));
 
 		Renames.Empty(MetaEntries.Num());
 		for (const FString& MetaEntry : MetaEntries)
