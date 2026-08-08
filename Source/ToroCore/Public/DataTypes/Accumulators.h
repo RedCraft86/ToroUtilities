@@ -73,7 +73,7 @@ public:
 	/**
 	 * @return The set that is internally used by this accumulator.
 	 */
-	const TSet<T>& GetInnerMap()
+	const TSet<T>& GetInnerSet() const
 	{
 		return InnerSet;
 	}
@@ -81,7 +81,7 @@ public:
 	/**
 	 * @return The number of entries in this accumulator.
 	 */
-	int32 Num()
+	int32 Num() const
 	{
 		return InnerSet.Num();
 	}
@@ -89,7 +89,7 @@ public:
 	/**
 	 * @return True if there are no entries in this accumulator
 	 */
-	bool IsEmpty()
+	bool IsEmpty() const
 	{
 		return InnerSet.IsEmpty();
 	}
@@ -131,7 +131,7 @@ public:
 	 * Iterate through all entries in the accumulator.
 	 * @param Predicate A function called for each element. Return false to terminate the loop early.
 	 */
-	void ForEach(const TFunction<bool(const T&)>& Predicate)
+	void ForEach(const TFunction<bool(const T&)>& Predicate) const
 	{
 		for (const T& Value : InnerSet)
 		{
@@ -244,7 +244,7 @@ public:
 	/**
 	 * @return The map that is internally used by this accumulator.
 	 */
-	const TMap<K, V>& GetInnerMap()
+	const TMap<K, V>& GetInnerMap() const
 	{
 		return InnerMap;
 	}
@@ -252,7 +252,7 @@ public:
 	/**
 	 * @return The number of entries in this accumulator.
 	 */
-	int32 Num()
+	int32 Num() const
 	{
 		return InnerMap.Num();
 	}
@@ -260,7 +260,7 @@ public:
 	/**
 	 * @return True if there are no entries in this accumulator
 	 */
-	bool IsEmpty()
+	bool IsEmpty() const
 	{
 		return InnerMap.IsEmpty();
 	}
@@ -304,7 +304,7 @@ public:
 	 * Iterate through all entries in the accumulator.
 	 * @param Predicate A function called for each key value pair. Return false to terminate the loop early.
 	 */
-	void ForEach(const TFunction<bool(const TPair<K, V>&)>& Predicate)
+	void ForEach(const TFunction<bool(const TPair<K, V>&)>& Predicate) const
 	{
 		for (const TPair<K, V>& Pair : InnerMap)
 		{
