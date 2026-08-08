@@ -10,7 +10,7 @@
  */
 class FAsyncMessageIdDetails final : public FToroStructCustomization
 {
-	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow, 
+	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow,
 		IPropertyTypeCustomizationUtils& CustomizationUtils) override
 	{
 		FToroStructCustomization::CustomizeHeader(StructHandle, HeaderRow, CustomizationUtils);
