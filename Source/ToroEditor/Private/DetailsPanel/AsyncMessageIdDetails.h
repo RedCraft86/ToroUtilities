@@ -2,9 +2,7 @@
 
 #pragma once
 
-#include "IDetailPropertyRow.h"
 #include "DetailsPanel/ToroStructCustomization.h"
-
 #include "AsyncMessageId.h"
 
 /**
@@ -12,19 +10,27 @@
  */
 class FAsyncMessageIdDetails final : public FToroStructCustomization
 {
-	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle, IDetailChildrenBuilder& StructBuilder,
-		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
+	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow, 
+		IPropertyTypeCustomizationUtils& CustomizationUtils) override
 	{
-		FToroStructCustomization::CustomizeChildren(StructHandle, StructBuilder, StructCustomizationUtils);
+		FToroStructCustomization::CustomizeHeader(StructHandle, HeaderRow, CustomizationUtils);
 
 		const TSharedPtr<IPropertyHandle> MsgTag = StructHandle->GetChildHandle(TEXT("InternalMessageTag"));
 		MsgTag->MarkHiddenByCustomization();
 
-		ForwardMetadata(MsgTag);
+		static const FName META_Categories = TEXT("Categories");
+		const FString FilterTag = StructHandle->GetMetaData(META_Categories);
 
 		// Display inner property as the struct itself
-		StructBuilder.AddProperty(MsgTag.ToSharedRef())
-			.DisplayName(StructHandle->GetPropertyDisplayName())
-			.ToolTip(StructHandle->GetToolTipText());
+		HeaderRow.NameContent()
+		[
+			StructHandle->CreatePropertyNameWidget()
+		]
+		.ValueContent()
+		[
+			SNew(SGameplayTagCombo)
+				.Filter(FilterTag)
+				.PropertyHandle(MsgTag)
+		];
 	}
 };

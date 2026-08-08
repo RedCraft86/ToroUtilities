@@ -2,27 +2,30 @@
 
 #pragma once
 
-#include "IDetailPropertyRow.h"
 #include "DetailsPanel/ToroStructCustomization.h"
-
 #include "DataTypes/WrappedTypes.h"
 
 #define STRUCT_NAME FWrappedBool
 class FWrappedTypeDetails final : public FToroStructCustomization
 {
-	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructHandle, IDetailChildrenBuilder& StructBuilder,
-		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
+	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructHandle, FDetailWidgetRow& HeaderRow, 
+		IPropertyTypeCustomizationUtils& CustomizationUtils) override
 	{
-		FToroStructCustomization::CustomizeChildren(StructHandle, StructBuilder, StructCustomizationUtils);
+		FToroStructCustomization::CustomizeHeader(StructHandle, HeaderRow, CustomizationUtils);
 
 		GET_STRUCT_PROPERTY_VAR_NS(Value, Value);
 
 		ForwardMetadata(Value);
 
 		// Display inner property as the struct itself
-		StructBuilder.AddProperty(Value.ToSharedRef())
-			.DisplayName(StructHandle->GetPropertyDisplayName())
-			.ToolTip(StructHandle->GetToolTipText());
+		HeaderRow.NameContent()
+		[
+			StructHandle->CreatePropertyNameWidget()
+		]
+		.ValueContent()
+		[
+			Value->CreatePropertyValueWidget()
+		];
 	}
 };
 #undef STRUCT_NAME
