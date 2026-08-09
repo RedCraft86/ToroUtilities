@@ -3,7 +3,7 @@
 #pragma once
 
 template<typename K, typename V>
-class TArrayMap final
+class TArrayPair final
 {
 	TArray<TPair<K, V>> Values;
 
@@ -22,7 +22,7 @@ class TArrayMap final
 
 public:
 
-	TArrayMap()
+	TArrayPair()
 		: Values()
 	{}
 
@@ -58,7 +58,7 @@ public:
 		return Values[Idx].Value;
 	}
 
-	void Append(const TArrayMap<K, V>& Other)
+	void Append(const TArrayPair<K, V>& Other)
 	{
 		Values.Reserve(Values.Num() + Other.Values.Num());
 		for (const TPair<K, V>& Value : Other.Values)

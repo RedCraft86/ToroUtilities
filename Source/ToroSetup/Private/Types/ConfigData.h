@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "ArrayMap.h"
+#include "ArrayPair.h"
 
 struct FTSetupConfigSectionData final
 {
-	TArrayMap<FString, FString> Values;
-	TArrayMap<FString, TArrayMap<FString, FString>> Arrays;
+	TArrayPair<FString, FString> Values;
+	TArrayPair<FString, TArrayPair<FString, FString>> Arrays;
 
 	void Append(const FTSetupConfigSectionData& Other)
 	{
@@ -39,7 +39,7 @@ struct FTSetupConfigSectionData final
 
 struct FTSetupConfigFileData final
 {
-	TArrayMap<FString, FTSetupConfigSectionData> Sections;
+	TArrayPair<FString, FTSetupConfigSectionData> Sections;
 
 	void Append(const FTSetupConfigFileData& Other)
 	{
@@ -128,7 +128,7 @@ struct FTSetupConfigFileData final
 				FileLines.Add(FString::Printf(TEXT("%s=%s"), *Value.Key, *Value.Value));
 			}
 
-			for (const TPair<FString, TArrayMap<FString, FString>>& Array : Section.Value.Arrays.GetValues())
+			for (const TPair<FString, TArrayPair<FString, FString>>& Array : Section.Value.Arrays.GetValues())
 			{
 				for (const TPair<FString, FString>& Entry : Array.Value.GetValues())
 				{
