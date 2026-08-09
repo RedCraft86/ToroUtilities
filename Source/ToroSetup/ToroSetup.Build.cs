@@ -14,7 +14,12 @@ public class ToroSetup : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "Json",
+                "JsonUtilities",
+                "PropertyEditor",
+                "DeveloperSettings",
+                "ToroEditor"
             ]
         );
     }

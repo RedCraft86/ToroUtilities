@@ -10,4 +10,8 @@ class FToroSetupModule final : public IModuleInterface
 {
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
+
+public:
+
+    static FString PickFileOrDir(const FString& StartDir, const FString& Title, const FString& FileTypes);
 };
