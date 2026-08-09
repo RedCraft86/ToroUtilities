@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/ArrayMap.h"
+#include "ArrayMap.h"
 
 struct FTSetupConfigSectionData final
 {
@@ -28,7 +28,7 @@ struct FTSetupConfigSectionData final
 		const FString Prefix = Key.Left(1);
 		if (ArrayKeys.Contains(Prefix))
 		{
-			Arrays.FindOrAdd(Key.Right(Key.Len() - 1)).Add(Value, Prefix, true);
+			Arrays.FindOrAdd(Key.Right(Key.Len() - 1)).Add(Value, Prefix);
 		}
 		else
 		{
@@ -113,7 +113,7 @@ struct FTSetupConfigFileData final
 		}
 	}
 
-	void SaveConfig(const FString& Filename)
+	void SaveConfig(const FString& Filename) const
 	{
 		FString FilePath = Filename;
 		FPaths::NormalizeFilename(FilePath);
