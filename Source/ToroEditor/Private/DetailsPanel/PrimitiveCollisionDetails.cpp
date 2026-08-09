@@ -48,7 +48,7 @@ ECheckBoxState FPrimitiveCollisionDetails::HasCommonResponse(const ECollisionRes
 	{
 		return ECheckBoxState::Undetermined;
 	}
-	
+
 	ECheckBoxState State = ECheckBoxState::Unchecked;
 	FPrimitiveCollision::Utils::ForEachChannel([this, ResponseToCheck, &State]
 		(const ECollisionChannel Channel, const int32, const UEnum*)
@@ -112,7 +112,7 @@ void FPrimitiveCollisionDetails::CustomizeHeader(TSharedRef<IPropertyHandle> Str
 	{
 		FSlateFontInfo MultipleSelectedFont = IDetailLayoutBuilder::GetDetailFont();
 		MultipleSelectedFont.Size = 10;
-		
+
 		HeaderRow.NameContent()
 		[
 			StructHandle->CreatePropertyNameWidget()
@@ -256,7 +256,7 @@ void FPrimitiveCollisionDetails::CustomizeChildren(TSharedRef<IPropertyHandle> S
 			.Justification(ETextJustify::Center)
 		]
 	];
-	
+
 	ChildBuilder.AddCustomRow(LOCTEXT("CollisionResponsesLabel", "Collision Responses")).IsEnabled(bCanCustomize)
 	.NameContent()
 	[

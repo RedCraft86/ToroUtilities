@@ -149,7 +149,6 @@ TArray<AActor*> FActorBaking::InstanceActors(const TArray<AActor*>& Sources, con
 					? SpawnStaticMesh<AHierarchicalInstancedStaticMeshActor>(Instance.Key.Transform)
 					: SpawnStaticMesh<AInstancedStaticMeshActor>(Instance.Key.Transform))
 				{
-					
 					UInstancedStaticMeshComponent* Component = Actor->GetMeshComponent<>();
 					Instance.Key.ToMeshComponent(Component);
 

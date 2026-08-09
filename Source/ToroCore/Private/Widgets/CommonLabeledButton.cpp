@@ -153,7 +153,7 @@ void UCommonLabeledButton::ApplyLabelSettings()
 		{
 			ButtonLabel->SetColorAndOpacity(LabelColor);
 			ButtonLabel->SetFont(LabelFont);
-			
+
 			ButtonLabel->SetStrikeBrush(LabelStrikeBrush);
 			ButtonLabel->SetShadowOffset(LabelShadowOffset);
 			ButtonLabel->SetShadowColorAndOpacity(LabelShadowColor);

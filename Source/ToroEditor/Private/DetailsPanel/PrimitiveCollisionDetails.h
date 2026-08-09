@@ -32,7 +32,7 @@ private:
 	TArray<TSharedPtr<FName>> Presets;
 	TArray<FCollisionChannelInfo> TraceChannels;
 	TArray<FCollisionChannelInfo> ObjectChannels;
-	
+
 	TSharedPtr<SNameComboBox> ComboBoxPtr;
 
 	FPrimitiveCollision* GetStructPtr(const TSharedRef<IPropertyHandle>& PropertyHandle);

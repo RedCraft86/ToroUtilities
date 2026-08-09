@@ -61,7 +61,7 @@ class FToroDatabaseDetails final : public FToroClassCustomization
 					Entry->SetInstanceMetaData(META_BaseStruct, FilterStruct);
 				}
 
-				const TSharedPtr<IPropertyHandle> Key = Entry->GetKeyHandle();				
+				const TSharedPtr<IPropertyHandle> Key = Entry->GetKeyHandle();
 				if (Key && !FilterTag.IsEmpty())
 				{
 					Key->SetInstanceMetaData(META_TagFilter, FilterTag);

@@ -50,7 +50,7 @@ public:
 			RegisterStruct<Type, Customization>(ModulePtr);
 		}
 	}
-	
+
 private:
 
 	TOROEDITOR_API static inline TSet<FName> ClassNames = {};

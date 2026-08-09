@@ -30,7 +30,7 @@ private:
 	FString GetMetadata(const FName Key) const;
 	void SetMetadata(const FName Key, const FString& Value) const;
 	void ChangeMetadataKey(const FName OldKey, const FName NewKey) const;
-	
+
 	void AddNewMetadata() const;
 	void OnChangeMetaKey(const FText& NewKey, ETextCommit::Type Type, const FName OldKey) const;
 	void OnChangeMetaValue(const FText& NewValue, ETextCommit::Type Type, const FName Key) const;
