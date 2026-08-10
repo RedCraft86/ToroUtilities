@@ -22,12 +22,6 @@ public:
 		const FText& GetLabelContentText() const { return LabelText; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label")
-		void SetLabelColor(const FLinearColor& InColor);
-
-	UFUNCTION(BlueprintPure, Category = "Button|Label")
-		const FLinearColor& GetLabelColor() const { return LabelShadowColor; }
-
-	UFUNCTION(BlueprintCallable, Category = "Button|Label")
 		void SetLabelStyle(const TSubclassOf<UCommonTextStyle> InStyle);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label")
@@ -38,6 +32,12 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Font")
 	    const FSlateFontInfo& GetLabelFont() const { return LabelFont; }
+
+	UFUNCTION(BlueprintCallable, Category = "Button|Label")
+		void SetLabelColor(const FLinearColor& InColor);
+
+	UFUNCTION(BlueprintPure, Category = "Button|Label")
+		const FLinearColor& GetLabelColor() const { return LabelShadowColor; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
 	    void SetLabelStrikeBrush(const FSlateBrush& InBrush);

@@ -48,12 +48,6 @@ void UCommonLabeledButton::SetLabelContentText(const FText InText)
 	}
 }
 
-void UCommonLabeledButton::SetLabelColor(const FLinearColor& InColor)
-{
-	LabelColor = InColor;
-	ApplyLabelSettings();
-}
-
 void UCommonLabeledButton::SetLabelStyle(const TSubclassOf<UCommonTextStyle> InStyle)
 {
 	LabelStyle = InStyle;
@@ -63,6 +57,12 @@ void UCommonLabeledButton::SetLabelStyle(const TSubclassOf<UCommonTextStyle> InS
 void UCommonLabeledButton::SetLabelFont(const FSlateFontInfo& InFont)
 {
 	LabelFont = InFont;
+	ApplyLabelSettings();
+}
+
+void UCommonLabeledButton::SetLabelColor(const FLinearColor& InColor)
+{
+	LabelColor = InColor;
 	ApplyLabelSettings();
 }
 
