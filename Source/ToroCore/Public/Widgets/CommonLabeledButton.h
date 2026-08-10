@@ -33,24 +33,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Button|Label")
 	    TSubclassOf<UCommonTextStyle> GetLabelStyle() const { return LabelStyle; }
 
-	UFUNCTION(BlueprintCallable, Category = "Button|Label|Slot")
-	    void SetLabelPadding(const FMargin& InPadding);
-
-	UFUNCTION(BlueprintPure, Category = "Button|Label|Slot")
-	    const FMargin& GetLabelPadding() const { return LabelPadding; }
-
-	UFUNCTION(BlueprintCallable, Category = "Button|Label|Slot")
-	    void SetLabelHorizontalAlignment(const EHorizontalAlignment InAlignment);
-
-	UFUNCTION(BlueprintPure, Category = "Button|Label|Slot")
-	    EHorizontalAlignment GetLabelHorizontalAlignment() const { return LabelHorizontalAlignment; }
-
-	UFUNCTION(BlueprintCallable, Category = "Button|Label|Slot")
-	    void SetLabelVerticalAlignment(const EVerticalAlignment InAlignment);
-
-	UFUNCTION(BlueprintPure, Category = "Button|Label|Slot")
-	    EVerticalAlignment GetLabelVerticalAlignment() const { return LabelVerticalAlignment; }
-
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
 	    void SetLabelFont(const FSlateFontInfo& InFont);
 
@@ -103,7 +85,25 @@ public:
 	    void SetLabelWrappingPolicy(const ETextWrappingPolicy InPolicy);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Wrapping")
-	    ETextWrappingPolicy GetLabelWrappingPolicy() const { return LabelWrappingPolicy; }
+		ETextWrappingPolicy GetLabelWrappingPolicy() const { return LabelWrappingPolicy; }
+
+	UFUNCTION(BlueprintCallable, Category = "Button|Label|Slot")
+		void SetLabelPadding(const FMargin& InPadding);
+
+	UFUNCTION(BlueprintPure, Category = "Button|Label|Slot")
+		const FMargin& GetLabelPadding() const { return LabelPadding; }
+
+	UFUNCTION(BlueprintCallable, Category = "Button|Label|Slot")
+		void SetLabelHorizontalAlignment(const EHorizontalAlignment InAlignment);
+
+	UFUNCTION(BlueprintPure, Category = "Button|Label|Slot")
+		EHorizontalAlignment GetLabelHorizontalAlignment() const { return LabelHorizontalAlignment; }
+
+	UFUNCTION(BlueprintCallable, Category = "Button|Label|Slot")
+		void SetLabelVerticalAlignment(const EVerticalAlignment InAlignment);
+
+	UFUNCTION(BlueprintPure, Category = "Button|Label|Slot")
+		EVerticalAlignment GetLabelVerticalAlignment() const { return LabelVerticalAlignment; }
 
 	UFUNCTION(BlueprintPure, Category = Button)
 		FORCEINLINE UCommonTextBlock* GetLabelTextBlock() const { return ButtonLabel; }

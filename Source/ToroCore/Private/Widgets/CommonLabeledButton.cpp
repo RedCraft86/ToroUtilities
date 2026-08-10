@@ -60,24 +60,6 @@ void UCommonLabeledButton::SetLabelStyle(const TSubclassOf<UCommonTextStyle> InS
 	ApplyLabelSettings();
 }
 
-void UCommonLabeledButton::SetLabelPadding(const FMargin& InPadding)
-{
-	LabelPadding = InPadding;
-	ApplyLabelSettings();
-}
-
-void UCommonLabeledButton::SetLabelHorizontalAlignment(const EHorizontalAlignment InAlignment)
-{
-	LabelHorizontalAlignment = InAlignment;
-	ApplyLabelSettings();
-}
-
-void UCommonLabeledButton::SetLabelVerticalAlignment(const EVerticalAlignment InAlignment)
-{
-	LabelVerticalAlignment = InAlignment;
-	ApplyLabelSettings();
-}
-
 void UCommonLabeledButton::SetLabelFont(const FSlateFontInfo& InFont)
 {
 	LabelFont = InFont;
@@ -105,31 +87,73 @@ void UCommonLabeledButton::SetLabelShadowColor(const FLinearColor& InColor)
 void UCommonLabeledButton::SetLabelTransformPolicy(const ETextTransformPolicy InPolicy)
 {
 	LabelTransformPolicy = InPolicy;
-	ApplyLabelSettings();
+	if (ButtonLabel)
+	{
+		ButtonLabel->SetTextTransformPolicy(LabelTransformPolicy);
+	}
 }
 
 void UCommonLabeledButton::SetLabelJustification(const ETextJustify::Type InJustification)
 {
 	LabelJustification = InJustification;
-	ApplyLabelSettings();
+	if (ButtonLabel)
+	{
+		ButtonLabel->SetJustification(LabelJustification);
+	}
 }
 
 void UCommonLabeledButton::SetLabelAutoWrapText(const bool bInAutoWrap)
 {
 	bLabelAutoWrapText = bInAutoWrap;
-	ApplyLabelSettings();
+	if (ButtonLabel)
+	{
+		ButtonLabel->SetAutoWrapText(bLabelAutoWrapText);
+	}
 }
 
 void UCommonLabeledButton::SetLabelWrapTextAt(const float InWrapAt)
 {
 	LabelWrapTextAt = InWrapAt;
-	ApplyLabelSettings();
+	if (ButtonLabel)
+	{
+		ButtonLabel->SetWrapTextAt(LabelWrapTextAt);
+	}
 }
 
 void UCommonLabeledButton::SetLabelWrappingPolicy(const ETextWrappingPolicy InPolicy)
 {
 	LabelWrappingPolicy = InPolicy;
-	ApplyLabelSettings();
+	if (ButtonLabel)
+	{
+		ButtonLabel->SetWrappingPolicy(LabelWrappingPolicy);
+	}
+}
+
+void UCommonLabeledButton::SetLabelPadding(const FMargin& InPadding)
+{
+	LabelPadding = InPadding;
+	if (UButtonSlot* ButtonSlot = ButtonLabel ? Cast<UButtonSlot>(ButtonLabel->Slot) : nullptr)
+	{
+		ButtonSlot->SetPadding(LabelPadding);
+	}
+}
+
+void UCommonLabeledButton::SetLabelHorizontalAlignment(const EHorizontalAlignment InAlignment)
+{
+	LabelHorizontalAlignment = InAlignment;
+	if (UButtonSlot* ButtonSlot = ButtonLabel ? Cast<UButtonSlot>(ButtonLabel->Slot) : nullptr)
+	{
+		ButtonSlot->SetHorizontalAlignment(LabelHorizontalAlignment);
+	}
+}
+
+void UCommonLabeledButton::SetLabelVerticalAlignment(const EVerticalAlignment InAlignment)
+{
+	LabelVerticalAlignment = InAlignment;
+	if (UButtonSlot* ButtonSlot = ButtonLabel ? Cast<UButtonSlot>(ButtonLabel->Slot) : nullptr)
+	{
+		ButtonSlot->SetVerticalAlignment(LabelVerticalAlignment);
+	}
 }
 
 void UCommonLabeledButton::ApplyLabelSettings()
@@ -151,25 +175,11 @@ void UCommonLabeledButton::ApplyLabelSettings()
 		}
 		else
 		{
-			ButtonLabel->SetColorAndOpacity(LabelColor);
 			ButtonLabel->SetFont(LabelFont);
-
+			ButtonLabel->SetColorAndOpacity(LabelColor);
 			ButtonLabel->SetStrikeBrush(LabelStrikeBrush);
 			ButtonLabel->SetShadowOffset(LabelShadowOffset);
 			ButtonLabel->SetShadowColorAndOpacity(LabelShadowColor);
-			ButtonLabel->SetTextTransformPolicy(LabelTransformPolicy);
-			ButtonLabel->SetJustification(LabelJustification);
-
-			ButtonLabel->SetAutoWrapText(bLabelAutoWrapText);
-			ButtonLabel->SetWrapTextAt(LabelWrapTextAt);
-			ButtonLabel->SetWrappingPolicy(LabelWrappingPolicy);
-		}
-
-		if (UButtonSlot* ButtonSlot = Cast<UButtonSlot>(ButtonLabel->Slot))
-		{
-			ButtonSlot->SetPadding(LabelPadding);
-			ButtonSlot->SetHorizontalAlignment(LabelHorizontalAlignment);
-			ButtonSlot->SetVerticalAlignment(LabelVerticalAlignment);
 		}
 	}
 }
@@ -210,5 +220,17 @@ void UCommonLabeledButton::SynchronizeProperties()
 	if (ButtonLabel)
 	{
 		ButtonLabel->SetText(LabelText);
+		ButtonLabel->SetTextTransformPolicy(LabelTransformPolicy);
+		ButtonLabel->SetJustification(LabelJustification);
+		ButtonLabel->SetAutoWrapText(bLabelAutoWrapText);
+		ButtonLabel->SetWrapTextAt(LabelWrapTextAt);
+		ButtonLabel->SetWrappingPolicy(LabelWrappingPolicy);
+
+		if (UButtonSlot* ButtonSlot = Cast<UButtonSlot>(ButtonLabel->Slot))
+		{
+			ButtonSlot->SetPadding(LabelPadding);
+			ButtonSlot->SetHorizontalAlignment(LabelHorizontalAlignment);
+			ButtonSlot->SetVerticalAlignment(LabelVerticalAlignment);
+		}
 	}
 }
