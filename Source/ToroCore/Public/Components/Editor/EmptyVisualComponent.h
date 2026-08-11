@@ -6,8 +6,7 @@
 #include "EmptyVisualComponent.generated.h"
 
 /**
- * Component to conditionally show an editor-only actor icon based on whether the owner has
- * any other visual indicators or if it can no longer be observed if placed into a level.
+ * Component to conditionally show an editor-only billboard if the owning actor has no other visual components.
  * @note This component is editor-only and will be removed at game runtime.
  */
 UCLASS(MinimalAPI, NotBlueprintable, NotBlueprintType, ClassGroup = (Editor), meta = (BlueprintSpawnableComponent))
