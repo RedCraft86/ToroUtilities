@@ -12,6 +12,7 @@
 #include "ToolbarButtons/ActorSplitter.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 
+#include "ComponentVis/EditorShapeVisualizer.h"
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 
 #include "DetailsPanel/WrappedTypeDetails.h"
@@ -40,6 +41,8 @@ void FToroEditorModule::StartupModule()
 	FToolbarButtonRegistry::AddButton<FActorInstancer>();
 	FToolbarButtonRegistry::AddButton<FActorSplitter>();
     FToolbarButtonRegistry::Register();
+
+	FComponentVisualizerRegistry::Register<UWireShapeComponent, FEditorShapeVisualizer>();
 
 	FDetailsCustomizationRegistry::Register<FWrappedBool, FWrappedTypeDetails>();
 	FDetailsCustomizationRegistry::Register<FWrappedFloat, FWrappedTypeDetails>();

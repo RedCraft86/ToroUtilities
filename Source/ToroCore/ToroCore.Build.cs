@@ -20,6 +20,7 @@ public class ToroCore : ModuleRules
                 "InputCore",
                 "ApplicationCore",
                 "ProceduralMeshComponent",
+                "NavigationSystem",
                 "EngineSettings",
                 "GameplayTags",
                 "LevelSequence",
