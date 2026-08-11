@@ -8,11 +8,9 @@ AToroVolume::AToroVolume(): bEnabled(true)
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
 #if WITH_EDITORONLY_DATA
-	bTickInEditor = false;
-	bDisplayIcon = true;
 	bColored = false;
-	bShadedVolume = false;
 	VolumeColor = FColor(124, 75, 155);
+	bDisplayIcon = true;
 #endif
 
 	bEnableAutoLODGeneration = false; // Exclude this actor from HLOD assuming it is gameplay specific
@@ -56,7 +54,6 @@ void AToroVolume::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 	UniqueId.RegenerateGuid(true);
 
-	bDisplayShadedVolume = bShadedVolume;
 	bColored = bColoredVolume;
 	BrushColor = VolumeColor;
 }

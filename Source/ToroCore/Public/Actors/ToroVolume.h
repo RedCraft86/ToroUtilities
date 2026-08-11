@@ -59,28 +59,22 @@ protected:
 		bool bTickInEditor;
 
 	/**
-	 * Toggle for the editor icon visibility.
-	 */
-	UPROPERTY(EditAnywhere, Category = Actor)
-		bool bDisplayIcon;
-
-	/**
-	 * If true, the volume will be drawn as a solid/shaded box in the editor.
-	 */
-	UPROPERTY(EditAnywhere, Category = "Actor|Volume", DisplayName = "Shaded")
-		bool bShadedVolume;
-
-	/**
 	 * Enables custom color overrides for the volume wireframe.
 	 */
-	UPROPERTY(EditAnywhere, Category = "Actor|Volume", DisplayName = "Colored", meta = (InlineEditConditionToggle))
+	UPROPERTY(EditAnywhere, Category = BrushSettings, DisplayName = "Colored", meta = (InlineEditConditionToggle))
 		bool bColoredVolume;
 
 	/**
 	 * The color used for the volume bounds if bColoredVolume is true.
 	 */
-	UPROPERTY(EditAnywhere, Category = "Actor|Volume", DisplayName = "Color", meta = (EditCondition = "bColoredVolume", HideAlphaChannel = true))
+	UPROPERTY(EditAnywhere, Category = BrushSettings, DisplayName = "Color", meta = (EditCondition = "bColoredVolume", HideAlphaChannel = true))
 		FColor VolumeColor;
+
+	/**
+	 * Toggle for the editor icon visibility.
+	 */
+	UPROPERTY(EditAnywhere, Category = Actor)
+		bool bDisplayIcon;
 #endif
 
 	virtual void EnableStateChanged(const bool bState);
