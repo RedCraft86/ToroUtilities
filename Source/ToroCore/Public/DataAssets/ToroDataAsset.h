@@ -5,8 +5,6 @@
 #include "Engine/DataAsset.h"
 #include "ToroDataAsset.generated.h"
 
-// TODO: Factory and definition
-
 /**
  * Base class for data-driven assets in the ToroUtilities framework.
  */
