@@ -3,8 +3,8 @@
 #pragma once
 
 #include "SNameComboBox.h"
-#include "DataTypes/PrimitiveCollision.h"
 #include "DetailsPanel/ToroStructCustomization.h"
+#include "DataTypes/PrimitiveCollision.h"
 
 class FPrimitiveCollisionDetails final : public FToroStructCustomization
 {

@@ -1,7 +1,6 @@
 // Copyright (C) 2026 Tayzar Linn. Licensed under GNU Lesser General Public License v3.0, see project LICENSE file.
 
 #include "DataTypes/PrimitiveCollision.h"
-
 #include "Components/PrimitiveComponent.h"
 
 bool FPrimitiveCollision::HasValidProfileName() const

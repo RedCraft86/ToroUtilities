@@ -4,7 +4,6 @@
 
 #include "IDetailPropertyRow.h"
 #include "DetailsPanel/ToroStructCustomization.h"
-
 #include "DataTypes/InlineCurves.h"
 
 #define STRUCT_NAME FInlineFloatCurve

@@ -4,7 +4,6 @@
 
 #include "SGameplayTagCombo.h"
 #include "DetailsPanel/ToroStructCustomization.h"
-
 #include "DataAssets/ToroDatabase.h"
 
 #define STRUCT_NAME FToroDatabaseKey

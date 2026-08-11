@@ -5,7 +5,6 @@
 #include "IDetailGroup.h"
 #include "IDetailPropertyRow.h"
 #include "DetailsPanel/ToroStructCustomization.h"
-
 #include "DataTypes/SimpleCooldown.h"
 
 #define STRUCT_NAME FSimpleCooldown

@@ -1,9 +1,9 @@
 // Copyright (C) 2026 Tayzar Linn. Licensed under GNU Lesser General Public License v3.0, see project LICENSE file.
 
 #include "PrimitiveCollisionDetails.h"
+#include "Widgets/Input/SCheckBox.h"
 #include "DetailLayoutBuilder.h"
 #include "IDocumentation.h"
-#include "Widgets/Input/SCheckBox.h"
 
 #define LOCTEXT_NAMESPACE "BodyInstanceCustomization"
 #define STRUCT_NAME FPrimitiveCollision
