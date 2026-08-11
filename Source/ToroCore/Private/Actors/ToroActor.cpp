@@ -1,6 +1,9 @@
 // Copyright (C) 2026 Tayzar Linn. Licensed under GNU Lesser General Public License v3.0, see project LICENSE file.
 
 #include "Actors/ToroActor.h"
+#if WITH_EDITOR
+#include "Components/Editor/EmptyVisualComponent.h"
+#endif
 
 AToroActor::AToroActor(): bEnabled(true), bStartWithCollision(true)
 {
@@ -9,6 +12,14 @@ AToroActor::AToroActor(): bEnabled(true), bStartWithCollision(true)
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
+
+#if WITH_EDITOR
+	EmptyVisual = CreateEditorOnlyDefaultSubobject<UEmptyVisualComponent>(TEXT("EmptyVisual"));
+	if (EmptyVisual)
+	{
+		EmptyVisual->SetupAttachment(GetRootComponent());
+	}
+#endif
 
 	bEnableAutoLODGeneration = false; // Exclude this actor from HLOD assuming it is gameplay specific
 	UniqueId.RegenerateGuid();

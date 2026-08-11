@@ -1,11 +1,24 @@
 // Copyright (C) 2026 Tayzar Linn. Licensed under GNU Lesser General Public License v3.0, see project LICENSE file.
 
 #include "Actors/ToroVolume.h"
+#include "Components/BrushComponent.h"
+#if WITH_EDITOR
+#include "Components/Editor/EmptyVisualComponent.h"
+#endif
 
 AToroVolume::AToroVolume(): bEnabled(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
+
+#if WITH_EDITOR
+	EmptyVisual = CreateEditorOnlyDefaultSubobject<UEmptyVisualComponent>(TEXT("EmptyVisual"));
+	if (EmptyVisual)
+	{
+		EmptyVisual->SetupAttachment(GetRootComponent());
+		EmptyVisual->IgnoreComponents.Add(GetBrushComponent());
+	}
+#endif
 
 #if WITH_EDITORONLY_DATA
 	bColored = false;
@@ -56,5 +69,10 @@ void AToroVolume::OnConstruction(const FTransform& Transform)
 
 	bColored = bColoredVolume;
 	BrushColor = VolumeColor;
+
+	if (EmptyVisual)
+	{
+		EmptyVisual->SetVisibility(bDisplayIcon);
+	}
 }
 #endif

@@ -75,6 +75,11 @@ protected:
 	 */
 	UPROPERTY(EditAnywhere, Category = Actor)
 		bool bDisplayIcon;
+
+	/**
+	 * Component used to show a visual indicator for this actor if there are none others available.
+	 */
+	UPROPERTY() TObjectPtr<class UEmptyVisualComponent> EmptyVisual;
 #endif
 
 	virtual void EnableStateChanged(const bool bState);

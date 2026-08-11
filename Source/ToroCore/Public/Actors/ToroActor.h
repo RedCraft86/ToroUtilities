@@ -69,6 +69,11 @@ protected:
 	 */
 	UPROPERTY(EditDefaultsOnly, Category = Tick)
 		bool bTickInEditor = false;
+
+	/**
+	 * Component used to show a visual indicator for this actor if there are none others available.
+	 */
+	UPROPERTY() TObjectPtr<class UEmptyVisualComponent> EmptyVisual;
 #endif
 
 	virtual void EnableStateChanged(const bool bState);
