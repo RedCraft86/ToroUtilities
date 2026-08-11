@@ -7,7 +7,7 @@
 #include "ToroCharacter.generated.h"
 
 /**
- * A base Character class with an identity.
+ * A base Character class for the ToroUtilities framework with an identity.
  */
 UCLASS(Abstract, Blueprintable, BlueprintType, PrioritizeCategories = (Settings, Tools), meta = (ChildCanTick = true))
 class TOROCORE_API AToroCharacter : public ACharacter, public IIdentifiable

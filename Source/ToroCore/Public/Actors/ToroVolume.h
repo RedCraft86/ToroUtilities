@@ -8,8 +8,7 @@
 #include "ToroVolume.generated.h"
 
 /**
- * A base Volume class with identity and enabled state.
- * TODO: Icon
+ * A base Volume class for the ToroUtilities framework with identity and enabled state.
  */
 UCLASS(Abstract, NotBlueprintable, BlueprintType, PrioritizeCategories = (Settings, Tools), meta = (ChildCanTick = true))
 class TOROCORE_API AToroVolume : public AVolume, public IIdentifiable, public IEnabledState

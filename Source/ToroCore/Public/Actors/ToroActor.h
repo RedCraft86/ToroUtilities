@@ -8,8 +8,7 @@
 #include "ToroActor.generated.h"
 
 /**
- * A base Actor class with identity and enabled state.
- * TODO: Icon
+ * A base Actor class for the ToroUtilities framework with identity and enabled state.
  */
 UCLASS(Abstract, Blueprintable, BlueprintType, PrioritizeCategories = (Settings, Tools), meta = (ChildCanTick = true))
 class TOROCORE_API AToroActor : public AActor, public IIdentifiable, public IEnabledState
