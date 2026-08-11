@@ -19,19 +19,21 @@ public:
 
 	UEmptyVisualComponent();
 
+#if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Settings)
-		TSoftObjectPtr<UTexture2D> Sprite;
+		TSoftObjectPtr<UTexture2D> Sprite { FSoftObjectPath(TEXT("/Engine/EditorResources/EmptyActor.EmptyActor")) };
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f))
-		float Scale;
+		float Scale = 0.5f;
 
 	UPROPERTY(VisibleAnywhere, Category = Settings, meta = (ClampMin = 1, UIMin = 1))
 		TArray<TWeakObjectPtr<const USceneComponent>> IgnoreComponents;
+#endif
 
+#if WITH_EDITOR
 private:
 
 	virtual void BeginPlay() override;
-#if WITH_EDITOR
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 	virtual bool CanAttachAsChild(const USceneComponent* ChildComponent, FName SocketName) const override;
 #endif

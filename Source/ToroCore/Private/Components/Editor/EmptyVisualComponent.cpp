@@ -17,16 +17,16 @@ UEmptyVisualComponent::UEmptyVisualComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 #endif
 
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
+	SetVisibility(true);
 	SetIsVisualizationComponent(true);
 	bVisualizeComponent = true;
+#else
+	SetVisibility(false, true);
 #endif
-
-	SetVisibility(true);
-	Sprite = FSoftObjectPath(TEXT("/Engine/EditorResources/EmptyActor.EmptyActor"));
-	Scale = 0.5f;
 }
 
+#if WITH_EDITOR
 void UEmptyVisualComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -40,7 +40,6 @@ void UEmptyVisualComponent::BeginPlay()
 	});
 }
 
-#if WITH_EDITOR
 void UEmptyVisualComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
