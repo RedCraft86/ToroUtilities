@@ -9,7 +9,7 @@
  *
  * <b>Usage Example:</b>
  * <pre>
- *     UGameplayStatics::GetPlayerController(FWorldGetter::Get(OptionalContext), 0);
+ * UGameplayStatics::GetPlayerController(FWorldGetter::Get(OptionalContext), 0);
  * </pre>
  */
 class TOROCORE_API FWorldGetter final

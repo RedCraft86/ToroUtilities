@@ -21,8 +21,7 @@ namespace
 		void Construct(const FArguments& InArgs)
 		{
 			const FMargin GridPadding(6.f, 3.f);
-			this->ChildSlot
-			    .Padding(0.f)
+			this->ChildSlot.Padding(0.f)
 			[
 				SNew(SBorder)
 				.Padding(0.f)

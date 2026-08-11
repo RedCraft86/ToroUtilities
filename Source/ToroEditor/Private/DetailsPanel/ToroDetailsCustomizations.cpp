@@ -48,7 +48,7 @@ void FToroClassCustomization::CustomizeDetails(const TSharedPtr<IDetailLayoutBui
 	DetailBuilder->GetObjectsBeingCustomized(Objects);
 	for (const TWeakObjectPtr<UObject>& Object : Objects)
 	{
-		//  Check Validity        Check CDO / Blueprint View
+		// Check Validity        Check CDO / Blueprint View
 		if (!Object.IsValid() || (!bCustomizeTemplate && Object->IsTemplate()))
 		{
 			return;

@@ -8,10 +8,10 @@ DECLARE_LOG_CATEGORY_EXTERN(LogToroSetup, All, All);
 
 class FToroSetupModule final : public IModuleInterface
 {
-    virtual void StartupModule() override;
-    virtual void ShutdownModule() override;
+	virtual void StartupModule() override;
+	virtual void ShutdownModule() override;
 
 public:
 
-    static FString PickFileOrDir(const FString& StartDir, const FString& Title, const FString& FileTypes);
+	static FString PickFileOrDir(const FString& StartDir, const FString& Title, const FString& FileTypes);
 };

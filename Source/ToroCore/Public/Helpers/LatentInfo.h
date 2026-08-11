@@ -9,8 +9,8 @@
  *
  * <b>Usage Example:</b>
  * <pre>
- *     FLatentActionInfo Info = FLatentMaker::Make(GET_MEMBER_NAME_CHECKED(UMyClass, AfterDelay), this);
- *     UKismetSystemLibrary::Delay(GetWorld(), 2.0f, Info);
+ * FLatentActionInfo Info = FLatentMaker::Make(GET_MEMBER_NAME_CHECKED(UMyClass, AfterDelay), this);
+ * UKismetSystemLibrary::Delay(GetWorld(), 2.0f, Info);
  * </pre>
  */
 class FLatentInfo

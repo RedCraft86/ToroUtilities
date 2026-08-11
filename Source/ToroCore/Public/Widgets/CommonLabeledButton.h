@@ -25,13 +25,13 @@ public:
 		void SetLabelStyle(const TSubclassOf<UCommonTextStyle> InStyle);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label")
-	    TSubclassOf<UCommonTextStyle> GetLabelStyle() const { return LabelStyle; }
+		TSubclassOf<UCommonTextStyle> GetLabelStyle() const { return LabelStyle; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
-	    void SetLabelFont(const FSlateFontInfo& InFont);
+		void SetLabelFont(const FSlateFontInfo& InFont);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Font")
-	    const FSlateFontInfo& GetLabelFont() const { return LabelFont; }
+		const FSlateFontInfo& GetLabelFont() const { return LabelFont; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label")
 		void SetLabelColor(const FLinearColor& InColor);
@@ -40,49 +40,49 @@ public:
 		const FLinearColor& GetLabelColor() const { return LabelShadowColor; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
-	    void SetLabelStrikeBrush(const FSlateBrush& InBrush);
+		void SetLabelStrikeBrush(const FSlateBrush& InBrush);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Font")
-	    const FSlateBrush& GetLabelStrikeBrush() const { return LabelStrikeBrush; }
+		const FSlateBrush& GetLabelStrikeBrush() const { return LabelStrikeBrush; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
-	    void SetLabelShadowOffset(const FVector2D& InOffset);
+		void SetLabelShadowOffset(const FVector2D& InOffset);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Font")
-	    const FVector2D& GetLabelShadowOffset() const { return LabelShadowOffset; }
+		const FVector2D& GetLabelShadowOffset() const { return LabelShadowOffset; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
-	    void SetLabelShadowColor(const FLinearColor& InColor);
+		void SetLabelShadowColor(const FLinearColor& InColor);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Font")
-	    const FLinearColor& GetLabelShadowColor() const { return LabelShadowColor; }
+		const FLinearColor& GetLabelShadowColor() const { return LabelShadowColor; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
-	    void SetLabelTransformPolicy(const ETextTransformPolicy InPolicy);
+		void SetLabelTransformPolicy(const ETextTransformPolicy InPolicy);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Font")
-	    ETextTransformPolicy GetLabelTransformPolicy() const { return LabelTransformPolicy; }
+		ETextTransformPolicy GetLabelTransformPolicy() const { return LabelTransformPolicy; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Font")
-	    void SetLabelJustification(const ETextJustify::Type InJustification);
+		void SetLabelJustification(const ETextJustify::Type InJustification);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Font")
-	    ETextJustify::Type GetLabelJustification() const { return LabelJustification; }
+		ETextJustify::Type GetLabelJustification() const { return LabelJustification; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Wrapping")
-	    void SetLabelAutoWrapText(const bool bInAutoWrap);
+		void SetLabelAutoWrapText(const bool bInAutoWrap);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Wrapping")
-	    bool GetLabelAutoWrapText() const { return bLabelAutoWrapText; }
+		bool GetLabelAutoWrapText() const { return bLabelAutoWrapText; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Wrapping")
-	    void SetLabelWrapTextAt(const float InWrapAt);
+		void SetLabelWrapTextAt(const float InWrapAt);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Wrapping")
-	    float GetLabelWrapTextAt() const { return LabelWrapTextAt; }
+		float GetLabelWrapTextAt() const { return LabelWrapTextAt; }
 
 	UFUNCTION(BlueprintCallable, Category = "Button|Label|Wrapping")
-	    void SetLabelWrappingPolicy(const ETextWrappingPolicy InPolicy);
+		void SetLabelWrappingPolicy(const ETextWrappingPolicy InPolicy);
 
 	UFUNCTION(BlueprintPure, Category = "Button|Label|Wrapping")
 		ETextWrappingPolicy GetLabelWrappingPolicy() const { return LabelWrappingPolicy; }

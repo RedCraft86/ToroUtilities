@@ -13,8 +13,8 @@
 		StyleClass(): FToroSlateStyle(#StyleName) {} \
 		static const ISlateStyle& Get() { return *INSTANCE; } \
 		static FName GetName() { return INSTANCE.IsValid() ? INSTANCE->GetStyleSetName() : NAME_None; } \
-    private: \
-        static inline TSharedPtr<StyleClass> INSTANCE = nullptr; \
+	private: \
+		static inline TSharedPtr<StyleClass> INSTANCE = nullptr; \
 		static void Register() \
 		{ \
 			if (FSlateStyleRegistry::FindSlateStyle(TEXT(#StyleName))) \
@@ -68,7 +68,7 @@
  * <b>Then in your module Startup/Shutdown:</b>
  * <pre>
  * FYourSlateStyle::Register();
- *
+ * ...
  * FYourSlateStyle::Unregister();
  * </pre>
  */

@@ -8,10 +8,10 @@ TOROCORE_API DECLARE_LOG_CATEGORY_EXTERN(LogToroCore, All, All);
 
 class FToroCoreModule final : public IModuleInterface
 {
-    virtual void StartupModule() override;
-    virtual void ShutdownModule() override;
+	virtual void StartupModule() override;
+	virtual void ShutdownModule() override;
 
 public:
 
-    static TOROCORE_API FString GetPluginName();
+	static TOROCORE_API FString GetPluginName();
 };

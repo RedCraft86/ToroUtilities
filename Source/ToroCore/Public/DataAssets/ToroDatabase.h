@@ -111,10 +111,10 @@ public:
 	 * By default, requires the key to be a sub-tag of the RootTag.
 	 * <pre>
 	 * e.g., if RootTag is 'Quest'
-	 *    'None'              is invalid
-	 *    'Character'         is invalid
-	 *    'Quest'             is invalid
-	 *    'Quest.WalkForward' is valid
+	 * 'None'              is invalid
+	 * 'Character'         is invalid
+	 * 'Quest'             is invalid
+	 * 'Quest.WalkForward' is valid
 	 * </pre>
 	 * @param Key The tag to check.
 	 * @return True if the key follows the database's tag hierarchy rules.

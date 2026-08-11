@@ -4,39 +4,39 @@ using UnrealBuildTool;
 
 public class ToroCore : ModuleRules
 {
-    public ToroCore(ReadOnlyTargetRules Target) : base(Target)
-    {
-        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+	public ToroCore(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(
-            [
-                "Core",
-                "CoreUObject",
-                "Engine",
-                "UMG",
-                "Slate",
-                "SlateCore",
-                "RenderCore",
-                "InputCore",
-                "ApplicationCore",
-                "ProceduralMeshComponent",
-                "NavigationSystem",
-                "EngineSettings",
-                "GameplayTags",
-                "LevelSequence",
-                "MovieScene",
-                "CommonUI",
-                "UE5Coro"
-            ]
-        );
+		PublicDependencyModuleNames.AddRange(
+			[
+				"Core",
+				"CoreUObject",
+				"Engine",
+				"UMG",
+				"Slate",
+				"SlateCore",
+				"RenderCore",
+				"InputCore",
+				"ApplicationCore",
+				"ProceduralMeshComponent",
+				"NavigationSystem",
+				"EngineSettings",
+				"GameplayTags",
+				"LevelSequence",
+				"MovieScene",
+				"CommonUI",
+				"UE5Coro"
+			]
+		);
 
-        if (Target.Type == TargetType.Editor)
-        {
-            PrivateDependencyModuleNames.AddRange(
-                [
-                    "UnrealEd"
-                ]
-            );
-        }
-    }
+		if (Target.Type == TargetType.Editor)
+		{
+			PrivateDependencyModuleNames.AddRange(
+				[
+					"UnrealEd"
+				]
+			);
+		}
+	}
 }

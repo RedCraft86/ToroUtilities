@@ -33,14 +33,14 @@ DEFINE_LOG_CATEGORY(LogToroEditor);
 
 void FToroEditorModule::StartupModule()
 {
-    FToroEditorStyle::Register();
+	FToroEditorStyle::Register();
 
 	FToolbarButtonRegistry::AddButton<FRestartEditor>();
 	FToolbarButtonRegistry::AddButton<FActorLayout>();
 	FToolbarButtonRegistry::AddButton<FActorMerger>();
 	FToolbarButtonRegistry::AddButton<FActorInstancer>();
 	FToolbarButtonRegistry::AddButton<FActorSplitter>();
-    FToolbarButtonRegistry::Register();
+	FToolbarButtonRegistry::Register();
 
 	FComponentVisualizerRegistry::Register<UWireShapeComponent, FEditorShapeVisualizer>();
 
@@ -82,7 +82,7 @@ void FToroEditorModule::ShutdownModule()
 	FToolbarButtonRegistry::UnregisterAll();
 	FComponentVisualizerRegistry::UnregisterAll();
 	FDetailsCustomizationRegistry::UnregisterAll();
-    FToroEditorStyle::Unregister();
+	FToroEditorStyle::Unregister();
 }
 
 FString FToroEditorModule::GetPluginDirectory()

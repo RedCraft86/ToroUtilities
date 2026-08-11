@@ -6,13 +6,13 @@
 #include "GameVersionBox.generated.h"
 
 /**
- * Displays the game version in format where a debug title can be used to also specify a build name
+ * Displays the game version in format where a debug title can be used to also specify a build name.
  * <pre>
- *     {version}-{build type} | {debug title}
+ * {version}-{build type} | {debug title}
  * </pre>
  * For example:
  * <pre>
- *     1.0.0-SHIPPING | Exploration Demo
+ * 1.0.0-SHIPPING | Exploration Demo
  * </pre>
  */
 UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)

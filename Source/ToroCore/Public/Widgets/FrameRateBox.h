@@ -11,8 +11,8 @@
  * Allows custom coloring based on the max frame rate set.
  * Format:
  * <pre>
- *     120 FPS
- *     8.33 ms
+ * 120 FPS
+ * 8.33 ms
  * </pre>
  */
 UCLASS(MinimalAPI, NotBlueprintable, BlueprintType)
