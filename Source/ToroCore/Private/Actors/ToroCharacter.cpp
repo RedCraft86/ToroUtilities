@@ -14,23 +14,28 @@ AToroCharacter::AToroCharacter()
 	SetCanBeDamaged(false);
 }
 
-bool AToroCharacter::SetControlRotation(const FRotator& Rotation, const bool bApplyRoll) const
-{
-	if (AController* CharController = GetController())
-	{
-		CharController->SetControlRotation(FRotator(Rotation.Pitch, Rotation.Yaw, bApplyRoll ? Rotation.Roll : 0.0f));
-		return true;
-	}
-	return false;
-}
-
-void AToroCharacter::Teleport(const FVector& Location, const FRotator& Rotation)
+void AToroCharacter::Teleport_Implementation(const FVector& Location, const FRotator& Rotation)
 {
 	SetActorLocation(Location, false, nullptr, ETeleportType::ResetPhysics);
-	if (!SetControlRotation(Rotation, false))
+	if (!SetControlRotation(this, Rotation, false))
 	{
 		SetActorRotation(FRotator(Rotation.Pitch, Rotation.Yaw, 0.0f), ETeleportType::ResetPhysics);
 	}
+}
+
+bool AToroCharacter::SetControlRotation_Implementation(const FRotator& Rotation, const bool bApplyRoll)
+{
+	if (AController* CharController = GetController())
+	{
+		CharController->SetControlRotation(FRotator(
+			Rotation.Pitch, Rotation.Yaw, 
+			bApplyRoll ? Rotation.Roll : 0.0f
+		));
+
+		return true;
+	}
+
+	return false;
 }
 
 bool AToroCharacter::GetLookTarget_Implementation(FVector& Location) const

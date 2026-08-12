@@ -4,13 +4,14 @@
 
 #include "GameFramework/Character.h"
 #include "Interfaces/IIdentifiable.h"
+#include "Interfaces/IPawnEntity.h"
 #include "ToroCharacter.generated.h"
 
 /**
- * A base Character class for the ToroUtilities framework with an identity.
+ * A base Character class for the ToroUtilities framework with an identity and general pawn functions.
  */
 UCLASS(Abstract, Blueprintable, BlueprintType, PrioritizeCategories = (Settings, Tools), meta = (ChildCanTick = true))
-class TOROCORE_API AToroCharacter : public ACharacter, public IIdentifiable
+class TOROCORE_API AToroCharacter : public ACharacter, public IIdentifiable, public IPawnEntity
 {
 	GENERATED_BODY()
 
@@ -18,34 +19,11 @@ public:
 
 	AToroCharacter();
 
-	/**
-	 * Sets the rotation of the Controller (the 'view' rotation if on a player).
-	 * @return True if rotation was successfully applied to a valid controller.
-	 */
-	UFUNCTION(BlueprintCallable, Category = Pawn)
-		bool SetControlRotation(const FRotator& Rotation, const bool bApplyRoll = false) const;
-
-	/**
-	 * Teleports the character and sets the rotation. Roll rotation is discarded.
-	 */
-	UFUNCTION(BlueprintCallable, Category = Character)
-		virtual void Teleport(const FVector& Location, const FRotator& Rotation);
-
-	/**
-	 * Gets the location (world-space) at which this character should be looking at. (if available)
-	 */
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Character)
-		bool GetLookTarget(FVector& Location) const;
-	bool GetLookTarget_Implementation(FVector& Location) const;
-
-	/**
-	 * Gets the location (world-space) at which other characters will look at when looking at this character.
-	 */
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Character)
-		FVector GetFocusPoint() const;
-	FVector GetFocusPoint_Implementation() const;
-
 	virtual FGameObjectId GetIdentity_Implementation() const override { return UniqueId; }
+	virtual void Teleport_Implementation(const FVector& Location, const FRotator& Rotation) override;
+	virtual bool SetControlRotation_Implementation(const FRotator& Rotation, const bool bApplyRoll = false) override;
+	virtual bool GetLookTarget_Implementation(FVector& Location) const override;
+	virtual FVector GetFocusPoint_Implementation() const override;
 
 protected:
 
