@@ -41,9 +41,14 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EnabledState)
 		bool GetEnabledState() const;
 
+	static bool ImplementedBy(const UObject* Target)
+	{
+		return Target && Target->Implements<UEnabledState>();
+	}
+
 	static void SetEnabled(UObject* Target, const bool bEnabled)
 	{
-		if (Target && !Target->Implements<UEnabledState>())
+		if (ImplementedBy(Target))
 		{
 			Execute_SetEnabledState(Target, bEnabled);
 		}
@@ -51,6 +56,6 @@ public:
 
 	static bool IsEnabled(const UObject* Target)
 	{
-		return Target && (!Target->Implements<UEnabledState>() || Execute_GetEnabledState(Target));
+		return ImplementedBy(Target) && Execute_GetEnabledState(Target);
 	}
 };
