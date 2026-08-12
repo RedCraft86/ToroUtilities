@@ -18,10 +18,11 @@ public:
 
 	/**
 	 * In the editor, gets the view location and rotation of the viewport camera; in runtime, gets that of the player.
-	 * @param ViewIndex Index in the player controller list or viewport num in editor. Will most likely just remain 0.
+	 * @param PlayerIndex Index in the player controller list. Will most likely just remain 0.
+	 * @note Cannot choose between different viewports, will use the main, controlled one.
 	 */
 	UFUNCTION(BlueprintCallable, Category = Camera, meta = (WorldContext = ContextObject, Keywords = "view point"))
-		static FTransform GetViewTransform(const UObject* ContextObject, const int32 ViewIndex = 0);
+		static FTransform GetViewTransform(const UObject* ContextObject, const int32 PlayerIndex = 0);
 
 	/**
 	 * Immediately clears any active camera fade on the player's camera manager.

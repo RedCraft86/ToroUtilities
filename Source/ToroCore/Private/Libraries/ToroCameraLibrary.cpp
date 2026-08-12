@@ -4,14 +4,17 @@
 #include "Kismet/GameplayStatics.h"
 #include "Helpers/WorldGetter.h"
 #if WITH_EDITOR
-#include "LevelEditorViewport.h"
 #include "Editor.h"
 #endif
 
-FTransform UToroCameraLibrary::GetViewTransform(const UObject* ContextObject, const int32 ViewIndex)
+FTransform UToroCameraLibrary::GetViewTransform(const UObject* ContextObject, const int32 PlayerIndex)
 {
 	static TMap<int32, TFrameValue<FTransform>> IndexedTransformCache;
-	TFrameValue<FTransform>& TransformCache = IndexedTransformCache.FindOrAdd(ViewIndex);
+#if WITH_EDITOR
+	TFrameValue<FTransform>& TransformCache = IndexedTransformCache.FindOrAdd(FApp::IsGame() ? PlayerIndex : 0);
+#else
+	TFrameValue<FTransform>& TransformCache = IndexedTransformCache.FindOrAdd(PlayerIndex);
+#endif
 	if (TransformCache.IsSet())
 	{
 		return TransformCache.GetValue();
@@ -22,17 +25,7 @@ FTransform UToroCameraLibrary::GetViewTransform(const UObject* ContextObject, co
 #if WITH_EDITOR
 	if (!FApp::IsGame())
 	{
-		const TArray<FLevelEditorViewportClient*>& Viewports = GEditor->GetLevelViewportClients();
-		if (Viewports.IsValidIndex(ViewIndex) && Viewports[ViewIndex])
-		{
-			const FLevelEditorViewportClient* ViewportClient = Viewports[ViewIndex];
-			TransformCache = FTransform(
-				ViewportClient->GetViewRotation(),
-				ViewportClient->GetViewLocation(),
-				FVector::OneVector
-			);
-		}
-		else if (const FViewport* ActiveVP = GEditor->GetActiveViewport())
+		if (const FViewport* ActiveVP = GEditor->GetActiveViewport())
 		{
 			if (const FEditorViewportClient* ActiveVPC = static_cast<FEditorViewportClient*>(ActiveVP->GetClient()))
 			{
@@ -48,7 +41,7 @@ FTransform UToroCameraLibrary::GetViewTransform(const UObject* ContextObject, co
 	}
 #endif
 
-	if (const APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), ViewIndex))
+	if (const APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIndex))
 	{
 		TransformCache = FTransform(PCM->GetCameraRotation(), PCM->GetCameraLocation(), FVector::OneVector);
 	}
