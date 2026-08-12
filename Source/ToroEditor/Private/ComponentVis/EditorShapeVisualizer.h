@@ -200,7 +200,7 @@ class FEditorShapeVisualizer final : public FToroComponentVisualizer
 		{
 			if (NavPathData.LabelPoint.IsSet())
 			{
-				ToroVisualizerHelpers::DrawText(View, Canvas, 
+				ToroVisualizerHelpers::DrawText(View, Canvas,
 					NavPathData.LabelPoint.GetValue() - FVector(0.0f, 0.0f, 15.0f),
 					FText::FromName(Name), 14, NavPathData.Color, true
 				);

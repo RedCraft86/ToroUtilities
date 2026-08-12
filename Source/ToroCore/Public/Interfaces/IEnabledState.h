@@ -27,10 +27,18 @@ class TOROCORE_API IEnabledState
 
 public:
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = ToroCore)
+	/**
+	 * Sets whether this object should be enabled.
+	 * @param bEnabled Target enabled state.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EnabledState)
 		void SetEnabledState(const bool bEnabled);
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = ToroCore)
+	/**
+	 * Gets if this object is currently enabled.
+	 * @return True if object is enabled.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EnabledState)
 		bool GetEnabledState() const;
 
 	static void SetEnabled(UObject* Target, const bool bEnabled)

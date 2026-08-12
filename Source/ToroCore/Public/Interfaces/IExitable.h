@@ -23,7 +23,12 @@ class TOROCORE_API IExitable
 
 public:
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = ToroCore)
+	/**
+	 * Arbitrary function to "exit" whatever process this object may be doing with the instigator.
+	 * @param Instigator Object who requested the exit.
+	 * @return True if the request was successful.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Object)
 		bool Exit(const UObject* Instigator);
 
 	static bool RequestExit(UObject* Target, const UObject* Instigator)

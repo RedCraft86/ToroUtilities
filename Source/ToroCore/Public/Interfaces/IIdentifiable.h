@@ -24,7 +24,11 @@ class TOROCORE_API IIdentifiable
 
 public:
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = ToroCore)
+	/**
+	 * Gets the identifier for this object that can be used in save systems or character searching.
+	 * @return The unique identifier for this object.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Object)
 		FGameObjectId GetIdentity() const;
 
 	static FGameObjectId Get(const UObject* Target)
