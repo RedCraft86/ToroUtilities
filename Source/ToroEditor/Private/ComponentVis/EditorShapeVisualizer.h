@@ -198,10 +198,10 @@ class FEditorShapeVisualizer final : public FToroComponentVisualizer
 
 		for (const auto &[Name, NavPathData] : ShapeComponent->WireNavPaths)
 		{
-			if (NavPathData.NearestPoint.IsSet())
+			if (NavPathData.LabelPoint.IsSet())
 			{
 				ToroVisualizerHelpers::DrawText(View, Canvas, 
-					NavPathData.NearestPoint.GetValue() - FVector(0.0f, 0.0f, 15.0f),
+					NavPathData.LabelPoint.GetValue() - FVector(0.0f, 0.0f, 15.0f),
 					FText::FromName(Name), 14, NavPathData.Color, true
 				);
 			}

@@ -249,7 +249,7 @@ struct TOROCORE_API FWireNavPathData final : public FWireShapeBase
 		FLinearColor PointColor;
 
 	UPROPERTY(VisibleAnywhere, Category = WirePath, meta = (DisplayPriority = 999))
-		TOptional<FVector> NearestPoint;
+		TOptional<FVector> LabelPoint;
 
 	UPROPERTY(VisibleAnywhere, Category = WirePath, meta = (DisplayPriority = 999))
 		TArray<FVector> PathPoints;
@@ -261,7 +261,7 @@ struct TOROCORE_API FWireNavPathData final : public FWireShapeBase
 	{}
 
 	void GeneratePathPoints(AActor* Owner);
-	void FindNearestPoint(const FVector& CameraPosition);
+	void FindNearestPoint(const FTransform& Camera);
 };
 
 USTRUCT(BlueprintType)

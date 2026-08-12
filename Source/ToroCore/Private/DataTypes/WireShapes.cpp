@@ -33,27 +33,46 @@ void FWireNavPathData::GeneratePathPoints(AActor* Owner)
 #endif
 }
 
-void FWireNavPathData::FindNearestPoint(const FVector& CameraPosition)
+void FWireNavPathData::FindNearestPoint(const FTransform& Camera)
 {
+	LabelPoint.Reset();
 #if WITH_EDITOR
 	if (PathPoints.IsEmpty() || FApp::IsGame())
 	{
-		NearestPoint.Reset();
 		return;
 	}
 
-	NearestPoint = PathPoints[0];
-	float LastDistSq = FVector::DistSquared(PathPoints[0], CameraPosition);
-	for (int32 i = 1; i < PathPoints.Num(); i++)
+	constexpr float DotWeight = 0.5f;
+	constexpr float DistWeight = 1.0f - DotWeight;
+
+	TMap<int32, float> Weights;
+	const FVector CameraLoc = Camera.GetTranslation();
+	const FVector CameraFwd = Camera.GetRotation().GetForwardVector();
+	for (int32 i = 0; i < PathPoints.Num(); i++)
 	{
-		const float DistSq = FVector::DistSquared(PathPoints[i], CameraPosition);
-		if (DistSq < LastDistSq)
+		float& Weight = Weights.Add(i, 1.0f);
+
+		const FVector ToPoint = PathPoints[i] - CameraLoc;
+		Weight += FMath::Max(0.0f, FVector::DotProduct(ToPoint.GetSafeNormal(), CameraFwd)) * DotWeight;
+
+		const float DistSq = FVector::DistSquared(PathPoints[i], CameraLoc);
+		Weight += (1.0f - FMath::Clamp(DistSq / FMath::Square(1000.0f), 0.0f, 1.0f)) * DistWeight;
+	}
+
+	float BestWeight = 0.0f;
+	int32 BestIndex = INDEX_NONE;
+	for (const TPair<int32, float>& IdxToWeight : Weights)
+	{
+		if (IdxToWeight.Value > BestWeight)
 		{
-			NearestPoint = PathPoints[i];
-			LastDistSq = DistSq;
+			BestWeight = IdxToWeight.Value;
+			BestIndex = IdxToWeight.Key;
 		}
 	}
-#else
-	NearestPoint.Reset()
+
+	if (BestIndex != INDEX_NONE && PathPoints.IsValidIndex(BestIndex))
+	{
+		LabelPoint = PathPoints[BestIndex];
+	}
 #endif
 }

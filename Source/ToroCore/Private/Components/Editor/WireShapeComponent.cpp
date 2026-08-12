@@ -39,11 +39,10 @@ void UWireShapeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
 	if (!WireNavPaths.IsEmpty() && !FApp::IsGame())
 	{
-		const FVector CameraPos = UToroCameraLibrary::GetViewTransform(this, 0).GetLocation();
 		for (TPair<FName, FWireNavPathData>& NavPath : WireNavPaths)
 		{
 			NavPath.Value.GeneratePathPoints(GetOwner());
-			NavPath.Value.FindNearestPoint(CameraPos);
+			NavPath.Value.FindNearestPoint(UToroCameraLibrary::GetViewTransform(this));
 		}
 	}
 }
