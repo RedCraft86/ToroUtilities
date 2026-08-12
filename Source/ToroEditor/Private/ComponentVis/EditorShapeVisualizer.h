@@ -200,9 +200,9 @@ class FEditorShapeVisualizer final : public FToroComponentVisualizer
 		{
 			if (NavPathData.NearestPoint.IsSet())
 			{
-				ToroVisualizerHelpers::DrawText(
-					View, Canvas, NavPathData.NearestPoint.GetValue(),
-					FText::FromName(Name), 16, NavPathData.Color, true
+				ToroVisualizerHelpers::DrawText(View, Canvas, 
+					NavPathData.NearestPoint.GetValue() - FVector(0.0f, 0.0f, 15.0f),
+					FText::FromName(Name), 14, NavPathData.Color, true
 				);
 			}
 		}
