@@ -1,7 +1,6 @@
 ﻿// Copyright (C) 2026 Tayzar Linn. Licensed under GNU Lesser General Public License v3.0, see project LICENSE file.
 
 #include "ToroEditor.h"
-#include "ToroCore.h"
 #include "Interfaces/IPluginManager.h"
 #include "ToroEditorStyle.h"
 
@@ -87,7 +86,7 @@ void FToroEditorModule::ShutdownModule()
 
 FString FToroEditorModule::GetPluginDirectory()
 {
-	static FString Path = IPluginManager::Get().FindPlugin(FToroCoreModule::GetPluginName())->GetBaseDir();
+	static FString Path = IPluginManager::Get().FindPlugin(UE_PLUGIN_NAME)->GetBaseDir();
 	return Path;
 }
 

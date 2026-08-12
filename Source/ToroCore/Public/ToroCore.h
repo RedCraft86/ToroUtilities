@@ -10,8 +10,4 @@ class FToroCoreModule final : public IModuleInterface
 {
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
-
-public:
-
-	static TOROCORE_API FString GetPluginName();
 };
