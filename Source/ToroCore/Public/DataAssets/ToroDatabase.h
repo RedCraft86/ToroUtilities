@@ -135,7 +135,7 @@ public:
 	template<typename StructType>
 	const StructType* GetValue(const FGameplayTag& Key) const
 	{
-		static_assert(TIsDerivedFrom<StructType, FToroDatabaseEntry>::IsDerived,
+		static_assert(TIsDerivedFrom<StructType, FToroDatabaseEntry>::Value,
 			"StructType must derive from FToroDatabaseEntry and be a USTRUCT");
 
 		const UScriptStruct* OutType = TBaseStructure<StructType>::Get();

@@ -28,7 +28,7 @@ bool AToroCharacter::SetControlRotation_Implementation(const FRotator& Rotation,
 	if (AController* CharController = GetController())
 	{
 		CharController->SetControlRotation(FRotator(
-			Rotation.Pitch, Rotation.Yaw, 
+			Rotation.Pitch, Rotation.Yaw,
 			bApplyRoll ? Rotation.Roll : 0.0f
 		));
 

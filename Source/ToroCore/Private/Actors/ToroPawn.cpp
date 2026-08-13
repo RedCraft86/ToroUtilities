@@ -27,7 +27,7 @@ bool AToroPawn::SetControlRotation_Implementation(const FRotator& Rotation, cons
 	if (AController* CharController = GetController())
 	{
 		CharController->SetControlRotation(FRotator(
-			Rotation.Pitch, Rotation.Yaw, 
+			Rotation.Pitch, Rotation.Yaw,
 			bApplyRoll ? Rotation.Roll : 0.0f
 		));
 

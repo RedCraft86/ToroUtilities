@@ -22,8 +22,7 @@ public:
 	template<typename T>
 	static void AddButton()
 	{
-		static_assert(TIsDerivedFrom<T, FToroToolbarButton>::Value,
-			"T must derive from FToroToolbarButton");
+		static_assert(TIsDerivedFrom<T, FToroToolbarButton>::Value, "T must derive from FToroToolbarButton");
 
 		const TSharedPtr<T> Button = MakeShared<T>();
 		if (Buttons.Contains(Button->GetName()))
