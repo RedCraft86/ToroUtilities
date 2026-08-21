@@ -6,7 +6,7 @@
 #include "UObject/SoftObjectPtr.h"
 #include "Components/SplineMeshComponent.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "MeshProperties.generated.h"
+#include "MeshPropertyStructs.generated.h"
 
 /**
  * A struct representing basic properties in a Static Mesh Component.

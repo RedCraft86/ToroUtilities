@@ -3,9 +3,9 @@
 #pragma once
 
 #if WITH_EDITOR
-#include "DataTypes/CachedGetter.h"
-#include "DataTypes/MeshProperties.h"
 #include "ProceduralMeshComponent.h"
+#include "DataTypes/CachedGetter.h"
+#include "DataTypes/MeshPropertyStructs.h"
 #include "Subsystems/EditorActorSubsystem.h"
 #endif
 

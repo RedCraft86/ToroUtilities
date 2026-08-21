@@ -7,7 +7,7 @@
 #include "Components/SpotLightComponent.h"
 #include "Components/RectLightComponent.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "LightProperties.generated.h"
+#include "LightPropertyStructs.generated.h"
 
 /**
  * Parameters for culling and fading behavior for a light based on its distance from the camera.
