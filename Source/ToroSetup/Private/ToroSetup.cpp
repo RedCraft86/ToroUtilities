@@ -10,8 +10,7 @@
 #include "ToolbarButton/ToolbarButtonRegistry.h"
 
 #include "Details/RelativePathDetails.h"
-#include "Details/ConfigSectionDetails.h"
-#include "Details/ConfigEntryDetails.h"
+#include "Details/SelectableStringDetails.h"
 
 DEFINE_LOG_CATEGORY(LogToroSetup);
 
@@ -26,8 +25,7 @@ void FToroSetupModule::StartupModule()
 	}
 
 	FDetailsCustomizationRegistry::Register<FTSetupRelativePath, FTSetupRelativePathDetails>();
-	FDetailsCustomizationRegistry::Register<FTSetupConfigSection, FTSetupConfigSectionDetails>();
-	FDetailsCustomizationRegistry::Register<FTSetupConfigEntry, FTSetupConfigEntryDetails>();
+	FDetailsCustomizationRegistry::Register<FTSetupSelectableString, FTSetupSelectableStringDetails>();
 }
 
 void FToroSetupModule::ShutdownModule()

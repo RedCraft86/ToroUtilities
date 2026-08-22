@@ -3,6 +3,7 @@
 #pragma once
 
 #include "RelativePath.h"
+#include "SelectableString.h"
 #include "ConfigInfo.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
@@ -11,14 +12,9 @@ struct FTSetupConfigEntry final
 	GENERATED_BODY()
 
 	UPROPERTY(Config, EditAnywhere, Category = Config)
-		FString Key;
+		FTSetupSelectableString Key;
 
-	UPROPERTY(Transient, VisibleDefaultsOnly)
-		FString OptionSource;
-
-	FTSetupConfigEntry()
-		: Key(FString()), OptionSource(FString())
-	{}
+	FTSetupConfigEntry() {}
 
 	FORCEINLINE bool operator==(const FTSetupConfigEntry& Other) const
 	{
@@ -42,24 +38,21 @@ struct FTSetupConfigSection final
 	GENERATED_BODY()
 
 	UPROPERTY(Config, EditAnywhere, Category = Config)
-		FString Section;
+		FTSetupSelectableString Section;
 
 	UPROPERTY(Config, EditAnywhere, Category = Config)
 		TSet<FTSetupConfigEntry> Entries;
 
-	UPROPERTY(Transient, VisibleDefaultsOnly)
-		FString OptionSource;
-
 	FTSetupConfigSection()
-		: Section(FString()), Entries({}), OptionSource(FString())
+		: Section(FString()), Entries({})
 	{}
 
 	void ResolveOptions(const FString& File)
 	{
-		OptionSource = File;
+		Section.OptionSource = File;
 		for (FTSetupConfigEntry& Entry : Entries)
 		{
-			Entry.OptionSource = FString::Printf(TEXT("%s:%s"), *File, *Section);
+			Entry.Key.OptionSource = FString::Printf(TEXT("%s:%s"), *File, *Section.Value);
 		}
 	}
 
@@ -107,10 +100,10 @@ struct FTSetupConfigInfo final
 		TMap<FString, TSet<FString>> Result;
 		for (const FTSetupConfigSection& Section : Sections)
 		{
-			TSet<FString>& Entries = Result.FindOrAdd(Section.Section);
+			TSet<FString>& Entries = Result.FindOrAdd(Section.Section.Value);
 			for (const FTSetupConfigEntry& Entry : Section.Entries)
 			{
-				Entries.Add(Entry.Key);
+				Entries.Add(Entry.Key.Value);
 			}
 		}
 

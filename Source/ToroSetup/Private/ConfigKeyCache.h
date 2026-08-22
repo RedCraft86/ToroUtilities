@@ -39,6 +39,10 @@ public:
 
 		FString File, Section;
 		Path.Split(TEXT(":"), &File, &Section, ESearchCase::IgnoreCase);
+		if (File.IsEmpty() || Section.IsEmpty())
+		{
+			return;
+		}
 
 		if (!FileData.Contains(File))
 		{
