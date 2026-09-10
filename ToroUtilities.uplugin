@@ -40,10 +40,6 @@
 		{
 			"Name": "UE5Coro",
 			"Enabled": true
-		},
-		{
-			"Name": "Flow",
-			"Enabled": true
 		}
 	]
 }
