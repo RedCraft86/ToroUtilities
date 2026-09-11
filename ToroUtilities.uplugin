@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"Version": 1,
+	"Version": 4,
 	"VersionName": "4.0",
 	"FriendlyName": "ToroUtilities",
 	"Description": "Common plugin for RedCraft86's games",
@@ -15,6 +15,21 @@
 	"IsExperimentalVersion": false,
 	"Installed": false,
 	"Modules": [
+		{
+			"Name": "ToroCore",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroEditor",
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "PostEngineInit"
+		},
+		{
+			"Name": "ToroRuntime",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
 	],
 	"Plugins": [
 		{
