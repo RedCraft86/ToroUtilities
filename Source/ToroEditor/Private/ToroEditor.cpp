@@ -1,4 +1,4 @@
-﻿// Copyright (C) RedCraft86. See LICENSE file for details.
+﻿// Copyright (C) RedCraft86. Licensed under LGPL-3.0, see LICENSE file for details.
 
 #include "ToroEditor.h"
 #include "Interfaces/IPluginManager.h"
