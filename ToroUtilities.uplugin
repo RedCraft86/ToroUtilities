@@ -17,11 +17,6 @@
 	"Installed": true,
 	"Modules": [
 		{
-			"Name": "ToroCore",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
 			"Name": "ToroEditor",
 			"Type": "EditorNoCommandlet",
 			"LoadingPhase": "PostEngineInit"
