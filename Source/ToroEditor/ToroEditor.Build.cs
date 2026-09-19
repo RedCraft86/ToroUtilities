@@ -15,7 +15,9 @@ public class ToroEditor : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-		        "Projects"
+		        "Projects",
+		        "ToroRuntime",
+		        "ToroSystems"
 	        ]
         );
     }
