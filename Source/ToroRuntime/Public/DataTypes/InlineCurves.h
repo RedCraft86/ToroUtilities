@@ -22,12 +22,11 @@ struct TORORUNTIME_API FInlineFloatCurve final
 	FORCEINLINE operator FRuntimeFloatCurve&() { return Curve; }
 	FORCEINLINE operator const FRuntimeFloatCurve&() const { return Curve; }
 
-	FORCEINLINE UCurveFloat* GetCurveAsset() const { return Curve.ExternalCurve; }
-	FORCEINLINE bool HasAnyData() const { return GetRichCurve()->HasAnyData(); }
-
 	FRichCurve* GetRichCurve();
 	const FRichCurve* GetRichCurve() const;
+	UCurveFloat* GetCurveAsset() const;
 
+	bool HasAnyData() const;
 	void RemovePoint(const float Time);
 	void AddOrUpdatePoint(const float Time, const float Value, const ERichCurveTangentMode Tangent = RCTM_Auto);
 
@@ -58,17 +57,11 @@ struct TORORUNTIME_API FInlineVectorCurve final
 	FORCEINLINE operator FRuntimeVectorCurve&() { return Curve; }
 	FORCEINLINE operator const FRuntimeVectorCurve&() const { return Curve; }
 
-	FORCEINLINE UCurveVector* GetCurveAsset() const { return Curve.ExternalCurve; }
-	FORCEINLINE bool HasAnyData() const
-	{
-		return GetRichCurve(Components::X)->HasAnyData()
-			|| GetRichCurve(Components::Y)->HasAnyData()
-			|| GetRichCurve(Components::Z)->HasAnyData();
-	}
-
 	FRichCurve* GetRichCurve(int32 Index);
 	const FRichCurve* GetRichCurve(int32 Index) const;
+	UCurveVector* GetCurveAsset() const;
 
+	bool HasAnyData() const;
 	void RemovePoints(const float Time);
 	void AddOrUpdatePoints(const float Time, const FVector& Value, const ERichCurveTangentMode Tangent = RCTM_Auto);
 
@@ -100,18 +93,11 @@ struct TORORUNTIME_API FInlineColorCurve final
 	FORCEINLINE operator FRuntimeCurveLinearColor&() { return Curve; }
 	FORCEINLINE operator const FRuntimeCurveLinearColor&() const { return Curve; }
 
-	FORCEINLINE UCurveLinearColor* GetCurveAsset() const { return Curve.ExternalCurve; }
-	FORCEINLINE bool HasAnyData() const
-	{
-		return GetRichCurve(Components::R)->HasAnyData()
-			|| GetRichCurve(Components::G)->HasAnyData()
-			|| GetRichCurve(Components::B)->HasAnyData()
-			|| GetRichCurve(Components::A)->HasAnyData();
-	}
-
 	FRichCurve* GetRichCurve(int32 Index);
 	const FRichCurve* GetRichCurve(int32 Index) const;
+	UCurveLinearColor* GetCurveAsset() const;
 
+	bool HasAnyData() const;
 	void RemovePoints(const float Time);
 	void AddOrUpdatePoints(const float Time, const FLinearColor& Value, const ERichCurveTangentMode Tangent = RCTM_Auto);
 

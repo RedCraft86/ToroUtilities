@@ -12,6 +12,16 @@ const FRichCurve* FInlineFloatCurve::GetRichCurve() const
 	return Curve.GetRichCurveConst();
 }
 
+UCurveFloat* FInlineFloatCurve::GetCurveAsset() const
+{
+	return Curve.ExternalCurve;
+}
+
+bool FInlineFloatCurve::HasAnyData() const
+{
+	return GetRichCurve()->HasAnyData();
+}
+
 void FInlineFloatCurve::RemovePoint(const float Time)
 {
 	if (FRichCurve* CurvePtr = GetRichCurve())
@@ -59,6 +69,18 @@ FRichCurve* FInlineVectorCurve::GetRichCurve(int32 Index)
 const FRichCurve* FInlineVectorCurve::GetRichCurve(int32 Index) const
 {
 	return Curve.GetRichCurveConst(Index);
+}
+
+UCurveVector* FInlineVectorCurve::GetCurveAsset() const
+{
+	return Curve.ExternalCurve;
+}
+
+bool FInlineVectorCurve::HasAnyData() const
+{
+	return GetRichCurve(Components::X)->HasAnyData()
+		|| GetRichCurve(Components::Y)->HasAnyData()
+		|| GetRichCurve(Components::Z)->HasAnyData();
 }
 
 void FInlineVectorCurve::RemovePoints(const float Time)
@@ -158,6 +180,19 @@ FRichCurve* FInlineColorCurve::GetRichCurve(int32 Index)
 const FRichCurve* FInlineColorCurve::GetRichCurve(int32 Index) const
 {
 	return const_cast<FInlineColorCurve*>(this)->GetRichCurve(Index);
+}
+
+UCurveLinearColor* FInlineColorCurve::GetCurveAsset() const
+{
+	return Curve.ExternalCurve;
+}
+
+bool FInlineColorCurve::HasAnyData() const
+{
+	return GetRichCurve(Components::R)->HasAnyData()
+		|| GetRichCurve(Components::G)->HasAnyData()
+		|| GetRichCurve(Components::B)->HasAnyData()
+		|| GetRichCurve(Components::A)->HasAnyData();
 }
 
 void FInlineColorCurve::RemovePoints(const float Time)
