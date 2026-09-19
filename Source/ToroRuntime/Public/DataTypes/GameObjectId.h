@@ -21,13 +21,13 @@ struct TORORUNTIME_API FGameObjectId final
 	 * Category to which the identified object belongs.
 	 */
 	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadWrite, Category = Identity)
-		FGameplayTag Group;
+	FGameplayTag Group;
 
 	/**
 	 * Unique value that distinguishes the object within its group.
 	 */
 	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadWrite, Category = Identity, NonTransactional)
-		FGuid Guid;
+	FGuid Guid;
 
 	/**
 	 * Invalid identity used when no identity is available.

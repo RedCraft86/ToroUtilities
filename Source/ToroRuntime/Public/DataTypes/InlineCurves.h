@@ -17,7 +17,7 @@ struct TORORUNTIME_API FInlineFloatCurve final
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, Category = InlineCurve)
-		FRuntimeFloatCurve Curve;
+	FRuntimeFloatCurve Curve;
 
 	FORCEINLINE operator FRuntimeFloatCurve&() { return Curve; }
 	FORCEINLINE operator const FRuntimeFloatCurve&() const { return Curve; }
@@ -52,7 +52,7 @@ struct TORORUNTIME_API FInlineVectorCurve final
 	};
 
 	UPROPERTY(EditAnywhere, Category = InlineCurve)
-		FRuntimeVectorCurve Curve;
+	FRuntimeVectorCurve Curve;
 
 	FORCEINLINE operator FRuntimeVectorCurve&() { return Curve; }
 	FORCEINLINE operator const FRuntimeVectorCurve&() const { return Curve; }
@@ -88,7 +88,7 @@ struct TORORUNTIME_API FInlineColorCurve final
 	};
 
 	UPROPERTY(EditAnywhere, Category = InlineCurve)
-		FRuntimeCurveLinearColor Curve;
+	FRuntimeCurveLinearColor Curve;
 
 	FORCEINLINE operator FRuntimeCurveLinearColor&() { return Curve; }
 	FORCEINLINE operator const FRuntimeCurveLinearColor&() const { return Curve; }

@@ -22,19 +22,19 @@ struct TORORUNTIME_API FLightDrawDistanceSettings final
 	 * Enables the draw distance and fade settings.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DrawDistance)
-		bool bUseDrawDistance;
+	bool bUseDrawDistance;
 
 	/**
 	 * Maximum distance at which the light is drawn.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DrawDistance, meta = (EditCondition = bUseDrawDistance, ClampMin = 0.0f))
-		float MaxDistance;
+	float MaxDistance;
 
 	/**
 	 * Distance over which the light fades before reaching its maximum distance.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DrawDistance, meta = (EditCondition = bUseDrawDistance, ClampMin = 0.0f))
-		float FadeRange;
+	float FadeRange;
 
 	FLightDrawDistanceSettings()
 		: bUseDrawDistance(false), MaxDistance(5000.0f), FadeRange(1000.0f)
@@ -61,85 +61,85 @@ struct TORORUNTIME_API FBaseLightSettings
 	 * Units used to interpret intensity on local light components.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (DisplayPriority = 0))
-		ELightUnits IntensityUnits;
+	ELightUnits IntensityUnits;
 
 	/**
 	 * Brightness of the light in the selected intensity units.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, DisplayPriority = 0))
-		float Intensity;
+	float Intensity;
 
 	/**
 	 * Color of the light. Alpha channel has no effect and is hidden in the editor.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (HideAlphaChannel, DisplayPriority = 0))
-		FLinearColor Color;
+	FLinearColor Color;
 
 	/**
 	 * Maximum influence radius of a local light.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 8.0f, UIMax = 16384.0f, DisplayPriority = 0))
-		float AttenuationRadius;
+	float AttenuationRadius;
 
 	/**
 	 * Enables color temperature in addition to the light color.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (InlineEditConditionToggle, DisplayPriority = 2))
-		bool bUseTemperature;
+	bool bUseTemperature;
 
 	/**
 	 * Color temperature in kelvin when temperature is enabled.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (EditCondition = bUseTemperature, UIMin = 1700.0f, UIMax = 12000.0f, DisplayPriority = 2))
-		float Temperature;
+	float Temperature;
 
 	/**
 	 * Multiplier for the light's indirect lighting contribution.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (UIMin = 0.0f, UIMax = 6.0f, DisplayPriority = 2))
-		float IndirectIntensity;
+	float IndirectIntensity;
 
 	/**
 	 * Multiplier for the light's volumetric scattering contribution.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (UIMin = 0.0f, UIMax = 4.0f, DisplayPriority = 2))
-		float VolumetricIntensity;
+	float VolumetricIntensity;
 
 	/**
 	 * Whether the light casts shadows.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (DisplayPriority = 2))
-		bool bCastShadows;
+	bool bCastShadows;
 
 	/**
 	 * Whether the light casts shadows into volumetric fog.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (DisplayPriority = 2))
-		bool bVolumetricShadows;
+	bool bVolumetricShadows;
 
 	/**
 	 * Multiplier for the light's specular contribution.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, ClampMax = 1.0f, UIMin = 0.0f, UIMax = 1.0f, DisplayPriority = 3))
-		float SpecularScale;
+	float SpecularScale;
 
 	/**
 	 * Whether the light can participate in MegaLights.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, AdvancedDisplay, meta = (DisplayPriority = 0))
-		bool bAllowMegaLights;
+	bool bAllowMegaLights;
 
 	/**
 	 * Lighting channels that receive the light.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, AdvancedDisplay, meta = (DisplayPriority = 0))
-		FLightingChannels LightChannels;
+	FLightingChannels LightChannels;
 
 	/**
 	 * Maximum draw distance and fade settings for the light.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, AdvancedDisplay, meta = (DisplayPriority = 0))
-		FLightDrawDistanceSettings DrawDistance;
+	FLightDrawDistanceSettings DrawDistance;
 
 	FBaseLightSettings()
 		: IntensityUnits(ELightUnits::Candelas)
@@ -177,32 +177,32 @@ struct TORORUNTIME_API FPointLightSettings final : public FBaseLightSettings
 	 * Radius of the light source used for reflections and shadow softness.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, DisplayPriority = 1))
-		float SourceRadius;
+	float SourceRadius;
 
 	/**
 	 * Additional soft radius of the light source.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, DisplayPriority = 1))
-		float SoftSourceRadius;
+	float SoftSourceRadius;
 
 	/**
 	 * Length of the light source.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, DisplayPriority = 1))
-		float SourceLength;
+	float SourceLength;
 
 	/**
 	 * Uses the falloff exponent instead of inverse squared falloff when enabled.
 	 * Will also change intensity units to Unitless.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (InlineEditConditionToggle, DisplayPriority = 3))
-		bool bManualFalloff;
+	bool bManualFalloff;
 
 	/**
 	 * Falloff exponent used when manual falloff is enabled.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (EditCondition = bManualFalloff, UIMin = 2.0f, UIMax = 16.0f, DisplayPriority = 3))
-		float FalloffExponent;
+	float FalloffExponent;
 
 	FPointLightSettings()
 		: SourceRadius(0.0f)
@@ -229,44 +229,44 @@ struct TORORUNTIME_API FSpotLightSettings final : public FBaseLightSettings
 	 * Angle in degrees of the fully illuminated inner cone.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (UIMin = 1.0f, UIMax = 80.0f, DisplayPriority = 1))
-		float InnerConeAngle;
+	float InnerConeAngle;
 
 	/**
 	 * Angle in degrees of the outer cone, where light falls to zero.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (UIMin = 1.0f, UIMax = 80.0f, DisplayPriority = 1))
-		float OuterConeAngle;
+	float OuterConeAngle;
 
 	/**
 	 * Radius of the light source used for reflections and shadow softness.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, DisplayPriority = 1))
-		float SourceRadius;
+	float SourceRadius;
 
 	/**
 	 * Additional soft radius of the light source.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, DisplayPriority = 1))
-		float SoftSourceRadius;
+	float SoftSourceRadius;
 
 	/**
 	 * Length of the light source.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, DisplayPriority = 1))
-		float SourceLength;
+	float SourceLength;
 
 	/**
 	 * Uses the falloff exponent instead of inverse squared falloff when enabled.
 	 * Will also change intensity units to Unitless.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (InlineEditConditionToggle, DisplayPriority = 3))
-		bool bManualFalloff;
+	bool bManualFalloff;
 
 	/**
 	 * Falloff exponent used when manual falloff is enabled.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (EditCondition = bManualFalloff, UIMin = 2.0f, UIMax = 16.0f, DisplayPriority = 3))
-		float FalloffExponent;
+	float FalloffExponent;
 
 	FSpotLightSettings()
 		: InnerConeAngle(0.0f)
@@ -295,31 +295,31 @@ struct TORORUNTIME_API FRectLightSettings final : public FBaseLightSettings
 	 * Width of the rectangular light source.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f, DisplayPriority = 1))
-		float SourceWidth;
+	float SourceWidth;
 
 	/**
 	 * Height of the rectangular light source.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f, DisplayPriority = 1))
-		float SourceHeight;
+	float SourceHeight;
 
 	/**
 	 * Angle of the barn doors that shape the light.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.0f, ClampMax = 90.0f, UIMin = 0.0f, UIMax = 90.0f, DisplayPriority = 1))
-		float BarnDoorAngle;
+	float BarnDoorAngle;
 
 	/**
 	 * Length of the barn doors that shape the light.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 1.0f, UIMin = 1.0f, DisplayPriority = 1))
-		float BarnDoorLength;
+	float BarnDoorLength;
 
 	/**
 	 * Optional texture projected by the rect light. Lazily loaded using soft-ptr.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (DisplayPriority = 1))
-		TSoftObjectPtr<UTexture> SourceTexture;
+	TSoftObjectPtr<UTexture> SourceTexture;
 
 	FRectLightSettings()
 		: SourceWidth(64.0f)

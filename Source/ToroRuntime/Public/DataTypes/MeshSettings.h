@@ -18,37 +18,37 @@ struct TORORUNTIME_API FStaticMeshSettings
 	 * Mesh asset assigned to the component. Lazily loaded using soft-ptr.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-		TSoftObjectPtr<UStaticMesh> StaticMesh;
+	TSoftObjectPtr<UStaticMesh> StaticMesh;
 
 	/**
 	 * Materials by slot index. Empty slots are filled from mesh defaults by FillEmptyMaterials(). All lazily loaded using soft-ptr.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-		TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
+	TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 
 	/**
 	 * Optional overlay material. Lazily loaded using soft-ptr.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-		TSoftObjectPtr<UMaterialInterface> OverlayMaterial;
+	TSoftObjectPtr<UMaterialInterface> OverlayMaterial;
 
 	/**
 	 * Whether the component casts shadows.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-		bool bCastShadows;
+	bool bCastShadows;
 
 	/**
 	 * Whether applying these settings also changes the component's world transform.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (InlineEditConditionToggle))
-		bool bUseTransform;
+	bool bUseTransform;
 
 	/**
 	 * World transform used when bUseTransform is enabled.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (EditCondition = bUseTransform, AllowPreserveRatio = true))
-		FTransform Transform;
+	FTransform Transform;
 
 	FStaticMeshSettings()
 		: StaticMesh(nullptr), Materials({}), bCastShadows(true), bUseTransform(false)
@@ -90,10 +90,10 @@ struct TORORUNTIME_API FSplineMeshSettings final : public FStaticMeshSettings
 	 * Axis along which the spline mesh is oriented.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshSettings)
-		TEnumAsByte<ESplineMeshAxis::Type> ForwardAxis;
+	TEnumAsByte<ESplineMeshAxis::Type> ForwardAxis;
 
 	FSplineMeshSettings()
-		: ForwardAxis(ESplineMeshAxis::X) 
+		: ForwardAxis(ESplineMeshAxis::X)
 	{}
 
 	FORCEINLINE explicit operator FStaticMeshSettings&() { return *this; }
