@@ -116,35 +116,35 @@ class TORORUNTIME_API UPrimitiveCollisionLibrary final : public UBlueprintFuncti
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static void SetCollisionProfileName(UPARAM(ref) FPrimitiveCollision& Settings, const FName ProfileName);
+		static void SetCollisionProfileName(UPARAM(ref) FPrimitiveCollision& Settings, const FName ProfileName);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static FName GetCollisionProfileName(const FPrimitiveCollision& Settings);
+		static FName GetCollisionProfileName(const FPrimitiveCollision& Settings);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static void SetCollisionEnabled(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionEnabled::Type InEnabled);
+		static void SetCollisionEnabled(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionEnabled::Type InEnabled);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static ECollisionEnabled::Type GetCollisionEnabled(const FPrimitiveCollision& Settings);
+		static ECollisionEnabled::Type GetCollisionEnabled(const FPrimitiveCollision& Settings);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static void SetCollisionObjectType(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionChannel InObjectType);
+		static void SetCollisionObjectType(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionChannel InObjectType);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static ECollisionChannel GetCollisionObjectType(const FPrimitiveCollision& Settings);
+		static ECollisionChannel GetCollisionObjectType(const FPrimitiveCollision& Settings);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static void SetCollisionResponseToAllChannels(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionResponse InResponse);
+		static void SetCollisionResponseToAllChannels(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionResponse InResponse);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static void SetCollisionResponseToChannel(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionChannel InChannel, const ECollisionResponse InResponse);
+		static void SetCollisionResponseToChannel(UPARAM(ref) FPrimitiveCollision& Settings, const ECollisionChannel InChannel, const ECollisionResponse InResponse);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static ECollisionResponse GetCollisionResponseToChannel(const FPrimitiveCollision& Settings, const ECollisionChannel InChannel);
+		static ECollisionResponse GetCollisionResponseToChannel(const FPrimitiveCollision& Settings, const ECollisionChannel InChannel);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static void GetPrimitiveCollision(FPrimitiveCollision& OutData, const UPrimitiveComponent* Target);
+		static void GetPrimitiveCollision(FPrimitiveCollision& OutData, const UPrimitiveComponent* Target);
 
 	UFUNCTION(BlueprintCallable, Category = "Collision|Primitive")
-	static void SetPrimitiveCollision(UPrimitiveComponent* Target, UPARAM(ref) FPrimitiveCollision& Settings);
+		static void SetPrimitiveCollision(UPrimitiveComponent* Target, UPARAM(ref) FPrimitiveCollision& Settings);
 };

@@ -18,37 +18,37 @@ struct TORORUNTIME_API FStaticMeshSettings
 	 * Mesh asset assigned to the component. Lazily loaded using soft-ptr.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	TSoftObjectPtr<UStaticMesh> StaticMesh;
+		TSoftObjectPtr<UStaticMesh> StaticMesh;
 
 	/**
 	 * Materials by slot index. Empty slots are filled from mesh defaults by FillEmptyMaterials(). All lazily loaded using soft-ptr.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
+		TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 
 	/**
 	 * Optional overlay material. Lazily loaded using soft-ptr.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	TSoftObjectPtr<UMaterialInterface> OverlayMaterial;
+		TSoftObjectPtr<UMaterialInterface> OverlayMaterial;
 
 	/**
 	 * Whether the component casts shadows.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	bool bCastShadows;
+		bool bCastShadows;
 
 	/**
 	 * Whether applying these settings also changes the component's world transform.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (InlineEditConditionToggle))
-	bool bUseTransform;
+		bool bUseTransform;
 
 	/**
 	 * World transform used when bUseTransform is enabled.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (EditCondition = bUseTransform, AllowPreserveRatio = true))
-	FTransform Transform;
+		FTransform Transform;
 
 	FStaticMeshSettings()
 		: StaticMesh(nullptr), Materials({}), bCastShadows(true), bUseTransform(false)
@@ -90,7 +90,7 @@ struct TORORUNTIME_API FSplineMeshSettings final : public FStaticMeshSettings
 	 * Axis along which the spline mesh is oriented.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshSettings)
-	TEnumAsByte<ESplineMeshAxis::Type> ForwardAxis;
+		TEnumAsByte<ESplineMeshAxis::Type> ForwardAxis;
 
 	FSplineMeshSettings()
 		: ForwardAxis(ESplineMeshAxis::X)
@@ -133,32 +133,32 @@ class TORORUNTIME_API UMeshSettingsLibrary final : public UBlueprintFunctionLibr
 public:
 
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Valid")
-	static bool IsValidStaticMeshSettings(const FStaticMeshSettings& Settings);
+		static bool IsValidStaticMeshSettings(const FStaticMeshSettings& Settings);
 
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Equal")
-	static bool IsStaticMeshSettingsEqual(const FStaticMeshSettings& A, const FStaticMeshSettings& B, const bool bCheckTransform);
+		static bool IsStaticMeshSettingsEqual(const FStaticMeshSettings& A, const FStaticMeshSettings& B, const bool bCheckTransform);
 
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Fill Empty Materials")
-	static void FillEmptyStaticMeshMaterials(UPARAM(ref) FStaticMeshSettings& Settings);
+		static void FillEmptyStaticMeshMaterials(UPARAM(ref) FStaticMeshSettings& Settings);
 
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Get Static Mesh Settings")
-	static void GetStaticMeshSettings(FStaticMeshSettings& OutData, const UStaticMeshComponent* Target, const bool bIncludeTransform);
+		static void GetStaticMeshSettings(FStaticMeshSettings& OutData, const UStaticMeshComponent* Target, const bool bIncludeTransform);
 
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Set Static Mesh Settings")
-	static void SetStaticMeshSettings(UStaticMeshComponent* Target, UPARAM(ref) FStaticMeshSettings& Settings);
+		static void SetStaticMeshSettings(UStaticMeshComponent* Target, UPARAM(ref) FStaticMeshSettings& Settings);
 
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Valid")
-	static bool IsValidSplineMeshSettings(const FSplineMeshSettings& Settings);
+		static bool IsValidSplineMeshSettings(const FSplineMeshSettings& Settings);
 
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Equal")
-	static bool IsSplineMeshSettingsEqual(const FSplineMeshSettings& A, const FSplineMeshSettings& B, const bool bCheckTransform);
+		static bool IsSplineMeshSettingsEqual(const FSplineMeshSettings& A, const FSplineMeshSettings& B, const bool bCheckTransform);
 
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Fill Empty Materials")
-	static void FillEmptySplineMeshMaterials(UPARAM(ref) FSplineMeshSettings& Settings);
+		static void FillEmptySplineMeshMaterials(UPARAM(ref) FSplineMeshSettings& Settings);
 
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Get Spline Mesh Settings")
-	static void GetSplineMeshSettings(FSplineMeshSettings& OutData, const USplineMeshComponent* Target, const bool bIncludeTransform);
+		static void GetSplineMeshSettings(FSplineMeshSettings& OutData, const USplineMeshComponent* Target, const bool bIncludeTransform);
 
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Set Spline Mesh Settings")
-	static void SetSplineMeshSettings(USplineMeshComponent* Target, UPARAM(ref) FSplineMeshSettings& Settings);
+		static void SetSplineMeshSettings(USplineMeshComponent* Target, UPARAM(ref) FSplineMeshSettings& Settings);
 };
