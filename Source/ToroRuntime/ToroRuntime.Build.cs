@@ -6,7 +6,7 @@ public class ToroRuntime : ModuleRules
 {
     public ToroRuntime(ReadOnlyTargetRules Target) : base(Target)
     {
-        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+	    PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicDependencyModuleNames.AddRange(
 	        [
@@ -16,10 +16,24 @@ public class ToroRuntime : ModuleRules
 		        "UMG",
                 "Slate",
                 "SlateCore",
-		        "EngineSettings",
+		        "RenderCore",
+		        "ApplicationCore",
 		        "GameplayTags",
-		        "CommonUI"
+		        "EngineSettings",
+		        "LevelSequence",
+		        "MovieScene",
+		        "CommonUI",
+		        "UE5Coro"
 	        ]
         );
+
+        if (Target.Type == TargetType.Editor)
+        {
+	        PrivateDependencyModuleNames.AddRange(
+		        [
+			        "UnrealEd"
+		        ]
+	        );
+        }
     }
 }
