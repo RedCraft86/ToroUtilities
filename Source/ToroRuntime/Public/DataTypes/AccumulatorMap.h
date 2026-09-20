@@ -20,10 +20,6 @@ class TAccumulatorMap final : public TSharedFromThis<TAccumulatorMap<K, V>>
 	TMap<K, V> InnerMap;
 	TFunction<bool(const K&)> Validate;
 
-	/**
-	 * Constructs an accumulator map with the supplied validator.
-	 * @param Validator Function used to validate keys, or null to disable validation.
-	 */
 	TAccumulatorMap(TFunction<bool(const K&)> Validator)
 		: InnerMap(), Validate(MoveTemp(Validator))
 	{}
@@ -33,16 +29,10 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FOnChangedDelegate);
 	FOnChangedDelegate OnChanged;
 
-	/**
-	 * Constructs an empty accumulator map without key validation.
-	 */
 	TAccumulatorMap()
 		: InnerMap(), Validate(nullptr)
 	{}
 
-	/**
-	 * Unregisters any garbage collection callbacks owned by this instance.
-	 */
 	~TAccumulatorMap()
 	{
 		FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(this);
@@ -82,23 +72,23 @@ public:
 	 * Returns the underlying map.
 	 * @return Read-only reference to the stored key-value pairs.
 	 */
-	[[nodiscard]] const TMap<K, V>& GetInnerMap() const
+	const TMap<K, V>& GetInnerMap() const
 	{
 		return InnerMap;
 	}
 
 	/**
-	 * @return The number of values currently stored in the map.
+	 * The number of values currently stored in the map.
 	 */
-	[[nodiscard]] int32 Num() const
+	int32 Num() const
 	{
 		return InnerMap.Num();
 	}
 
 	/**
-	 * @return True if the map contains no values.
+	 * True if the map contains no values.
 	 */
-	[[nodiscard]] bool IsEmpty() const
+	bool IsEmpty() const
 	{
 		return InnerMap.IsEmpty();
 	}

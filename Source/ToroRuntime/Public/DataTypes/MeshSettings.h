@@ -56,17 +56,41 @@ struct TORORUNTIME_API FStaticMeshSettings
 
 	virtual ~FStaticMeshSettings() = default;
 
-	virtual bool Equals(const FStaticMeshSettings& Other, const bool bCheckTransform) const;
 	bool operator==(const FStaticMeshSettings& Other) const { return Equals(Other, false); }
 	bool operator!=(const FStaticMeshSettings& Other) const { return !Equals(Other, false); }
 
+	/**
+	 * Compares mesh, materials, overlay, shadows, and optionally the transform and its enable flag.
+	 * @param Other Settings to compare against.
+	 * @param bCheckTransform Whether to include the optional transform in the comparison.
+	 * @return True if the selected mesh settings match.
+	 */
+	virtual bool Equals(const FStaticMeshSettings& Other, const bool bCheckTransform) const;
+
+	/**
+	 * Whether a mesh asset is assigned, without loading it.
+	 */
 	FORCEINLINE bool IsValid() const
 	{
 		return !StaticMesh.IsNull();
 	}
 
+	/**
+	 * Fills empty material slots from the mesh defaults, or clears them if the mesh cannot be loaded.
+	 */
 	void FillEmptyMaterials();
+
+	/**
+	 * Reads settings from Target and optionally captures its world transform. A null target leaves the settings unchanged.
+	 * @param Target Component to read.
+	 * @param bIncludeTransform Whether to copy the component transform.
+	 */
 	virtual void FromMeshComponent(const UStaticMeshComponent* Target, const bool bIncludeTransform = false);
+
+	/**
+	 * Applies mesh, material, shadow, and optionally world transform settings to Target.
+	 * @param Target Component to update.
+	 */
 	virtual void ToMeshComponent(UStaticMeshComponent* Target) const;
 
 	FORCEINLINE friend uint32 GetTypeHash(const FStaticMeshSettings& InMeshSettings)
@@ -99,11 +123,28 @@ struct TORORUNTIME_API FSplineMeshSettings final : public FStaticMeshSettings
 	FORCEINLINE explicit operator FStaticMeshSettings&() { return *this; }
 	FORCEINLINE explicit operator const FStaticMeshSettings&() const { return *this; }
 
-	bool Equals(const FSplineMeshSettings& Other, const bool bCheckTransform) const;
 	bool operator==(const FSplineMeshSettings& Other) const { return Equals(Other, false); }
 	bool operator!=(const FSplineMeshSettings& Other) const { return !Equals(Other, false); }
 
+	/**
+	 * Compares the forward axis and inherited settings, optionally including the transform.
+	 * @param Other Settings to compare against.
+	 * @param bCheckTransform Whether to include the optional transform in the comparison.
+	 * @return True if the forward axis and selected inherited settings match.
+	 */
+	bool Equals(const FSplineMeshSettings& Other, const bool bCheckTransform) const;
+
+	/**
+	 * Reads the forward axis and inherited settings from Target.
+	 * @param Target Component to read.
+	 * @param bIncludeTransform Whether to copy the component transform.
+	 */
 	virtual void FromMeshComponent(const UStaticMeshComponent* Target, const bool bIncludeTransform = false) override;
+
+	/**
+	 * Applies inherited settings and the forward axis to Target.
+	 * @param Target Component to update.
+	 */
 	virtual void ToMeshComponent(UStaticMeshComponent* Target) const override;
 
 	FORCEINLINE friend uint32 GetTypeHash(const FSplineMeshSettings& InSettings)
@@ -115,7 +156,9 @@ struct TORORUNTIME_API FSplineMeshSettings final : public FStaticMeshSettings
 
 private:
 
-	// Prevent external code from calling this base type overload
+	/**
+	 * Prevent external code from calling this base type overload
+	 */
 	virtual bool Equals(const FStaticMeshSettings& Other, const bool bCheckTransform = false) const override
 	{
 		return Super::Equals(Other, bCheckTransform);
@@ -123,7 +166,7 @@ private:
 };
 
 /**
- * Exposes mesh settings comparison and component transfer to Blueprints.
+ * Exposes static and spline mesh settings to Blueprints.
  */
 UCLASS(NotBlueprintable, NotBlueprintType)
 class TORORUNTIME_API UMeshSettingsLibrary final : public UBlueprintFunctionLibrary
@@ -132,33 +175,87 @@ class TORORUNTIME_API UMeshSettingsLibrary final : public UBlueprintFunctionLibr
 
 public:
 
+	/**
+	 * Returns whether the settings reference a mesh asset.
+	 * @param Settings Settings to read or update.
+	 * @return whether the settings reference a mesh asset.
+	 */
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Valid")
 		static bool IsValidStaticMeshSettings(const FStaticMeshSettings& Settings);
 
+	/**
+	 * Compares settings, optionally including the transform.
+	 * @param A First settings value to compare.
+	 * @param B Second settings value to compare.
+	 * @param bCheckTransform Whether to include the optional transform in the comparison.
+	 * @return True if the selected settings match.
+	 */
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Equal")
 		static bool IsStaticMeshSettingsEqual(const FStaticMeshSettings& A, const FStaticMeshSettings& B, const bool bCheckTransform);
 
+	/**
+	 * Fills empty material slots from the mesh defaults.
+	 * @param Settings Settings to read or update.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Fill Empty Materials")
 		static void FillEmptyStaticMeshMaterials(UPARAM(ref) FStaticMeshSettings& Settings);
 
+	/**
+	 * Reads settings from the target component into OutData.
+	 * @param OutData Receives the settings read from the component.
+	 * @param Target Component to read.
+	 * @param bIncludeTransform Whether to copy the component transform.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Get Static Mesh Settings")
 		static void GetStaticMeshSettings(FStaticMeshSettings& OutData, const UStaticMeshComponent* Target, const bool bIncludeTransform);
 
+	/**
+	 * Applies settings to the target component.
+	 * @param Target Component to update.
+	 * @param Settings Settings to apply to the component.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Set Static Mesh Settings")
 		static void SetStaticMeshSettings(UStaticMeshComponent* Target, UPARAM(ref) FStaticMeshSettings& Settings);
 
+	/**
+	 * Returns whether the settings reference a mesh asset.
+	 * @param Settings Settings to read or update.
+	 * @return whether the settings reference a mesh asset.
+	 */
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Valid")
 		static bool IsValidSplineMeshSettings(const FSplineMeshSettings& Settings);
 
+	/**
+	 * Compares settings, optionally including the transform.
+	 * @param A First settings value to compare.
+	 * @param B Second settings value to compare.
+	 * @param bCheckTransform Whether to include the optional transform in the comparison.
+	 * @return True if the selected settings match.
+	 */
 	UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshSettings", DisplayName = "Is Equal")
 		static bool IsSplineMeshSettingsEqual(const FSplineMeshSettings& A, const FSplineMeshSettings& B, const bool bCheckTransform);
 
+	/**
+	 * Fills empty material slots from the mesh defaults.
+	 * @param Settings Settings to read or update.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Fill Empty Materials")
 		static void FillEmptySplineMeshMaterials(UPARAM(ref) FSplineMeshSettings& Settings);
 
+	/**
+	 * Reads settings from the target component into OutData.
+	 * @param OutData Receives the settings read from the component.
+	 * @param Target Component to read.
+	 * @param bIncludeTransform Whether to copy the component transform.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Get Spline Mesh Settings")
 		static void GetSplineMeshSettings(FSplineMeshSettings& OutData, const USplineMeshComponent* Target, const bool bIncludeTransform);
 
+	/**
+	 * Applies settings to the target component.
+	 * @param Target Component to update.
+	 * @param Settings Settings to apply to the component.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "StaticMesh|MeshSettings", DisplayName = "Set Spline Mesh Settings")
 		static void SetSplineMeshSettings(USplineMeshComponent* Target, UPARAM(ref) FSplineMeshSettings& Settings);
 };

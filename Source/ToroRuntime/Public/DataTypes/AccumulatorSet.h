@@ -19,10 +19,6 @@ class TAccumulatorSet final : public TSharedFromThis<TAccumulatorSet<T>>
 	TSet<T> InnerSet;
 	TFunction<bool(const T&)> Validate;
 
-	/**
-	 * Constructs an accumulator set with the supplied validator.
-	 * @param Validator Function used to validate values, or null to disable validation.
-	 */
 	TAccumulatorSet(TFunction<bool(const T&)> Validator)
 		: InnerSet(), Validate(MoveTemp(Validator))
 	{}
@@ -32,16 +28,10 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FOnChangedDelegate);
 	FOnChangedDelegate OnChanged;
 
-	/**
-	 * Constructs an empty accumulator set without value validation.
-	 */
 	TAccumulatorSet()
 		: InnerSet(), Validate(nullptr)
 	{}
 
-	/**
-	 * Unregisters any garbage collection callbacks owned by this instance.
-	 */
 	~TAccumulatorSet()
 	{
 		FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(this);
@@ -81,23 +71,23 @@ public:
 	 * Returns the underlying set.
 	 * @return Read-only reference to the stored values.
 	 */
-	[[nodiscard]] const TSet<T>& GetInnerSet() const
+	const TSet<T>& GetInnerSet() const
 	{
 		return InnerSet;
 	}
 
 	/**
-	 * @return The number of values currently stored in the set.
+	 * The number of values currently stored in the set.
 	 */
-	[[nodiscard]] int32 Num() const
+	int32 Num() const
 	{
 		return InnerSet.Num();
 	}
 
 	/**
-	 * @return True if the set contains no values.
+	 * True if the set contains no values.
 	 */
-	[[nodiscard]] bool IsEmpty() const
+	bool IsEmpty() const
 	{
 		return InnerSet.IsEmpty();
 	}

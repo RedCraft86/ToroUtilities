@@ -10,8 +10,6 @@
 /**
  * Displays averaged frame rate and frame time in milliseconds.
  * Interpolates between performance colors using the configured frame rate limit.
- * 
- * Format:
  * <pre>
  * 120 FPS
  * 8.33 ms

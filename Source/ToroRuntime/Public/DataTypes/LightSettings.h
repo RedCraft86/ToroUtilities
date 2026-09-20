@@ -40,11 +40,31 @@ struct TORORUNTIME_API FLightDrawDistanceSettings final
 		: bUseDrawDistance(false), MaxDistance(5000.0f), FadeRange(1000.0f)
 	{}
 
+	/**
+	 * Returns the nonnegative maximum distance, or zero when disabled.
+	 */
 	float GetMaxDistance() const;
+
+	/**
+	 * Returns the nonnegative fade range, or zero when disabled.
+	 */
 	float GetFadeRange() const;
 
+	/**
+	 * Limits FadeRange to MaxDistance.
+	 */
 	void UpdateSettings();
+
+	/**
+	 * Reads draw distance settings from Target when valid.
+	 * @param Target Component to read.
+	 */
 	void FromLightComponent(const ULightComponent* Target);
+
+	/**
+	 * Applies the effective draw distance settings to Target when valid.
+	 * @param Target Component to update.
+	 */
 	void ToLightComponent(ULightComponent* Target) const;
 };
 
@@ -158,10 +178,27 @@ struct TORORUNTIME_API FBaseLightSettings
 
 	virtual ~FBaseLightSettings() = default;
 
+	/**
+	 * Copies the shared fields from another settings instance.
+	 * @param Settings Settings to read or update.
+	 */
 	void CopyFrom(const FBaseLightSettings& Settings);
 
+	/**
+	 * Updates shared settings, including the draw distance constraints.
+	 */
 	virtual void UpdateSettings();
+
+	/**
+	 * Reads shared settings from Target when valid.
+	 * @param Target Component to read.
+	 */
 	virtual void FromLightComponent(const ULightComponent* Target);
+
+	/**
+	 * Applies shared settings to Target when valid.
+	 * @param Target Component to update.
+	 */
 	virtual void ToLightComponent(ULightComponent* Target) const;
 };
 
@@ -212,8 +249,21 @@ struct TORORUNTIME_API FPointLightSettings final : public FBaseLightSettings
 		, FalloffExponent(8.0f)
 	{}
 
+	/**
+	 * Updates shared settings and selects Unitless intensity for manual falloff.
+	 */
 	virtual void UpdateSettings() override;
+
+	/**
+	 * Reads shared and point light settings from Target.
+	 * @param Target Component to read.
+	 */
 	virtual void FromLightComponent(const ULightComponent* Target) override;
+
+	/**
+	 * Applies shared and point light settings to Target.
+	 * @param Target Component to update.
+	 */
 	virtual void ToLightComponent(ULightComponent* Target) const override;
 };
 
@@ -278,8 +328,21 @@ struct TORORUNTIME_API FSpotLightSettings final : public FBaseLightSettings
 		, FalloffExponent(8.0f)
 	{}
 
+	/**
+	 * Updates shared settings, cone angle ordering, and manual falloff intensity units.
+	 */
 	virtual void UpdateSettings() override;
+
+	/**
+	 * Reads shared and spot light settings from Target.
+	 * @param Target Component to read.
+	 */
 	virtual void FromLightComponent(const ULightComponent* Target) override;
+
+	/**
+	 * Applies shared and spot light settings to Target.
+	 * @param Target Component to update.
+	 */
 	virtual void ToLightComponent(ULightComponent* Target) const override;
 };
 
@@ -329,13 +392,26 @@ struct TORORUNTIME_API FRectLightSettings final : public FBaseLightSettings
 		, SourceTexture(nullptr)
 	{}
 
+	/**
+	 * Updates inherited light settings.
+	 */
 	virtual void UpdateSettings() override;
+
+	/**
+	 * Reads shared and rect light settings from Target.
+	 * @param Target Component to read.
+	 */
 	virtual void FromLightComponent(const ULightComponent* Target) override;
+
+	/**
+	 * Applies shared and rect light settings to Target.
+	 * @param Target Component to update.
+	 */
 	virtual void ToLightComponent(ULightComponent* Target) const override;
 };
 
 /**
- * Provides Blueprint functions to read and apply the light settings structs.
+ * Exposes light settings and component transfer to Blueprints.
  */
 UCLASS(NotBlueprintable, NotBlueprintType)
 class TORORUNTIME_API ULightSettingsLibrary final : public UBlueprintFunctionLibrary
@@ -344,45 +420,111 @@ class TORORUNTIME_API ULightSettingsLibrary final : public UBlueprintFunctionLib
 
 public:
 
+	/**
+	 * Applies settings to the target component.
+	 * @param Target Component to update.
+	 * @param Settings Settings to apply to the component.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void SetLightDrawDistanceSettings(ULightComponent* Target, const FLightDrawDistanceSettings& Settings);
 
+	/**
+	 * Reads settings from the target component into OutData.
+	 * @param OutData Receives the settings read from the component.
+	 * @param Target Component to read.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void GetLightDrawDistanceSettings(FLightDrawDistanceSettings& OutData, const ULightComponent* Target);
 
+	/**
+	 * Updates the supplied settings in place.
+	 * @param Settings Settings to read or update.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light")
 		static void UpdateBaseLightSettings(UPARAM(ref) FBaseLightSettings& Settings);
 
+	/**
+	 * Applies settings to the target component.
+	 * @param Target Component to update.
+	 * @param Settings Settings to apply to the component.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void SetBaseLightSettings(ULightComponent* Target, const FBaseLightSettings& Settings);
 
+	/**
+	 * Reads settings from the target component into OutData.
+	 * @param OutData Receives the settings read from the component.
+	 * @param Target Component to read.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void GetBaseLightSettings(FBaseLightSettings& OutData, const ULightComponent* Target);
 
+	/**
+	 * Updates the supplied settings in place.
+	 * @param Settings Settings to read or update.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light")
 		static void UpdatePointLightSettings(UPARAM(ref) FPointLightSettings& Settings);
 
+	/**
+	 * Applies settings to the target component.
+	 * @param Target Component to update.
+	 * @param Settings Settings to apply to the component.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void SetPointLightSettings(UPointLightComponent* Target, const FPointLightSettings& Settings);
 
+	/**
+	 * Reads settings from the target component into OutData.
+	 * @param OutData Receives the settings read from the component.
+	 * @param Target Component to read.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void GetPointLightSettings(FPointLightSettings& OutData, const UPointLightComponent* Target);
 
+	/**
+	 * Updates the supplied settings in place.
+	 * @param Settings Settings to read or update.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light")
 		static void UpdateSpotLightSettings(UPARAM(ref) FSpotLightSettings& Settings);
 
+	/**
+	 * Applies settings to the target component.
+	 * @param Target Component to update.
+	 * @param Settings Settings to apply to the component.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void SetSpotLightSettings(USpotLightComponent* Target, const FSpotLightSettings& Settings);
 
+	/**
+	 * Reads settings from the target component into OutData.
+	 * @param OutData Receives the settings read from the component.
+	 * @param Target Component to read.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void GetSpotLightSettings(FSpotLightSettings& OutData, const USpotLightComponent* Target);
 
+	/**
+	 * Updates the supplied settings in place.
+	 * @param Settings Settings to read or update.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light")
 		static void UpdateRectLightSettings(UPARAM(ref) FRectLightSettings& Settings);
 
+	/**
+	 * Applies settings to the target component.
+	 * @param Target Component to update.
+	 * @param Settings Settings to apply to the component.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void SetRectLightSettings(URectLightComponent* Target, const FRectLightSettings& Settings);
 
+	/**
+	 * Reads settings from the target component into OutData.
+	 * @param OutData Receives the settings read from the component.
+	 * @param Target Component to read.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Rendering|Components|Light", meta = (DefaultToSelf = Target))
 		static void GetRectLightSettings(FRectLightSettings& OutData, const URectLightComponent* Target);
 };

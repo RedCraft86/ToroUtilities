@@ -61,7 +61,7 @@ struct TORORUNTIME_API FSimpleCooldown final
 	 * @param DeltaTime Elapsed time in seconds.
 	 * @return true when the cooldown elapses during this call; otherwise, false.
 	 */
-	bool Tick(const float DeltaTime);
+	[[nodiscard]] bool Tick(const float DeltaTime);
 };
 
 /**

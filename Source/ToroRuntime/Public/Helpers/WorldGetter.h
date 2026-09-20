@@ -13,7 +13,7 @@ class TORORUNTIME_API FWorldGetter final
 public:
 
 	/**
-	 * Resolves Context first, then uses the cached world or an engine fallback.
+	 * Resolves Context (Optional) first, then uses the cached world or an engine fallback.
 	 * Call Reset when an explicitly stored world should no longer be used.
 	 */
 	[[nodiscard]] static UWorld* Get(const UObject* Context = nullptr)

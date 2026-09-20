@@ -45,7 +45,7 @@ public:
 	 * Checks whether the cache currently refers to a valid UObject.
 	 * @return true when the cached object is valid; otherwise, false.
 	 */
-	[[nodiscard]] FORCEINLINE bool IsValid() const
+	FORCEINLINE bool IsValid() const
 	{
 		return Cache.IsValid();
 	}
