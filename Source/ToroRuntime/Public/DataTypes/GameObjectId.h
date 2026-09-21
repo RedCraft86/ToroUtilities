@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameplayTagContainer.h"
-#include "ToroActorId.generated.h"
+#include "GameObjectId.generated.h"
 
 /**
  * Persistent identity composed of a gameplay-tag group and a GUID.
@@ -13,7 +13,7 @@
  * in that group.
  */
 USTRUCT(BlueprintType)
-struct TORORUNTIME_API FToroActorId final
+struct TORORUNTIME_API FGameObjectId final
 {
 	GENERATED_BODY()
 
@@ -32,47 +32,40 @@ struct TORORUNTIME_API FToroActorId final
 	/**
 	 * Invalid identity used when no identity is available.
 	 */
-	static const FToroActorId EmptyId;
+	static const FGameObjectId EmptyId;
 
-	FToroActorId()
+	FGameObjectId()
 		: Group(FGameplayTag::EmptyTag), Guid(FGuid())
 	{}
 
-	FToroActorId(const FGameplayTag& InGroup)
+	FGameObjectId(const FGameplayTag& InGroup)
 		: Group(InGroup), Guid(FGuid::NewGuid())
 	{}
 
-	FToroActorId(const FGameplayTag& InGroup, const FGuid& InGuid)
+	FGameObjectId(const FGameplayTag& InGroup, const FGuid& InGuid)
 		: Group(InGroup), Guid(InGuid)
 	{}
 
-	FORCEINLINE bool operator==(const FToroActorId& Other) const
+	FORCEINLINE bool operator==(const FGameObjectId& Other) const
 	{
 		return Group == Other.Group && Guid == Other.Guid;
 	}
 
-	FORCEINLINE bool operator!=(const FToroActorId& Other) const
+	FORCEINLINE bool operator!=(const FGameObjectId& Other) const
 	{
 		return Group != Other.Group || Guid != Other.Guid;
 	}
 
-	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FToroActorId& ObjectId)
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FGameObjectId& ObjectId)
 	{
 		return Ar << ObjectId.Group << ObjectId.Guid;
 	}
 
-	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FToroActorId& ObjectId)
+	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FGameObjectId& ObjectId)
 	{
 		FStructuredArchive::FRecord Record = Slot.EnterRecord();
 		Record << SA_VALUE(TEXT("Group"), ObjectId.Group) << SA_VALUE(TEXT("Guid"), ObjectId.Guid);
 	}
-
-	/**
-	 * Retrieves the Actor Id from an actor through the IToroActor interface.
-	 * @param Target Actor to get the Id from. Must implement IToroActor interface.
-	 * @return A valid Id or an empty one if a valid one wasn't obtained.
-	 */
-	[[nodiscard]] static FToroActorId Get(const AActor* Target);
 
 	/**
 	 * Clears the group and invalidates the GUID.
@@ -108,7 +101,7 @@ struct TORORUNTIME_API FToroActorId final
 	 * @param ObjectId Identity to hash.
 	 * @return Hash value for the complete identity.
 	 */
-	FORCEINLINE friend uint32 GetTypeHash(const FToroActorId& ObjectId)
+	FORCEINLINE friend uint32 GetTypeHash(const FGameObjectId& ObjectId)
 	{
 		return HashCombine(GetTypeHash(ObjectId.Group), GetTypeHash(ObjectId.Guid));
 	}

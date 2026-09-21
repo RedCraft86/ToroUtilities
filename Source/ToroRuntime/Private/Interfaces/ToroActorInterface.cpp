@@ -10,9 +10,9 @@ namespace
 	}
 }
 
-FToroActorId IToroActorInterface::GetIdentity(const AActor* Target)
+FGameObjectId IToroActorInterface::GetIdentity(const AActor* Target)
 {
-	return ImplementedBy(Target) ? Execute_GetIdentity(Target) : FToroActorId::EmptyId;
+	return ImplementedBy(Target) ? Execute_GetIdentity(Target) : FGameObjectId::EmptyId;
 }
 
 bool IToroActorInterface::GetActiveState(const AActor* Target)

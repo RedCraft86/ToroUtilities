@@ -3,7 +3,7 @@
 #pragma once
 
 #include "UObject/Interface.h"
-#include "DataTypes/ToroActorId.h"
+#include "DataTypes/GameObjectId.h"
 #include "ToroActorInterface.generated.h"
 
 /**
@@ -28,7 +28,7 @@ public:
 	 * Gets this actor's persistent identity.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Actor)
-		FToroActorId GetIdentity() const;
+		FGameObjectId GetIdentity() const;
 
 	/**
 	 * Gets whether this actor is active.
@@ -50,7 +50,7 @@ public:
 	 * @param Target Actor to query.
 	 * @return EmptyId when the actor is invalid or does not implement this interface.
 	 */
-	static FToroActorId GetIdentity(const AActor* Target);
+	static FGameObjectId GetIdentity(const AActor* Target);
 
 	/**
 	 * Safely gets an actor's active state.

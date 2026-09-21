@@ -18,7 +18,7 @@ public:
 
 	AToroVolume();
 
-	virtual FToroActorId GetIdentity_Implementation() const override { return Identity; }
+	virtual FGameObjectId GetIdentity_Implementation() const override { return Identity; }
 	virtual bool GetActiveState_Implementation() const override { return bIsActive; }
 	virtual void SetActiveState_Implementation(const bool bActive) override;
 
@@ -34,7 +34,7 @@ protected:
 	 * Persistent identifier used to distinguish this volume.
 	 */
 	UPROPERTY(EditAnywhere, Category = Settings, NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -10))
-		FToroActorId Identity;
+		FGameObjectId Identity;
 
 #if WITH_EDITORONLY_DATA
 	/**
