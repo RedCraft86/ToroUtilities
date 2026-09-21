@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameplayTagContainer.h"
-#include "GameObjectId.generated.h"
+#include "ToroActorId.generated.h"
 
 /**
  * Persistent identity composed of a gameplay-tag group and a GUID.
@@ -13,7 +13,7 @@
  * in that group.
  */
 USTRUCT(BlueprintType)
-struct TORORUNTIME_API FGameObjectId final
+struct TORORUNTIME_API FToroActorId final
 {
 	GENERATED_BODY()
 
@@ -32,36 +32,36 @@ struct TORORUNTIME_API FGameObjectId final
 	/**
 	 * Invalid identity used when no identity is available.
 	 */
-	static const FGameObjectId EmptyId;
+	static const FToroActorId EmptyId;
 
-	FGameObjectId()
+	FToroActorId()
 		: Group(FGameplayTag::EmptyTag), Guid(FGuid())
 	{}
 
-	FGameObjectId(const FGameplayTag& InGroup)
+	FToroActorId(const FGameplayTag& InGroup)
 		: Group(InGroup), Guid(FGuid::NewGuid())
 	{}
 
-	FGameObjectId(const FGameplayTag& InGroup, const FGuid& InGuid)
+	FToroActorId(const FGameplayTag& InGroup, const FGuid& InGuid)
 		: Group(InGroup), Guid(InGuid)
 	{}
 
-	FORCEINLINE bool operator==(const FGameObjectId& Other) const
+	FORCEINLINE bool operator==(const FToroActorId& Other) const
 	{
 		return Group == Other.Group && Guid == Other.Guid;
 	}
 
-	FORCEINLINE bool operator!=(const FGameObjectId& Other) const
+	FORCEINLINE bool operator!=(const FToroActorId& Other) const
 	{
 		return Group != Other.Group || Guid != Other.Guid;
 	}
 
-	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FGameObjectId& ObjectId)
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FToroActorId& ObjectId)
 	{
 		return Ar << ObjectId.Group << ObjectId.Guid;
 	}
 
-	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FGameObjectId& ObjectId)
+	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FToroActorId& ObjectId)
 	{
 		FStructuredArchive::FRecord Record = Slot.EnterRecord();
 		Record << SA_VALUE(TEXT("Group"), ObjectId.Group) << SA_VALUE(TEXT("Guid"), ObjectId.Guid);
@@ -101,7 +101,7 @@ struct TORORUNTIME_API FGameObjectId final
 	 * @param ObjectId Identity to hash.
 	 * @return Hash value for the complete identity.
 	 */
-	FORCEINLINE friend uint32 GetTypeHash(const FGameObjectId& ObjectId)
+	FORCEINLINE friend uint32 GetTypeHash(const FToroActorId& ObjectId)
 	{
 		return HashCombine(GetTypeHash(ObjectId.Group), GetTypeHash(ObjectId.Guid));
 	}

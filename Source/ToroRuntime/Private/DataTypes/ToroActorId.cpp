@@ -1,16 +1,16 @@
 // Copyright (C) RedCraft86. Licensed under LGPL-3.0, see LICENSE file for details.
 
-#include "DataTypes/GameObjectId.h"
+#include "DataTypes/ToroActorId.h"
 
-const FGameObjectId FGameObjectId::EmptyId = FGameObjectId();
+const FToroActorId FToroActorId::EmptyId = FToroActorId();
 
-void FGameObjectId::Invalidate()
+void FToroActorId::Invalidate()
 {
 	Group = FGameplayTag::EmptyTag;
 	Guid.Invalidate();
 }
 
-void FGameObjectId::RegenerateGuid(const bool bOnlyIfInvalid)
+void FToroActorId::RegenerateGuid(const bool bOnlyIfInvalid)
 {
 	if (!bOnlyIfInvalid || !Guid.IsValid())
 	{
