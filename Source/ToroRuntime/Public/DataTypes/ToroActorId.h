@@ -68,6 +68,13 @@ struct TORORUNTIME_API FToroActorId final
 	}
 
 	/**
+	 * Retrieves the Actor Id from an actor through the IToroActor interface.
+	 * @param Target Actor to get the Id from. Must implement IToroActor interface.
+	 * @return A valid Id or an empty one if a valid one wasn't obtained.
+	 */
+	[[nodiscard]] static FToroActorId Get(const AActor* Target);
+
+	/**
 	 * Clears the group and invalidates the GUID.
 	 */
 	void Invalidate();
