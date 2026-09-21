@@ -49,9 +49,9 @@ FTransform UToroCameraLibrary::GetViewTransform(const UObject* ContextObject, co
 
 bool UToroCameraLibrary::StopCameraFade(const UObject* ContextObject, const int32 PlayerIndex)
 {
-	if (APlayerCameraManager* CamManager = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIndex))
+	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIndex))
 	{
-		CamManager->StopCameraFade();
+		PCM->StopCameraFade();
 		return true;
 	}
 
@@ -61,9 +61,9 @@ bool UToroCameraLibrary::StopCameraFade(const UObject* ContextObject, const int3
 bool UToroCameraLibrary::SetCameraFade(const UObject* ContextObject, const FLinearColor Color,
 	const float Alpha, const bool bFadeAudio, const int32 PlayerIndex)
 {
-	if (APlayerCameraManager* CamManager = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIndex))
+	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIndex))
 	{
-		CamManager->SetManualCameraFade(Alpha, Color, bFadeAudio);
+		PCM->SetManualCameraFade(Alpha, Color, bFadeAudio);
 		return true;
 	}
 
@@ -75,10 +75,10 @@ FVoidCoroutine UToroCameraLibrary::StartCameraFade(FLatentActionInfo LatentInfo,
 	const bool bFadeAudio, const bool bHoldAtEnd, const int32 PlayerIndex)
 {
 	bSuccess = false;
-	if (APlayerCameraManager* CamManager = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIndex))
+	if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(FWorldGetter::Get(ContextObject), PlayerIndex))
 	{
 		bSuccess = true;
-		CamManager->StartCameraFade(FromAlpha, ToAlpha, Duration, Color, bFadeAudio, bHoldAtEnd);
+		PCM->StartCameraFade(FromAlpha, ToAlpha, Duration, Color, bFadeAudio, bHoldAtEnd);
 		co_await UE5Coro::Latent::Seconds(Duration);
 	}
 
@@ -87,15 +87,15 @@ FVoidCoroutine UToroCameraLibrary::StartCameraFade(FLatentActionInfo LatentInfo,
 
 AActor* UToroCameraLibrary::GetPlayerViewTarget(const UObject* ContextObject, const int32 PlayerIndex)
 {
-	const APlayerController* PlayerCont = UGameplayStatics::GetPlayerController(FWorldGetter::Get(ContextObject), PlayerIndex);
-	return PlayerCont ? PlayerCont->GetViewTarget() : nullptr;
+	const APlayerController* PC = UGameplayStatics::GetPlayerController(FWorldGetter::Get(ContextObject), PlayerIndex);
+	return PC ? PC->GetViewTarget() : nullptr;
 }
 
 bool UToroCameraLibrary::SetPlayerViewTarget(const UObject* ContextObject, AActor* NewTarget, const int32 PlayerIndex)
 {
-	if (APlayerController* PlayerCont = UGameplayStatics::GetPlayerController(FWorldGetter::Get(ContextObject), PlayerIndex))
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(FWorldGetter::Get(ContextObject), PlayerIndex))
 	{
-		PlayerCont->SetViewTarget(NewTarget);
+		PC->SetViewTarget(NewTarget);
 		return true;
 	}
 
@@ -107,10 +107,10 @@ FVoidCoroutine UToroCameraLibrary::BlendPlayerViewTarget(FLatentActionInfo Laten
 	const float BlendExp, const bool bLockOutgoing, const int32 PlayerIndex)
 {
 	bSuccess = false;
-	if (APlayerController* PlayerCont = UGameplayStatics::GetPlayerController(FWorldGetter::Get(ContextObject), PlayerIndex))
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(FWorldGetter::Get(ContextObject), PlayerIndex))
 	{
 		bSuccess = true;
-		PlayerCont->SetViewTargetWithBlend(NewTarget, Duration, BlendFunc, BlendExp, bLockOutgoing);
+		PC->SetViewTargetWithBlend(NewTarget, Duration, BlendFunc, BlendExp, bLockOutgoing);
 		co_await UE5Coro::Latent::Seconds(Duration);
 	}
 
