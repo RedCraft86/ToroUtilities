@@ -20,6 +20,7 @@ public class ToroRuntime : ModuleRules
 		        "ApplicationCore",
 		        "GameplayTags",
 		        "EngineSettings",
+		        "ProceduralMeshComponent",
 		        "LevelSequence",
 		        "MovieScene",
 		        "CommonUI",
