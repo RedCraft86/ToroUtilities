@@ -183,7 +183,7 @@ TArray<AActor*> FActorBaking::InstanceActors(const TArray<AActor*>& Sources, con
 	return Actors;
 }
 
-bool FActorBaking::LayoutActors(const TArray<AActor*>& Targets, const uint8 MaxColumns, const FVector2D& Offset)
+bool FActorBaking::LayoutActors(const TArray<AActor*>& Targets, const uint8 MaxColumns, const float YawValue, const FVector2D& Offset)
 {
 	if (Targets.IsEmpty() || MaxColumns == 0 || !IsValid(ActorSubsystem.Get()))
 	{
@@ -248,6 +248,7 @@ bool FActorBaking::LayoutActors(const TArray<AActor*>& Targets, const uint8 MaxC
 		const FVector CellOffset(Pos.X * CellSize.X, Pos.Y * CellSize.Y, Entry.Extent.Z);
 
 		FTransform Transform = Entry.Actor->GetActorTransform();
+		Transform.SetRotation(FRotator(0.0f, 0.0f, FMath::IsNearlyEqual(YawValue, 360.0f) ? 0.0f : YawValue).Quaternion());
 		Transform.SetLocation(PivotToBounds + CellOffset);
 
 		ActorSubsystem->SetActorTransform(Entry.Actor, Transform);
