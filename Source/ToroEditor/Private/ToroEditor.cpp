@@ -4,8 +4,15 @@
 #include "Interfaces/IPluginManager.h"
 #include "SlateStyle/ToroEditorStyle.h"
 
+#include "ToolbarButton/ActorInstance.h"
+#include "ToolbarButton/ActorLayout.h"
+#include "ToolbarButton/ActorMerge.h"
+#include "ToolbarButton/ActorSplit.h"
+#include "ToolbarButton/RestartEditor.h"
 #include "ToolbarButton/ToolbarButtonRegistry.h"
+
 #include "ComponentVis/ComponentVisualizerRegistry.h"
+
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
@@ -20,7 +27,14 @@ FString FToroEditorModule::GetPluginDir()
 
 void FToroEditorModule::StartupModule()
 {
+	FToroEditorStyle::Register();
 
+	FToolbarButtonRegistry::AddButton<FRestartEditorButton>();
+	FToolbarButtonRegistry::AddButton<FActorSplitButton>();
+	FToolbarButtonRegistry::AddButton<FActorMergeButton>();
+	FToolbarButtonRegistry::AddButton<FActorInstanceButton>();
+	FToolbarButtonRegistry::AddButton<FActorLayoutButton>();
+	FToolbarButtonRegistry::Register();
 }
 
 void FToroEditorModule::ShutdownModule()
