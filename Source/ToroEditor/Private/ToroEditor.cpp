@@ -2,6 +2,9 @@
 
 #include "ToroEditor.h"
 #include "Interfaces/IPluginManager.h"
+#include "SlateStyle/ToroEditorStyle.h"
+
+#include "ComponentVis/ComponentVisualizerRegistry.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -20,7 +23,8 @@ void FToroEditorModule::StartupModule()
 
 void FToroEditorModule::ShutdownModule()
 {
-
+	FComponentVisualizerRegistry::UnregisterAll();
+	FToroEditorStyle::Unregister();
 }
 
 #undef LOCTEXT_NAMESPACE
