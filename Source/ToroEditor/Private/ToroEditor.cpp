@@ -5,6 +5,7 @@
 #include "SlateStyle/ToroEditorStyle.h"
 
 #include "ComponentVis/ComponentVisualizerRegistry.h"
+#include "DetailsPanel/DetailsCustomizationRegistry.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -24,6 +25,7 @@ void FToroEditorModule::StartupModule()
 void FToroEditorModule::ShutdownModule()
 {
 	FComponentVisualizerRegistry::UnregisterAll();
+	FDetailsCustomizationRegistry::UnregisterAll();
 	FToroEditorStyle::Unregister();
 }
 
