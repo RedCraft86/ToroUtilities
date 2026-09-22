@@ -24,7 +24,6 @@ public:
 		return GEditor ? GEditor->GetEditorSubsystem<UEditorActorSubsystem>() : nullptr;
 	}};
 
-
 	/**
 	 * Spawns a static mesh actor using a complete world transform.
 	 * @tparam T Static mesh actor class to spawn.
@@ -46,6 +45,11 @@ public:
 
 		return nullptr;
 	}
+
+	/**
+	 * Gets all the actors currently selected in the editor.
+	 */
+	static TArray<AActor*> GetSelectedActors();
 
 	/**
 	 * Deletes a collection of actors through the editor actor subsystem.

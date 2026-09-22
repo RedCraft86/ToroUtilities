@@ -40,6 +40,11 @@ namespace
 	}
 }
 
+TArray<AActor*> FActorBaking::GetSelectedActors()
+{
+	return ActorSubsystem.Get() ? ActorSubsystem->GetSelectedLevelActors() : TArray<AActor*>();
+}
+
 void FActorBaking::DestroyActors(const TArray<AActor*>& Actors)
 {
 	if (!Actors.IsEmpty())
