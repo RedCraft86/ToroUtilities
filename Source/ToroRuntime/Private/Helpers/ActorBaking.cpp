@@ -183,6 +183,85 @@ TArray<AActor*> FActorBaking::InstanceActors(const TArray<AActor*>& Sources, con
 	return Actors;
 }
 
+bool FActorBaking::LayoutActors(const TArray<AActor*>& Targets, const uint8 MaxColumns, const FVector2D& Offset)
+{
+	if (Targets.IsEmpty() || MaxColumns == 0 || !IsValid(ActorSubsystem.Get()))
+	{
+		return false;
+	}
+
+	struct FGridEntry final
+	{
+		AActor* Actor;
+		FVector Origin;
+		FVector Extent;
+
+		FGridEntry(AActor* InActor)
+			: Actor(InActor)
+		{
+			InActor->GetActorBounds(false, Origin, Extent);
+		}
+
+		double GetArea() const
+		{
+			return Extent.X * Extent.Y;
+		}
+	};
+
+	int32 Count = Targets.Num();
+	UE_LOG(LogToroRuntime, Display, TEXT("[LayoutActors] Starting layout for %d actors..."), Count);
+
+	TArray<FGridEntry> Actors;
+	Actors.Reserve(Count);
+
+	FVector2D CellSize = FVector2D::ZeroVector;
+	for (AActor* Actor : Targets)
+	{
+		if (IsValid(Actor))
+		{
+			const FGridEntry& Entry = Actors.Emplace_GetRef(Actor);
+			CellSize.X = FMath::Max(Entry.Extent.X * 2.0f, CellSize.X);
+			CellSize.Y = FMath::Max(Entry.Extent.Y * 2.0f, CellSize.Y);
+		}
+	}
+
+	UE_LOG(LogToroRuntime, Display, TEXT("[LayoutActors] \t Cell Size: %.1f x %.1f"), CellSize.X, CellSize.Y);
+
+	CellSize.X += FMath::Abs(Offset.X);
+	CellSize.Y += FMath::Abs(Offset.Y);
+
+	if (Actors.IsEmpty())
+	{
+		return false;
+	}
+
+	Actors.Sort([](const FGridEntry& A, const FGridEntry& B){
+		return A.GetArea() > B.GetArea();
+	});
+
+	Count = Actors.Num();
+	for (int32 i = 0; i < Count; i++)
+	{
+		const FGridEntry& Entry = Actors[i];
+		const FIntPoint Pos(i % MaxColumns, i / MaxColumns);
+		const FVector PivotToBounds = Entry.Actor->GetActorLocation() - Entry.Origin;
+		const FVector CellOffset(Pos.X * CellSize.X, Pos.Y * CellSize.Y, Entry.Extent.Z);
+
+		FTransform Transform = Entry.Actor->GetActorTransform();
+		Transform.SetLocation(PivotToBounds + CellOffset);
+
+		ActorSubsystem->SetActorTransform(Entry.Actor, Transform);
+
+		UE_LOG(LogToroRuntime, Display,
+			TEXT("[LayoutActors] \t Laid out [%d/%d] actor at (%d, %d)"),
+			i + 1, Count, Pos.X, Pos.Y
+		);
+	}
+
+	UE_LOG(LogToroRuntime, Display, TEXT("[LayoutActors] Finished laying out %d actors!"), Count);
+	return true;
+}
+
 TArray<AActor*> FActorBaking::ConvertMeshComponent(const UMeshComponent* Src)
 {
 	TArray<AActor*> Actors;

@@ -70,6 +70,15 @@ public:
 	 */
 	static TArray<AActor*> InstanceActors(const TArray<AActor*>& Sources, const bool bUseHISM, const bool bDestroySources);
 
+	/**
+	 * Lays out actors in the scene using the largest actor to determine the grid size.
+	 * @param Targets Actors that will be laid out on the map.
+	 * @param MaxColumns Max number of columns to have.
+	 * @param Offset Amount added on top of the grid size.
+	 * @return Whether the process happened.
+	 */
+	static bool LayoutActors(const TArray<AActor*>& Targets, const uint8 MaxColumns, const FVector2D& Offset);
+
 private:
 
 	static TArray<AActor*> ConvertMeshComponent(const UMeshComponent* Src);
