@@ -5,6 +5,9 @@
 #include "ToolMenus.h"
 #include "Templates/SharedPointer.h"
 
+#define MAKE_TOOLBAR_BUTTON_NAME(Name) \
+	*FString::Printf(TEXT("%s.%s"), TEXT(UE_MODULE_NAME), TEXT(#Name))
+
 /**
  * Base class for a toolbar button registered through Unreal's ToolMenus system.
  * Derived classes provide the action to execute and may customize the displayed icon.
