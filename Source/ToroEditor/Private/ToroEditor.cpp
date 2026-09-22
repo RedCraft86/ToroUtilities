@@ -4,6 +4,7 @@
 #include "Interfaces/IPluginManager.h"
 #include "SlateStyle/ToroEditorStyle.h"
 
+#include "ToolbarButton/ToolbarButtonRegistry.h"
 #include "ComponentVis/ComponentVisualizerRegistry.h"
 #include "DetailsPanel/DetailsCustomizationRegistry.h"
 
@@ -24,6 +25,7 @@ void FToroEditorModule::StartupModule()
 
 void FToroEditorModule::ShutdownModule()
 {
+	FToolbarButtonRegistry::UnregisterAll();
 	FComponentVisualizerRegistry::UnregisterAll();
 	FDetailsCustomizationRegistry::UnregisterAll();
 	FToroEditorStyle::Unregister();

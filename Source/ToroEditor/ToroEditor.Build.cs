@@ -17,6 +17,7 @@ public class ToroEditor : ModuleRules
                 "Slate",
                 "SlateCore",
 		        "Projects",
+		        "ToolMenus",
 		        "AssetDefinition",
 		        "ToroRuntime",
 		        "ToroSystems"
