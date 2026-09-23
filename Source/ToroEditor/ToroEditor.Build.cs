@@ -6,7 +6,7 @@ public class ToroEditor : ModuleRules
 {
     public ToroEditor(ReadOnlyTargetRules Target) : base(Target)
     {
-        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+	    PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicDependencyModuleNames.AddRange(
 	        [
@@ -19,6 +19,8 @@ public class ToroEditor : ModuleRules
 		        "Projects",
 		        "ToolMenus",
 		        "AssetDefinition",
+		        "AsyncMessageSystem",
+		        "GameplayTagsEditor",
 		        "ToroRuntime",
 		        "ToroSystems"
 	        ]
