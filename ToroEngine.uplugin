@@ -15,5 +15,35 @@
 	"CanContainContent": true,
 	"Installed": true,
 	"Modules": [
+		{
+			"Name": "ToroCore",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroCoreEd",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroEngine",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroEngineEd",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroSystems",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroSystemsEd",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
 	]
 }
